@@ -54,7 +54,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class ClydeProtoTeleop extends OpMode{
 
     /* Declare OpMode members. */
-    FergBot     clyde  = new FergBot(hardwareMap); // use the class created to define a Pushbot's hardware
+    FergBot     clyde  = new FergBot(hardwareMap); // use the class created to define a Clyde's hardware
+    double  speedMult  = 1;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -89,8 +90,23 @@ public class ClydeProtoTeleop extends OpMode{
     @Override
     public void loop() {
 
-        clyde.wheels.drive(-gamepad1.right_stick_y);
+        clyde.wheels.drive(-gamepad1.left_stick_y * speedMult);
+        clyde.wheels.turn(-gamepad1.right_stick_y * speedMult);
+        clyde.arm.moveArm(-gamepad2.right_stick_y * speedMult);
 
+        if (gamepad1.left_bumper){
+            speedMult = 2;
+        }
+        else{
+            speedMult = 1;
+        }
+
+        if (gamepad1.right_bumper){
+            speedMult = 0.5;
+        }
+        else{
+            speedMult = 1;
+        }
 
         /*if (gamepad2.a) { //lift, body going up{
 
