@@ -10,12 +10,12 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class FergieWheels implements WheelMethods{
 
     static final double     COUNTS_PER_MOTOR_REV    = 1440;
-    static final double     DRIVE_GEAR_REDUCTION    = 1.0;
-    static final double     WHEEL_DIAMETER_INCHES   = 4.0;
+    static final double     DRIVE_GEAR_REDUCTION    = 1.0; //VERIFY
+    static final double     WHEEL_DIAMETER_INCHES   = 4.0; //CHANGE
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
                                                       (WHEEL_DIAMETER_INCHES * 3.1415);
     //Get diameter of turning wheels
-    static final double     OMNIWHEEL_DIAMETER_INCHES  = 4.0;
+    static final double     OMNIWHEEL_DIAMETER_INCHES  = 4.0; //CHANGE
     //Find circumference of turning wheels
     static final double     OMNIWHEEL_CIRCUMFERENCE    = OMNIWHEEL_DIAMETER_INCHES * 3.1415;
     //Get distance from center of turning to turning wheels
@@ -23,7 +23,7 @@ public class FergieWheels implements WheelMethods{
     //Find the total distance a full spin of the robot covers
     static final double     TURNER_FLOOR_CIRCUMFERENCE = TURNER_TO_CENTER_INCHES * 2 * 3.1415;
     //Get drive gear reduction of turning wheels
-    static final double     TURN_DRIVE_GEAR_REDUCTION  = 1.0;
+    static final double     TURN_DRIVE_GEAR_REDUCTION  = 1.0; //VERIFY
     //Find the number of counts in one turn of the turning wheels
     static final double     COUNTS_PER_TURNER_TURN     = COUNTS_PER_MOTOR_REV * TURN_DRIVE_GEAR_REDUCTION;
     //Find the number of counts in a full spin of the robot
