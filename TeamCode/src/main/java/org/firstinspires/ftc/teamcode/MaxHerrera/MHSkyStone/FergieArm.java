@@ -47,6 +47,20 @@ public class FergieArm {
             return;
         }
     }
+    //Acts as a mediator for moveUp and moveDown
+    public void moveArm(double speed) {
+        if (speed > 0){
+            moveUp(speed);
+        }
+        else {
+            if (speed == 0){
+                arm.setPower(0);
+            }
+            else {
+                moveDown(-speed);
+            }
+        }
+    }
 
     //Opens the claw
     public void openClaw(){
