@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.MaxHerrera.MHSkyStone;
+package org.firstinspires.ftc.teamcode.Clyde.MHSkyStone;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -49,11 +49,11 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  */
 
 @TeleOp(name="Pushbot: Teleop Tank", group="Pushbot")
-@Disabled
+
 public class ClydeProtoTeleop extends OpMode{
 
-    /* Declare OpMode members. */
-    FergBot clyde  = new FergBot(hardwareMap); // Create a FergBot named Clyde
+    // Create a FergBot named Clyde
+    FergBot     clyde  = new FergBot(hardwareMap);
     double  speedMult  = 1;
 
     /*
@@ -107,7 +107,9 @@ public class ClydeProtoTeleop extends OpMode{
             speedMult = 1;
         }
 
-        /*if (gamepad2.a) { //lift, body going up{
+        /*
+
+        if (gamepad2.a) { //lift, body going up{
 
         }
 
@@ -136,5 +138,8 @@ public class ClydeProtoTeleop extends OpMode{
      */
     @Override
     public void stop() {
+        clyde.wheels.drive(0);
+        clyde.wheels.turn(0);
+        clyde.arm.moveArm(0);
     }
 }

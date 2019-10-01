@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.MaxHerrera.MHSkyStone;
+package org.firstinspires.ftc.teamcode.Clyde.MHSkyStone;
 
 
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 //Class is designed to handle driving/turning in opmodes for Fergie's robot design
                           //Trying out interfaces
-public class FergieWheels implements WheelMethods {
+public class FergieWheels implements WheelMethods{
 
     static final double     COUNTS_PER_MOTOR_REV    = 1440;
     static final double     DRIVE_GEAR_REDUCTION    = 1.0;
@@ -53,9 +53,11 @@ public class FergieWheels implements WheelMethods {
 
     //Drive for a specified distance using encoders
     public void driveFor(int distance_inches, double speed){
+
         int targetDist;
         //Was unable to add check for opMode being active
         targetDist = driver.getCurrentPosition() + (int)(distance_inches * COUNTS_PER_INCH);
+
         driver.setTargetPosition(targetDist);
         driver.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         driver.setPower(speed);
