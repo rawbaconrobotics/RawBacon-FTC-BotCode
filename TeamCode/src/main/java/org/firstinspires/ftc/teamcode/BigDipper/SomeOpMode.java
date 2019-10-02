@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BaseLinearOpMode;
 
-@TeleOp(name="TestOpMode", group="Linear Opmode")
+@TeleOp(name="OpModev1", group="Big Dipper")
 
 public class SomeOpMode extends BaseLinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();

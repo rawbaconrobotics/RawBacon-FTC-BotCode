@@ -28,7 +28,7 @@
  **/
 
 
- package org.firstinspires.ftc.teamcode.MaxHerrera.MHRoverRuckus;
+ package org.firstinspires.ftc.teamcode.Clyde.MHRoverRuckus;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;

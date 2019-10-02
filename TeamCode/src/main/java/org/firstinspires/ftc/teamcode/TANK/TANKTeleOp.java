@@ -4,24 +4,28 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 
-@TeleOp(name="TANKDrive", group="TeleOp")
-public class TANKDrive extends OpMode
+@TeleOp(name="TANKTeleOp", group="TeleOp")
+public class TANKTeleOp extends OpMode
 {
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor leftDrive = null;
-    private DcMotor rightDrive = null;
+    private DcMotor rightFrontDrive;
+    private DcMotor rightBackDrive;
+    private DcMotor leftFrontDrive;
+    private DcMotor leftBackDrive;
+
+    TANKClaw claw = new TANKClaw(hardwareMap);
+    TANKDriveTrain TANKDrive = new TANKDriveTrain(hardwareMap);
 
     @Override
     public void init() {
         telemetry.addData("Status", "Initialized");
-        leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
-        rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
-        leftDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightDrive.setDirection(DcMotor.Direction.REVERSE);
+        TANKDrive.hwMap();
+        TANKDrive.setDirection();
         telemetry.addData("Status", "Initialized");
     }
 
@@ -44,10 +48,13 @@ public class TANKDrive extends OpMode
         double turn  =  gamepad1.right_stick_x;
         leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
         rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
-        leftDrive.setPower(leftPower);
-        rightDrive.setPower(rightPower);
+        TANKDrive.teleOpDrive();
         telemetry.addData("Status", "Run Time: " + runtime.toString());
         telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
+        if (gamepad2.a){
+            claw.MoveClaw();
+        }
+
     }
 
     @Override

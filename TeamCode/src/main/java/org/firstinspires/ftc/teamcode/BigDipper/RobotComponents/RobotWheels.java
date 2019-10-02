@@ -35,6 +35,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 
 /**
  * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
@@ -70,11 +72,11 @@ public class RobotWheels implements RobotComponent {
 
 
     @Override
-    public void init(HardwareMap hardwareMap) {
+    public void init(HardwareMap hardwareMap, Telemetry telemetry) {
         leftDriveBack = hardwareMap.dcMotor.get(BACKLEFT_WHEEL_NAME);
         rightDriveBack = hardwareMap.dcMotor.get(BACKRIGHT_WHEEL_NAME);
-        leftDriveBack = hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME);
-        rightDriveBack = hardwareMap.dcMotor.get(FRONTRIGHT_WHEEL_NAME);
+        leftDriveFront = hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME);
+        rightDriveFront = hardwareMap.dcMotor.get(FRONTRIGHT_WHEEL_NAME);
     }
 
     public void wheelsTeleOp() {
