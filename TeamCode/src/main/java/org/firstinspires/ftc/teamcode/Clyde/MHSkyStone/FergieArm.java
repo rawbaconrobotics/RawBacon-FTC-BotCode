@@ -11,16 +11,16 @@ public class FergieArm {
 
 
     // *** Change these assignments, future Max ***
-    private final String RIGHT_CLAW_NAME = "right_claw";
-    private final String LEFT_CLAW_NAME = "left_claw";
-    private final String ARM_MOTOR_NAME = "arm_motor";
+    private final String RIGHT_CLAW_NAME = "TEMP1";
+    private final String LEFT_CLAW_NAME = "TEMP2";
+    private final String ARM_MOTOR_NAME = "TEMP3";
     private final double RIGHT_OPEN_POSITION = 3;
     private final double LEFT_OPEN_POSITION = 3;
     private final double LEFT_CLOSED_POSITION = 3;
-    private final double RIGHT_CLOSED_POSITION = 6;
+    private final double RIGHT_CLOSED_POSITION = 3;
     //Both of these are encoder counts
     private final double ARM_LOWER_BOUND = 3;
-    private final double ARM_UPPER_BOUND = 6;
+    private final double ARM_UPPER_BOUND = 3;
 
     //Class constructor
     public FergieArm(HardwareMap mappy){

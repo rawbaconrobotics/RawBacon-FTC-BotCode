@@ -138,8 +138,5 @@ public class ClydeProtoTeleop extends OpMode{
      */
     @Override
     public void stop() {
-        clyde.wheels.drive(0);
-        clyde.wheels.turn(0);
-        clyde.arm.moveArm(0);
     }
 }
