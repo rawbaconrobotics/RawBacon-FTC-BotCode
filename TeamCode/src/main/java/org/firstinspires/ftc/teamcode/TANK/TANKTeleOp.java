@@ -18,14 +18,13 @@ public class TANKTeleOp extends OpMode
     private DcMotor leftFrontDrive;
     private DcMotor leftBackDrive;
 
-    TANKClaw claw = new TANKClaw(hardwareMap);
-    TANKDriveTrain TANKDrive = new TANKDriveTrain(hardwareMap);
+    TANK tank = new TANK(hardwareMap);
 
     @Override
     public void init() {
         telemetry.addData("Status", "Initialized");
-        TANKDrive.hwMap();
-        TANKDrive.setDirection();
+        tank.drive.hwMap();
+        tank.drive.setDirection();
         telemetry.addData("Status", "Initialized");
     }
 
@@ -48,18 +47,29 @@ public class TANKTeleOp extends OpMode
         double turn  =  gamepad1.right_stick_x;
         leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
         rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
-        TANKDrive.teleOpDrive();
+        tank.drive.teleOpDrive();
         telemetry.addData("Status", "Run Time: " + runtime.toString());
         telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
+
+        /*//claw functions
+        tank.claw.TANKMoveArm
+        if (gamepad2.a) {
+            tank.claw.TANKMoveClaw();
+        }
+        if (gamepad2.left_bumper) {
+            tank.claw.TANKChangeArmSpeed();
+        }*/
+        //intake functions
         if (gamepad2.a){
-            claw.MoveClaw();
+            tank.intake.TANKIntake(true);
+        }else{
+            tank.intake.TANKIntake(false);
         }
 
     }
 
     @Override
-    public void stop() {
-
+    public void stop(){
+        tank.shutdown();
     }
-
 }

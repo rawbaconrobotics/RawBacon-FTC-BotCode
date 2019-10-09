@@ -11,9 +11,9 @@ public class FergieArm {
 
 
     // *** Change these assignments, future Max ***
-    private final String RIGHT_CLAW_NAME = "TEMP1";
-    private final String LEFT_CLAW_NAME = "TEMP2";
-    private final String ARM_MOTOR_NAME = "TEMP3";
+    private final String RIGHT_CLAW_NAME = "right_claw";
+    private final String LEFT_CLAW_NAME = "left_claw";
+    private final String ARM_MOTOR_NAME = "arm_motor";
     private final double RIGHT_OPEN_POSITION = 3;
     private final double LEFT_OPEN_POSITION = 3;
     private final double LEFT_CLOSED_POSITION = 3;

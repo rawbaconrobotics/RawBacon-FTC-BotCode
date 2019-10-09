@@ -43,7 +43,16 @@ public class TANKDriveTrain{
                        opmode.gamepad1.left_stick_y,
                        opmode.gamepad1.right_stick_y);
     }
-    public void strafeDrive(){
-
+    public void strafeRightDrive(double speed){
+        fourWheelDrive(speed,
+                       speed,
+                       speed,
+                       -speed);
+    }
+    public void strafeLeftDrive(double speed){
+        strafeRightDrive(-speed);
+    }
+    public void halt(){
+        fourWheelDrive(0, 0, 0, 0);
     }
 }
