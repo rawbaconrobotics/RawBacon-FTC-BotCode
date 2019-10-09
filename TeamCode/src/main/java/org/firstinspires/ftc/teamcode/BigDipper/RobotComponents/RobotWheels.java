@@ -27,15 +27,15 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.robotcontroller.external.samples;
+package org.firstinspires.ftc.teamcode.BigDipper.RobotComponents;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 
 /**
@@ -51,38 +51,57 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Basic: Linear OpMode", group="Linear Opmode")
-@Disabled
-public class BasicOpMode_Linear extends LinearOpMode {
+public class RobotWheels implements RobotComponent {
+    HardwareMap hwMap =  null;
+    public OpMode opmode;
+
+    private final static String FRONTRIGHT_WHEEL_NAME = "right_drive_front" ;
+    private final static String FRONTLEFT_WHEEL_NAME = "left_drive_front" ;
+    private final static String BACKRIGHT_WHEEL_NAME = "right_drive_back" ;
+    private final static String BACKLEFT_WHEEL_NAME = "left_drive_back" ;
+
+
+
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private Servo latchServo = null;
-    private DcMotor leftDrive = null;
-    private DcMotor rightDrive = null;
+    private DcMotor leftDriveBack = null;
+    private DcMotor rightDriveBack = null;
+    private DcMotor rightDriveFront = null;
+    private DcMotor leftDriveFront = null;
+
 
     @Override
-    public void runOpMode() {
-        telemetry.addData("Status", "Initialized");
-        telemetry.update();
+    public void init(HardwareMap hardwareMap, Telemetry telemetry) {
+        leftDriveBack = hardwareMap.dcMotor.get(BACKLEFT_WHEEL_NAME);
+        rightDriveBack = hardwareMap.dcMotor.get(BACKRIGHT_WHEEL_NAME);
+        leftDriveFront = hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME);
+        rightDriveFront = hardwareMap.dcMotor.get(FRONTRIGHT_WHEEL_NAME);
+    }
 
+    public void wheelsTeleOp() {
+        HardwareMap hardwareMap;
+        OpMode opmode = this.opmode;
+
+
+        hardwareMap = hwMap;
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
-        leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
-        rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
-        leftDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftDriveFront.setDirection(DcMotor.Direction.FORWARD);
+        rightDriveFront.setDirection(DcMotor.Direction.REVERSE);
+        leftDriveBack.setDirection(DcMotor.Direction.FORWARD);
+        rightDriveBack.setDirection(DcMotor.Direction.REVERSE);
 
         // Wait for the game to start (driver presses PLAY)
-        waitForStart();
+        //waitForStart();
         runtime.reset();
 
         // run until the end of the match (driver presses STOP)
-        while (opModeIsActive()) {
+        //while (opModeIsActive()) {
 
             // Setup a variable for each drive wheel to save power level for telemetry
             double leftPower;
@@ -93,8 +112,8 @@ public class BasicOpMode_Linear extends LinearOpMode {
 
             // POV Mode uses left stick to go forward, and right stick to turn.
             // - This uses basic math to combine motions and is easier to drive straight.
-            double drive = -gamepad1.left_stick_y;
-            double turn  =  gamepad1.right_stick_x;
+            double drive = -opmode.gamepad1.left_stick_y;
+            double turn  =  opmode.gamepad1.right_stick_x;
             leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
             rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
 
@@ -104,13 +123,18 @@ public class BasicOpMode_Linear extends LinearOpMode {
             // rightPower = -gamepad1.right_stick_y ;
 
             // Send calculated power to wheels
-            leftDrive.setPower(leftPower);
-            rightDrive.setPower(rightPower);
+            leftDriveBack.setPower(leftPower);
+            rightDriveBack.setPower(rightPower);
+        leftDriveFront.setPower(leftPower);
+        rightDriveFront.setPower(rightPower);
 
             // Show the elapsed game time and wheel power.
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
-            telemetry.update();
-        }
+
+        //}
     }
-}
+
+
+ }
+
+
+

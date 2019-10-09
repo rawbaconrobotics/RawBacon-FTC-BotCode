@@ -5,7 +5,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BaseLinearOpMode;
 
-@TeleOp(name="TestOpMode", group="Linear Opmode")
+import static org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BDLatch.latchButton;
+
+@TeleOp(name="OpModev1", group="Big Dipper")
 
 public class SomeOpMode extends BaseLinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
@@ -21,6 +23,7 @@ public class SomeOpMode extends BaseLinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             robot.teleOpActivated();
+            latchButton = true;
         }
     }
 }

@@ -20,4 +20,22 @@ public class TANKAutoBlue extends OpMode {
         tank.drive.setDirection();
         telemetry.addData("Status", "Initialized");
     }
+
+    @Override
+    public void loop() {
+
+    }
+
+    @Override
+    public void start() {
+        tank.drive.encoderStrafeLeft(30, -0.5);
+        tank.latch.moveLatch();
+        tank.drive.encoderStrafeRight(30, 0.5);
+        tank.latch.moveLatch();
+    }
+
+    @Override
+    public void stop() {
+        tank.shutdown();
+    }
 }

@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 
-@TeleOp(name="TANKTeleOp", group="TeleOp")
+@TeleOp(name="TANKTeleOp", group="TANK")
 public class TANKTeleOp extends OpMode
 {
     private ElapsedTime runtime = new ElapsedTime();
@@ -47,29 +47,28 @@ public class TANKTeleOp extends OpMode
         double turn  =  gamepad1.right_stick_x;
         leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
         rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
-        tank.drive.teleOpDrive();
         telemetry.addData("Status", "Run Time: " + runtime.toString());
         telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
-
-        /*//claw functions
-        tank.claw.TANKMoveArm
-        if (gamepad2.a) {
+        /*/claw stuff
+        if (gamepad2.a){
             tank.claw.TANKMoveClaw();
         }
-        if (gamepad2.left_bumper) {
-            tank.claw.TANKChangeArmSpeed();
-        }*/
-        //intake functions
-        if (gamepad2.a){
-            tank.intake.TANKIntake(true);
-        }else{
-            tank.intake.TANKIntake(false);
+        */
+        if (gamepad2.b){
+            tank.latch.moveLatch();
         }
-
+        if (gamepad1.left_bumper && !gamepad1.right_bumper){
+            tank.drive.strafeLeftDrive(1);
+        }else if (gamepad1.right_bumper){
+            tank.drive.strafeRightDrive(1);
+        }else{
+            tank.drive.teleOpDrive();
+        }
     }
 
     @Override
-    public void stop(){
-        tank.shutdown();
+    public void stop() {
+        tank.drive.halt();
     }
+
 }

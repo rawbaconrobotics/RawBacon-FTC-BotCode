@@ -32,7 +32,7 @@ public class TANKIntake {
         if (power) {
             TANKIntakeLeft.setPosition(1);
             TANKIntakeRight.setPosition(1);
-                    
+
         }
         else{
             TANKIntakeLeft.setPosition(0.5);
