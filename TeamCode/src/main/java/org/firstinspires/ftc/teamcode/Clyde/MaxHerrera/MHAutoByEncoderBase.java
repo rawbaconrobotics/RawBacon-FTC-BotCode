@@ -27,13 +27,13 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.Clyde;
+package org.firstinspires.ftc.teamcode.Clyde.MaxHerrera;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
-
 
 /**
  * This file illustrates the concept of driving a path based on encoder counts.
@@ -57,48 +57,74 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Test Autonomous", group="Clyde")
+@Autonomous(name="Pushbot: Auto Drive By Encoder", group="Pushbot")
+@Disabled
+public class MHAutoByEncoderBase extends LinearOpMode {
 
-public class ClydeProtoAutonomous extends LinearOpMode {
+    /* Declare OpMode members. */
+    MHHardwarePushbot         robot   = new MHHardwarePushbot();   // Use a Pushbot's hardware
+    private ElapsedTime     runtime = new ElapsedTime();
+    MHFunctionDungeon1       funhold = new MHFunctionDungeon1();
 
-    //Create Clyde
-    FergBot clyde   = new FergBot(hardwareMap);
-    //private ElapsedTime     runtime = new ElapsedTime();
-
+    static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
+    static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
+    static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
+    static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+            (WHEEL_DIAMETER_INCHES * 3.1415);
+    static final double     DRIVE_SPEED             = 0.6;
+    static final double     TURN_SPEED              = 0.5;
 
     @Override
     public void runOpMode() {
 
+        /*
+         * Initialize the drive system variables.
+         * The init() method of the hardware class does all the work here
+         */
+        robot.init(hardwareMap);
 
         // Send telemetry message to signify robot waiting;
-        //telemetry.addData("Status", "Resetting Encoders");
-        //telemetry.update();
+        telemetry.addData("Status", "Resetting Encoders");
+        telemetry.update();
 
-        clyde.wheels.resetEncoders();
+        robot.leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.frontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.backDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        robot.leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.frontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.backDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Send telemetry message to indicate successful Encoder reset
-        /*telemetry.addData("Path0",  "Starting at %7d :%7d",
+        telemetry.addData("Path0",  "Starting at %7d :%7d",
                           robot.leftDrive.getCurrentPosition(),
                           robot.rightDrive.getCurrentPosition());
-        telemetry.update();*/
+        telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
+        //encoderDrive arg list: type, speed, Inches, timeoutS
+        // directions: (In Inches arg) positive=forward/left/CW, negative=backward/right/CCW
+        // types: forward/backward=0, strafe=1, turn=2 forward-right/backward-left=3, forward-left/backward-right=4
+        // 15 in = 90 degrees, for turning
 
         // Movements;
-        //Move forward 5 inches
-        //Grab a brick
-        //Move backward
-        //turn toward bridge
-        //Move forward
+        //
+        //
+        //
+        //
+        //
 
-        clyde.arm.openClaw();
-        clyde.wheels.driveFor(5, 1);  //Change distance
-        clyde.arm.closeClaw();
-        clyde.wheels.driveFor(-5, 1);//Change distance
-        clyde.wheels.turnFor(90, 1);       //Change angle sign
-        clyde.wheels.driveFor(5, 1); //Change distance
+
+        //funhold.encoderDrive(Type, speed, Inches, timeout); //turns the wheels in specified way
+
+        //funhold.LiftMeFromTheGround(Direction); //activates lift, 1=up, -1=down
+
+        //funhold.QuadMotorSetPow(left, right, left2, right2); //sets the motor's power to their respective variables
+
 
         sleep(1000);     // pause for servos to move
 

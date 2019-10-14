@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.MaxHerrera.MHSkyStone;
+package org.firstinspires.ftc.teamcode.Clyde.MaxHerrera;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -50,11 +50,11 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @TeleOp(name="Pushbot: Teleop Tank", group="Pushbot")
 @Disabled
-public class ClydeProtoTeleop extends OpMode{
+public class MHTeleopTank extends OpMode{
 
     /* Declare OpMode members. */
-    FergBot clyde  = new FergBot(hardwareMap); // Create a FergBot named Clyde
-    double  speedMult  = 1;
+    MHHardwarePushbot robot       = new MHHardwarePushbot(); // use the class created to define a Pushbot's hardware   // could also use HardwarePushbotMatrix class.
+    MHFunctionDungeon1 funhold    = new MHFunctionDungeon1();
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -64,6 +64,7 @@ public class ClydeProtoTeleop extends OpMode{
         /* Initialize the hardware variables.
          * The init() method of the hardware class does all the work here
          */
+        robot.init(hardwareMap);
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Say", "Hello Driver");    //
@@ -88,31 +89,29 @@ public class ClydeProtoTeleop extends OpMode{
      */
     @Override
     public void loop() {
+        //robot.leftDrive.setPower();
+        //robot.rightDrive.setPower();
+        //robot.frontDrive.setPower();
+        //robot.backDrive.setPower();
+        //funhold.QuadMotorSetPow(left, right, front, back);
 
-        clyde.wheels.drive(-gamepad1.left_stick_y * speedMult);
-        clyde.wheels.turn(-gamepad1.right_stick_y * speedMult);
-        clyde.arm.moveArm(-gamepad2.right_stick_y * speedMult);
+        double t; //turn, controlled by left stick
+        double y; //right stick y
+        double x; // right stick x
 
-        if (gamepad1.left_bumper){
-            speedMult = 2;
-        }
-        else{
-            speedMult = 1;
-        }
+        t = -gamepad1.left_stick_x;
+        y = -gamepad1.right_stick_y;
+        x = -gamepad1.right_stick_x;
 
-        if (gamepad1.right_bumper){
-            speedMult = 0.5;
-        }
-        else{
-            speedMult = 1;
-        }
+        funhold.QuadMotorSetPow(t+y, y-t, t+x, x-t);
 
-        /*if (gamepad2.a) { //lift, body going up{
 
+        /*if (gamepad2.a) { //lift, body going up
+            funhold.LiftMeFromTheGround(      );
         }
 
         if (gamepad2.b) { //lift, body going down
-
+            funhold.LiftMeFromTheGround(      );
         }
 
         if (gamepad1.right_bumper){
@@ -125,9 +124,7 @@ public class ClydeProtoTeleop extends OpMode{
 
         if (gamepad1.x){    }
 
-        if (gamepad1.y){    }
-
-        */
+        if (gamepad1.y){    }*/
 
     }
 

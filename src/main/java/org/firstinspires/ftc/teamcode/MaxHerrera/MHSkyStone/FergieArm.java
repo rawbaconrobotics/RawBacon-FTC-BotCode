@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.MaxHerrera.MHSkyStone;
+package org.firstinspires.ftc.teamcode.Clyde.MaxHerrera.MHSkyStone;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;

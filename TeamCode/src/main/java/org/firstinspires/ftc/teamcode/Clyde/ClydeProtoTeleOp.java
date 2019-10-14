@@ -106,29 +106,6 @@ public class ClydeProtoTeleOp extends OpMode{
             speedMult = 1;
         }
 
-        /*
-
-        if (gamepad2.a) { //lift, body going up{
-
-        }
-
-        if (gamepad2.b) { //lift, body going down
-
-        }
-
-        if (gamepad1.right_bumper){
-
-        }
-
-        if (gamepad1.left_bumper){
-
-        }
-
-        if (gamepad1.x){    }
-
-        if (gamepad1.y){    }
-
-        */
 
     }
 

@@ -27,14 +27,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.Clyde.MHSkyStone;
+package org.firstinspires.ftc.teamcode.Clyde.MaxHerrera;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 /**
- * This file provides basic Teleop driving for a Pushbot robot.
+ * This file provides basic Telop driving for a Pushbot robot.
  * The code is structured as an Iterative OpMode
  *
  * This OpMode uses the common Pushbot hardware class to define the devices on the robot.
@@ -49,12 +49,12 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  */
 
 @TeleOp(name="Pushbot: Teleop Tank", group="Pushbot")
+@Disabled
+public class MHVarTeleop extends OpMode{
 
-public class ClydeProtoTeleop extends OpMode{
-
-    // Create a FergBot named Clyde
-    FergBot     clyde  = new FergBot(hardwareMap);
-    double  speedMult  = 1;
+    /* Declare OpMode members. */
+    MHVarHardware robot       = new MHVarHardware(); // use the class created to define a Pushbot's hardware   // could also use HardwarePushbotMatrix class.
+    MHVarFunDun funhold    = new MHVarFunDun();
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -64,6 +64,7 @@ public class ClydeProtoTeleop extends OpMode{
         /* Initialize the hardware variables.
          * The init() method of the hardware class does all the work here
          */
+        robot.init(hardwareMap);
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Say", "Hello Driver");    //
@@ -88,49 +89,46 @@ public class ClydeProtoTeleop extends OpMode{
      */
     @Override
     public void loop() {
+        //robot.leftDrive.setPower();
+        //robot.rightDrive.setPower();
+        //robot.left2Drive.setPower();
+        //robot.right2Drive.setPower();
+        //funhold.QuadMotorSetPow(left, right, front, back);
+        //robot.Arm.setPower();
+        //robot.ExtendyWendy.setPower();
 
-        clyde.wheels.drive(-gamepad1.left_stick_y * speedMult);
-        clyde.wheels.turn(-gamepad1.right_stick_y * speedMult);
-        clyde.arm.moveArm(-gamepad2.right_stick_y * speedMult);
+        double l; //left side driving
+        double r; //right side driving
+        double extend; //extends/retracts intake
+        double lift; //extends/retracts lift
 
-        if (gamepad1.left_bumper){
-            speedMult = 2;
-        }
-        else{
-            speedMult = 1;
-        }
+        l = -gamepad1.left_stick_y;
+        r = -gamepad1.right_stick_y;
+        extend = gamepad2.left_stick_y;
+        lift = gamepad2.right_stick_y;
 
-        if (gamepad1.right_bumper){
-            speedMult = 0.5;
-        }
-        else{
-            speedMult = 1;
-        }
+        funhold.QuadMotorSetPow(l, r, l, r);
+        robot.ExtendyWendy.setPower(extend);
+        robot.Lift.setPower(lift);
 
-        /*
-
-        if (gamepad2.a) { //lift, body going up{
-
-        }
-
-        if (gamepad2.b) { //lift, body going down
-
+        if (gamepad1.right_bumper){ //strafe right
+            funhold.QuadMotorSetPow(1, -1, -1, 1);
         }
 
-        if (gamepad1.right_bumper){
-
+        if (gamepad1.left_bumper){ //strafe left
+            funhold.QuadMotorSetPow(-1, 1, 1, -1);
         }
 
-        if (gamepad1.left_bumper){
-
+        if (gamepad1.b){ //pivots arm forward
+            robot.Arm.setPower(1);
         }
 
-        if (gamepad1.x){    }
+        if (gamepad1.y){ //pivots arm backward
+            robot.Arm.setPower(-1);
+        }
 
-        if (gamepad1.y){    }
-
-        */
-
+        //telemetry.addData("ARGB Values", " %7d", robot.color_sensor.argb());
+        //telemetry.update();
     }
 
     /*

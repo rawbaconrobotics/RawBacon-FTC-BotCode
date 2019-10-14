@@ -16,7 +16,7 @@ public class FergieArm {
     private final String ARM_MOTOR_NAME = "arm_motor";
     private final double RIGHT_OPEN_POSITION = 3;
     private final double LEFT_OPEN_POSITION = 3;
-    private final double LEFT_CLOSED_POSITION = 3;
+    private final double LEFT_CLOSED_POSITION = 6;
     private final double RIGHT_CLOSED_POSITION = 6;
     //Both of these are encoder counts
     private final double ARM_LOWER_BOUND = 3;
@@ -29,22 +29,21 @@ public class FergieArm {
         arm = mappy.get(DcMotor.class, ARM_MOTOR_NAME);
         rightClaw.setPosition(0);
         leftClaw.setPosition(0);
+        arm.setPower(0);
     }
 
-    //Set the speed to go up, stop if higher than it should be
+    //Set the speed to go up, stop if higher than should be
     public void moveUp(double speed){
         arm.setPower(speed);
         if (arm.getCurrentPosition() >= ARM_UPPER_BOUND) {
             arm.setPower(0);
-            return;
         }
     }
-    //Set the speed to go down, stop if lower than it should be
+    //Set the speed to go down, stop if lower than should be
     public void moveDown(double speed){
         arm.setPower(-speed);
         if (arm.getCurrentPosition() <= ARM_LOWER_BOUND) {
             arm.setPower(0);
-            return;
         }
     }
     //Acts as a mediator for moveUp and moveDown
@@ -69,7 +68,7 @@ public class FergieArm {
     }
 
     //Closes the claw
-    public void closeClaw(){  //CHANGE
+    public void closeClaw(){
         rightClaw.setPosition(RIGHT_CLOSED_POSITION);
         leftClaw.setPosition(LEFT_CLOSED_POSITION);
     }
