@@ -19,8 +19,10 @@ public class FergieArm {
     private final double LEFT_CLOSED_POSITION = 6;
     private final double RIGHT_CLOSED_POSITION = 6;
     //Both of these are encoder counts
-    private final double ARM_LOWER_BOUND = 3;
+    private final double ARM_LOWER_BOUND = 0;
     private final double ARM_UPPER_BOUND = 6;
+    //
+    private final double ARM_SPEED_MULT = 0.5;
 
     //Class constructor
     public FergieArm(HardwareMap mappy){
@@ -34,6 +36,7 @@ public class FergieArm {
 
     //Set the speed to go up, stop if higher than should be
     public void moveUp(double speed){
+        speed *= ARM_SPEED_MULT;
         arm.setPower(speed);
         if (arm.getCurrentPosition() >= ARM_UPPER_BOUND) {
             arm.setPower(0);
@@ -41,6 +44,7 @@ public class FergieArm {
     }
     //Set the speed to go down, stop if lower than should be
     public void moveDown(double speed){
+        speed  *= ARM_SPEED_MULT;
         arm.setPower(-speed);
         if (arm.getCurrentPosition() <= ARM_LOWER_BOUND) {
             arm.setPower(0);
@@ -61,6 +65,10 @@ public class FergieArm {
         }
     }
 
+    public void resetEncoders(){
+        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
     //Opens the claw
     public void openClaw(){
         rightClaw.setPosition(RIGHT_OPEN_POSITION);

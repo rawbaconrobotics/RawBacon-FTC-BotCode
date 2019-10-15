@@ -19,9 +19,9 @@ public class FergieWheels implements WheelMethods {
     //Find circumference of turning wheels
     private static final double   OMNIWHEEL_CIRCUMFERENCE    = OMNIWHEEL_DIAMETER_INCHES * 3.1415;
     //Get distance from center of turning to turning wheels
-    private static final double   TURNER_TO_CENTER_INCHES    = 12.0; //CHANGE
+    private static final double TURNER_TO_DRIVER_INCHES = 9.5;
     //Find the total distance a full spin of the robot covers
-    private static final double   TURNER_FLOOR_CIRCUMFERENCE = TURNER_TO_CENTER_INCHES * 2 * 3.1415;
+    private static final double   TURNER_FLOOR_CIRCUMFERENCE = TURNER_TO_DRIVER_INCHES * 2 * 3.1415;
     //Get drive gear reduction of turning wheels
     private static final double   TURN_DRIVE_GEAR_REDUCTION  = 1.0;
     //Find the number of counts in one turn of the turning wheels

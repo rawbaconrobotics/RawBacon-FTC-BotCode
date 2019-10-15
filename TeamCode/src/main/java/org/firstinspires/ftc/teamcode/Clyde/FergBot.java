@@ -10,4 +10,8 @@ public class FergBot {
         wheels = new FergieWheels(mappy);
         arm = new FergieArm(mappy);
     }
+    public void resetEncoders () {
+        wheels.resetEncoders();
+        arm.resetEncoders();
+    }
 }

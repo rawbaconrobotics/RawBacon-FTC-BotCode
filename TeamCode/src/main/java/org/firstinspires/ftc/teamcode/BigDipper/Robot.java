@@ -11,7 +11,7 @@ public class Robot {
     public RobotWheels robotWheels = new RobotWheels();
     public BDDistanceSensor distanceSensor = new BDDistanceSensor();
     public BDLatch bdlatch = new BDLatch();
-
+    public BDAutonomousv1 bdautono = new BDAutonomousv1();
     Telemetry telemetry;
 
     //This class initializes all the things for opmode and autonomous!
@@ -29,6 +29,7 @@ public class Robot {
     distanceSensor.telemetryOpModeActive();
 
     bdlatch.latch();
+
 
     }
 }

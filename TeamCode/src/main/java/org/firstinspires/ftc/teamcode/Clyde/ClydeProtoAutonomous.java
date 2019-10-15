@@ -74,7 +74,7 @@ public class ClydeProtoAutonomous extends LinearOpMode {
         //telemetry.addData("Status", "Resetting Encoders");
         //telemetry.update();
 
-        clyde.wheels.resetEncoders();
+        clyde.resetEncoders();
 
         // Send telemetry message to indicate successful Encoder reset
         /*telemetry.addData("Path0",  "Starting at %7d :%7d",
@@ -86,17 +86,12 @@ public class ClydeProtoAutonomous extends LinearOpMode {
         waitForStart();
 
 
-        // Movements;
-        //Move forward 5 inches
-        //Grab a brick
-        //Move backward
-        //turn toward bridge
+        // Movements:
         //Move forward
+        //turn toward bridge
+        //Move forward until under bridge
 
-        clyde.arm.openClaw();
-        clyde.wheels.driveFor(5, 1);  //Change distance
-        clyde.arm.closeClaw();
-        clyde.wheels.driveFor(-5, 1);//Change distance
+        clyde.wheels.driveFor(1, 1);  //Change distance
         clyde.wheels.turnFor(90, 1);       //Change angle sign
         clyde.wheels.driveFor(5, 1); //Change distance
 
