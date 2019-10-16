@@ -7,11 +7,11 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 public class TANKDriveTrain{
     public OpMode opmode;
-    private DcMotor rightFrontDrive;
-    private DcMotor rightBackDrive;
-    private DcMotor leftFrontDrive;
-    private DcMotor leftBackDrive;
-    private HardwareMap mappy;
+    public DcMotor rightFrontDrive;
+    public DcMotor rightBackDrive;
+    public DcMotor leftFrontDrive;
+    public DcMotor leftBackDrive;
+    public HardwareMap mappy;
     final private double STRAIGHT = 1440/(4*Math.PI);
     final private double ROT = STRAIGHT*16.5*Math.PI/360;
 

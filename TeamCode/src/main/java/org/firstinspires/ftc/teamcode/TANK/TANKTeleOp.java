@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -13,10 +14,11 @@ import com.qualcomm.robotcore.util.Range;
 public class TANKTeleOp extends OpMode
 {
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor rightFrontDrive;
-    private DcMotor rightBackDrive;
-    private DcMotor leftFrontDrive;
-    private DcMotor leftBackDrive;
+    public DcMotor rightFrontDrive;
+    public DcMotor rightBackDrive;
+    public DcMotor leftFrontDrive;
+    public DcMotor leftBackDrive;
+    public Servo TankLatch;
 
     TANK tank = new TANK(hardwareMap);
 
@@ -54,9 +56,11 @@ public class TANKTeleOp extends OpMode
             tank.claw.TANKMoveClaw();
         }
         */
-        if (gamepad2.b){
+        /*if (gamepad2.b){
             tank.latch.moveLatch();
         }
+
+         */
         if (gamepad1.left_bumper && !gamepad1.right_bumper){
             tank.drive.strafeLeftDrive(1);
         }else if (gamepad1.right_bumper){

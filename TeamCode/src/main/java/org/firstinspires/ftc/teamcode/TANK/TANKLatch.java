@@ -3,20 +3,18 @@ package org.firstinspires.ftc.teamcode.TANK;
 
 import android.graphics.Path;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-
-
-@TeleOp(name = "TANKLatch",group = "TANK")
+@Disabled
 public class TANKLatch {
 
     public OpMode OPMODE;
-    private Servo TankLatch;
-    private float TANK_LATCH_DOWN = 30;
-    private float TANK_LATCH_UP = 0;
+    public Servo TankLatch = null;
+    private double TANK_LATCH_DOWN = 0;
+    private double TANK_LATCH_UP = 0.2;
     private boolean TANK_LATCH_POSITION;
     private HardwareMap Mapson;
     OpMode opMode = this.OPMODE;

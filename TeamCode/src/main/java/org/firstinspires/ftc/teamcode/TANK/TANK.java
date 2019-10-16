@@ -10,7 +10,7 @@ public class TANK {
         drive = new TANKDriveTrain(hardwareMap);
         //claw = new TANKClaw(hardwareMap);
         //intake = new TANKIntake(hardwareMap);
-        latch = new TANKLatch(hardwareMap);
+       //latch = new TANKLatch(hardwareMap);
     }
     public void shutdown(){
         //intake.shutdown();

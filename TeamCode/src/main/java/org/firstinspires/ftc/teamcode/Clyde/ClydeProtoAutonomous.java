@@ -63,7 +63,7 @@ public class ClydeProtoAutonomous extends LinearOpMode {
 
     //Create Clyde
     FergBot clyde   = new FergBot(hardwareMap);
-    //private ElapsedTime     runtime = new ElapsedTime();
+    //private ElapsedTime   runtime = new ElapsedTime();
 
 
     @Override
