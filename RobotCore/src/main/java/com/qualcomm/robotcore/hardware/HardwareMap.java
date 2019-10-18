@@ -1,22 +1,16 @@
 /* Copyright (c) 2014, 2015 Qualcomm Technologies Inc
-
 All rights reserved.
-
 Redistribution and use in source and binary forms, with or without modification,
 are permitted (subject to the limitations in the disclaimer below) provided that
 the following conditions are met:
-
 Redistributions of source code must retain the above copyright notice, this list
 of conditions and the following disclaimer.
-
 Redistributions in binary form must reproduce the above copyright notice, this
 list of conditions and the following disclaimer in the documentation and/or
 other materials provided with the distribution.
-
 Neither the name of Qualcomm Technologies Inc nor the names of its contributors
 may be used to endorse or promote products derived from this software without
 specific prior written permission.
-
 NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS
 LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -173,16 +167,16 @@ public class HardwareMap implements Iterable<HardwareDevice> {
       T result = tryGet(classOrInterface, deviceName);
       if (result==null) throw new IllegalArgumentException(String.format("Unable to find a hardware device with name \"%s\" and type %s", deviceName, classOrInterface.getSimpleName()));
       return result;
-      }
+    }
   }
 
   /**
    * Retrieves the (first) device with the indicated name which is also an instance of the
-   * indicated class or interface. If no such device is found, null is returned. 
-   * 
-   * This is not commonly used; {@link #get} is the usual method for retreiving items from 
+   * indicated class or interface. If no such device is found, null is returned.
+   *
+   * This is not commonly used; {@link #get} is the usual method for retreiving items from
    * the map.
-   * 
+   *
    * @see #get(Class, String)
    */
   public @Nullable <T> T tryGet(Class<? extends T> classOrInterface, String deviceName) {
@@ -239,8 +233,8 @@ public class HardwareMap implements Iterable<HardwareDevice> {
       if (list != null) {
         for (HardwareDevice device : list) {
           return device;
-          }
         }
+      }
       throw new IllegalArgumentException(String.format("Unable to find a hardware device with name \"%s\"", deviceName));
     }
   }
@@ -538,9 +532,9 @@ public class HardwareMap implements Iterable<HardwareDevice> {
      * @return            whether any modifications were made to this DeviceMapping
      * @see HardwareMap#remove
      */
-     public boolean remove(String deviceName) {
-        return remove(null, deviceName);
-     }
+    public boolean remove(String deviceName) {
+      return remove(null, deviceName);
+    }
     /**
      * (Advanced) Removes the device with the indicated name (if any) from this DeviceMapping. The device
      * is also removed under that name in the overall map itself. Note that this method is normally
@@ -551,7 +545,7 @@ public class HardwareMap implements Iterable<HardwareDevice> {
      * @return            whether any modifications were made to this DeviceMapping
      * @see HardwareMap#remove
      */
-     public boolean remove(@Nullable SerialNumber serialNumber, String deviceName) {
+    public boolean remove(@Nullable SerialNumber serialNumber, String deviceName) {
       synchronized (lock) {
         deviceName = deviceName.trim();
         HardwareDevice device = map.remove(deviceName);

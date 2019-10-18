@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode.BigDipper.RobotComponents;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -53,8 +54,6 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  */
 
 public class BDLatch implements RobotComponent {
-    HardwareMap hwMap =  null;
-    public OpMode opmode;
 
     private final static String LATCH_SERVO_NAME = "latch_servo" ;
 
@@ -68,17 +67,14 @@ public class BDLatch implements RobotComponent {
 
 
     @Override
-    public void init(HardwareMap hardwareMap, Telemetry telemetry) {
+    public void init(LinearOpMode opMode) {
+    HardwareMap hardwareMap = opMode.hardwareMap;
         latchServo = hardwareMap.servo.get(LATCH_SERVO_NAME);
 
     }
 
-    public void latch() {
-        HardwareMap hardwareMap;
-        OpMode opmode = this.opmode;
+    public void latch(LinearOpMode opMode) {
 
-
-        hardwareMap = hwMap;
 
 
         // Wait for the game to start (driver presses PLAY)
@@ -88,11 +84,13 @@ public class BDLatch implements RobotComponent {
         //while (opModeIsActive()) {
 
         // Setup a variable for each drive wheel to save power level for telemetry
+
+
         double LATCH_OPEN = 1;
         double LATCH_CLOSED = 0.25;
 
-        boolean openLatch = opmode.gamepad1.right_bumper;
-        boolean closeLatch = opmode.gamepad1.right_bumper;
+        boolean openLatch = opMode.gamepad1.right_bumper;
+        boolean closeLatch = opMode.gamepad1.right_bumper;
 
 
         while(latchButton){

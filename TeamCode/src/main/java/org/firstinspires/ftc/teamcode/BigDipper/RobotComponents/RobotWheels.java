@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode.BigDipper.RobotComponents;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -52,8 +53,6 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  */
 
 public class RobotWheels implements RobotComponent {
-    HardwareMap hwMap =  null;
-    public OpMode opmode;
 
     private final static String FRONTRIGHT_WHEEL_NAME = "right_drive_front" ;
     private final static String FRONTLEFT_WHEEL_NAME = "left_drive_front" ;
@@ -72,19 +71,16 @@ public class RobotWheels implements RobotComponent {
 
 
     @Override
-    public void init(HardwareMap hardwareMap, Telemetry telemetry) {
+    public void init(LinearOpMode opMode) {
+        HardwareMap hardwareMap = opMode.hardwareMap;
         leftDriveBack = hardwareMap.dcMotor.get(BACKLEFT_WHEEL_NAME);
         rightDriveBack = hardwareMap.dcMotor.get(BACKRIGHT_WHEEL_NAME);
         leftDriveFront = hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME);
         rightDriveFront = hardwareMap.dcMotor.get(FRONTRIGHT_WHEEL_NAME);
     }
 
-    public void wheelsTeleOp() {
-        HardwareMap hardwareMap;
-        OpMode opmode = this.opmode;
-
-
-        hardwareMap = hwMap;
+    public void wheelsTeleOp(LinearOpMode opMode) {
+        HardwareMap hardwareMap = opMode.hardwareMap;
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
@@ -112,8 +108,8 @@ public class RobotWheels implements RobotComponent {
 
             // POV Mode uses left stick to go forward, and right stick to turn.
             // - This uses basic math to combine motions and is easier to drive straight.
-            double drive = -opmode.gamepad1.left_stick_y;
-            double turn  =  opmode.gamepad1.right_stick_x;
+            double drive = -opMode.gamepad1.left_stick_y;
+            double turn  =  opMode.gamepad1.right_stick_x;
             leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
             rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
 

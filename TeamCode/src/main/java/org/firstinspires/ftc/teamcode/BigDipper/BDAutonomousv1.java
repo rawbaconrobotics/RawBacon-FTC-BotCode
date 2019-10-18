@@ -3,10 +3,12 @@ package org.firstinspires.ftc.teamcode.BigDipper;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @Autonomous(name = "Pushbot: Auto Drive By Encoder", group = "Pushbot")
 @Disabled
@@ -24,8 +26,9 @@ public class BDAutonomousv1 extends LinearOpMode {
         static final double DRIVE_SPEED = 0.6;
         static final double TURN_SPEED = 0.5;
 
-        @Override
-        public void runOpMode() {
+
+    @Override
+        public void runOpMode(LinearOpMode opMode) {
 
             robot.init(hardwareMap);
 
@@ -121,4 +124,13 @@ public class BDAutonomousv1 extends LinearOpMode {
                 //  sleep(250);   // optional pause after each move
             }
         }
+
+
+    public void runOpMode(OpMode opMode) throws InterruptedException {
+
     }
+    public void runOpMode() throws InterruptedException {
+
+    }
+
+}
