@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode.BigDipper.RobotComponents;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
@@ -85,16 +86,16 @@ public class RobotWheels extends RobotComponentImplBase {
     }
 
     public void wheelsTeleOp() {
-        // Initialize the hardware variables. Note that the strings used here as parameters
+
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
-        leftDriveFront.setDirection(DcMotor.Direction.FORWARD);
-        rightDriveFront.setDirection(DcMotor.Direction.REVERSE);
-        leftDriveBack.setDirection(DcMotor.Direction.FORWARD);
-        rightDriveBack.setDirection(DcMotor.Direction.REVERSE);
+        leftDriveFront.setDirection(DcMotor.Direction.REVERSE);
+        rightDriveFront.setDirection(DcMotor.Direction.FORWARD);
+        leftDriveBack.setDirection(DcMotor.Direction.REVERSE);
+        rightDriveBack.setDirection(DcMotor.Direction.FORWARD);
 
         // Wait for the game to start (driver presses PLAY)
         //waitForStart();
@@ -123,15 +124,59 @@ public class RobotWheels extends RobotComponentImplBase {
             // rightPower = -gamepad1.right_stick_y ;
 
             // Send calculated power to wheels
-            leftDriveBack.setPower(leftPower);
+
+        /*leftDriveBack.setPower(leftPower);
             rightDriveBack.setPower(rightPower);
         leftDriveFront.setPower(leftPower);
         rightDriveFront.setPower(rightPower);
+*/
+        mechanumTeleOp(gamepad1.left_stick_x,gamepad1.left_stick_y,-gamepad1.right_stick_x);        // Initialize the hardware variables. Note that the strings used here as parameters
 
-            // Show the elapsed game time and wheel power.
+        // Show the elapsed game time and wheel power.
 
         //}
     }
+
+
+    public void mechanumTeleOp(double x, double y, double rotation)
+    {
+        double wheelSpeeds[] = new double[4];
+
+        wheelSpeeds[0] = x + y + rotation;
+        wheelSpeeds[1] = -x + y - rotation;
+        wheelSpeeds[2] = -x + y + rotation;
+        wheelSpeeds[3] = x + y - rotation;
+
+        normalize(wheelSpeeds);
+
+        leftDriveBack.setPower(wheelSpeeds[0]);
+        rightDriveBack.setPower(wheelSpeeds[1]);
+        leftDriveFront.setPower(wheelSpeeds[2]);
+        rightDriveFront.setPower(wheelSpeeds[3]);
+    }   //mecanumDrive_Cartesian
+
+    private void normalize(double[] wheelSpeeds)
+    {
+        double maxMagnitude = Math.abs(wheelSpeeds[0]);
+
+        for (int i = 1; i < wheelSpeeds.length; i++)
+        {
+            double magnitude = Math.abs(wheelSpeeds[i]);
+
+            if (magnitude > maxMagnitude)
+            {
+                maxMagnitude = magnitude;
+            }
+        }
+
+        if (maxMagnitude > 0.75)
+        {
+            for (int i = 0; i < wheelSpeeds.length; i++)
+            {
+                wheelSpeeds[i] /= maxMagnitude;
+            }
+        }
+    }   //normalize
 
 
  }

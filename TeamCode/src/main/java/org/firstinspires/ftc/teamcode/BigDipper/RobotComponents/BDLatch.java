@@ -90,20 +90,19 @@ public class BDLatch extends RobotComponentImplBase {
 
 
         double LATCH_OPEN = 1;
-        double LATCH_CLOSED = 0.25;
+        double LATCH_CLOSED = 0.6;
 
         boolean openLatch = gamepad1.right_bumper;
         boolean closeLatch = gamepad1.right_bumper;
 
 
-        while(latchButton){
             if(openLatch){
                 latchServo.setPosition(LATCH_OPEN);
             }
             if (closeLatch){
                 latchServo.setPosition(LATCH_CLOSED);
             }
-        }
+
 
 
         // Show the elapsed game time and wheel power.

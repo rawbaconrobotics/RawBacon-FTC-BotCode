@@ -12,8 +12,11 @@ public abstract class BaseLinearOpMode extends LinearOpMode
     @Override
     public final void runOpMode() throws InterruptedException
     {
+        telemetry.addData("e", "I");
+
         robot = new Robot(this);
         run();
+
     }
 
     public abstract void run();

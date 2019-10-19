@@ -31,7 +31,9 @@ public class Robot {
     robotWheels.wheelsTeleOp();
 
     //Activate distance sensor for opmode
-    distanceSensor.findDistance();
+
+        //DISTANCE SENSOR CODE
+        //distanceSensor.findDistance();
 
     bdlatch.latch();
 
@@ -42,11 +44,11 @@ public class Robot {
  public Robot(LinearOpMode opMode)
  {
      robotWheels = new RobotWheels(opMode);
-     distanceSensor = new BDDistanceSensor(opMode);
+     //distanceSensor = new BDDistanceSensor(opMode);
      bdlatch = new BDLatch(opMode);
 
      robotWheels.init();
-     distanceSensor.init();
+     //distanceSensor.init();
      bdlatch.init();
 
  }
