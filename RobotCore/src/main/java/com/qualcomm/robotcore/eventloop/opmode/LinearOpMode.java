@@ -287,9 +287,7 @@ public abstract class LinearOpMode extends OpMode {
     }
   }
 
-    public abstract void runOpMode(LinearOpMode opMode) throws InterruptedException;
-
-    protected class LinearOpModeHelper implements Runnable {
+  protected class LinearOpModeHelper implements Runnable {
 
     protected RuntimeException exception  = null;
     protected boolean          isShutdown = false;

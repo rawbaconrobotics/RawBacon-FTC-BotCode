@@ -52,7 +52,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-public class RobotWheels implements RobotComponent {
+public class RobotWheels extends RobotComponentImplBase {
 
     private final static String FRONTRIGHT_WHEEL_NAME = "right_drive_front" ;
     private final static String FRONTLEFT_WHEEL_NAME = "left_drive_front" ;
@@ -69,18 +69,22 @@ public class RobotWheels implements RobotComponent {
     private DcMotor rightDriveFront = null;
     private DcMotor leftDriveFront = null;
 
+    public RobotWheels(LinearOpMode opMode)
+    {
+        super(opMode);
+    }
+
 
     @Override
-    public void init(LinearOpMode opMode) {
-        HardwareMap hardwareMap = opMode.hardwareMap;
+    public void init() {
+
         leftDriveBack = hardwareMap.dcMotor.get(BACKLEFT_WHEEL_NAME);
         rightDriveBack = hardwareMap.dcMotor.get(BACKRIGHT_WHEEL_NAME);
         leftDriveFront = hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME);
         rightDriveFront = hardwareMap.dcMotor.get(FRONTRIGHT_WHEEL_NAME);
     }
 
-    public void wheelsTeleOp(LinearOpMode opMode) {
-        HardwareMap hardwareMap = opMode.hardwareMap;
+    public void wheelsTeleOp() {
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
@@ -108,8 +112,8 @@ public class RobotWheels implements RobotComponent {
 
             // POV Mode uses left stick to go forward, and right stick to turn.
             // - This uses basic math to combine motions and is easier to drive straight.
-            double drive = -opMode.gamepad1.left_stick_y;
-            double turn  =  opMode.gamepad1.right_stick_x;
+            double drive = -gamepad1.left_stick_y;
+            double turn  =  gamepad1.right_stick_x;
             leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
             rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
 

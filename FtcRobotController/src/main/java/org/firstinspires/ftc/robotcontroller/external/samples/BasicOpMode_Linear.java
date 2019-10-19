@@ -113,8 +113,4 @@ public class BasicOpMode_Linear extends LinearOpMode {
             telemetry.update();
         }
     }
-
-    public void runOpMode(LinearOpMode opMode) throws InterruptedException {
-
-    }
 }

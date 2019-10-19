@@ -5,19 +5,16 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.BigDipper.Robot;
 
-public abstract class BaseLinearOpMode extends LinearOpMode {
+public abstract class BaseLinearOpMode extends LinearOpMode
+{
     protected Robot robot;
 
     @Override
-    public final void runOpMode(LinearOpMode opMode) throws InterruptedException
+    public final void runOpMode() throws InterruptedException
     {
-        robot = new Robot(opMode);
-        run(opMode);
+        robot = new Robot(this);
+        run();
     }
 
-    public abstract void run(LinearOpMode opMode);
-    {
-
-    }
-
+    public abstract void run();
 }

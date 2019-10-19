@@ -28,7 +28,7 @@ public class BDAutonomousv1 extends LinearOpMode {
 
 
     @Override
-        public void runOpMode(LinearOpMode opMode) {
+        public void runOpMode() {
 
             robot.init(hardwareMap);
 
@@ -124,13 +124,4 @@ public class BDAutonomousv1 extends LinearOpMode {
                 //  sleep(250);   // optional pause after each move
             }
         }
-
-
-    public void runOpMode(OpMode opMode) throws InterruptedException {
-
-    }
-    public void runOpMode() throws InterruptedException {
-
-    }
-
 }

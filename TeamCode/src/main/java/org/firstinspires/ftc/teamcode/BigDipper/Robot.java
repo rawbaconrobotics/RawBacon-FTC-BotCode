@@ -10,9 +10,9 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Robot {
     //Initialize new components
-    public RobotWheels robotWheels = new RobotWheels();
-    public BDDistanceSensor distanceSensor = new BDDistanceSensor();
-    public BDLatch bdlatch = new BDLatch();
+    public RobotWheels robotWheels;
+    public BDDistanceSensor distanceSensor;
+    public BDLatch bdlatch;
 
 
     //public BDAutonomousv1 bdautono = new BDAutonomousv1();
@@ -26,24 +26,28 @@ public class Robot {
     }
 */
 
-    public void teleOpActivated(LinearOpMode opMode){
+    public void teleOpActivated(){
         //Activate wheels for opmode
-    robotWheels.wheelsTeleOp(opMode);
+    robotWheels.wheelsTeleOp();
 
     //Activate distance sensor for opmode
-    distanceSensor.findDistance(opMode);
+    distanceSensor.findDistance();
 
-    bdlatch.latch(opMode);
+    bdlatch.latch();
 
 
     }
 
-
     //method to initialize all the stuff for the opmode
- public Robot(LinearOpMode opMode){
-     robotWheels.init(opMode);
-     distanceSensor.init(opMode);
-     bdlatch.init(opMode);
+ public Robot(LinearOpMode opMode)
+ {
+     robotWheels = new RobotWheels(opMode);
+     distanceSensor = new BDDistanceSensor(opMode);
+     bdlatch = new BDLatch(opMode);
+
+     robotWheels.init();
+     distanceSensor.init();
+     bdlatch.init();
 
  }
 }

@@ -43,15 +43,19 @@ import org.firstinspires.ftc.robotcore.external.Func;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-public class BDDistanceSensor implements RobotComponent {
+public class BDDistanceSensor extends RobotComponentImplBase {
 
 
     private DistanceSensor sensorRange;
 
+    public BDDistanceSensor(LinearOpMode opMode)
+    {
+        super(opMode);
+    }
+
     @Override
-    public void init(LinearOpMode opMode) {
-    HardwareMap hardwareMap = opMode.hardwareMap;
-    Telemetry telemetry = opMode.telemetry;
+    public void init()
+    {
 
         // you can use this as a regular DistanceSensor.
         sensorRange = hardwareMap.get(DistanceSensor.class, "sensor_range");
@@ -84,10 +88,8 @@ public class BDDistanceSensor implements RobotComponent {
     }
 
 
-        public void findDistance(LinearOpMode opMode){
-            //Telemetry telemetryreal = this.telemetryreal;
-            Telemetry telemetry = opMode.telemetry;
-            HardwareMap hardwareMap = opMode.hardwareMap;
+        public void findDistance(){
+
             Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor) sensorRange;
             sensorRange = hardwareMap.get(DistanceSensor.class, "sensor_range");
 

@@ -53,7 +53,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-public class BDLatch implements RobotComponent {
+public class BDLatch extends RobotComponentImplBase {
 
     private final static String LATCH_SERVO_NAME = "latch_servo" ;
 
@@ -64,16 +64,19 @@ public class BDLatch implements RobotComponent {
     private ElapsedTime runtime = new ElapsedTime();
     private Servo latchServo = null;
 
+    public BDLatch(LinearOpMode opMode) {
+        super(opMode);
+    }
 
 
     @Override
-    public void init(LinearOpMode opMode) {
-    HardwareMap hardwareMap = opMode.hardwareMap;
+    public void init() {
+
         latchServo = hardwareMap.servo.get(LATCH_SERVO_NAME);
 
     }
 
-    public void latch(LinearOpMode opMode) {
+    public void latch() {
 
 
 
@@ -89,8 +92,8 @@ public class BDLatch implements RobotComponent {
         double LATCH_OPEN = 1;
         double LATCH_CLOSED = 0.25;
 
-        boolean openLatch = opMode.gamepad1.right_bumper;
-        boolean closeLatch = opMode.gamepad1.right_bumper;
+        boolean openLatch = gamepad1.right_bumper;
+        boolean closeLatch = gamepad1.right_bumper;
 
 
         while(latchButton){

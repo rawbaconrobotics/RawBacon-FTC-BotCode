@@ -12,11 +12,13 @@ import static org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BDLatch.l
 
 @TeleOp(name="OpModev1", group="Big Dipper")
 
-public class SomeOpMode extends BaseLinearOpMode {
+public class SomeOpMode extends BaseLinearOpMode
+{
     private ElapsedTime runtime = new ElapsedTime();
 
     @Override
-    public void run(LinearOpMode opMode) {
+    public void run()
+    {
         waitForStart();
         //robot = new Robot();
         //no not need to re-initialize robot
@@ -24,32 +26,10 @@ public class SomeOpMode extends BaseLinearOpMode {
         runtime.reset();
 
         // run until the end of the match (driver presses STOP)
-        while (opModeIsActive()) {
-            robot.teleOpActivated(opMode);
+        while (opModeIsActive())
+        {
+            robot.teleOpActivated();
             latchButton = true;
         }
     }
-
-
-
-
-
-    //We don't use these down here, they are overridden in the BaseLinearOpMode
-
-
-    public void runOpMode() throws InterruptedException {
-
-    }
-
-    public void runOpMode(OpMode opMode) throws InterruptedException {
-
-    }
-
-
-
-
-
-
-
-
 }
