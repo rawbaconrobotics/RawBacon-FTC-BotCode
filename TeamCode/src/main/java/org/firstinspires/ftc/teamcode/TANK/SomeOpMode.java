@@ -1,18 +1,13 @@
-package org.firstinspires.ftc.teamcode.BigDipper;
+package org.firstinspires.ftc.teamcode.TANK;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BaseLinearOpMode;
 
-import static org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BDLatch.latchButton;
+@TeleOp(name="TankTeleOp", group="Tank")
 
-@TeleOp(name="OpModev1", group="Big Dipper")
-
-public class SomeOpMode extends BaseLinearOpMode
+public class TankTeleOp extends BaseLinearOpMode
 {
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -24,7 +19,7 @@ public class SomeOpMode extends BaseLinearOpMode
 
 
 
-        //robot = new Tank();
+        //robot = new Robot();
         //no not need to re-initialize robot
 
         runtime.reset();

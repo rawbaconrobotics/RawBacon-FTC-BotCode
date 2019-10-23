@@ -27,42 +27,24 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.BigDipper.RobotComponents;
+package org.firstinspires.ftc.teamcode.TANK;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.RobotComponentImplBase;
 
 
-/**
- * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
- * the autonomous or the teleop period of an FTC match. The names of OpModes appear on the menu
- * of the FTC Driver Station. When an selection is made from the menu, the corresponding OpMode
- * class is instantiated on the Tank Controller and executed.
- *
- * This particular OpMode just executes a basic Tank Drive Teleop for a two wheeled robot
- * It includes all the skeletal structure that all linear OpModes contain.
- *
- * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
- */
+public class TankDriveTrain extends RobotComponentImplBase {
 
-public class RobotWheels extends RobotComponentImplBase {
+    private final static String FRONTRIGHT_WHEEL_NAME = "right_drive_front" ;
+    private final static String FRONTLEFT_WHEEL_NAME = "left_drive_front" ;
+    private final static String BACKRIGHT_WHEEL_NAME = "right_drive_back" ;
+    private final static String BACKLEFT_WHEEL_NAME = "left_drive_back" ;
 
-    private final static String FRONTRIGHT_WHEEL_NAME = "right_drive_front";
-    private final static String FRONTLEFT_WHEEL_NAME = "left_drive_front";
-    private final static String BACKRIGHT_WHEEL_NAME = "right_drive_back";
-    private final static String BACKLEFT_WHEEL_NAME = "left_drive_back";
 
-    private static final double SLOW_DRIVE_SCALAR = 0.2;
-    private static final double STICK_DIGITAL_THRESHOLD = 0.25;
-    private static final double TURNING_SCALAR = 0.875;
 
 
     // Declare OpMode members.
@@ -72,15 +54,14 @@ public class RobotWheels extends RobotComponentImplBase {
     private DcMotor rightDriveFront = null;
     private DcMotor leftDriveFront = null;
 
-    public RobotWheels(LinearOpMode opMode) {
+    public TankDriveTrain(LinearOpMode opMode)
+    {
         super(opMode);
     }
 
-    private Drivetrain drivetrain;
 
     @Override
     public void init() {
-        drivetrain = new Drivetrain(hardwareMap);
 
         leftDriveBack = hardwareMap.dcMotor.get(BACKLEFT_WHEEL_NAME);
         rightDriveBack = hardwareMap.dcMotor.get(BACKRIGHT_WHEEL_NAME);
@@ -107,68 +88,42 @@ public class RobotWheels extends RobotComponentImplBase {
         // run until the end of the match (driver presses STOP)
         //while (opModeIsActive()) {
 
-        // Setup a variable for each drive wheel to save power level for telemetry
-        double leftPower;
-        double rightPower;
+            // Setup a variable for each drive wheel to save power level for telemetry
+            double leftPower;
+            double rightPower;
 
-        // Choose to drive using either Tank Mode, or POV Mode
-        // Comment out the method that's not used.  The default below is POV.
+            // Choose to drive using either Tank Mode, or POV Mode
+            // Comment out the method that's not used.  The default below is POV.
 
-        // POV Mode uses left stick to go forward, and right stick to turn.
-        // - This uses basic math to combine motions and is easier to drive straight.
-        double drive = -gamepad1.left_stick_y;
-        double turn = gamepad1.right_stick_x;
-        leftPower = Range.clip(drive + turn, -1.0, 1.0);
-        rightPower = Range.clip(drive - turn, -1.0, 1.0);
+            // POV Mode uses left stick to go forward, and right stick to turn.
+            // - This uses basic math to combine motions and is easier to drive straight.
+            double drive = -gamepad1.left_stick_y;
+            double turn  =  gamepad1.right_stick_x;
+            leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
+            rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
 
-        // Tank Mode uses one stick to control each wheel.
-        // - This requires no math, but it is hard to drive forward slowly and keep straight.
-        // leftPower  = -gamepad1.left_stick_y ;
-        // rightPower = -gamepad1.right_stick_y ;
+            // Tank Mode uses one stick to control each wheel.
+            // - This requires no math, but it is hard to drive forward slowly and keep straight.
+            // leftPower  = -gamepad1.left_stick_y ;
+            // rightPower = -gamepad1.right_stick_y ;
 
-        // Send calculated power to wheels
+            // Send calculated power to wheels
 
         /*leftDriveBack.setPower(leftPower);
             rightDriveBack.setPower(rightPower);
         leftDriveFront.setPower(leftPower);
         rightDriveFront.setPower(rightPower);
 */
-        //mechanumTeleOp(gamepad1.left_stick_x,gamepad1.left_stick_y,-gamepad1.right_stick_x);        // Initialize the hardware variables. Note that the strings used here as parameters
-        //while (opModeIsActive()) {
+        mechanumTeleOp(gamepad1.left_stick_x,gamepad1.left_stick_y,-gamepad1.right_stick_x);        // Initialize the hardware variables. Note that the strings used here as parameters
 
-            drivetrain.setMinimumMotorPower(0.05);
+        // Show the elapsed game time and wheel power.
 
-            if ((-gamepad1.left_stick_y < 0) == (-gamepad1.right_stick_y) < 0) {
-                drivetrain.setPower(-gamepad1.left_stick_y * SLOW_DRIVE_SCALAR, -gamepad1.right_stick_y * SLOW_DRIVE_SCALAR);
-            } else
-                drivetrain.setPower(-gamepad1.left_stick_y * SLOW_DRIVE_SCALAR * TURNING_SCALAR, -gamepad1.right_stick_y * SLOW_DRIVE_SCALAR * TURNING_SCALAR);
         //}
-        //Drivetrain at regular speed.
-
-
-
-        else {
-        drivetrain.setMinimumMotorPower(0.3);
-
-        if((-gamepad1.left_stick_y < 0) == (-gamepad1.right_stick_y) < 0)
-        {
-            drivetrain.setPower(-gamepad1.left_stick_y, -gamepad1.right_stick_y);
-        }
-        else
-        {
-            drivetrain.setPower(-gamepad1.left_stick_y * TURNING_SCALAR, -gamepad1.right_stick_y * TURNING_SCALAR);
-        }
-
-
-
-
     }
-    // Show the elapsed game time and wheel power.
-
-    //}
 
 
-    public void mechanumTeleOp(double x, double y, double rotation) {
+    public void mechanumTeleOp(double x, double y, double rotation)
+    {
         double wheelSpeeds[] = new double[4];
 
         wheelSpeeds[0] = x + y + rotation;
@@ -184,27 +139,84 @@ public class RobotWheels extends RobotComponentImplBase {
         rightDriveFront.setPower(wheelSpeeds[3]);
     }   //mecanumDrive_Cartesian
 
-    private void normalize(double[] wheelSpeeds) {
+    private void normalize(double[] wheelSpeeds)
+    {
         double maxMagnitude = Math.abs(wheelSpeeds[0]);
 
-        for (int i = 1; i < wheelSpeeds.length; i++) {
+        for (int i = 1; i < wheelSpeeds.length; i++)
+        {
             double magnitude = Math.abs(wheelSpeeds[i]);
 
-            if (magnitude > maxMagnitude) {
+            if (magnitude > maxMagnitude)
+            {
                 maxMagnitude = magnitude;
             }
         }
 
-        if (maxMagnitude > 0.75) {
-            for (int i = 0; i < wheelSpeeds.length; i++) {
+        if (maxMagnitude > 0.75)
+        {
+            for (int i = 0; i < wheelSpeeds.length; i++)
+            {
                 wheelSpeeds[i] /= maxMagnitude;
             }
         }
-        //normalize
+    }   //normalize
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+         if(isSlowDriveActivated(gamepad1) && !isManualOverrideEnabled(gamepad1)) {
+        drivetrain.setMinimumMotorPower(0.05);
+
+        if((-gamepad1.left_stick_y < 0) == (-gamepad1.right_stick_y) < 0) drivetrain.setPower(-gamepad1.left_stick_y * SLOW_DRIVE_SCALAR, -gamepad1.right_stick_y * SLOW_DRIVE_SCALAR);
+        else drivetrain.setPower(-gamepad1.left_stick_y * SLOW_DRIVE_SCALAR * TURNING_SCALAR, -gamepad1.right_stick_y * SLOW_DRIVE_SCALAR * TURNING_SCALAR);
+    }
+    //Drivetrain at regular speed.
+        else {
+        drivetrain.setMinimumMotorPower(0.3);
+
+        if((-gamepad1.left_stick_y < 0) == (-gamepad1.right_stick_y) < 0) drivetrain.setPower(-gamepad1.left_stick_y, -gamepad1.right_stick_y);
+        else drivetrain.setPower(-gamepad1.left_stick_y * TURNING_SCALAR, -gamepad1.right_stick_y * TURNING_SCALAR);
     }
 }
+
+
+
+*/
+
+
+
+
+
+
+
+ }
 
 
 

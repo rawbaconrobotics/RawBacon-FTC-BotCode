@@ -1,11 +1,10 @@
-package org.firstinspires.ftc.teamcode.BigDipper.RobotComponents;
+package org.firstinspires.ftc.teamcode.TANK;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.BigDipper.Robot;
 
-public abstract class BaseLinearOpMode extends LinearOpMode
+public abstract class TankLinearOpMode extends LinearOpMode
 {
     protected Robot robot;
 

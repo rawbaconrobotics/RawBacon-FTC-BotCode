@@ -6,9 +6,13 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class FergBot {
     FergieWheels wheels;
     FergieArm arm;
-    public FergBot(HardwareMap mappy){
-        wheels = new FergieWheels(mappy);
-        arm = new FergieArm(mappy);
+    public FergBot(){
+        wheels = new FergieWheels();
+        arm = new FergieArm();
+    }
+    public void init(HardwareMap mappy){
+        wheels.init(mappy);
+        arm.init(mappy);
     }
     public void resetEncoders () {
         wheels.resetEncoders();

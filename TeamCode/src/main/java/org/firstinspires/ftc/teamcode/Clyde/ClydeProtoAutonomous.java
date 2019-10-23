@@ -57,23 +57,24 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Test Autonomous", group="Clyde")
+@Autonomous(name="Clyde Test Auto", group="Clyde")
 
 public class ClydeProtoAutonomous extends LinearOpMode {
 
     //Create Clyde
-    FergBot clyde   = new FergBot(hardwareMap);
-    //private ElapsedTime   runtime = new ElapsedTime();
+    FergBot clyde  = new FergBot();
+    private ElapsedTime   runtime = new ElapsedTime();
 
 
     @Override
     public void runOpMode() {
 
+        // Send telemetry message to signify robot works
+        telemetry.addData("Status", "Alive");
+        telemetry.update();
 
-        // Send telemetry message to signify robot waiting;
-        //telemetry.addData("Status", "Resetting Encoders");
-        //telemetry.update();
-
+        //Map all of the motors/servos and reset encoders
+        clyde.init(hardwareMap);
         clyde.resetEncoders();
 
         // Send telemetry message to indicate successful Encoder reset
@@ -87,13 +88,12 @@ public class ClydeProtoAutonomous extends LinearOpMode {
 
 
         // Movements:
-        //Move forward
-        //turn toward bridge
-        //Move forward until under bridge
+        //MOVE
 
-        clyde.wheels.driveFor(1, 1);  //Change distance
-        clyde.wheels.turnFor(90, 1);       //Change angle sign
-        clyde.wheels.driveFor(5, 1); //Change distance
+        runtime.reset();
+        clyde.wheels.drive(0.5);
+        while(opModeIsActive() && runtime.seconds() < 3.00){}
+        clyde.wheels.drive(0);
 
         sleep(1000);     // pause for servos to move
 

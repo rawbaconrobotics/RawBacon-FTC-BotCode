@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Clyde;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.Hardware;
 
 public class FergieArm {
     private Servo rightClaw; //Declare right servo of claw
@@ -25,7 +26,11 @@ public class FergieArm {
     private final double ARM_SPEED_MULT = 0.5;
 
     //Class constructor
-    public FergieArm(HardwareMap mappy){
+    public FergieArm(){
+
+    }
+    //Map all of the motors/servos
+    public void init(HardwareMap mappy){
         rightClaw = mappy.get(Servo.class, RIGHT_CLAW_NAME);
         leftClaw = mappy.get(Servo.class, LEFT_CLAW_NAME);
         arm = mappy.get(DcMotor.class, ARM_MOTOR_NAME);

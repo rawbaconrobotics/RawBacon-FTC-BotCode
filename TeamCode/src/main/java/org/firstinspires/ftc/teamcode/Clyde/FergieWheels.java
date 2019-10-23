@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 //Class is designed to handle driving/turning in opmodes for Fergie's robot design
                           //Trying out interfaces
-public class FergieWheels implements WheelMethods {
+public class FergieWheels/* implements WheelMethods */{
 
     private static final double   COUNTS_PER_MOTOR_REV    = 1440;
     private static final double   DRIVE_GEAR_REDUCTION    = 1.0;
@@ -39,10 +39,13 @@ public class FergieWheels implements WheelMethods {
     private final String DRIVE_NAME = "driver_motor";
 
     //Class constructor
-    public FergieWheels(HardwareMap mappy){
-        turner1 = mappy.get(DcMotor.class, TURN_NAME);
-        turner2 = mappy.get(DcMotor.class, TURN_NAME_2);
-        driver = mappy.get(DcMotor.class, DRIVE_NAME);
+    public FergieWheels(){
+    }
+
+    public void init(HardwareMap mappy){
+        turner1 = mappy.dcMotor.get(TURN_NAME);
+        turner2 = mappy.dcMotor.get(TURN_NAME_2);
+        driver = mappy.dcMotor.get(DRIVE_NAME);
         turner1.setPower(0);
         turner2.setPower(0);
         driver.setPower(0);

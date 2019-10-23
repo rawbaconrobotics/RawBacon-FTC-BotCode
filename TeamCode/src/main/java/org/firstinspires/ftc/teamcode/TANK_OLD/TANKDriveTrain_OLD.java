@@ -1,11 +1,10 @@
-package org.firstinspires.ftc.teamcode.TANK;
+package org.firstinspires.ftc.teamcode.TANK_OLD;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-public class TANKDriveTrain{
+public class TANKDriveTrain_OLD {
     public OpMode opmode;
     public DcMotor rightFrontDrive;
     public DcMotor rightBackDrive;
@@ -15,7 +14,7 @@ public class TANKDriveTrain{
     final private double STRAIGHT = 1440/(4*Math.PI);
     final private double ROT = STRAIGHT*16.5*Math.PI/360;
 
-    public TANKDriveTrain(HardwareMap map){
+    public TANKDriveTrain_OLD(HardwareMap map){
         mappy = map;
     }
     public void hwMap(){
