@@ -14,9 +14,6 @@ dependencies {
     /*
      * Other Modules
      */
-
-    implementation 'com.github.dogecv:dogecv:2020.2-alpha'
-
     implementation project(':FtcRobotController')
 
     turboImplementation project(':Hardware')
