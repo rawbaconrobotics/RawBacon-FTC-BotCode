@@ -33,12 +33,13 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+
+import static org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.RobotWheels.FRONTLEFT_WHEEL_NAME;
 
 
 /**
@@ -54,12 +55,26 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-public class RobotWheels extends RobotComponentImplBase {
+public class RobotWheelsTest extends RobotComponentImplBase {
+    final double WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT = 0.8;
+    final double WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT = 15;
+    final double WHEEL_ACCEL_SPEED_PER_SECOND_TURNING = 15;
+    final double WHEEL_DECEL_SPEED_PER_SECOND_TURNING = 15;
+    final double WHEEL_MINIMUM_POWER = 0.3; //Allows for deadband compensation.
+    final double WHEEL_MAXIMUM_POWER = 1.0;
 
-    public final static String FRONTRIGHT_WHEEL_NAME = "right_drive_front";
-    public final static String FRONTLEFT_WHEEL_NAME = "left_drive_front";
-    public final static String BACKRIGHT_WHEEL_NAME = "right_drive_back";
-    public final static String BACKLEFT_WHEEL_NAME = "left_drive_back";
+    public DcMotorAccelerationThread wheelAccelerationThread = new DcMotorAccelerationThread();
+    DcMotorAccelerated accLeftDriveFront = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
+    DcMotorAccelerated accLeftDriveBack = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(BACKLEFT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
+    DcMotorAccelerated accRightDriveFront = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(FRONTRIGHT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
+    DcMotorAccelerated accRightDriveBack = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(BACKRIGHT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
+
+
+
+    private final static String FRONTRIGHT_WHEEL_NAME = "right_drive_front";
+    private final static String FRONTLEFT_WHEEL_NAME = "left_drive_front";
+    private final static String BACKRIGHT_WHEEL_NAME = "right_drive_back";
+    private final static String BACKLEFT_WHEEL_NAME = "left_drive_back";
 
     private static final double SLOW_DRIVE_SCALAR = 0.2;
     private static final double STICK_DIGITAL_THRESHOLD = 0.25;
@@ -73,7 +88,7 @@ public class RobotWheels extends RobotComponentImplBase {
     private DcMotor rightDriveFront = null;
     private DcMotor leftDriveFront = null;
 
-    public RobotWheels(LinearOpMode opMode) {
+    public RobotWheelsTest(LinearOpMode opMode) {
         super(opMode);
     }
 
@@ -90,6 +105,8 @@ public class RobotWheels extends RobotComponentImplBase {
 
     }
 
+
+
     public void wheelsTeleOp() {
 
         // to 'get' must correspond to the names assigned during the robot configuration
@@ -101,6 +118,11 @@ public class RobotWheels extends RobotComponentImplBase {
         rightDriveFront.setDirection(DcMotor.Direction.FORWARD);
         leftDriveBack.setDirection(DcMotor.Direction.REVERSE);
         rightDriveBack.setDirection(DcMotor.Direction.FORWARD);
+
+        leftDriveFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftDriveBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightDriveFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightDriveBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Wait for the game to start (driver presses PLAY)
         //waitForStart();
@@ -135,31 +157,29 @@ public class RobotWheels extends RobotComponentImplBase {
         leftDriveFront.setPower(leftPower);
         rightDriveFront.setPower(rightPower);
 */
+        mechanumTeleOp(gamepad1.left_stick_x,gamepad1.left_stick_y,-gamepad1.right_stick_x);        // Initialize the hardware variables. Note that the strings used here as parameters
+        //while (opModeIsActive()) {
 
 
 
-}
 
 
 
-    private boolean isManualOverrideEnabled(Gamepad aGamepad) {
-        return (aGamepad.b);
     }
-
-    private boolean isSlowDriveActivated(Gamepad aGamepad) {
-        return (aGamepad.left_trigger > STICK_DIGITAL_THRESHOLD || aGamepad.right_trigger > STICK_DIGITAL_THRESHOLD);
-    }
-
-
-
-
     // Show the elapsed game time and wheel power.
 
     //}
 
-
     public void mechanumTeleOp(double x, double y, double rotation) {
         double wheelSpeeds[] = new double[4];
+
+
+
+        wheelAccelerationThread.addMotor(accLeftDriveFront);
+        wheelAccelerationThread.addMotor(accLeftDriveBack);
+        wheelAccelerationThread.addMotor(accRightDriveFront);
+        wheelAccelerationThread.addMotor(accRightDriveBack);
+        wheelAccelerationThread.start();
 
         wheelSpeeds[0] = x + y + rotation;
         wheelSpeeds[1] = -x + y - rotation;
@@ -168,10 +188,11 @@ public class RobotWheels extends RobotComponentImplBase {
 
         normalize(wheelSpeeds);
 
-        //leftDriveBack.setPower(wheelSpeeds[0]);
-        //rightDriveBack.setPower(wheelSpeeds[1]);
-        //leftDriveFront.setPower(wheelSpeeds[2]);
-        //rightDriveFront.setPower(wheelSpeeds[3]);
+        accLeftDriveBack.setTargetPower(wheelSpeeds[0]);
+        accRightDriveBack.setTargetPower(wheelSpeeds[1]);
+        accLeftDriveFront.setTargetPower(wheelSpeeds[2]);
+        accRightDriveFront.setTargetPower(wheelSpeeds[3]);
+
     }   //mecanumDrive_Cartesian
 
     private void normalize(double[] wheelSpeeds) {
@@ -194,6 +215,12 @@ public class RobotWheels extends RobotComponentImplBase {
 
 
     }
+
+
+    public void stopDrive(){
+        wheelAccelerationThread.stop();
+    }
+
 }
 
 
