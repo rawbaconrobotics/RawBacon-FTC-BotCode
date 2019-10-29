@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BaseLinearOpMode;
-import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.RobotWheelsTest;
+import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.RobotWheels;
 
 import static org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BDLatch.latchButton;
 
@@ -16,7 +16,7 @@ import static org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BDLatch.l
 public class SomeOpMode extends BaseLinearOpMode
 {
     private ElapsedTime runtime = new ElapsedTime();
-    RobotWheelsTest robotWheelsTest;
+    RobotWheels robotWheels;
 
     @Override
     public void run()
@@ -37,7 +37,7 @@ public class SomeOpMode extends BaseLinearOpMode
             robot.teleOpActivated();
 
         }
-        robotWheelsTest.stopDrive();
+        //robotWheelsTest.stopDrive();
     }
 
 

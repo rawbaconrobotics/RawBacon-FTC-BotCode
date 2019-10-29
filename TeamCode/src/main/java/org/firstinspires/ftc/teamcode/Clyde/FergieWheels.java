@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Clyde;
 
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -37,18 +38,32 @@ public class FergieWheels/* implements WheelMethods */{
     private final String TURN_NAME = "turner_motor_1";
     private final String TURN_NAME_2 = "turner_motor_2";
     private final String DRIVE_NAME = "driver_motor";
+    private LinearOpMode opper;
+    private boolean hasOpMode = false;
 
-    //Class constructor
-    public FergieWheels(){
-    }
-
-    public void init(HardwareMap mappy){
+    //Maps wheel motors/servos
+    public void init(HardwareMap mappy) {
         turner1 = mappy.dcMotor.get(TURN_NAME);
         turner2 = mappy.dcMotor.get(TURN_NAME_2);
         driver = mappy.dcMotor.get(DRIVE_NAME);
         turner1.setPower(0);
         turner2.setPower(0);
         driver.setPower(0);
+    }
+    //FergieWheels class can be set to have an opMode
+    public void init(HardwareMap Goodone, LinearOpMode Betterone){
+        init(Goodone);
+        opper = Betterone;
+        hasOpMode = true;
+    }
+    //Returns true if the current opMode is active or there isn't an opMode
+    private boolean opModeIsActivate(){
+        if(hasOpMode){
+            return opper.opModeIsActive();
+        }
+        else{
+            return true;
+        }
     }
 
     //Set speeds of turning or driving motors
@@ -70,7 +85,7 @@ public class FergieWheels/* implements WheelMethods */{
         driver.setTargetPosition(targetDist);
         driver.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         drive(speed);
-        while(driver.isBusy()){}
+        while(driver.isBusy() && opModeIsActivate()){}
         drive(0);
         driver.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
@@ -87,7 +102,7 @@ public class FergieWheels/* implements WheelMethods */{
         turner2.setTargetPosition(targetDist2);
         turner2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         turn(speed);
-        while(turner1.isBusy() || turner2.isBusy()){} //Change?
+        while((turner1.isBusy() || turner2.isBusy()) && opModeIsActivate()){}
         turn(0);
         turner1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         turner2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

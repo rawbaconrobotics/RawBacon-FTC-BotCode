@@ -7,22 +7,25 @@ public class Tank {
     public TankDriveTrain drive;
 
 
-
-
-    public void teleOpActivated(){
+    public void teleOpActivated() {
         //Activate wheels for opmode
-    drive.wheelsTeleOp();
-
-
+        drive.wheelsTeleOp();
 
 
     }
 
- public Tank(LinearOpMode opMode)
- {
-     drive = new TankDriveTrain(opMode);
-     drive.init();
+    public void driveForward(double distance, double speed){
+        drive.encoderDrive(distance, speed, speed, speed, speed);
+    }
 
- }
+    public void strafeRight(double distance, double speed){
+        drive.encoderDrive(distance, speed, -speed, -speed, speed);
+    }
+
+    public Tank(LinearOpMode opMode) {
+        drive = new TankDriveTrain(opMode);
+        drive.init();
+
+    }
 }
 

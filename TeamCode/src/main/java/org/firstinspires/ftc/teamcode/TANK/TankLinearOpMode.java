@@ -2,17 +2,17 @@ package org.firstinspires.ftc.teamcode.TANK;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.BigDipper.Robot;
+import org.firstinspires.ftc.teamcode.TANK.Tank;
 
 public abstract class TankLinearOpMode extends LinearOpMode
 {
-    protected Robot robot;
+    protected Tank robot;
 
     @Override
     public final void runOpMode() throws InterruptedException
     {
 
-        robot = new Robot(this);
+        robot = new Tank(this);
         run();
 
     }
