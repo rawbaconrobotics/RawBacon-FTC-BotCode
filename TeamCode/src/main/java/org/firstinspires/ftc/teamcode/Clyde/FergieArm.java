@@ -20,9 +20,9 @@ public class FergieArm {
     private final double LEFT_CLOSED_POSITION = 6;
     private final double RIGHT_CLOSED_POSITION = 6;
     //Both of these are encoder counts
-    private final double ARM_LOWER_BOUND = 0;
-    private final double ARM_UPPER_BOUND = 6;
-    //
+    private final double ARM_LOWER_BOUND = 100;
+    private final double ARM_UPPER_BOUND = 600;
+    //Force the arm to move at half speed
     private final double ARM_SPEED_MULT = 0.5;
 
     //Class constructor

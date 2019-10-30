@@ -4,7 +4,7 @@ package org.firstinspires.ftc.teamcode.TANK;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name="TankAutoBlue", group="Tank")
+@Autonomous(name="TankAutoRed", group="Tank")
 public class TankAutoRed extends TankLinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -15,6 +15,7 @@ public class TankAutoRed extends TankLinearOpMode {
         robot.driveForward(70, -0.6);
         robot.strafeRight(15, -0.6);
         robot.driveForward(50,0.6);
+        robot.strafeRight(33, 0.6);
     }
 
 }

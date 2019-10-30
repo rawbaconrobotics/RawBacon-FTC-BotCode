@@ -22,11 +22,10 @@ public class SomeOpMode extends BaseLinearOpMode
     public void run()
     {
         waitForStart();
+        runtime.reset();
 
 
 
-        //robot = new Tank();
-        //no not need to re-initialize robot
 
         runtime.reset();
         telemetry.addData("Runtime Reset", "Complete");

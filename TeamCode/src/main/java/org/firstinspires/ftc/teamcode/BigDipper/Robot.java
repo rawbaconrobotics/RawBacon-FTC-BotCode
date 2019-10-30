@@ -30,7 +30,7 @@ public class Robot {
 
     public void teleOpActivated(){
         //Activate wheels for opmode
-    robotWheels.wheelsTeleOp();
+    robotWheelsTest.wheelsTeleOp();
 
     //Activate distance sensor for opmode
 

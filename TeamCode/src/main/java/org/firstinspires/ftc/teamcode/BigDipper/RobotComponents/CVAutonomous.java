@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.BigDipper.RobotComponents;
 
 import com.disnodeteam.dogecv.detectors.skystone.SkystoneDetector;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -16,7 +17,7 @@ import java.util.Locale;
  * Original Work Copright(c) 2019 OpenFTC Team
  * Derived Work Copyright(c) 2019 DogeDevs
  */
-@TeleOp(name="autonomous cv", group="DogeCV")
+@Autonomous(name="autonomous cv", group="DogeCV")
 
 public class CVAutonomous extends LinearOpMode {
     private OpenCvCamera phoneCam;

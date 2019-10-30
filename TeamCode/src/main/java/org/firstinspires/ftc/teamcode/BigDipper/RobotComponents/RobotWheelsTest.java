@@ -112,6 +112,12 @@ public class RobotWheelsTest extends RobotComponentImplBase {
         rightDriveFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightDriveBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        wheelAccelerationThread.addMotor(accLeftDriveFront);
+        wheelAccelerationThread.addMotor(accLeftDriveBack);
+        wheelAccelerationThread.addMotor(accRightDriveFront);
+        wheelAccelerationThread.addMotor(accRightDriveBack);
+        wheelAccelerationThread.start();
+
     }
 
 
@@ -158,16 +164,9 @@ public class RobotWheelsTest extends RobotComponentImplBase {
         leftDriveFront.setPower(leftPower);
         rightDriveFront.setPower(rightPower);
 */
-        if(DONT_RESET_RUNTIME = false){
-                runtime.reset();
-                wheelAccelerationThread.addMotor(accLeftDriveFront);
-                wheelAccelerationThread.addMotor(accLeftDriveBack);
-                wheelAccelerationThread.addMotor(accRightDriveFront);
-                wheelAccelerationThread.addMotor(accRightDriveBack);
-                wheelAccelerationThread.start();
-        }
-        DONT_RESET_RUNTIME = true;
-            
+
+
+
         mechanumTeleOp(gamepad1.left_stick_x,gamepad1.left_stick_y,-gamepad1.right_stick_x);        // Initialize the hardware variables. Note that the strings used here as parameters
         //while (opModeIsActive()) {
 

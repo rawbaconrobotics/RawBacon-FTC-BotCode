@@ -5,11 +5,13 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 public class Tank {
     //Initialize new components
     public TankDriveTrain drive;
+    public TankArmAndClaw latch;
 
 
     public void teleOpActivated() {
         //Activate wheels for opmode
         drive.wheelsTeleOp();
+        latch.moveLatch();
 
 
     }
@@ -24,7 +26,9 @@ public class Tank {
 
     public Tank(LinearOpMode opMode) {
         drive = new TankDriveTrain(opMode);
+        latch = new TankArmAndClaw(opMode);
         drive.init();
+        latch.init();
 
     }
 }

@@ -39,9 +39,12 @@ import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.RobotComponentIm
 public class TankArmAndClaw extends RobotComponentImplBase{
 
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor tankArm = null;
-    private Servo tankClaw = null;
-
+    //private DcMotor tankArm = null;
+    //private Servo tankClaw = null;
+    private Servo tankLatch = null;
+    public boolean latchPosition = true;
+    double latchOpen  = 0.9;
+    double latchClosed = 0.2;
 
     public TankArmAndClaw(LinearOpMode opMode)
     {
@@ -53,13 +56,15 @@ public class TankArmAndClaw extends RobotComponentImplBase{
 
     public void init(){
 
-        tankArm = hardwareMap.dcMotor.get("tank+_arm");
-        tankClaw = hardwareMap.servo.get("tank_claw");
+        //tankArm = hardwareMap.dcMotor.get("tank+_arm");
+        //tankClaw = hardwareMap.servo.get("tank_claw");
+        tankLatch = hardwareMap.servo.get("tank_latch");
+
 
     }
 
 
-    public void moveArm (){
+    /*public void moveArm (){
 
         double armSpeed = 1;
 
@@ -75,9 +80,32 @@ public class TankArmAndClaw extends RobotComponentImplBase{
     }
 
 
-    public void moveClaw(){
+    /*public void moveClaw(){
 
         tankClaw.setPosition(gamepad2.left_stick_y/2 + 0.5);
+
+    }
+    */
+
+    public void moveLatch (){
+
+        if (gamepad2.a && latchPosition) {
+            tankLatch.setPosition(latchClosed);
+            latchPosition = false;
+        }
+        else if (gamepad2.a && !latchPosition){
+                tankLatch.setPosition(latchOpen);
+                latchPosition = true;
+            }
+        if (gamepad2.x) {
+            tankLatch.setPosition(latchClosed);
+
+
+        }
+        if(gamepad2.y){
+            tankLatch.setPosition(latchOpen);
+        }
+
 
     }
 }
