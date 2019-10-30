@@ -62,7 +62,7 @@ public class RobotWheelsTest extends RobotComponentImplBase {
     final double WHEEL_DECEL_SPEED_PER_SECOND_TURNING = 15;
     final double WHEEL_MINIMUM_POWER = 0.3; //Allows for deadband compensation.
     final double WHEEL_MAXIMUM_POWER = 1.0;
-    public static boolean DONT_RESET_RUNTIME = false
+    public static boolean DONT_RESET_RUNTIME = false;
 
     public DcMotorAccelerationThread wheelAccelerationThread = new DcMotorAccelerationThread();
     DcMotorAccelerated accLeftDriveFront = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
@@ -166,7 +166,7 @@ public class RobotWheelsTest extends RobotComponentImplBase {
                 wheelAccelerationThread.addMotor(accRightDriveBack);
                 wheelAccelerationThread.start();
         }
-        DONT_RESET_RUNTIME = true
+        DONT_RESET_RUNTIME = true;
             
         mechanumTeleOp(gamepad1.left_stick_x,gamepad1.left_stick_y,-gamepad1.right_stick_x);        // Initialize the hardware variables. Note that the strings used here as parameters
         //while (opModeIsActive()) {
