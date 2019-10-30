@@ -92,7 +92,6 @@ public class RobotWheelsTest extends RobotComponentImplBase {
         super(opMode);
     }
 
-    private Drivetrain drivetrain;
 
     @Override
     public void init() {
