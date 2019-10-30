@@ -62,6 +62,7 @@ public class RobotWheelsTest extends RobotComponentImplBase {
     final double WHEEL_DECEL_SPEED_PER_SECOND_TURNING = 15;
     final double WHEEL_MINIMUM_POWER = 0.3; //Allows for deadband compensation.
     final double WHEEL_MAXIMUM_POWER = 1.0;
+    public static boolean DONT_RESET_RUNTIME = false
 
     public DcMotorAccelerationThread wheelAccelerationThread = new DcMotorAccelerationThread();
     DcMotorAccelerated accLeftDriveFront = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
@@ -101,6 +102,15 @@ public class RobotWheelsTest extends RobotComponentImplBase {
         leftDriveFront = hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME);
         rightDriveFront = hardwareMap.dcMotor.get(FRONTRIGHT_WHEEL_NAME);
 
+        leftDriveFront.setDirection(DcMotor.Direction.REVERSE);
+        rightDriveFront.setDirection(DcMotor.Direction.FORWARD);
+        leftDriveBack.setDirection(DcMotor.Direction.REVERSE);
+        rightDriveBack.setDirection(DcMotor.Direction.FORWARD);
+
+        leftDriveFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftDriveBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightDriveFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightDriveBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
     }
 
@@ -113,19 +123,11 @@ public class RobotWheelsTest extends RobotComponentImplBase {
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
-        leftDriveFront.setDirection(DcMotor.Direction.REVERSE);
-        rightDriveFront.setDirection(DcMotor.Direction.FORWARD);
-        leftDriveBack.setDirection(DcMotor.Direction.REVERSE);
-        rightDriveBack.setDirection(DcMotor.Direction.FORWARD);
-
-        leftDriveFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        leftDriveBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightDriveFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightDriveBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+       
 
         // Wait for the game to start (driver presses PLAY)
         //waitForStart();
-        runtime.reset();
+        //runtime.reset();
 
         // run until the end of the match (driver presses STOP)
         //while (opModeIsActive()) {
@@ -156,6 +158,16 @@ public class RobotWheelsTest extends RobotComponentImplBase {
         leftDriveFront.setPower(leftPower);
         rightDriveFront.setPower(rightPower);
 */
+        if(DONT_RESET_RUNTIME = false){
+                runtime.reset();
+                wheelAccelerationThread.addMotor(accLeftDriveFront);
+                wheelAccelerationThread.addMotor(accLeftDriveBack);
+                wheelAccelerationThread.addMotor(accRightDriveFront);
+                wheelAccelerationThread.addMotor(accRightDriveBack);
+                wheelAccelerationThread.start();
+        }
+        DONT_RESET_RUNTIME = true
+            
         mechanumTeleOp(gamepad1.left_stick_x,gamepad1.left_stick_y,-gamepad1.right_stick_x);        // Initialize the hardware variables. Note that the strings used here as parameters
         //while (opModeIsActive()) {
 
@@ -174,11 +186,7 @@ public class RobotWheelsTest extends RobotComponentImplBase {
 
 
 
-        wheelAccelerationThread.addMotor(accLeftDriveFront);
-        wheelAccelerationThread.addMotor(accLeftDriveBack);
-        wheelAccelerationThread.addMotor(accRightDriveFront);
-        wheelAccelerationThread.addMotor(accRightDriveBack);
-        wheelAccelerationThread.start();
+
 
         wheelSpeeds[0] = x + y + rotation;
         wheelSpeeds[1] = -x + y - rotation;
