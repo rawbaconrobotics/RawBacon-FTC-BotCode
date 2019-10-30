@@ -61,10 +61,6 @@ public class RobotWheels extends RobotComponentImplBase {
     public final static String BACKRIGHT_WHEEL_NAME = "right_drive_back";
     public final static String BACKLEFT_WHEEL_NAME = "left_drive_back";
 
-    private static final double SLOW_DRIVE_SCALAR = 0.2;
-    private static final double STICK_DIGITAL_THRESHOLD = 0.25;
-    private static final double TURNING_SCALAR = 0.875;
-
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -77,7 +73,6 @@ public class RobotWheels extends RobotComponentImplBase {
         super(opMode);
     }
 
-    private Drivetrain drivetrain;
 
     @Override
     public void init() {
@@ -127,6 +122,7 @@ public class RobotWheels extends RobotComponentImplBase {
         // - This requires no math, but it is hard to drive forward slowly and keep straight.
         // leftPower  = -gamepad1.left_stick_y ;
         // rightPower = -gamepad1.right_stick_y ;
+        mechanumTeleOp(gamepad1.left_stick_x,gamepad1.left_stick_y,-gamepad1.right_stick_x);
 
         // Send calculated power to wheels
 
@@ -142,13 +138,6 @@ public class RobotWheels extends RobotComponentImplBase {
 
 
 
-    private boolean isManualOverrideEnabled(Gamepad aGamepad) {
-        return (aGamepad.b);
-    }
-
-    private boolean isSlowDriveActivated(Gamepad aGamepad) {
-        return (aGamepad.left_trigger > STICK_DIGITAL_THRESHOLD || aGamepad.right_trigger > STICK_DIGITAL_THRESHOLD);
-    }
 
 
 
@@ -168,10 +157,10 @@ public class RobotWheels extends RobotComponentImplBase {
 
         normalize(wheelSpeeds);
 
-        //leftDriveBack.setPower(wheelSpeeds[0]);
-        //rightDriveBack.setPower(wheelSpeeds[1]);
-        //leftDriveFront.setPower(wheelSpeeds[2]);
-        //rightDriveFront.setPower(wheelSpeeds[3]);
+        leftDriveBack.setPower(wheelSpeeds[0]);
+        rightDriveBack.setPower(wheelSpeeds[1]);
+        leftDriveFront.setPower(wheelSpeeds[2]);
+        rightDriveFront.setPower(wheelSpeeds[3]);
     }   //mecanumDrive_Cartesian
 
     private void normalize(double[] wheelSpeeds) {
