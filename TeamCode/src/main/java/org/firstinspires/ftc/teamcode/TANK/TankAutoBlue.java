@@ -12,10 +12,14 @@ public class TankAutoBlue extends TankLinearOpMode {
     public void run(){
         waitForStart();
 
-        robot.driveForward(70, -0.6);
-        robot.strafeRight(15, 0.6);
-        robot.driveForward(50,0.6);
-        robot.strafeRight(33, -0.6);
+        robot.driveForward(75, -0.6);
+        robot.turnLeft(90, 0.6);
+        robot.driveForward(21.25, 0.6);
+        robot.turnRight(90, 0.6);
+        robot.driveForward(55,0.6);
+        robot.driveForward(5, -0.6);
+        robot.turnRight(90, 0.6);
+        robot.driveForward(35, 0.6);
     }
 
 }

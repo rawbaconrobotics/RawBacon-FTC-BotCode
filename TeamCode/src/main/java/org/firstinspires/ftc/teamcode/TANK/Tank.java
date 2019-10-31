@@ -23,6 +23,12 @@ public class Tank {
     public void strafeRight(double distance, double speed){
         drive.encoderDrive(distance, speed, -speed, -speed, speed);
     }
+    public void turnRight(double degrees, double speed){
+        drive.encoderDrive(degrees*(15/90), speed, speed, -speed, -speed);
+    }
+    public void turnLeft(double degrees, double speed){
+        drive.encoderDrive(degrees*(15/90), -speed, -speed, speed, speed);
+    }
 
     public Tank(LinearOpMode opMode) {
         drive = new TankDriveTrain(opMode);
