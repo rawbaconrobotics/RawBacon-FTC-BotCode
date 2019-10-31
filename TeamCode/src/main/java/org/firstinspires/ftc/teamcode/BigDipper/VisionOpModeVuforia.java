@@ -47,7 +47,7 @@ public class VisionOpModeVuforia extends LinearOpMode {
      * Once you've obtained a license key, copy the string from the Vuforia web site
      * and paste it in to your code on the next line, between the double quotes.
      */
-    private static final String VUFORIA_KEY = "";
+    private static final String VUFORIA_KEY = "AR4SUKv/////AAABmfJT0mdDL0ZXm77n6pwEjSAl/uY9odgICh+X3rkIRm97PKW8lGA3hifS2szUrRWrTaWJQ6HfFtNMhZqB8LLhJhV7dBcTxJ/EPJ9jrfU3STZuHUUnQkUgAPqUI1Qou+oCUVkoIU95B5A93sRik42Mc1q9mxr8kdbHw3QiZdnwS84gUC5KTeb/qSOialhFe1dYgRJpVyn/kEJSqiZrGGx24xcDA2n6OmO+3M4D8vOjEw6337Z+TzXXVy3NWj/jNW7TxP8VRt1scu9sEZ3DE7IOHgZHw2byS2INBtrT/yN1cpp2mT6Ffe61Kq3wazvkQEII1wEdRGeAAE9z+toUdUMepCAmi4BmZnP7kOg/RJkO3dN5";
     // Since ImageTarget trackables use mm to specifiy their dimensions, we must use mm for all the physical dimension.
     // We will define some constants and conversions here
     private static final float mmPerInch        = 25.4f;
@@ -88,7 +88,7 @@ public class VisionOpModeVuforia extends LinearOpMode {
     @Override
     public void runOpMode() {
         p = new VisionPipeline();
-        // webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
+        webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
 
         /*
          * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
