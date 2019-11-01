@@ -119,10 +119,10 @@ public class VisionOpModeVuforia extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            if (gamepad1.a)
+      /*      if (gamepad1.a)
                 shouldWrite = true;
             else
-                shouldWrite = false;
+                shouldWrite = false; */
             VuforiaLocalizer.CloseableFrame vuFrame = null;
             if (!vuforia.getFrameQueue().isEmpty()) {
                 try {
@@ -139,7 +139,7 @@ public class VisionOpModeVuforia extends LinearOpMode {
                         Bitmap bm = Bitmap.createBitmap(img.getWidth(), img.getHeight(), Bitmap.Config.RGB_565);
                         bm.copyPixelsFromBuffer(img.getPixels());
                         Mat mat = bitmapToMat(bm, CvType.CV_8UC3);
-                        Mat ret = p.processFrame(mat, shouldWrite);
+                        Mat ret = p.processFrame(mat);
                         Bitmap displayBitmap = Bitmap.createBitmap(ret.width(), ret.height(), Bitmap.Config.RGB_565);
                         Utils.matToBitmap(ret, displayBitmap);
                         //dashboard.sendImage(displayBitmap);
@@ -147,7 +147,7 @@ public class VisionOpModeVuforia extends LinearOpMode {
                 }
             }
             //dashboard.sendTelemetryPacket(new TelemetryPacket());
-            telemetry.addData("gfsdafdsy: ",p.getVumarkLeftBoundary());
+            telemetry.addData("position: ",p.getVumarkLeftBoundary());
             telemetry.update();
         }
 

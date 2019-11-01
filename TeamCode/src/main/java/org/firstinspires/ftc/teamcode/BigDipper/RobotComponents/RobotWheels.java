@@ -61,6 +61,29 @@ public class RobotWheels extends RobotComponentImplBase {
     public final static String BACKRIGHT_WHEEL_NAME = "right_drive_back";
     public final static String BACKLEFT_WHEEL_NAME = "left_drive_back";
 
+    private static final double   COUNTS_PER_MOTOR_REV    = 1440;
+    private static final double   DRIVE_GEAR_REDUCTION    = 1.0;
+    private static final double   WHEEL_DIAMETER_INCHES   = 4.0;
+    private static final double   COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+            (WHEEL_DIAMETER_INCHES * 3.1415);
+    //Get diameter of turning wheels
+    private static final double   OMNIWHEEL_DIAMETER_INCHES  = 4.0;
+    //Find circumference of turning wheels
+    private static final double   OMNIWHEEL_CIRCUMFERENCE    = OMNIWHEEL_DIAMETER_INCHES * 3.1415;
+    //Get distance from center of turning to turning wheels
+    private static final double TURNER_TO_DRIVER_INCHES = 9.5;
+    //Find the total distance a full spin of the robot covers
+    private static final double   TURNER_FLOOR_CIRCUMFERENCE = TURNER_TO_DRIVER_INCHES * 2 * 3.1415;
+    //Get drive gear reduction of turning wheels
+    private static final double   TURN_DRIVE_GEAR_REDUCTION  = 1.0;
+    //Find the number of counts in one turn of the turning wheels
+    private static final double   COUNTS_PER_TURNER_TURN     = COUNTS_PER_MOTOR_REV * TURN_DRIVE_GEAR_REDUCTION;
+    //Find the number of counts in a full spin of the robot
+    private static final double   COUNTS_PER_FULL_TURN = (TURNER_FLOOR_CIRCUMFERENCE / OMNIWHEEL_CIRCUMFERENCE) * COUNTS_PER_TURNER_TURN;
+    //Find the number of counts in a degree of a full spin of the robot
+    private static final double   COUNTS_PER_DEGREE          = COUNTS_PER_FULL_TURN / 360;
+
+
 
 
     // Declare OpMode members.
@@ -184,7 +207,156 @@ public class RobotWheels extends RobotComponentImplBase {
 
 
     }
-}
+
+    //Autonomous methods below
+
+    //Set speeds of turning or driving motors
+    public void drive(double speed){
+
+        leftDriveBack.setPower(speed);
+        rightDriveBack.setPower(speed);
+        leftDriveFront.setPower(speed);
+        rightDriveFront.setPower(speed);
+    }
+
+    public void turn(double speed, boolean trueifright){
+       if(trueifright) {
+           leftDriveBack.setPower(speed);
+           rightDriveBack.setPower(-speed);
+           leftDriveFront.setPower(speed);
+           rightDriveFront.setPower(-speed);
+       }
+       else{
+           leftDriveBack.setPower(-speed);
+           rightDriveBack.setPower(speed);
+           leftDriveFront.setPower(-speed);
+           rightDriveFront.setPower(speed);
+       }
+    }
+
+    //Drive for a specified distance using encoders
+    public void driveFor(int distance_inches, double speed) {
+        leftDriveBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftDriveFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightDriveBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightDriveFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        runUsingEncoders();
+        if (opModeIsActive()) {
+
+
+            int targetDistLeft;
+            int targetDistRight;
+            targetDistLeft = leftDriveFront.getCurrentPosition() + (int) (distance_inches * COUNTS_PER_INCH);
+            targetDistRight = rightDriveFront.getCurrentPosition() + (int) (distance_inches * COUNTS_PER_INCH);
+
+            leftDriveFront.setTargetPosition(targetDistLeft);
+            rightDriveFront.setTargetPosition(targetDistRight);
+            leftDriveBack.setTargetPosition(targetDistLeft);
+            rightDriveBack.setTargetPosition(targetDistRight);
+            leftDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            leftDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rightDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rightDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            drive(speed);
+
+            while (opModeIsActive() &&
+                    (runtime.seconds() < 15) &&
+                    (leftDriveFront.isBusy() && rightDriveFront.isBusy())) {
+
+                // Display it for the driver.
+                telemetry.addData("Path1",  "Running to %7d :%7d");
+                telemetry.addData("Path2",  "Running at %7d :%7d");
+
+                telemetry.update();
+            }
+        drive(0);
+            runUsingEncoders();
+        }
+
+    }
+
+        //Turn for a specified amount of degrees using encoders
+       public void turnFor ( int degrees, double speed) {
+            leftDriveBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            leftDriveFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            rightDriveBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            rightDriveFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            runUsingEncoders();
+            int targetDistLeft;
+            int targetDistRight;
+            boolean turningRight = false;
+            if (opModeIsActive()) {
+                if (degrees > 0) {
+                    targetDistRight = rightDriveFront.getCurrentPosition() - (int) (degrees * COUNTS_PER_DEGREE);
+                    targetDistLeft = leftDriveFront.getCurrentPosition() + (int) (degrees * COUNTS_PER_DEGREE);
+
+                    leftDriveFront.setTargetPosition(targetDistLeft);
+                    leftDriveBack.setTargetPosition(targetDistLeft);
+                    rightDriveFront.setTargetPosition(targetDistRight);
+                    rightDriveBack.setTargetPosition(targetDistRight);
+
+                    leftDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    leftDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    rightDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    rightDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                }
+                else {
+                    targetDistRight = rightDriveFront.getCurrentPosition() + (int) (degrees * COUNTS_PER_DEGREE);
+                    targetDistLeft = leftDriveFront.getCurrentPosition() - (int) (degrees * COUNTS_PER_DEGREE);
+
+                    leftDriveFront.setTargetPosition(targetDistLeft);
+                    leftDriveBack.setTargetPosition(targetDistLeft);
+                    rightDriveFront.setTargetPosition(targetDistRight);
+                    rightDriveBack.setTargetPosition(targetDistRight);
+
+                    leftDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    leftDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    rightDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    rightDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                }
+
+                    if(degrees > 0){turningRight = true;}
+                    else{turningRight = false;}
+
+                    turn(speed, turningRight);
+                while (opModeIsActive() &&
+                        (runtime.seconds() < 15) &&
+                        (leftDriveFront.isBusy() && rightDriveFront.isBusy())) {
+
+                    // Display it for the driver.
+                    telemetry.addData("Path1",  "Running to %7d :%7d");
+                    telemetry.addData("Path2",  "Running at %7d :%7d");
+
+                    telemetry.update();
+                }
+                drive(0);
+                runUsingEncoders();
+            }
+            }
+
+
+
+        public void runUsingEncoders(){
+
+            leftDriveBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            leftDriveFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            rightDriveBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            rightDriveFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
