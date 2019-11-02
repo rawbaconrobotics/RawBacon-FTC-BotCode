@@ -90,10 +90,12 @@ public class RobotWheelsTest extends RobotComponentImplBase {
 
 
     public DcMotorAccelerationThread wheelAccelerationThread = new DcMotorAccelerationThread();
-    DcMotorAccelerated accLeftDriveFront = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
-    DcMotorAccelerated accLeftDriveBack = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(BACKLEFT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
-    DcMotorAccelerated accRightDriveFront = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(FRONTRIGHT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
-    DcMotorAccelerated accRightDriveBack = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(BACKRIGHT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
+
+
+    DcMotorAccelerated accLeftDriveFront;
+    DcMotorAccelerated accLeftDriveBack;
+    DcMotorAccelerated accRightDriveFront;
+    DcMotorAccelerated accRightDriveBack;
 
 
 
@@ -122,8 +124,13 @@ public class RobotWheelsTest extends RobotComponentImplBase {
 
     @Override
     public void init() {
+         accLeftDriveFront = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
+         accLeftDriveBack = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(BACKLEFT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
+         accRightDriveFront = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(FRONTRIGHT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
+         accRightDriveBack = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(BACKRIGHT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
 
-            leftDriveBack = hardwareMap.dcMotor.get(BACKLEFT_WHEEL_NAME);
+
+        leftDriveBack = hardwareMap.dcMotor.get(BACKLEFT_WHEEL_NAME);
             rightDriveBack = hardwareMap.dcMotor.get(BACKRIGHT_WHEEL_NAME);
             leftDriveFront = hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME);
             rightDriveFront = hardwareMap.dcMotor.get(FRONTRIGHT_WHEEL_NAME);
@@ -146,10 +153,10 @@ public class RobotWheelsTest extends RobotComponentImplBase {
         }
         @Override
     public void initAutonomous(){
-    leftDriveBack = hardwareMap.dcMotor.get(BACKLEFT_WHEEL_NAME);
-    rightDriveBack = hardwareMap.dcMotor.get(BACKRIGHT_WHEEL_NAME);
-    leftDriveFront = hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME);
-    rightDriveFront = hardwareMap.dcMotor.get(FRONTRIGHT_WHEEL_NAME);
+    this.leftDriveBack = hardwareMap.dcMotor.get(BACKLEFT_WHEEL_NAME);
+    this.rightDriveBack = hardwareMap.dcMotor.get(BACKRIGHT_WHEEL_NAME);
+    this.leftDriveFront = hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME);
+    this.rightDriveFront = hardwareMap.dcMotor.get(FRONTRIGHT_WHEEL_NAME);
 
     leftDriveFront.setDirection(DcMotor.Direction.REVERSE);
     rightDriveFront.setDirection(DcMotor.Direction.FORWARD);
@@ -392,10 +399,12 @@ public class RobotWheelsTest extends RobotComponentImplBase {
 
     public void runUsingEncoders(){
 
-        leftDriveBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftDriveFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightDriveBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightDriveFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+       init();
+
+        this.leftDriveBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        this.leftDriveFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        this.rightDriveBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        this.rightDriveFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
 
