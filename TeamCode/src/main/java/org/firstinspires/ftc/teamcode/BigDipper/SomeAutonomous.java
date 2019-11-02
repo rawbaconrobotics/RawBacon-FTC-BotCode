@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.vuforia.Image;
 import com.vuforia.PIXEL_FORMAT;
@@ -17,6 +19,7 @@ import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BDLatch;
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BaseLinearOpMode;
+import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.RobotComponentImplBase;
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.RobotWheels;
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.RobotWheelsTest;
 import org.opencv.android.Utils;
@@ -31,11 +34,54 @@ import static org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BDLatch.l
 public class SomeAutonomous extends BaseLinearOpMode
 {
     private ElapsedTime runtime = new ElapsedTime();
-    RobotWheelsTest robotWheelsTest;
-    public BDLatch bdlatch;
+    RobotWheelsTest robotWheelsTest = new RobotWheelsTest(this);
 
+    public BDLatch bdlatch;
     private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
     private static final boolean PHONE_IS_PORTRAIT = false  ;
+
+
+    private final static String FRONTRIGHT_WHEEL_NAME = "right_drive_front";
+    private final static String FRONTLEFT_WHEEL_NAME = "left_drive_front";
+    private final static String BACKRIGHT_WHEEL_NAME = "right_drive_back";
+    private final static String BACKLEFT_WHEEL_NAME = "left_drive_back";
+
+    private static final double SLOW_DRIVE_SCALAR = 0.2;
+    private static final double STICK_DIGITAL_THRESHOLD = 0.25;
+    private static final double TURNING_SCALAR = 0.875;
+    final double WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT = 2;
+    final double WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT = 15;
+    final double WHEEL_ACCEL_SPEED_PER_SECOND_TURNING = 15;
+    final double WHEEL_DECEL_SPEED_PER_SECOND_TURNING = 15;
+    final double WHEEL_MINIMUM_POWER = 0.3; //Allows for deadband compensation.
+    final double WHEEL_MAXIMUM_POWER = 1.0;
+    public static boolean DONT_RESET_RUNTIME = false;
+
+    private static final double   COUNTS_PER_MOTOR_REV    = 1440;
+    private static final double   DRIVE_GEAR_REDUCTION    = 1.0;
+    private static final double   WHEEL_DIAMETER_INCHES   = 4.0;
+    private static final double   COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+            (WHEEL_DIAMETER_INCHES * 3.1415);
+    //Get diameter of turning wheels
+    /* private static final double   OMNIWHEEL_DIAMETER_INCHES  = 4.0;
+    //Find circumference of turning wheels
+    private static final double   OMNIWHEEL_CIRCUMFERENCE    = OMNIWHEEL_DIAMETER_INCHES * Math.PI;
+    //Get distance from center of turning to turning wheels
+    private static final double TURNER_TO_DRIVER_INCHES = 9.5;
+    //Find the total distance a full spin of the robot covers
+    private static final double   TURNER_FLOOR_CIRCUMFERENCE = TURNER_TO_DRIVER_INCHES * 2 * Math.PI;
+    //Get drive gear reduction of turning wheels
+    private static final double   TURN_DRIVE_GEAR_REDUCTION  = 1.0;
+    //Find the number of counts in one turn of the turning wheels
+    private static final double   COUNTS_PER_TURNER_TURN     = COUNTS_PER_MOTOR_REV * TURN_DRIVE_GEAR_REDUCTION;
+    //Find the number of counts in a full spin of the robot
+    private static final double   COUNTS_PER_FULL_TURN = (TURNER_FLOOR_CIRCUMFERENCE / OMNIWHEEL_CIRCUMFERENCE) * COUNTS_PER_TURNER_TURN;
+    //Find the number of counts in a degree of a full spin of the robot
+    private static final double   COUNTS_PER_DEGREE          = COUNTS_PER_FULL_TURN / 360;
+    */
+
+
+
 
     /*
      * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
@@ -86,7 +132,12 @@ public class SomeAutonomous extends BaseLinearOpMode
 
     VisionPipeline p;
 
+
+
+
+
     private boolean shouldWrite = false;
+
 
     private Mat bitmapToMat (Bitmap bit, int cvType) {
         Mat newMat = new Mat(bit.getHeight(), bit.getWidth(), cvType);
@@ -96,17 +147,23 @@ public class SomeAutonomous extends BaseLinearOpMode
         return newMat;
     }
 
-    @Override
+    //@Override
+
+
 
     public void run() {
+        robot.robotWheelsTest.initAutonomous();
+
+        robot.bdlatch.init();
 
 
-        robotWheelsTest.initAutonomous();
+
+        //robotWheelsTest.initAutonomous();
         //distanceSensor.init();
-        bdlatch.init();
+        //bdlatch.init();
 
         p = new VisionPipeline();
-        webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
+        //webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
 
         /*
          * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
@@ -123,7 +180,7 @@ public class SomeAutonomous extends BaseLinearOpMode
         /**
          * We also indicate which camera on the RC we wish to use.
          */
-        parameters.cameraName = webcamName;
+        //parameters.cameraName = webcamName;
 //NOT SURE IF WE NEED THE ABOVE!
 
         //  Instantiate the Vuforia engine
@@ -205,17 +262,19 @@ public class SomeAutonomous extends BaseLinearOpMode
                 robotWheelsTest.turnFor(90, 0.5);
                 robotWheelsTest.driveFor(9, 0.5);
                 robotWheelsTest.turnFor(-90, 0.5);
-                robotWheelsTest.driveFor(18, 0.5);
+                robotWheelsTest.driveFor(18,0.5);
                 robotWheelsTest.turnFor(-180, 0.5);
                 robotWheelsTest.driveFor(23.5, 0.5);
                 robotWheelsTest.turnFor(90, 0.5);
-                robotWheelsTest.driveFor(43.125, 0.5);
+                robotWheelsTest.driveFor(48.125, 0.5);
+                robotWheelsTest.driveFor(-5, -0.5);
+
 
 
                 break;
             } else {
                 //whoops it broke
-                telemetry.addData("IT BROKE I'M SORRY -Luke: ", p.getVumarkLeftBoundary());
+                telemetry.addData("IT BROKE I'M SORRY -Luke ", p.getVumarkLeftBoundary());
                 telemetry.update();
                 robotWheelsTest.driveFor(9, 0.5);
                 robotWheelsTest.turnFor(-90, 0.5);
@@ -231,6 +290,8 @@ public class SomeAutonomous extends BaseLinearOpMode
 
 
     }
+
+
 
 
 }

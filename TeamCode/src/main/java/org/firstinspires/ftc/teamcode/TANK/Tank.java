@@ -29,6 +29,9 @@ public class Tank {
     public void turnLeft(double degrees, double speed){
         drive.encoderDrive(degrees*(15/90), -speed, -speed, speed, speed);
     }
+    public void reverseMotors(){
+        drive.reverseWheels();
+    }
 
     public Tank(LinearOpMode opMode) {
         drive = new TankDriveTrain(opMode);

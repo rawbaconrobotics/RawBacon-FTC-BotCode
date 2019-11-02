@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name="TankTeleOp", group="Tank")
 
-public class TankTeleOp extends TankLinearOpMode
+public class  TankTeleOp extends TankLinearOpMode
 {
     private ElapsedTime runtime = new ElapsedTime();
 

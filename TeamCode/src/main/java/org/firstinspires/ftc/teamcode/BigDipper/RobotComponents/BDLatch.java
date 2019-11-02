@@ -56,7 +56,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class BDLatch extends RobotComponentImplBase {
     public void initAutonomous(){}
 
-    private final static String LATCH_SERVO_NAME = "latch_servo" ;
+    private final static String LATCH_SERVO_NAME = "tank_latch" ;
 
     public static boolean latchButton = false;
 
@@ -90,11 +90,11 @@ public class BDLatch extends RobotComponentImplBase {
         // Setup a variable for each drive wheel to save power level for telemetry
 
 
-        double LATCH_OPEN = 1;
-        double LATCH_CLOSED = 0.6;
+        double LATCH_OPEN = 0.9;
+        double LATCH_CLOSED = 0.2;
 
-        boolean openLatch = gamepad1.right_bumper;
-        boolean closeLatch = gamepad1.right_bumper;
+        boolean openLatch = gamepad2.y;
+        boolean closeLatch = gamepad2.x;
 
 
             if(openLatch){

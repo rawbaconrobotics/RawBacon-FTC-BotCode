@@ -57,7 +57,7 @@ import static org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.RobotWhee
  */
 
 public class RobotWheelsTest extends RobotComponentImplBase {
-    final double WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT = 0.8;
+    final double WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT = 2;
     final double WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT = 15;
     final double WHEEL_ACCEL_SPEED_PER_SECOND_TURNING = 15;
     final double WHEEL_DECEL_SPEED_PER_SECOND_TURNING = 15;
@@ -111,13 +111,14 @@ public class RobotWheelsTest extends RobotComponentImplBase {
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftDriveBack = null;
     private DcMotor rightDriveBack = null;
-    private DcMotor rightDriveFront = null;
     private DcMotor leftDriveFront = null;
+    private DcMotor rightDriveFront = null;
 
 
     public RobotWheelsTest(LinearOpMode opMode) {
         super(opMode);
     }
+
 
     @Override
     public void init() {
@@ -143,8 +144,8 @@ public class RobotWheelsTest extends RobotComponentImplBase {
             wheelAccelerationThread.addMotor(accRightDriveBack);
             wheelAccelerationThread.start();
         }
-@Override
-public void initAutonomous(){
+        @Override
+    public void initAutonomous(){
     leftDriveBack = hardwareMap.dcMotor.get(BACKLEFT_WHEEL_NAME);
     rightDriveBack = hardwareMap.dcMotor.get(BACKRIGHT_WHEEL_NAME);
     leftDriveFront = hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME);
@@ -162,6 +163,8 @@ public void initAutonomous(){
 
 
     }
+    /*
+ */
 
     public void wheelsTeleOp() {
 
@@ -170,7 +173,7 @@ public void initAutonomous(){
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
-       
+
 
         // Wait for the game to start (driver presses PLAY)
         //waitForStart();

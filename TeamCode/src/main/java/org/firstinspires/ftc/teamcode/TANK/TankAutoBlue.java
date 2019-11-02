@@ -6,20 +6,20 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name="TankAutoBlue", group="Tank")
 public class TankAutoBlue extends TankLinearOpMode {
+    final double DRIVE_SPEED = 0.6;
+
     private ElapsedTime runtime = new ElapsedTime();
 
     @Override
     public void run(){
         waitForStart();
 
-        robot.driveForward(75, -0.6);
-        robot.turnLeft(90, 0.6);
-        robot.driveForward(21.25, 0.6);
-        robot.turnRight(90, 0.6);
-        robot.driveForward(55,0.6);
-        robot.driveForward(5, -0.6);
-        robot.turnRight(90, 0.6);
-        robot.driveForward(35, 0.6);
-    }
+        robot.reverseMotors();
 
+        robot.driveForward(67.5, -DRIVE_SPEED);
+        robot.strafeRight(17.5, -DRIVE_SPEED);
+        robot.driveForward(47.5, DRIVE_SPEED);
+        robot.driveForward(10, -DRIVE_SPEED);
+        robot.strafeRight(40, DRIVE_SPEED);
+    }
 }

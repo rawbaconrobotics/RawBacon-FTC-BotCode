@@ -21,7 +21,7 @@ import org.opencv.core.Mat;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
-@TeleOp(name="Autonomousv1-Blue-PLACEbotBYpikto ", group="Big Dipper")
+@TeleOp(name="Autonomousv1-Red-PLACEbotBYpikto ", group="Big Dipper")
 
 public class SomeAutonomousRed extends BaseLinearOpMode
 {
@@ -31,6 +31,9 @@ public class SomeAutonomousRed extends BaseLinearOpMode
 
     private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
     private static final boolean PHONE_IS_PORTRAIT = false  ;
+
+
+
 
     /*
      * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
@@ -96,9 +99,10 @@ public class SomeAutonomousRed extends BaseLinearOpMode
     public void run() {
 
 
-        robotWheelsTest.initAutonomous();
+        //robotWheelsTest.initAutonomous();
         //distanceSensor.init();
-        bdlatch.init();
+        robot.robotWheelsTest.init();
+        robot.bdlatch.init();
 
         p = new VisionPipeline();
         webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");

@@ -57,7 +57,6 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class RobotWheels extends RobotComponentImplBase {
     public void initAutonomous(){}
 
-
     public final static String FRONTRIGHT_WHEEL_NAME = "right_drive_front";
     public final static String FRONTLEFT_WHEEL_NAME = "left_drive_front";
     public final static String BACKRIGHT_WHEEL_NAME = "right_drive_back";
@@ -160,7 +159,7 @@ public class RobotWheels extends RobotComponentImplBase {
 
 
 
-}
+    }
 
 
 
@@ -222,18 +221,18 @@ public class RobotWheels extends RobotComponentImplBase {
     }
 
     public void turn(double speed, boolean trueifright){
-       if(trueifright) {
-           leftDriveBack.setPower(speed);
-           rightDriveBack.setPower(-speed);
-           leftDriveFront.setPower(speed);
-           rightDriveFront.setPower(-speed);
-       }
-       else{
-           leftDriveBack.setPower(-speed);
-           rightDriveBack.setPower(speed);
-           leftDriveFront.setPower(-speed);
-           rightDriveFront.setPower(speed);
-       }
+        if(trueifright) {
+            leftDriveBack.setPower(speed);
+            rightDriveBack.setPower(-speed);
+            leftDriveFront.setPower(speed);
+            rightDriveFront.setPower(-speed);
+        }
+        else{
+            leftDriveBack.setPower(-speed);
+            rightDriveBack.setPower(speed);
+            leftDriveFront.setPower(-speed);
+            rightDriveFront.setPower(speed);
+        }
     }
 
     //Drive for a specified distance using encoders
@@ -271,90 +270,83 @@ public class RobotWheels extends RobotComponentImplBase {
 
                 telemetry.update();
             }
-        drive(0);
+            drive(0);
             runUsingEncoders();
         }
 
     }
 
-        //Turn for a specified amount of degrees using encoders
-       public void turnFor ( int degrees, double speed) {
-            leftDriveBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            leftDriveFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            rightDriveBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            rightDriveFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    //Turn for a specified amount of degrees using encoders
+    public void turnFor ( int degrees, double speed) {
+        leftDriveBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftDriveFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightDriveBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightDriveFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        runUsingEncoders();
+        int targetDistLeft;
+        int targetDistRight;
+        boolean turningRight = false;
+        if (opModeIsActive()) {
+            if (degrees > 0) {
+                targetDistRight = rightDriveFront.getCurrentPosition() - (int) (degrees * COUNTS_PER_DEGREE);
+                targetDistLeft = leftDriveFront.getCurrentPosition() + (int) (degrees * COUNTS_PER_DEGREE);
+
+                leftDriveFront.setTargetPosition(targetDistLeft);
+                leftDriveBack.setTargetPosition(targetDistLeft);
+                rightDriveFront.setTargetPosition(targetDistRight);
+                rightDriveBack.setTargetPosition(targetDistRight);
+
+                leftDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                leftDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                rightDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                rightDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            }
+            else {
+                targetDistRight = rightDriveFront.getCurrentPosition() + (int) (degrees * COUNTS_PER_DEGREE);
+                targetDistLeft = leftDriveFront.getCurrentPosition() - (int) (degrees * COUNTS_PER_DEGREE);
+
+                leftDriveFront.setTargetPosition(targetDistLeft);
+                leftDriveBack.setTargetPosition(targetDistLeft);
+                rightDriveFront.setTargetPosition(targetDistRight);
+                rightDriveBack.setTargetPosition(targetDistRight);
+
+                leftDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                leftDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                rightDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                rightDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            }
+
+            if(degrees > 0){turningRight = true;}
+            else{turningRight = false;}
+
+            turn(speed, turningRight);
+            while (opModeIsActive() &&
+                    (runtime.seconds() < 15) &&
+                    (leftDriveFront.isBusy() && rightDriveFront.isBusy())) {
+
+                // Display it for the driver.
+                telemetry.addData("Path1",  "Running to %7d :%7d");
+                telemetry.addData("Path2",  "Running at %7d :%7d");
+
+                telemetry.update();
+            }
+            drive(0);
             runUsingEncoders();
-            int targetDistLeft;
-            int targetDistRight;
-            boolean turningRight = false;
-            if (opModeIsActive()) {
-                if (degrees > 0) {
-                    targetDistRight = rightDriveFront.getCurrentPosition() - (int) (degrees * COUNTS_PER_DEGREE);
-                    targetDistLeft = leftDriveFront.getCurrentPosition() + (int) (degrees * COUNTS_PER_DEGREE);
-
-                    leftDriveFront.setTargetPosition(targetDistLeft);
-                    leftDriveBack.setTargetPosition(targetDistLeft);
-                    rightDriveFront.setTargetPosition(targetDistRight);
-                    rightDriveBack.setTargetPosition(targetDistRight);
-
-                    leftDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    leftDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    rightDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    rightDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                }
-                else {
-                    targetDistRight = rightDriveFront.getCurrentPosition() + (int) (degrees * COUNTS_PER_DEGREE);
-                    targetDistLeft = leftDriveFront.getCurrentPosition() - (int) (degrees * COUNTS_PER_DEGREE);
-
-                    leftDriveFront.setTargetPosition(targetDistLeft);
-                    leftDriveBack.setTargetPosition(targetDistLeft);
-                    rightDriveFront.setTargetPosition(targetDistRight);
-                    rightDriveBack.setTargetPosition(targetDistRight);
-
-                    leftDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    leftDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    rightDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    rightDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                }
-
-                    if(degrees > 0){turningRight = true;}
-                    else{turningRight = false;}
-
-                    turn(speed, turningRight);
-                while (opModeIsActive() &&
-                        (runtime.seconds() < 15) &&
-                        (leftDriveFront.isBusy() && rightDriveFront.isBusy())) {
-
-                    // Display it for the driver.
-                    telemetry.addData("Path1",  "Running to %7d :%7d");
-                    telemetry.addData("Path2",  "Running at %7d :%7d");
-
-                    telemetry.update();
-                }
-                drive(0);
-                runUsingEncoders();
-            }
-            }
-
-
-
-        public void runUsingEncoders(){
-
-            leftDriveBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            leftDriveFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            rightDriveBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            rightDriveFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
-
     }
 
 
 
+    public void runUsingEncoders(){
 
+        leftDriveBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftDriveFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightDriveBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightDriveFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
 
-
-
+}
 
 
 

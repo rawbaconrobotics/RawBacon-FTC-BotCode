@@ -9,6 +9,7 @@ public abstract class BaseLinearOpMode extends LinearOpMode
 {
     protected Robot robot;
 
+
     @Override
     public final void runOpMode() throws InterruptedException
     {

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.TANK;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -36,10 +37,10 @@ public class TankDriveTrain extends TankComponentImplBase {
     }
 
     public void wheelsTeleOp() {
-        leftDriveFront.setDirection(DcMotor.Direction.REVERSE);
-        rightDriveFront.setDirection(DcMotor.Direction.FORWARD);
-        leftDriveBack.setDirection(DcMotor.Direction.REVERSE);
-        rightDriveBack.setDirection(DcMotor.Direction.FORWARD);
+        leftDriveFront.setDirection(DcMotor.Direction.FORWARD);
+        leftDriveBack.setDirection(DcMotor.Direction.FORWARD);
+        rightDriveFront.setDirection(DcMotor.Direction.REVERSE);
+        rightDriveBack.setDirection(DcMotor.Direction.REVERSE);
 
         runtime.reset();
         mechanumTeleOp(gamepad1.left_stick_x, gamepad1.left_stick_y, -gamepad1.right_stick_x);    // Initialize the hardware variables. Note that the strings used here as parameters
@@ -54,7 +55,7 @@ public class TankDriveTrain extends TankComponentImplBase {
         wheelSpeeds[2] = -x + y + rotation;
         wheelSpeeds[3] = x + y - rotation;
 
-        normalize(wheelSpeeds);
+        //normalize(wheelSpeeds);
 
         leftDriveBack.setPower(wheelSpeeds[0]);
         rightDriveBack.setPower(wheelSpeeds[1]);
@@ -62,19 +63,27 @@ public class TankDriveTrain extends TankComponentImplBase {
         rightDriveFront.setPower(wheelSpeeds[3]);
     }
 
+    public void reverseWheels(){
+        leftDriveFront.setDirection(DcMotor.Direction.REVERSE);
+        leftDriveBack.setDirection(DcMotor.Direction.FORWARD);
+        rightDriveFront.setDirection(DcMotor.Direction.REVERSE);
+        rightDriveBack.setDirection(DcMotor.Direction.REVERSE);
+    }
+
 
     public void encoderDrive(double distance, double speedlf, double speedlb, double speedrf, double speedrb)
     {
         leftDriveFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        leftDriveFront.setTargetPosition((int) (distance * NEVEREST_ENCODER_COUNTS_PER_REVOLUTION));
+        //leftDriveFront.setTargetPosition((int) (distance * NEVEREST_ENCODER_COUNTS_PER_REVOLUTION));
+        leftDriveFront.setTargetPosition(3000);
         // set left motor to run to target encoder position and stop with brakes on.
         leftDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         // set right motor to run without regard to an encoder.
         rightDriveFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightDriveBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        leftDriveFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftDriveBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         telemetry.addData("Mode", "running");
         telemetry.update();
@@ -100,13 +109,13 @@ public class TankDriveTrain extends TankComponentImplBase {
         // set motor power to zero to turn off motors. The motors stop on their own but
         // power is still applied so we turn off the power.
 
-        leftDriveFront.setPower(0.0);
-        rightDriveFront.setPower(0.0);
-        leftDriveBack.setPower(0.0);
-        rightDriveBack.setPower(0.0);
+        leftDriveFront.setPower(0);
+        rightDriveFront.setPower(0);
+        leftDriveBack.setPower(0);
+        rightDriveBack.setPower(0);
     }
 
-    private void normalize(double[] wheelSpeeds) {
+    /*private void normalize(double[] wheelSpeeds) {
         double maxMagnitude = Math.abs(wheelSpeeds[0]);
 
         for (int i = 1; i < wheelSpeeds.length; i++) {
@@ -121,6 +130,5 @@ public class TankDriveTrain extends TankComponentImplBase {
             for (int i = 0; i < wheelSpeeds.length; i++) {
                 wheelSpeeds[i] /= maxMagnitude;
             }
-        }
+        }*/
     }
-}

@@ -18,7 +18,7 @@ import static org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BDLatch.l
 public class SomeOpMode extends BaseLinearOpMode
 {
     private ElapsedTime runtime = new ElapsedTime();
-    RobotWheelsTest robotWheelsTest;
+    RobotWheels robotWheels;
     public BDLatch bdlatch;
 
 
@@ -26,9 +26,12 @@ public class SomeOpMode extends BaseLinearOpMode
 
     public void run()
     {
-        robotWheelsTest.init();
+        //robotWheels.init();
         //distanceSensor.init();
-        bdlatch.init();
+        //bdlatch.init();
+
+        robot.robotWheelsTest.init();
+        robot.bdlatch.init();
 
         waitForStart();
 
@@ -42,7 +45,7 @@ public class SomeOpMode extends BaseLinearOpMode
             robot.teleOpActivated();
 
         }
-        robotWheelsTest.stopDrive();
+        robot.robotWheelsTest.stopDrive();
     }
 
 
