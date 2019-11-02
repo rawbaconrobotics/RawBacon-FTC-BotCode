@@ -30,7 +30,7 @@ FIRST TRY TO USE EASY OPEN CV, YOU CAN ACHIEVE BETTER FRAMERATES THIS WAY
 */
 
 //@Config
-@Autonomous(name="VisionTest")
+@Autonomous(name="VisionTest_DoNotUse")
 public class VisionOpModeVuforia extends LinearOpMode {
     private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
     private static final boolean PHONE_IS_PORTRAIT = false  ;

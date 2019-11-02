@@ -44,6 +44,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class BDDistanceSensor extends RobotComponentImplBase {
+    public void initAutonomous(){}
 
 
     private DistanceSensor sensorRange;

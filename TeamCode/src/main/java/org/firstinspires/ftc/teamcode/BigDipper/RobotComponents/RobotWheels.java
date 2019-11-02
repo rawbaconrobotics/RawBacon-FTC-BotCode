@@ -55,6 +55,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  */
 
 public class RobotWheels extends RobotComponentImplBase {
+    public void initAutonomous(){}
+
 
     public final static String FRONTRIGHT_WHEEL_NAME = "right_drive_front";
     public final static String FRONTLEFT_WHEEL_NAME = "left_drive_front";

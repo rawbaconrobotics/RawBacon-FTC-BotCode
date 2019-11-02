@@ -34,7 +34,7 @@ import java.util.Locale;
  *
  * monitor: 640 x 480
  */
-@Autonomous(name= "AutoMoveFoundation", group="Sky autonomous")
+@Autonomous(name= "DoNotUse_AutoMoveFoundation", group="Sky autonomous")
 //@Disabled
 public class BDAutoSample extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();

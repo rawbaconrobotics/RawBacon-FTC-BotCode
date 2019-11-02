@@ -54,6 +54,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  */
 
 public class BDLatch extends RobotComponentImplBase {
+    public void initAutonomous(){}
 
     private final static String LATCH_SERVO_NAME = "latch_servo" ;
 
