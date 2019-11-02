@@ -2,9 +2,8 @@ package org.firstinspires.ftc.teamcode.BigDipper;
 
 import android.graphics.Bitmap;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.vuforia.Image;
 import com.vuforia.PIXEL_FORMAT;
 import com.vuforia.Vuforia;
@@ -13,25 +12,23 @@ import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.teamcode.BigDipper.VisionPipeline;
+import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BDLatch;
+import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BaseLinearOpMode;
+import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.RobotWheelsTest;
 import org.opencv.android.Utils;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
-import org.openftc.easyopencv.OpenCvCamera;
-import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvWebcam;
-
-import java.util.concurrent.BlockingQueue;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
-/**
-NOTE: I USE VUFORIA TO RUN MY PIPELINE BC EASY OPEN CV DOESNT WORK FOR ME
-FIRST TRY TO USE EASY OPEN CV, YOU CAN ACHIEVE BETTER FRAMERATES THIS WAY
-*/
 
-//@Config
-@Autonomous(name="VisionTest")
-public class VisionOpModeVuforia extends LinearOpMode {
+@TeleOp(name="Autonomousv1-Blue-PLACEbotBYpikto ", group="Big Dipper")
+
+public class SomeAutonomousRed extends BaseLinearOpMode
+{
+    private ElapsedTime runtime = new ElapsedTime();
+    RobotWheelsTest robotWheelsTest;
+    public BDLatch bdlatch;
+
     private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
     private static final boolean PHONE_IS_PORTRAIT = false  ;
 
@@ -85,8 +82,24 @@ public class VisionOpModeVuforia extends LinearOpMode {
     VisionPipeline p;
 
     private boolean shouldWrite = false;
+
+    private Mat bitmapToMat (Bitmap bit, int cvType) {
+        Mat newMat = new Mat(bit.getHeight(), bit.getWidth(), cvType);
+
+        Utils.bitmapToMat(bit, newMat);
+
+        return newMat;
+    }
+
     @Override
-    public void runOpMode() {
+
+    public void run() {
+
+
+        robotWheelsTest.initAutonomous();
+        //distanceSensor.init();
+        bdlatch.init();
+
         p = new VisionPipeline();
         webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
 
@@ -114,10 +127,14 @@ public class VisionOpModeVuforia extends LinearOpMode {
         Vuforia.setFrameFormat(PIXEL_FORMAT.RGB565, true);
         vuforia.setFrameQueueCapacity(1);
 
-       // FtcDashboard dashboard = FtcDashboard.getInstance();
+        // FtcDashboard dashboard = FtcDashboard.getInstance();
 
         Mat frame;
+
+
         waitForStart();
+        runtime.reset();
+        telemetry.addData("Runtime Reset", "Complete");
 
         while (opModeIsActive()) {
       /*      if (gamepad1.a)
@@ -153,34 +170,62 @@ public class VisionOpModeVuforia extends LinearOpMode {
 
             int xcoord = p.getVumarkLeftBoundary();
 
-            if (xcoord < 200) { // stone is on left, run left path
+            if (0 < xcoord && xcoord < 200) { // stone is on left, run left path
+                robotWheelsTest.driveFor(16, 0.5);
+                robotWheelsTest.turnFor(-90, 0.5);
+                robotWheelsTest.driveFor(9, 0.5);
+                robotWheelsTest.turnFor(90, 0.5);
+                robotWheelsTest.driveFor(18, 0.5);
+                robotWheelsTest.turnFor(-180, 0.5);
+                robotWheelsTest.driveFor(23.5, 0.5);
+                robotWheelsTest.turnFor(-90, 0.5);
+                robotWheelsTest.driveFor(43.125, 0.5);
 
-            }
-
-            else if (xcoord > 200 && xcoord < 400) { // stone is in middle, run middle path
+                break;
+            } else if (xcoord > 200 && xcoord < 400) { // stone is in middle, run middle path
 //move straight approx 34 inches, turn 180 degrees counter clockwise, go forward 47/2 inches, turn 90 deg. clockwise, forward 34.125 inches.
+                robotWheelsTest.driveFor(34, 0.5);
+                robotWheelsTest.turnFor(-180, 0.5);
+                robotWheelsTest.driveFor(23.5, 0.5);
+                robotWheelsTest.turnFor(-90, 0.5);
+                robotWheelsTest.driveFor(34.125, 0.5);
 
-                }
-            else if (xcoord > 400) { //stone on right, run right path
 
-                    }
-            else{
+
+
+                break;
+            } else if (xcoord > 400) { //stone on right, run right path
+
+                robotWheelsTest.driveFor(16, 0.5);
+                robotWheelsTest.turnFor(90, 0.5);
+                robotWheelsTest.driveFor(9, 0.5);
+                robotWheelsTest.turnFor(-90, 0.5);
+                robotWheelsTest.driveFor(18, 0.5);
+                robotWheelsTest.turnFor(-180, 0.5);
+                robotWheelsTest.driveFor(23.5, 0.5);
+                robotWheelsTest.turnFor(-90, 0.5);
+                robotWheelsTest.driveFor(25.125, 0.5);
+
+
+                break;
+            } else {
                 //whoops it broke
                 telemetry.addData("IT BROKE I'M SORRY -Luke: ", p.getVumarkLeftBoundary());
                 telemetry.update();
+                robotWheelsTest.driveFor(9, 0.5);
+                robotWheelsTest.turnFor(90, 0.5);
+                robotWheelsTest.driveFor(47, 0.5);
+
+
+                break;
             }
 
 
         }
+        telemetry.addData("PATH", "COMPLETE");
+
 
     }
 
-    private Mat bitmapToMat (Bitmap bit, int cvType) {
-        Mat newMat = new Mat(bit.getHeight(), bit.getWidth(), cvType);
-
-        Utils.bitmapToMat(bit, newMat);
-
-        return newMat;
-    }
 
 }

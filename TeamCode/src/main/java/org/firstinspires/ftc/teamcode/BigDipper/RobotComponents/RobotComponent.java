@@ -8,4 +8,5 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public interface RobotComponent {
     void init();
+    void initAutonomous();
 }

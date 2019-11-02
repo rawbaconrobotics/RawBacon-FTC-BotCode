@@ -17,7 +17,7 @@ public class Robot {
     public BDLatch bdlatch;
 
 
-    //public BDAutonomousv1 bdautono = new BDAutonomousv1();
+//public BDAutonomousv1 bdautono = new BDAutonomousv1();
 
     //alternative method to init the opmode stuff by passing as a constructor
     /*public void init(OpMode opMode){
@@ -29,7 +29,11 @@ public class Robot {
 */
 
     public void teleOpActivated(){
+
         //Activate wheels for opmode
+
+
+
     robotWheelsTest.wheelsTeleOp();
 
     //Activate distance sensor for opmode
@@ -42,16 +46,18 @@ public class Robot {
 
     }
 
+
+
     //method to initialize all the stuff for the opmode
  public Robot(LinearOpMode opMode)
  {
+
      robotWheelsTest = new RobotWheelsTest(opMode);
      //distanceSensor = new BDDistanceSensor(opMode);
      bdlatch = new BDLatch(opMode);
 
-     robotWheelsTest.init();
-     //distanceSensor.init();
-     bdlatch.init();
+
+
 
  }
 }

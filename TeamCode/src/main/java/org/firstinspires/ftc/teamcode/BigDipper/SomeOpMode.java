@@ -6,8 +6,10 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BDLatch;
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BaseLinearOpMode;
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.RobotWheels;
+import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.RobotWheelsTest;
 
 import static org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BDLatch.latchButton;
 
@@ -16,15 +18,19 @@ import static org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BDLatch.l
 public class SomeOpMode extends BaseLinearOpMode
 {
     private ElapsedTime runtime = new ElapsedTime();
-    RobotWheels robotWheels;
+    RobotWheelsTest robotWheelsTest;
+    public BDLatch bdlatch;
+
 
     @Override
+
     public void run()
     {
+        robotWheelsTest.init();
+        //distanceSensor.init();
+        bdlatch.init();
+
         waitForStart();
-        runtime.reset();
-
-
 
 
         runtime.reset();
@@ -36,7 +42,7 @@ public class SomeOpMode extends BaseLinearOpMode
             robot.teleOpActivated();
 
         }
-        //robotWheelsTest.stopDrive();
+        robotWheelsTest.stopDrive();
     }
 
 
