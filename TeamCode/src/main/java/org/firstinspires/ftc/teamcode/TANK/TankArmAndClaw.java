@@ -35,8 +35,10 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.RobotComponentImplBase;
-public class TankArmAndClaw extends RobotComponentImplBase{
+import org.firstinspires.ftc.teamcode.TANK.TankComponentImplBase;
+public class TankArmAndClaw extends TankComponentImplBase{
+    public void initAutonomous(){}
+
 
     private ElapsedTime runtime = new ElapsedTime();
     //private DcMotor tankArm = null;

@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 public class TankDriveTrain extends TankComponentImplBase {
+    public void initAutonomous(){}
 
     private final static String FRONTRIGHT_WHEEL_NAME = "right_drive_front";
     private final static String FRONTLEFT_WHEEL_NAME = "left_drive_front";
