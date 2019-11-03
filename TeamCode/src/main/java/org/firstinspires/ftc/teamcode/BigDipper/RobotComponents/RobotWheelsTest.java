@@ -401,10 +401,10 @@ public class RobotWheelsTest extends RobotComponentImplBase {
 
        init();
 
-        this.leftDriveBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        this.leftDriveFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        this.rightDriveBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        this.rightDriveFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftDriveBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftDriveFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightDriveBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightDriveFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
 
