@@ -29,6 +29,14 @@ public class SomeAutonomousRed extends BaseLinearOpMode
     RobotWheelsTest robotWheelsTest;
     public BDLatch bdlatch;
 
+    public void on_stop() {
+        //do something when the robot stops?
+    }
+    public void on_start() {
+        //do something when the robot starts?
+    }
+    public void on_init(){}
+
     private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
     private static final boolean PHONE_IS_PORTRAIT = false  ;
 

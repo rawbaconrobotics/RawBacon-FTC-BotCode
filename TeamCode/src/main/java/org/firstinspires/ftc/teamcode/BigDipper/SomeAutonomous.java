@@ -95,6 +95,7 @@ public class SomeAutonomous extends BaseLinearOpMode
      * Once you've obtained a license key, copy the string from the Vuforia web site
      * and paste it in to your code on the next line, between the double quotes.
      */
+    int xcoord;
     private static final String VUFORIA_KEY = "AR4SUKv/////AAABmfJT0mdDL0ZXm77n6pwEjSAl/uY9odgICh+X3rkIRm97PKW8lGA3hifS2szUrRWrTaWJQ6HfFtNMhZqB8LLhJhV7dBcTxJ/EPJ9jrfU3STZuHUUnQkUgAPqUI1Qou+oCUVkoIU95B5A93sRik42Mc1q9mxr8kdbHw3QiZdnwS84gUC5KTeb/qSOialhFe1dYgRJpVyn/kEJSqiZrGGx24xcDA2n6OmO+3M4D8vOjEw6337Z+TzXXVy3NWj/jNW7TxP8VRt1scu9sEZ3DE7IOHgZHw2byS2INBtrT/yN1cpp2mT6Ffe61Kq3wazvkQEII1wEdRGeAAE9z+toUdUMepCAmi4BmZnP7kOg/RJkO3dN5";
     // Since ImageTarget trackables use mm to specifiy their dimensions, we must use mm for all the physical dimension.
     // We will define some constants and conversions here
@@ -147,20 +148,12 @@ public class SomeAutonomous extends BaseLinearOpMode
         return newMat;
     }
 
-    //@Override
+    @Override
+    public void on_init() {
 
-
-
-    public void run() {
         robot.robotWheelsTest.initAutonomous();
 
         robot.bdlatch.init();
-
-
-
-        //robotWheelsTest.initAutonomous();
-        //distanceSensor.init();
-        //bdlatch.init();
 
         p = new VisionPipeline();
         //webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
@@ -193,12 +186,7 @@ public class SomeAutonomous extends BaseLinearOpMode
 
         Mat frame;
 
-
-        waitForStart();
-        runtime.reset();
-        telemetry.addData("Runtime Reset", "Complete");
-
-        while (opModeIsActive()) {
+        while (!opModeIsActive()) {
       /*      if (gamepad1.a)
                 shouldWrite = true;
             else
@@ -230,7 +218,30 @@ public class SomeAutonomous extends BaseLinearOpMode
             telemetry.addData("position: ", p.getVumarkLeftBoundary());
             telemetry.update();
 
-            int xcoord = p.getVumarkLeftBoundary();
+            xcoord = p.getVumarkLeftBoundary();
+
+
+        }
+
+    }
+
+    @Override
+    public void run() {
+
+
+
+
+        //robotWheelsTest.initAutonomous();
+        //distanceSensor.init();
+        //bdlatch.init();
+
+
+
+        runtime.reset();
+        telemetry.addData("Runtime Reset", "Complete");
+
+
+
 
             if (0 < xcoord && xcoord < 200) { // stone is on left, run left path
                 robot.robotWheelsTest.driveFor(16, 0.5);
@@ -243,7 +254,6 @@ public class SomeAutonomous extends BaseLinearOpMode
                 robot.robotWheelsTest.turnFor(90, 0.5);
                 robot.robotWheelsTest.driveFor(25.125, 0.5);
 
-                break;
             } else if (xcoord > 200 && xcoord < 400) { // stone is in middle, run middle path
 //move straight approx 34 inches, turn 180 degrees counter clockwise, go forward 47/2 inches, turn 90 deg. clockwise, forward 34.125 inches.
                 robot.robotWheelsTest.driveFor(34, 0.5);
@@ -255,7 +265,6 @@ public class SomeAutonomous extends BaseLinearOpMode
 
 
 
-                break;
             } else if (xcoord > 400) { //stone on right, run right path
 
                 robot.robotWheelsTest.driveFor(16, 0.5);
@@ -271,7 +280,6 @@ public class SomeAutonomous extends BaseLinearOpMode
 
 
 
-                break;
             } else {
                 //whoops it broke
                 telemetry.addData("IT BROKE I'M SORRY -Luke ", p.getVumarkLeftBoundary());
@@ -281,17 +289,19 @@ public class SomeAutonomous extends BaseLinearOpMode
                 robot.robotWheelsTest.driveFor(47, 0.5);
 
 
-                break;
             }
 
 
-        }
+
         telemetry.addData("PATH", "COMPLETE");
 
 
     }
 
 
-
+    @Override
+    public void on_stop() {
+        //do something when the robot stops?
+    }
 
 }

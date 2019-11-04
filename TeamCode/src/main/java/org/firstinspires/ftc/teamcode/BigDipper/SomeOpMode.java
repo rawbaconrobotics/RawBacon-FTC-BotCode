@@ -21,19 +21,22 @@ public class SomeOpMode extends BaseLinearOpMode
     RobotWheels robotWheels;
     public BDLatch bdlatch;
 
+    @Override
+    public void on_init(){
+        robot.robotWheelsTest.init();
+        robot.bdlatch.init();
+    }
+
+
+
+
 
     @Override
-
     public void run()
     {
         //robotWheels.init();
         //distanceSensor.init();
         //bdlatch.init();
-
-        robot.robotWheelsTest.init();
-        robot.bdlatch.init();
-
-        waitForStart();
 
 
         runtime.reset();
@@ -45,8 +48,13 @@ public class SomeOpMode extends BaseLinearOpMode
             robot.teleOpActivated();
 
         }
-        robot.robotWheelsTest.stopDrive();
     }
 
+    @Override
+    public void on_stop() {
+
+        robot.robotWheelsTest.stopDrive();
+
+    }
 
 }

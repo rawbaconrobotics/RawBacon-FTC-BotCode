@@ -15,9 +15,20 @@ public abstract class BaseLinearOpMode extends LinearOpMode
     {
 
         robot = new Robot(this);
+        //robot.startup();
+        on_init();
+        waitForStart();
         run();
+        while(opModeIsActive() && !isStopRequested()) {
+            idle();
+        }
+        on_stop();
+        //robot.shutdown();
 
     }
 
     public abstract void run();
+    public abstract void on_init();
+    public abstract void on_stop();
+
 }
