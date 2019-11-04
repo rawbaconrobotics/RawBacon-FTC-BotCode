@@ -34,7 +34,7 @@ import static org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BDLatch.l
 public class SomeAutonomous extends BaseLinearOpMode
 {
     private ElapsedTime runtime = new ElapsedTime();
-    RobotWheelsTest robotWheelsTest = new RobotWheelsTest(this);
+    //RobotWheelsTest robotWheelsTest = new RobotWheelsTest(this);
 
     public BDLatch bdlatch;
     private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
@@ -233,24 +233,24 @@ public class SomeAutonomous extends BaseLinearOpMode
             int xcoord = p.getVumarkLeftBoundary();
 
             if (0 < xcoord && xcoord < 200) { // stone is on left, run left path
-                robotWheelsTest.driveFor(16, 0.5);
-                robotWheelsTest.turnFor(-90, 0.5);
-                robotWheelsTest.driveFor(9, 0.5);
-                robotWheelsTest.turnFor(90, 0.5);
-                robotWheelsTest.driveFor(18, 0.5);
-                robotWheelsTest.turnFor(-180, 0.5);
-                robotWheelsTest.driveFor(23.5, 0.5);
-                robotWheelsTest.turnFor(90, 0.5);
-                robotWheelsTest.driveFor(25.125, 0.5);
+                robot.robotWheelsTest.driveFor(16, 0.5);
+                robot.robotWheelsTest.turnFor(-90, 0.5);
+                robot.robotWheelsTest.driveFor(9, 0.5);
+                robot.robotWheelsTest.turnFor(90, 0.5);
+                robot.robotWheelsTest.driveFor(18, 0.5);
+                robot.robotWheelsTest.turnFor(-180, 0.5);
+                robot.robotWheelsTest.driveFor(23.5, 0.5);
+                robot.robotWheelsTest.turnFor(90, 0.5);
+                robot.robotWheelsTest.driveFor(25.125, 0.5);
 
                 break;
             } else if (xcoord > 200 && xcoord < 400) { // stone is in middle, run middle path
 //move straight approx 34 inches, turn 180 degrees counter clockwise, go forward 47/2 inches, turn 90 deg. clockwise, forward 34.125 inches.
-                robotWheelsTest.driveFor(34, 0.5);
-                robotWheelsTest.turnFor(-180, 0.5);
-                robotWheelsTest.driveFor(23.5, 0.5);
-                robotWheelsTest.turnFor(90, 0.5);
-                robotWheelsTest.driveFor(34.125, 0.5);
+                robot.robotWheelsTest.driveFor(34, 0.5);
+                robot.robotWheelsTest.turnFor(-180, 0.5);
+                robot.robotWheelsTest.driveFor(23.5, 0.5);
+                robot.robotWheelsTest.turnFor(90, 0.5);
+                robot.robotWheelsTest.driveFor(34.125, 0.5);
 
 
 
@@ -258,16 +258,16 @@ public class SomeAutonomous extends BaseLinearOpMode
                 break;
             } else if (xcoord > 400) { //stone on right, run right path
 
-                robotWheelsTest.driveFor(16, 0.5);
-                robotWheelsTest.turnFor(90, 0.5);
-                robotWheelsTest.driveFor(9, 0.5);
-                robotWheelsTest.turnFor(-90, 0.5);
-                robotWheelsTest.driveFor(18,0.5);
-                robotWheelsTest.turnFor(-180, 0.5);
-                robotWheelsTest.driveFor(23.5, 0.5);
-                robotWheelsTest.turnFor(90, 0.5);
-                robotWheelsTest.driveFor(48.125, 0.5);
-                robotWheelsTest.driveFor(-5, -0.5);
+                robot.robotWheelsTest.driveFor(16, 0.5);
+                robot.robotWheelsTest.turnFor(90, 0.5);
+                robot.robotWheelsTest.driveFor(9, 0.5);
+                robot.robotWheelsTest.turnFor(-90, 0.5);
+                robot.robotWheelsTest.driveFor(18,0.5);
+                robot.robotWheelsTest.turnFor(-180, 0.5);
+                robot.robotWheelsTest.driveFor(23.5, 0.5);
+                robot.robotWheelsTest.turnFor(90, 0.5);
+                robot.robotWheelsTest.driveFor(48.125, 0.5);
+                robot.robotWheelsTest.driveFor(-5, -0.5);
 
 
 
@@ -276,9 +276,9 @@ public class SomeAutonomous extends BaseLinearOpMode
                 //whoops it broke
                 telemetry.addData("IT BROKE I'M SORRY -Luke ", p.getVumarkLeftBoundary());
                 telemetry.update();
-                robotWheelsTest.driveFor(9, 0.5);
-                robotWheelsTest.turnFor(-90, 0.5);
-                robotWheelsTest.driveFor(47, 0.5);
+                robot.robotWheelsTest.driveFor(9, 0.5);
+                robot.robotWheelsTest.turnFor(-90, 0.5);
+                robot.robotWheelsTest.driveFor(47, 0.5);
 
 
                 break;
