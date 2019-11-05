@@ -31,7 +31,6 @@ dependencies {
     turboImplementation project(':Hardware')
     turboImplementation project(':RobotServer')
     turboImplementation project(':OpenRC')
-    implementation project(':HOMAR-FTC-Library')
 
     extremeTurboImplementation project(':FtcCommon')
     extremeTurboImplementation project(':RobotCore')
