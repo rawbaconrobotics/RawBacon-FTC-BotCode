@@ -16,6 +16,7 @@ dependencies {
      */
     implementation project(':FtcRobotController')
     implementation 'com.github.dogecv:dogecv:2020.4-alpha'
+    implementation project(':HOMAR-FTC-Library')
 
     turboImplementation project(':Hardware')
     turboImplementation project(':RobotCore')
