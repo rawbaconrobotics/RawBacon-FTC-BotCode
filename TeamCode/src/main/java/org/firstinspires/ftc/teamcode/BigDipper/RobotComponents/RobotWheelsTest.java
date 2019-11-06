@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode.BigDipper.RobotComponents;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -36,8 +37,13 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.hardware.bosch.BNO055IMU;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.BigDipper.Robot;
 import org.firstinspires.ftc.teamcode.BigDipper.SomeAutonomous;
 
@@ -117,6 +123,11 @@ public class RobotWheelsTest extends RobotComponentImplBase {
     private DcMotor leftDriveFront = null;
     private DcMotor rightDriveFront = null;
 
+    BNO055IMU imu;
+    Orientation   lastAngles = new Orientation();
+    double                  globalAngle, power = .30, correction;
+
+
 
     public RobotWheelsTest(LinearOpMode opMode) {
         super(opMode);
@@ -169,8 +180,23 @@ public class RobotWheelsTest extends RobotComponentImplBase {
     rightDriveBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     rightDriveFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+            BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
 
-    }
+            parameters.mode = BNO055IMU.SensorMode.IMU;
+            parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+            parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+            parameters.loggingEnabled      = false;
+
+            // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
+            // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
+            // and named "imu".
+            imu = hardwareMap.get(BNO055IMU.class, "imu");
+
+            imu.initialize(parameters);
+
+
+
+        }
     /*
  */
 
@@ -412,7 +438,91 @@ public class RobotWheelsTest extends RobotComponentImplBase {
         wheelAccelerationThread.stop();
     }
 
+//AUTONOMOUS STUFF
+    /*
+    public double gyroStrafeNormalized(double pow, double target, double Kp)
+    {
+        double err = getAngle() - target;
+        MecanumDrive.cartesian(driveTrain, 0, pow, err*Kp);
+        return err;
+    }
+
+    public double gyroStraightNormalized(double pow, double target, double Kp)
+    {
+        double err = getAngle() - target;
+
+        MecanumDrive.cartesian(driveTrain, pow, 0, err*Kp);
+
+        return err;
+    }
+
+    public static void cartesian(DriveTrain driveTrain, double mainSpeed, double strafeSpeed, double turnSpeed){
+
+    }
+
+    private double getAngle()
+    {
+        // We experimentally determined the Z axis is the axis we want to use for heading angle.
+        // We have to process the angle because the imu works in euler angles so the Z axis is
+        // returned as 0 to +180 or 0 to -180 rolling back to -179 or +179 when rotation passes
+        // 180 degrees. We detect this transition and track the total cumulative angle of rotation.
+
+        Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        double deltaAngle = angles.firstAngle - lastAngles.firstAngle;
+
+        if (deltaAngle < -180)
+            deltaAngle += 360;
+        else if (deltaAngle > 180)
+            deltaAngle -= 360;
+
+        globalAngle += deltaAngle;
+
+        lastAngles = angles;
+
+        return globalAngle;
+    }
+public void normalizeAuto(){
+    /*
+     * Are any of the computed wheel powers greater than 1?
+     */
+    /*
+    if(Math.abs(FL_power_raw) > 1
+            || Math.abs(FR_power_raw) > 1
+            || Math.abs(RL_power_raw) > 1
+            || Math.abs(RR_power_raw) > 1)
+    {
+        /*
+         * Yeah, figure out which one
+         *//*
+        maxLeft = Math.max(Math.abs(FL_power_raw), Math.abs(RL_power_raw));
+        maxRight = Math.max(Math.abs(FR_power_raw), Math.abs(RR_power_raw));
+        max = Math.max(maxLeft, maxRight);
+
+        ratio = 1 / max; //Create a ratio to normalize them all
+
+        motorPowers.frontLeft  = FL_power_raw * ratio;
+        motorPowers.frontRight = FR_power_raw * ratio;
+        motorPowers.rearLeft   = RL_power_raw * ratio;
+        motorPowers.rearRight  = RR_power_raw * ratio;
+    }
+
+    /*
+     * Nothing we need to do to the raw powers
+     *//*
+    else
+    {
+        motorPowers.frontLeft = FL_power_raw;
+        motorPowers.frontRight = FR_power_raw;
+        motorPowers.rearLeft = RL_power_raw;
+        motorPowers.rearRight = RR_power_raw;
+    }
 }
+*/
+
+}
+
+
 
 
 

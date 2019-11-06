@@ -153,7 +153,7 @@ public class SomeAutonomous extends BaseLinearOpMode
 
         robot.robotWheelsTest.initAutonomous();
 
-        robot.bdlatch.init();
+        robot.bdlatch.initAutonomous();
 
         p = new VisionPipeline();
         //webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");

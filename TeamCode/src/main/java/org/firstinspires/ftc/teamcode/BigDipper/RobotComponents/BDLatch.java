@@ -54,9 +54,11 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  */
 
 public class BDLatch extends RobotComponentImplBase {
-    public void initAutonomous(){}
 
     private final static String LATCH_SERVO_NAME = "tank_latch" ;
+    private final static String LATCH_SERVO_2_NAME = "tank_latch_2";
+    double LATCH_OPEN = 0.9;
+    double LATCH_CLOSED = 0.2;
 
     public static boolean latchButton = false;
 
@@ -64,6 +66,7 @@ public class BDLatch extends RobotComponentImplBase {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     private Servo latchServo = null;
+    private Servo latchServo2 = null;
 
     public BDLatch(LinearOpMode opMode) {
         super(opMode);
@@ -74,8 +77,18 @@ public class BDLatch extends RobotComponentImplBase {
     public void init() {
 
         latchServo = hardwareMap.servo.get(LATCH_SERVO_NAME);
+        latchServo2 = hardwareMap.servo.get(LATCH_SERVO_2_NAME);
 
     }
+    public void initAutonomous(){
+
+        latchServo = hardwareMap.servo.get(LATCH_SERVO_NAME);
+        latchServo2 = hardwareMap.servo.get(LATCH_SERVO_2_NAME);
+
+        latchServo.setPosition(LATCH_CLOSED);
+        latchServo2.setPosition(LATCH_CLOSED);
+    }
+
 
     public void latch() {
 
@@ -90,8 +103,7 @@ public class BDLatch extends RobotComponentImplBase {
         // Setup a variable for each drive wheel to save power level for telemetry
 
 
-        double LATCH_OPEN = 0.9;
-        double LATCH_CLOSED = 0.2;
+
 
         boolean openLatch = gamepad2.y;
         boolean closeLatch = gamepad2.x;
@@ -99,9 +111,11 @@ public class BDLatch extends RobotComponentImplBase {
 
             if(openLatch){
                 latchServo.setPosition(LATCH_OPEN);
+                latchServo2.setPosition(LATCH_OPEN);
             }
             if (closeLatch){
                 latchServo.setPosition(LATCH_CLOSED);
+                latchServo2.setPosition(LATCH_CLOSED);
             }
 
 
@@ -112,6 +126,15 @@ public class BDLatch extends RobotComponentImplBase {
 
     }
 
+    public void openLatch(){
+        latchServo.setPosition(LATCH_OPEN);
+        latchServo2.setPosition(LATCH_OPEN);
+    }
+
+    public void closeLatch(){
+        latchServo.setPosition(LATCH_CLOSED);
+        latchServo2.setPosition(LATCH_CLOSED);
+    }
 
 }
 
