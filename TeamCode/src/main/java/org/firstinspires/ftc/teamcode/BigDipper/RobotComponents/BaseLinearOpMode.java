@@ -19,13 +19,15 @@ public abstract class BaseLinearOpMode extends LinearOpMode
         //robot.startup();
 
         on_init();
+        System.out.println("Initialized robot");
         waitForStart();
+        System.out.println("Play has been pressed");
         init = false;
         run();
-        while(opModeIsActive() && !isStopRequested()) {
-            idle();
-        }
+        System.out.println("Finished running the robot");
         on_stop();
+        System.out.println("Robot Stopped!");
+
         //robot.shutdown();
 
     }

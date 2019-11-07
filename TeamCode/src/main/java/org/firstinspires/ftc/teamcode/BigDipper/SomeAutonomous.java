@@ -150,6 +150,7 @@ public class SomeAutonomous extends BaseLinearOpMode
 
     @Override
     public void on_init() {
+        System.out.println("INIT PROCESS STARTING");
 
         robot.robotWheelsTest.initAutonomous();
 
@@ -189,6 +190,8 @@ public class SomeAutonomous extends BaseLinearOpMode
 
         VuforiaLocalizer.CloseableFrame vuFrame = null;
 
+        System.out.println("INITIALIZED, STARTING TO LOOK FOR SKYSTONES");
+
         while(!opModeIsActive()){
 
         if (!vuforia.getFrameQueue().isEmpty()) {
@@ -196,6 +199,8 @@ public class SomeAutonomous extends BaseLinearOpMode
                 vuFrame = vuforia.getFrameQueue().take();
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
+                System.out.println("VUFORIA BROKE");
+
             }
 
             if (vuFrame == null) continue;
@@ -210,14 +215,17 @@ public class SomeAutonomous extends BaseLinearOpMode
                         Bitmap displayBitmap = Bitmap.createBitmap(ret.width(), ret.height(), Bitmap.Config.RGB_565);
                         Utils.matToBitmap(ret, displayBitmap);
                         //dashboard.sendImage(displayBitmap);
+                        System.out.println("VUFORIA PICTURE TAKEN");
+
                     }
                 }
+
+
+
         }
         //dashboard.sendTelemetryPacket(new TelemetryPacket());
-        telemetry.addData("position: ", p.getVumarkLeftBoundary());
-        telemetry.update();
-
-        xcoord = p.getVumarkLeftBoundary();
+            telemetry.addData("position: ", p.getVumarkLeftBoundary());
+            telemetry.update();
 
     }
       /*      if (gamepad1.a)
@@ -233,7 +241,9 @@ public class SomeAutonomous extends BaseLinearOpMode
     @Override
     public void run() {
 
+        System.out.println("ROBOT RUN SEQUENCE INITIALIZED!");
 
+        xcoord = p.getVumarkLeftBoundary();
 
 
         //robotWheelsTest.initAutonomous();
@@ -244,12 +254,16 @@ public class SomeAutonomous extends BaseLinearOpMode
 
         runtime.reset();
         telemetry.addData("Runtime Reset", "Complete");
+        System.out.println("RUNTIME RESET COMPLETE");
 
 
 
 
             if (0 < xcoord && xcoord < 200) { // stone is on left, run left path
+                System.out.println("DRIVING LEFT PATH");
                 robot.robotWheelsTest.driveFor(16, 0.5);
+                System.out.println("DRIVING LEFT PATH PART 2");
+
                 robot.robotWheelsTest.turnFor(-90, 0.5);
                 robot.robotWheelsTest.driveFor(9, 0.5);
                 robot.robotWheelsTest.turnFor(90, 0.5);
@@ -262,7 +276,11 @@ public class SomeAutonomous extends BaseLinearOpMode
             } else if (xcoord > 200 && xcoord < 400) { // stone is in middle, run middle path
 //move straight approx 34 inches, turn 180 degrees counter clockwise, go forward 47/2 inches, turn 90 deg. clockwise, forward 34.125 inches.
                 robot.robotWheelsTest.driveFor(34, 0.5);
+                System.out.println("DRIVING MID PATH");
+
                 robot.robotWheelsTest.turnFor(-180, 0.5);
+                System.out.println("DRIVING MID PATH PART 2");
+
                 robot.robotWheelsTest.driveFor(23.5, 0.5);
                 robot.robotWheelsTest.turnFor(90, 0.5);
                 robot.robotWheelsTest.driveFor(34.125, 0.5);
@@ -273,7 +291,11 @@ public class SomeAutonomous extends BaseLinearOpMode
             } else if (xcoord > 400) { //stone on right, run right path
 
                 robot.robotWheelsTest.driveFor(16, 0.5);
+                System.out.println("DRIVING RIGHT PATH");
+
                 robot.robotWheelsTest.turnFor(90, 0.5);
+                System.out.println("DRIVING RIGHT PATH PART 2");
+
                 robot.robotWheelsTest.driveFor(9, 0.5);
                 robot.robotWheelsTest.turnFor(-90, 0.5);
                 robot.robotWheelsTest.driveFor(18,0.5);
@@ -289,6 +311,8 @@ public class SomeAutonomous extends BaseLinearOpMode
                 //whoops it broke
                 telemetry.addData("IT BROKE I'M SORRY -Luke ", p.getVumarkLeftBoundary());
                 telemetry.update();
+                System.out.println("IT BROKE");
+
                 robot.robotWheelsTest.driveFor(9, 0.5);
                 robot.robotWheelsTest.turnFor(-90, 0.5);
                 robot.robotWheelsTest.driveFor(47, 0.5);
@@ -299,6 +323,7 @@ public class SomeAutonomous extends BaseLinearOpMode
 
 
         telemetry.addData("PATH", "COMPLETE");
+        System.out.println("PATH COMPLETE");
 
 
     }

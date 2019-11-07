@@ -127,11 +127,13 @@ public class BDLatch extends RobotComponentImplBase {
     }
 
     public void openLatch(){
+        System.out.println("LATCH OPENING");
         latchServo.setPosition(LATCH_OPEN);
         latchServo2.setPosition(LATCH_OPEN);
     }
 
     public void closeLatch(){
+        System.out.println("LATCH CLOSING");
         latchServo.setPosition(LATCH_CLOSED);
         latchServo2.setPosition(LATCH_CLOSED);
     }

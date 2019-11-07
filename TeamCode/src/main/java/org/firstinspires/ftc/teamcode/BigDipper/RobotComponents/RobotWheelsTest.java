@@ -165,6 +165,8 @@ public class RobotWheelsTest extends RobotComponentImplBase {
     }
     @Override
     public void initAutonomous(){
+        System.out.println("STARTING TO INIT AUTONOMOUS...");
+
         leftDriveBack = hardwareMap.dcMotor.get(BACKLEFT_WHEEL_NAME);
         rightDriveBack = hardwareMap.dcMotor.get(BACKRIGHT_WHEEL_NAME);
         leftDriveFront = hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME);
@@ -194,6 +196,7 @@ public class RobotWheelsTest extends RobotComponentImplBase {
 
         imu.initialize(parameters);
 
+        System.out.println("AUTONOMOUS INITIALIZED!");
 
 
     }
@@ -305,6 +308,7 @@ public class RobotWheelsTest extends RobotComponentImplBase {
 
     //Set speeds of turning or driving motors
     public void drive(double speed){
+        System.out.println("DRIVE METHOD CALLED, SETTING TO SPEED" + speed);
 
         leftDriveBack.setPower(speed);
         rightDriveBack.setPower(speed);
@@ -313,6 +317,8 @@ public class RobotWheelsTest extends RobotComponentImplBase {
     }
 
     public void turn(double speed, boolean clockwise){
+        System.out.println("TURN METHOD CALLED, SETTING TO SPEED " + speed + " and clockwise = " + clockwise);
+
         if(clockwise) {
             leftDriveBack.setPower(speed);
             rightDriveBack.setPower(-speed);
@@ -329,8 +335,12 @@ public class RobotWheelsTest extends RobotComponentImplBase {
 
     //Drive for a specified distance using encoders
     public void driveFor(double distance_inches, double speed) {
+        System.out.println("DRIVEFOR METHOD CALLED");
 
         runUsingEncoders();
+
+        System.out.println("RUNUSINGENCODERS COMPLETE!");
+
         if (opModeIsActive()) {
 
 
@@ -343,11 +353,21 @@ public class RobotWheelsTest extends RobotComponentImplBase {
             rightDriveFront.setTargetPosition(targetDistRight);
             leftDriveBack.setTargetPosition(targetDistLeft);
             rightDriveBack.setTargetPosition(targetDistRight);
+
+            System.out.println("SET TARGET POSITIONS");
+
             leftDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             leftDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            System.out.println("SET MODE RUN TO POSITION");
+
+
             drive(speed);
+
+            System.out.println("DRIVING AT THAT SPEED");
+
 
             while (opModeIsActive() &&
                     (runtime.seconds() < 15) &&
@@ -358,15 +378,24 @@ public class RobotWheelsTest extends RobotComponentImplBase {
                 telemetry.addData("Path2",  "Running at %7d :%7d");
 
                 telemetry.update();
+                System.out.println("ROBOT SHOULD BE RUNNING NOW");
+
             }
             drive(0);
+            System.out.println("ROBOT STOPPED");
+
             runUsingEncoders();
+            System.out.println("RUN USING ENCODERS METHOD RAN");
+
         }
 
     }
 
     //Turn for a specified amount of degrees using encoders
     public void turnFor ( int degrees, double speed) {
+
+        System.out.println("TURNFOR METHOD CALLED");
+
 
         int targetDistLeft;
         int targetDistRight;
@@ -381,10 +410,16 @@ public class RobotWheelsTest extends RobotComponentImplBase {
                 rightDriveFront.setTargetPosition(targetDistRight);
                 rightDriveBack.setTargetPosition(targetDistRight);
 
+                System.out.println("SET TURNING TARGET POS.");
+
+
                 leftDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 leftDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 rightDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 rightDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                System.out.println("SET RUN TO POSITION");
+
             }
             else {
                 targetDistRight = rightDriveFront.getCurrentPosition() + (int) (degrees * COUNTS_PER_DEGREE);
@@ -395,17 +430,29 @@ public class RobotWheelsTest extends RobotComponentImplBase {
                 rightDriveFront.setTargetPosition(targetDistRight);
                 rightDriveBack.setTargetPosition(targetDistRight);
 
+                System.out.println("SET TURNING TARGET POS.");
+
+
                 leftDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 leftDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 rightDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 rightDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                System.out.println("SET RUN TO POSITION");
+
 
             }
 
             if(degrees > 0){turningRight = true;}
             else{turningRight = false;}
 
+            System.out.println("ABOUT TO RUN TURN COMMAND");
+
             turn(speed, turningRight);
+
+            System.out.println("TURN COMMAND COMPLETED");
+
+
 
             while (opModeIsActive() &&
                     (runtime.seconds() < 15) &&
@@ -414,21 +461,29 @@ public class RobotWheelsTest extends RobotComponentImplBase {
                 // Display it for the driver.
                 telemetry.addData("Path1",  "Running to %7d :%7d");
                 telemetry.addData("Path2",  "Running at %7d :%7d");
+                System.out.println("TURNING THE ROBOT");
 
                 telemetry.update();
             }
             drive(0);
+            System.out.println("SPEED SET TO 0");
+
             runUsingEncoders();
+            System.out.println("RAN RUNUSINGENCODERS");
+
         }
     }
 
 
 
     public void runUsingEncoders(){
+        System.out.println("ABOUT TO SET RUNUSINGENCODERS DIRECTLY...");
+
         leftDriveBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftDriveFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightDriveBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightDriveFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        System.out.println("SET IT DIRECTLY!");
 
     }
 
@@ -436,6 +491,8 @@ public class RobotWheelsTest extends RobotComponentImplBase {
 
     public void stopDrive(){
         wheelAccelerationThread.stop();
+        System.out.println("STOPDRIVE completed");
+
     }
 
 //AUTONOMOUS STUFF
