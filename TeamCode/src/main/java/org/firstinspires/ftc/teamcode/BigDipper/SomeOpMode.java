@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.RobotWheelsTest;
 
 import static org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BDLatch.latchButton;
 
-@TeleOp(name="OpModev1", group="Big Dipper")
+@TeleOp(name="OFFICIAL TeleOp", group="Big Dipper")
 
 public class SomeOpMode extends BaseLinearOpMode
 {

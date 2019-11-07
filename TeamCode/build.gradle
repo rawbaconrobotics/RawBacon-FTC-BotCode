@@ -16,6 +16,7 @@ dependencies {
      */
     implementation project(':FtcRobotController')
     implementation 'com.github.dogecv:dogecv:2020.4-alpha'
+    implementation 'com.acmerobotics.roadrunner:core:0.4.6'
 
     turboImplementation project(':Hardware')
     turboImplementation project(':RobotCore')

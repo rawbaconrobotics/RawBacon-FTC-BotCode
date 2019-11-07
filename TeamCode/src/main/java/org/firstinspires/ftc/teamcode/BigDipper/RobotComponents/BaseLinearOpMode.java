@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.BigDipper.Robot;
 public abstract class BaseLinearOpMode extends LinearOpMode
 {
     protected Robot robot;
+    public boolean init = true;
 
 
     @Override
@@ -16,8 +17,10 @@ public abstract class BaseLinearOpMode extends LinearOpMode
 
         robot = new Robot(this);
         //robot.startup();
+
         on_init();
         waitForStart();
+        init = false;
         run();
         while(opModeIsActive() && !isStopRequested()) {
             idle();

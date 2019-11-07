@@ -186,20 +186,19 @@ public class SomeAutonomous extends BaseLinearOpMode
 
         Mat frame;
 
-        while (!opModeIsActive()) {
-      /*      if (gamepad1.a)
-                shouldWrite = true;
-            else
-                shouldWrite = false; */
-            VuforiaLocalizer.CloseableFrame vuFrame = null;
-            if (!vuforia.getFrameQueue().isEmpty()) {
-                try {
-                    vuFrame = vuforia.getFrameQueue().take();
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
 
-                if (vuFrame == null) continue;
+        VuforiaLocalizer.CloseableFrame vuFrame = null;
+
+        while(!opModeIsActive()){
+
+        if (!vuforia.getFrameQueue().isEmpty()) {
+            try {
+                vuFrame = vuforia.getFrameQueue().take();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+
+            if (vuFrame == null) continue;
 
                 for (int i = 0; i < vuFrame.getNumImages(); i++) {
                     Image img = vuFrame.getImage(i);
@@ -213,15 +212,21 @@ public class SomeAutonomous extends BaseLinearOpMode
                         //dashboard.sendImage(displayBitmap);
                     }
                 }
-            }
-            //dashboard.sendTelemetryPacket(new TelemetryPacket());
-            telemetry.addData("position: ", p.getVumarkLeftBoundary());
-            telemetry.update();
-
-            xcoord = p.getVumarkLeftBoundary();
-
-
         }
+        //dashboard.sendTelemetryPacket(new TelemetryPacket());
+        telemetry.addData("position: ", p.getVumarkLeftBoundary());
+        telemetry.update();
+
+        xcoord = p.getVumarkLeftBoundary();
+
+    }
+      /*      if (gamepad1.a)
+                shouldWrite = true;
+            else
+                shouldWrite = false; */
+
+
+
 
     }
 
@@ -303,5 +308,6 @@ public class SomeAutonomous extends BaseLinearOpMode
     public void on_stop() {
         //do something when the robot stops?
     }
+
 
 }

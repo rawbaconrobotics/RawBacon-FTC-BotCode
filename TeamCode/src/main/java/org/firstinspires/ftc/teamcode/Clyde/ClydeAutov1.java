@@ -56,6 +56,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
+//The official autonomous for Clyde
 @Autonomous(name="Clyde AutoV1", group="Clyde")
 
 public class ClydeAutov1 extends LinearOpMode {
@@ -63,7 +64,6 @@ public class ClydeAutov1 extends LinearOpMode {
     //Create Clyde
     FergBot clyde  = new FergBot();
     private ElapsedTime   runtime = new ElapsedTime();
-
 
     @Override
     public void runOpMode() {

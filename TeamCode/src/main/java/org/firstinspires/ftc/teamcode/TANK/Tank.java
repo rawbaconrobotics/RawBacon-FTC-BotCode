@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.TANK;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 public class Tank {
     //Initialize new components
@@ -16,21 +17,36 @@ public class Tank {
 
     }
 
-    public void driveForward(double distance, double speed){
-        drive.encoderDrive(distance, speed, speed, speed, speed);
+
+
+        // Wait for the game to start (driver presses PLAY)
+
+    public void reverseMotors() {
+        drive.reverseWheels();
+    }
+    public void setUpAuto() {
+        drive.setUpAuto();
     }
 
-    public void strafeRight(double distance, double speed){
-        drive.encoderDrive(distance, speed, -speed, -speed, speed);
+    /*public void encoderDrive(double inches, double lfSpeed, double rfSpeed, double lbSpeed, double rbSpeed, double timeoutS) {
+        drive.encoderDrive(inches, lfSpeed, rfSpeed, lbSpeed, rbSpeed, timeoutS);
     }
-    public void turnRight(double degrees, double speed){
-        drive.encoderDrive(degrees*(15/90), speed, speed, -speed, -speed);
+
+     */
+    public void driveForward(double inches, double speed, double timeoutS){
+        drive.encoderDrive(speed, inches, inches, inches, inches, timeoutS);
     }
-    public void turnLeft(double degrees, double speed){
-        drive.encoderDrive(degrees*(15/90), -speed, -speed, speed, speed);
+    public void driveBackward(double inches, double speed, double timeoutS){
+        drive.encoderDrive(speed, -inches, -inches, -inches, -inches, timeoutS);
     }
-    public void reverseMotors(){
-        drive.reverseWheels();
+    public void strafeLeft(double inches, double speed, double timeoutS){
+        drive.encoderDrive(speed, -inches, inches, inches, -inches, timeoutS);
+    }
+    public void strafeRight(double inches, double speed, double timeoutS){
+        drive.encoderDrive(speed, inches, -inches, -inches, inches, timeoutS);
+    }
+    public void autoLatch(double position1, double position2){
+        latch.autoLatch(position1, position2);
     }
 
     public Tank(LinearOpMode opMode) {

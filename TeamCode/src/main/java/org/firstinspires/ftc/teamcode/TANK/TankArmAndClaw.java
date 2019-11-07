@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode.TANK;
 
+import com.qualcomm.hardware.HardwareDeviceManager;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -43,10 +44,11 @@ public class TankArmAndClaw extends TankComponentImplBase{
     private ElapsedTime runtime = new ElapsedTime();
     //private DcMotor tankArm = null;
     //private Servo tankClaw = null;
-    private Servo tankLatch = null;
+    private Servo tankLatch1 = null;
+    private Servo tankLatch2 = null;
     public boolean latchPosition = true;
-    double latchOpen  = 0.9;
-    double latchClosed = 0.2;
+    double latch1Open  = 0.9;
+    double latch1Closed = 0.2;
 
     public TankArmAndClaw(LinearOpMode opMode)
     {
@@ -60,7 +62,8 @@ public class TankArmAndClaw extends TankComponentImplBase{
 
         //tankArm = hardwareMap.dcMotor.get("tank+_arm");
         //tankClaw = hardwareMap.servo.get("tank_claw");
-        tankLatch = hardwareMap.servo.get("tank_latch");
+        tankLatch1 = hardwareMap.servo.get("tank_latch_1");
+        tankLatch2 = hardwareMap.servo.get("tank_latch_2");
 
 
     }
@@ -92,22 +95,31 @@ public class TankArmAndClaw extends TankComponentImplBase{
     public void moveLatch (){
 
         if (gamepad2.a && latchPosition) {
-            tankLatch.setPosition(latchClosed);
+            tankLatch1.setPosition(latch1Closed);
+            tankLatch2.setPosition(latch1Open);
             latchPosition = false;
         }
         else if (gamepad2.a && !latchPosition){
-                tankLatch.setPosition(latchOpen);
+                tankLatch1.setPosition(latch1Open);
+                tankLatch2.setPosition(latch1Closed);
+                
                 latchPosition = true;
             }
         if (gamepad2.x) {
-            tankLatch.setPosition(latchClosed);
-
+            tankLatch1.setPosition(latch1Closed);
+            tankLatch2.setPosition(latch1Open);
 
         }
         if(gamepad2.y){
-            tankLatch.setPosition(latchOpen);
+            tankLatch1.setPosition(latch1Open);
+            tankLatch2.setPosition(latch1Closed);
+            
         }
 
 
+    }
+    public void autoLatch(double position1, double position2){
+        tankLatch1.setPosition(position1);
+        tankLatch2.setPosition(position2);
     }
 }

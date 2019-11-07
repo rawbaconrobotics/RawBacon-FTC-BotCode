@@ -6,20 +6,34 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name="TankAutoRed", group="Tank")
 public class TankAutoRed extends TankLinearOpMode {
-    final double DRIVE_SPEED = 0.6;
+    final double driveSpeed = 0.6;
+    final double latchClosed = 0.2;
+    final double latchOpen = 0.9;
     private ElapsedTime runtime = new ElapsedTime();
 
     @Override
     public void run(){
+
+        robot.setUpAuto();
         waitForStart();
 
         robot.reverseMotors();
+        robot.driveBackward(31.5, driveSpeed, 10);
+        sleep(500);
+        robot.autoLatch(latchClosed, latchOpen);
+        sleep(500);
+        robot.driveForward(31.5, driveSpeed, 10);
+        sleep(500);
+        robot.autoLatch(latchOpen, latchClosed);
+        sleep(500);
+        robot.strafeLeft(31.5, driveSpeed, 10);
+        sleep(500);
 
-        robot.driveForward(67.5, -DRIVE_SPEED);
-        robot.strafeRight(17.5, DRIVE_SPEED);
-        robot.driveForward(47.5, DRIVE_SPEED);
-        robot.driveForward(10, -DRIVE_SPEED);
-        robot.strafeRight(40, - DRIVE_SPEED);
+
+
+
+
+
 
     }
 

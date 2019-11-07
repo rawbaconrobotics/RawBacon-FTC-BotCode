@@ -57,7 +57,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Clyde Test Auto", group="Clyde")
+
+//The official testing autonomous for Clyde
+@Autonomous(name="Clyde Test AutoV2", group="Clyde")
 
 public class ClydeProtoAutonomous extends LinearOpMode {
 
@@ -70,7 +72,7 @@ public class ClydeProtoAutonomous extends LinearOpMode {
     public void runOpMode() {
 
         // Send telemetry message to signify robot works
-        telemetry.addData("Status", "Alive");
+        telemetry.addData("Status:", "Alive");
         telemetry.update();
 
         //Map all of the motors/servos and reset encoders
@@ -86,18 +88,22 @@ public class ClydeProtoAutonomous extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-
         // Movements:
         //MOVE
 
+        //This works,need to test encoders now
         runtime.reset();
         clyde.wheels.drive(0.5);
-        while(opModeIsActive() && runtime.seconds() < 3.00){}
+        while(opModeIsActive() && runtime.seconds() < 1.00){}
         clyde.wheels.drive(0);
+        runtime.reset();
+        clyde.wheels.turn(1);
+        while(opModeIsActive() && runtime.seconds() < 1.00){}
+        clyde.wheels.turn(0);
 
         sleep(1000);     // pause for servos to move
 
-        telemetry.addData("Path", "Complete");
+        telemetry.addData("Status:", "Finished");
         telemetry.update();
     }
 

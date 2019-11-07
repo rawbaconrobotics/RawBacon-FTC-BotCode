@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Hardware;
 
-public class FergieArm {
+public class FergieArm implements HardwareHelper{
     private Servo rightClaw; //Declare right servo of claw
     private Servo leftClaw;  //Declare left servo of claw
     private DcMotor arm;     //Declare arm servo
@@ -25,10 +25,6 @@ public class FergieArm {
     //Force the arm to move at half speed
     private final double ARM_SPEED_MULT = 0.5;
 
-    //Class constructor
-    public FergieArm(){
-
-    }
     //Map all of the motors/servos
     public void init(HardwareMap mappy){
         rightClaw = mappy.get(Servo.class, RIGHT_CLAW_NAME);

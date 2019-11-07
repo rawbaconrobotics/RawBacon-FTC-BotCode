@@ -55,7 +55,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class BDLatch extends RobotComponentImplBase {
 
-    private final static String LATCH_SERVO_NAME = "tank_latch" ;
+    private final static String LATCH_SERVO_NAME = "tank_latch_1" ;
     private final static String LATCH_SERVO_2_NAME = "tank_latch_2";
     double LATCH_OPEN = 0.9;
     double LATCH_CLOSED = 0.2;

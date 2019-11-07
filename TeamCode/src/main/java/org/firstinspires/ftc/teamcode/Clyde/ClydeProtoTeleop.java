@@ -32,7 +32,7 @@ package org.firstinspires.ftc.teamcode.Clyde;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-
+//Does teleop stuff for Clyde
 @TeleOp(name="Clyde TeleOp", group="Clyde")
 public class ClydeProtoTeleop extends OpMode{
 
@@ -75,10 +75,12 @@ public class ClydeProtoTeleop extends OpMode{
     @Override
     public void loop() {
 
+        //Control the driving wheels, turning wheels, and arm with the sticks
         clyde.wheels.drive(-gamepad1.left_stick_y * speedMult);
         clyde.wheels.turn(-gamepad1.right_stick_y * speedMult);
         clyde.arm.moveArm(-gamepad2.right_stick_y * speedMult);
 
+        //Change speed of all parts while certain buttons are being pressed
         if (gamepad1.left_bumper){
             speedMult = 2;
         }

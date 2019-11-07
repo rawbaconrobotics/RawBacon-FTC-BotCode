@@ -136,69 +136,69 @@ public class RobotWheelsTest extends RobotComponentImplBase {
 
     @Override
     public void init() {
-         accLeftDriveFront = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
-         accLeftDriveBack = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(BACKLEFT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
-         accRightDriveFront = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(FRONTRIGHT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
-         accRightDriveBack = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(BACKRIGHT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
+        accLeftDriveFront = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
+        accLeftDriveBack = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(BACKLEFT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
+        accRightDriveFront = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(FRONTRIGHT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
+        accRightDriveBack = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(BACKRIGHT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
 
 
-            leftDriveBack = hardwareMap.dcMotor.get(BACKLEFT_WHEEL_NAME);
-            rightDriveBack = hardwareMap.dcMotor.get(BACKRIGHT_WHEEL_NAME);
-            leftDriveFront = hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME);
-            rightDriveFront = hardwareMap.dcMotor.get(FRONTRIGHT_WHEEL_NAME);
+        leftDriveBack = hardwareMap.dcMotor.get(BACKLEFT_WHEEL_NAME);
+        rightDriveBack = hardwareMap.dcMotor.get(BACKRIGHT_WHEEL_NAME);
+        leftDriveFront = hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME);
+        rightDriveFront = hardwareMap.dcMotor.get(FRONTRIGHT_WHEEL_NAME);
 
-            leftDriveFront.setDirection(DcMotor.Direction.REVERSE);
-            rightDriveFront.setDirection(DcMotor.Direction.FORWARD);
-            leftDriveBack.setDirection(DcMotor.Direction.REVERSE);
-            rightDriveBack.setDirection(DcMotor.Direction.FORWARD);
+        leftDriveFront.setDirection(DcMotor.Direction.REVERSE);
+        rightDriveFront.setDirection(DcMotor.Direction.FORWARD);
+        leftDriveBack.setDirection(DcMotor.Direction.REVERSE);
+        rightDriveBack.setDirection(DcMotor.Direction.FORWARD);
 
-            leftDriveFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            leftDriveBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            rightDriveFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            rightDriveBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftDriveFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftDriveBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightDriveFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightDriveBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-            wheelAccelerationThread.addMotor(accLeftDriveFront);
-            wheelAccelerationThread.addMotor(accLeftDriveBack);
-            wheelAccelerationThread.addMotor(accRightDriveFront);
-            wheelAccelerationThread.addMotor(accRightDriveBack);
-            wheelAccelerationThread.start();
-        }
-        @Override
+        wheelAccelerationThread.addMotor(accLeftDriveFront);
+        wheelAccelerationThread.addMotor(accLeftDriveBack);
+        wheelAccelerationThread.addMotor(accRightDriveFront);
+        wheelAccelerationThread.addMotor(accRightDriveBack);
+        wheelAccelerationThread.start();
+    }
+    @Override
     public void initAutonomous(){
-    leftDriveBack = hardwareMap.dcMotor.get(BACKLEFT_WHEEL_NAME);
-    rightDriveBack = hardwareMap.dcMotor.get(BACKRIGHT_WHEEL_NAME);
-    leftDriveFront = hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME);
-    rightDriveFront = hardwareMap.dcMotor.get(FRONTRIGHT_WHEEL_NAME);
+        leftDriveBack = hardwareMap.dcMotor.get(BACKLEFT_WHEEL_NAME);
+        rightDriveBack = hardwareMap.dcMotor.get(BACKRIGHT_WHEEL_NAME);
+        leftDriveFront = hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME);
+        rightDriveFront = hardwareMap.dcMotor.get(FRONTRIGHT_WHEEL_NAME);
 
-    leftDriveFront.setDirection(DcMotor.Direction.REVERSE);
-    rightDriveFront.setDirection(DcMotor.Direction.FORWARD);
-    leftDriveBack.setDirection(DcMotor.Direction.REVERSE);
-    rightDriveBack.setDirection(DcMotor.Direction.FORWARD);
+        leftDriveFront.setDirection(DcMotor.Direction.REVERSE);
+        rightDriveFront.setDirection(DcMotor.Direction.FORWARD);
+        leftDriveBack.setDirection(DcMotor.Direction.REVERSE);
+        rightDriveBack.setDirection(DcMotor.Direction.FORWARD);
 
-    leftDriveBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-    leftDriveFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-    rightDriveBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-    rightDriveFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftDriveBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftDriveFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightDriveBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightDriveFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-            BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
 
-            parameters.mode = BNO055IMU.SensorMode.IMU;
-            parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-            parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-            parameters.loggingEnabled      = false;
+        parameters.mode = BNO055IMU.SensorMode.IMU;
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.loggingEnabled      = false;
 
-            // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
-            // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
-            // and named "imu".
-            imu = hardwareMap.get(BNO055IMU.class, "imu");
+        // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
+        // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
+        // and named "imu".
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
 
-            imu.initialize(parameters);
+        imu.initialize(parameters);
 
 
 
-        }
+    }
     /*
- */
+     */
 
     public void wheelsTeleOp() {
 
