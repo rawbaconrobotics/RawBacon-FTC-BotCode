@@ -192,7 +192,7 @@ public class SomeAutonomous extends BaseLinearOpMode
 
         System.out.println("INITIALIZED, STARTING TO LOOK FOR SKYSTONES");
 
-        while(!opModeIsActive()){
+        while(!opModeIsActive() && !isStopRequested()){
 
         if (!vuforia.getFrameQueue().isEmpty()) {
             try {
@@ -261,61 +261,87 @@ public class SomeAutonomous extends BaseLinearOpMode
 
             if (0 < xcoord && xcoord < 200) { // stone is on left, run left path
                 System.out.println("DRIVING LEFT PATH");
-                robot.robotWheelsTest.driveFor(16, 0.5);
+                robot.robotWheelsTest.driveFor(16, 0.5, 15);
+                sleep(1000);
                 System.out.println("DRIVING LEFT PATH PART 2");
-
-                robot.robotWheelsTest.turnFor(-90, 0.5);
-                robot.robotWheelsTest.driveFor(9, 0.5);
-                robot.robotWheelsTest.turnFor(90, 0.5);
-                robot.robotWheelsTest.driveFor(18, 0.5);
-                robot.robotWheelsTest.turnFor(-180, 0.5);
-                robot.robotWheelsTest.driveFor(23.5, 0.5);
-                robot.robotWheelsTest.turnFor(90, 0.5);
-                robot.robotWheelsTest.driveFor(25.125, 0.5);
+                robot.robotWheelsTest.turnFor(-90, 0.5, 15);
+                sleep(1000);
+                robot.robotWheelsTest.driveFor(9, 0.5, 15);
+                sleep(1000);
+                robot.robotWheelsTest.turnFor(90, 0.5, 15);
+                sleep(1000);
+                robot.robotWheelsTest.driveFor(18, 0.5, 15);
+                sleep(1000);
+                robot.robotWheelsTest.turnFor(-180, 0.5, 15);
+                sleep(1000);
+                robot.robotWheelsTest.driveFor(23.5, 0.5, 15);
+                sleep(1000);
+                robot.robotWheelsTest.turnFor(90, 0.5, 15);
+                sleep(1000);
+                robot.robotWheelsTest.driveFor(25.125, 0.5, 15);
+                sleep(1000);
 
             } else if (xcoord > 200 && xcoord < 400) { // stone is in middle, run middle path
 //move straight approx 34 inches, turn 180 degrees counter clockwise, go forward 47/2 inches, turn 90 deg. clockwise, forward 34.125 inches.
-                robot.robotWheelsTest.driveFor(34, 0.5);
+                robot.robotWheelsTest.driveFor(34, 0.5, 15);
+                sleep(1000);
                 System.out.println("DRIVING MID PATH");
 
-                robot.robotWheelsTest.turnFor(-180, 0.5);
+                robot.robotWheelsTest.turnFor(-180, 0.5, 15);
+                sleep(1000);
                 System.out.println("DRIVING MID PATH PART 2");
 
-                robot.robotWheelsTest.driveFor(23.5, 0.5);
-                robot.robotWheelsTest.turnFor(90, 0.5);
-                robot.robotWheelsTest.driveFor(34.125, 0.5);
+                robot.robotWheelsTest.driveFor(23.5, 0.5, 15);
+                sleep(1000);
+                robot.robotWheelsTest.turnFor(90, 0.5, 15);
+                sleep(1000);
+                robot.robotWheelsTest.driveFor(34.125, 0.5, 15);
+                sleep(1000);
 
 
 
 
             } else if (xcoord > 400) { //stone on right, run right path
 
-                robot.robotWheelsTest.driveFor(16, 0.5);
+                robot.robotWheelsTest.driveFor(16, 0.5, 5);
+                sleep(1000);
                 System.out.println("DRIVING RIGHT PATH");
 
-                robot.robotWheelsTest.turnFor(90, 0.5);
+                robot.robotWheelsTest.turnFor(90, 0.5, 15);
+                sleep(1000);
                 System.out.println("DRIVING RIGHT PATH PART 2");
 
-                robot.robotWheelsTest.driveFor(9, 0.5);
-                robot.robotWheelsTest.turnFor(-90, 0.5);
-                robot.robotWheelsTest.driveFor(18,0.5);
-                robot.robotWheelsTest.turnFor(-180, 0.5);
-                robot.robotWheelsTest.driveFor(23.5, 0.5);
-                robot.robotWheelsTest.turnFor(90, 0.5);
-                robot.robotWheelsTest.driveFor(48.125, 0.5);
-                robot.robotWheelsTest.driveFor(-5, -0.5);
+                robot.robotWheelsTest.driveFor(9, 0.5, 15);
+                sleep(1000);
+                robot.robotWheelsTest.turnFor(-90, 0.5, 15);
+                sleep(1000);
+                robot.robotWheelsTest.driveFor(18,0.5, 15);
+                sleep(1000);
+                robot.robotWheelsTest.turnFor(-180, 0.5, 15);
+                sleep(1000);
+                robot.robotWheelsTest.driveFor(23.5, 0.5, 15);
+                sleep(1000);
+                robot.robotWheelsTest.turnFor(90, 0.5, 15);
+                sleep(1000);
+                robot.robotWheelsTest.driveFor(48.125, 0.5, 15);
+                sleep(1000);
+                robot.robotWheelsTest.driveFor(-5, -0.5, 15);
+                sleep(1000);
 
 
 
             } else {
                 //whoops it broke
-                telemetry.addData("IT BROKE I'M SORRY -Luke ", p.getVumarkLeftBoundary());
+                telemetry.addData("UNABLE TO FIND SKYSTONE", ", GOING TO SKYBRIDGE");
                 telemetry.update();
                 System.out.println("IT BROKE");
 
-                robot.robotWheelsTest.driveFor(9, 0.5);
-                robot.robotWheelsTest.turnFor(-90, 0.5);
-                robot.robotWheelsTest.driveFor(47, 0.5);
+                robot.robotWheelsTest.driveFor(9, 0.5, 15);
+                sleep(1000);
+                robot.robotWheelsTest.turnFor(-90, 0.5, 15);
+                sleep(1000);
+                robot.robotWheelsTest.driveFor(47, 0.5, 15);
+                sleep(1000);
 
 
             }

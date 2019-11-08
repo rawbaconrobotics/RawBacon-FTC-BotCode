@@ -334,7 +334,7 @@ public class RobotWheelsTest extends RobotComponentImplBase {
     }
 
     //Drive for a specified distance using encoders
-    public void driveFor(double distance_inches, double speed) {
+    public void driveFor(double distance_inches, double speed, double timeoutS) {
         System.out.println("DRIVEFOR METHOD CALLED");
 
         runUsingEncoders();
@@ -363,6 +363,7 @@ public class RobotWheelsTest extends RobotComponentImplBase {
 
             System.out.println("SET MODE RUN TO POSITION");
 
+            runtime.reset();
 
             drive(speed);
 
@@ -370,7 +371,7 @@ public class RobotWheelsTest extends RobotComponentImplBase {
 
 
             while (opModeIsActive() &&
-                    (runtime.seconds() < 15) &&
+                    (runtime.seconds() < timeoutS) &&
                     (leftDriveFront.isBusy() && rightDriveFront.isBusy())) {
 
                 // Display it for the driver.
@@ -392,7 +393,7 @@ public class RobotWheelsTest extends RobotComponentImplBase {
     }
 
     //Turn for a specified amount of degrees using encoders
-    public void turnFor ( int degrees, double speed) {
+    public void turnFor ( int degrees, double speed, double timeoutS) {
 
         System.out.println("TURNFOR METHOD CALLED");
 
@@ -447,6 +448,7 @@ public class RobotWheelsTest extends RobotComponentImplBase {
             else{turningRight = false;}
 
             System.out.println("ABOUT TO RUN TURN COMMAND");
+            runtime.reset();
 
             turn(speed, turningRight);
 
@@ -455,7 +457,7 @@ public class RobotWheelsTest extends RobotComponentImplBase {
 
 
             while (opModeIsActive() &&
-                    (runtime.seconds() < 15) &&
+                    (runtime.seconds() < timeoutS) &&
                     (leftDriveFront.isBusy() && rightDriveFront.isBusy())) {
 
                 // Display it for the driver.
