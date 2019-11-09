@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.Clyde;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.Hardware;
 
 public class FergieArm implements HardwareHelper{
     private Servo rightClaw; //Declare right servo of claw
@@ -12,9 +11,6 @@ public class FergieArm implements HardwareHelper{
 
 
     // *** Change these assignments, future Max ***
-    private final String RIGHT_CLAW_NAME = "right_claw";
-    private final String LEFT_CLAW_NAME = "left_claw";
-    private final String ARM_MOTOR_NAME = "arm_motor";
     private final double RIGHT_OPEN_POSITION = 3;
     private final double LEFT_OPEN_POSITION = 3;
     private final double LEFT_CLOSED_POSITION = 6;
@@ -27,9 +23,9 @@ public class FergieArm implements HardwareHelper{
 
     //Map all of the motors/servos
     public void init(HardwareMap mappy){
-        rightClaw = mappy.get(Servo.class, RIGHT_CLAW_NAME);
-        leftClaw = mappy.get(Servo.class, LEFT_CLAW_NAME);
-        arm = mappy.get(DcMotor.class, ARM_MOTOR_NAME);
+        rightClaw = mappy.get(Servo.class, ClydeHWNames.L_CLAW_NAME);
+        leftClaw = mappy.get(Servo.class, ClydeHWNames.R_CLAW_NAME);
+        arm = mappy.get(DcMotor.class, ClydeHWNames.ARM_NAME);
         rightClaw.setPosition(0);
         leftClaw.setPosition(0);
         arm.setPower(0);

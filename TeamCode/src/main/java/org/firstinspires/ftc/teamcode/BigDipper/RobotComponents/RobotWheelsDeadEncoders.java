@@ -31,23 +31,11 @@ package org.firstinspires.ftc.teamcode.BigDipper.RobotComponents;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
-import com.qualcomm.hardware.bosch.BNO055IMU;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.teamcode.BigDipper.Robot;
-import org.firstinspires.ftc.teamcode.BigDipper.SomeAutonomous;
-
-import static org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.RobotWheels.FRONTLEFT_WHEEL_NAME;
 
 
 /**
@@ -63,7 +51,7 @@ import static org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.RobotWhee
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-public class RobotWheelsTest extends RobotComponentImplBase {
+public class RobotWheelsDeadEncoders extends RobotComponentImplBase {
     final double WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT = 2;
     final double WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT = 15;
     final double WHEEL_ACCEL_SPEED_PER_SECOND_TURNING = 15;
@@ -130,7 +118,7 @@ public class RobotWheelsTest extends RobotComponentImplBase {
 
 
 
-    public RobotWheelsTest(LinearOpMode opMode) {
+    public RobotWheelsDeadEncoders(LinearOpMode opMode) {
         super(opMode);
     }
 
@@ -179,9 +167,9 @@ public class RobotWheelsTest extends RobotComponentImplBase {
         rightDriveBack.setDirection(DcMotor.Direction.FORWARD);
 
         leftDriveBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftDriveFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftDriveFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightDriveBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightDriveFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightDriveFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
 
@@ -347,19 +335,15 @@ public class RobotWheelsTest extends RobotComponentImplBase {
 
             int targetDistLeft;
             int targetDistRight;
-            targetDistLeft = leftDriveFront.getCurrentPosition() + (int) (distance_inches * COUNTS_PER_INCH);
-            targetDistRight = rightDriveFront.getCurrentPosition() + (int) (distance_inches * COUNTS_PER_INCH);
+            targetDistLeft = leftDriveBack.getCurrentPosition() + (int) (distance_inches * COUNTS_PER_INCH);
+            targetDistRight = rightDriveBack.getCurrentPosition() + (int) (distance_inches * COUNTS_PER_INCH);
 
-            leftDriveFront.setTargetPosition(targetDistLeft);
-            rightDriveFront.setTargetPosition(targetDistRight);
             leftDriveBack.setTargetPosition(targetDistLeft);
             rightDriveBack.setTargetPosition(targetDistRight);
 
             System.out.println("SET TARGET POSITIONS");
 
-            leftDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             leftDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rightDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             System.out.println("SET MODE RUN TO POSITION");
@@ -373,7 +357,7 @@ public class RobotWheelsTest extends RobotComponentImplBase {
 
             while (opModeIsActive() &&
                     (runtime.seconds() < timeoutS) &&
-                    (leftDriveFront.isBusy() && rightDriveFront.isBusy())) {
+                    (leftDriveBack.isBusy() && rightDriveBack.isBusy())) {
 
                 // Display it for the driver.
                 telemetry.addData("Path1",  "Running to %7d :%7d");
@@ -412,41 +396,33 @@ public class RobotWheelsTest extends RobotComponentImplBase {
         boolean turningRight = false;
         if (opModeIsActive()) {
             if (degrees > 0) {
-                targetDistRight = rightDriveFront.getCurrentPosition() - (int) (degrees * COUNTS_PER_DEGREE);
-                targetDistLeft = leftDriveFront.getCurrentPosition() + (int) (degrees * COUNTS_PER_DEGREE);
+                targetDistRight = rightDriveBack.getCurrentPosition() - (int) (degrees * COUNTS_PER_DEGREE);
+                targetDistLeft = leftDriveBack.getCurrentPosition() + (int) (degrees * COUNTS_PER_DEGREE);
 
-                leftDriveFront.setTargetPosition(targetDistLeft);
                 leftDriveBack.setTargetPosition(targetDistLeft);
-                rightDriveFront.setTargetPosition(targetDistRight);
                 rightDriveBack.setTargetPosition(targetDistRight);
 
                 System.out.println("SET TURNING TARGET POS.");
 
 
                 leftDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                leftDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 rightDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                rightDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
                 System.out.println("SET RUN TO POSITION");
 
             }
             else {
-                targetDistRight = rightDriveFront.getCurrentPosition() + (int) (degrees * COUNTS_PER_DEGREE);
-                targetDistLeft = leftDriveFront.getCurrentPosition() - (int) (degrees * COUNTS_PER_DEGREE);
+                targetDistRight = rightDriveBack.getCurrentPosition() + (int) (degrees * COUNTS_PER_DEGREE);
+                targetDistLeft = leftDriveBack.getCurrentPosition() - (int) (degrees * COUNTS_PER_DEGREE);
 
-                leftDriveFront.setTargetPosition(targetDistLeft);
                 leftDriveBack.setTargetPosition(targetDistLeft);
-                rightDriveFront.setTargetPosition(targetDistRight);
                 rightDriveBack.setTargetPosition(targetDistRight);
 
                 System.out.println("SET TURNING TARGET POS.");
 
 
                 leftDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                leftDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 rightDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                rightDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
                 System.out.println("SET RUN TO POSITION");
 
@@ -491,9 +467,7 @@ public class RobotWheelsTest extends RobotComponentImplBase {
         System.out.println("ABOUT TO SET RUNUSINGENCODERS DIRECTLY...");
 
         leftDriveBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftDriveFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightDriveBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightDriveFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         System.out.println("SET IT DIRECTLY!");
 
     }

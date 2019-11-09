@@ -21,7 +21,7 @@ public class FergieWheels implements WheelMethods, HardwareHelper {
     //Find circumference of turning wheels
     private static final double   OMNIWHEEL_CIRCUMFERENCE    = OMNIWHEEL_DIAMETER_INCHES * 3.1415;
     //Get distance from center of turning to turning wheels
-    private static final double TURNER_TO_DRIVER_INCHES = 9.5;
+    private static final double   TURNER_TO_DRIVER_INCHES = 9.5;
     //Find the total distance a full spin of the robot covers
     private static final double   TURNER_FLOOR_CIRCUMFERENCE = TURNER_TO_DRIVER_INCHES * 2 * 3.1415;
     //Get drive gear reduction of turning wheels
@@ -36,18 +36,16 @@ public class FergieWheels implements WheelMethods, HardwareHelper {
     private DcMotor turner1; //Motor that turns the back wheels
     private DcMotor turner2; //Second motor that turns back wheels
     private DcMotor driver;  //Motor that turns the wheels/treads in the middle
-    private final String TURN_NAME = "turner_motor_1";
-    private final String TURN_NAME_2 = "turner_motor_2";
-    private final String DRIVE_NAME = "driver_motor";
     private LinearOpMode opper;
     private boolean hasOpMode = false;
 
     //Maps wheel motors/servos
     public void init(HardwareMap mappy) {
-        turner1 = mappy.dcMotor.get(TURN_NAME);
-        turner2 = mappy.dcMotor.get(TURN_NAME_2);
-        driver = mappy.dcMotor.get(DRIVE_NAME);
+        turner1 = mappy.dcMotor.get(ClydeHWNames.TURN_1_NAME);
+        turner2 = mappy.dcMotor.get(ClydeHWNames.TURN_2_NAME);
+        driver = mappy.dcMotor.get(ClydeHWNames.DRIVE_NAME);
         driver.setDirection(DcMotor.Direction.REVERSE);
+        turner2.setDirection(DcMotor.Direction.REVERSE);
         turner1.setPower(0);
         turner2.setPower(0);
         driver.setPower(0);
