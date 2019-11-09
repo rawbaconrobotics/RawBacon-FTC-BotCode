@@ -21,10 +21,10 @@ public class TankDriveTrain extends TankComponentImplBase {
 
 
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor leftDriveBack = null;
-    private DcMotor rightDriveBack = null;
-    private DcMotor rightDriveFront = null;
-    private DcMotor leftDriveFront = null;
+    public DcMotor leftDriveBack = null;
+    public DcMotor rightDriveBack = null;
+    public DcMotor rightDriveFront = null;
+    public DcMotor leftDriveFront = null;
 
     public TankDriveTrain(LinearOpMode opMode) {
         super(opMode);
@@ -38,6 +38,11 @@ public class TankDriveTrain extends TankComponentImplBase {
         rightDriveBack  = hardwareMap.dcMotor.get(BACKRIGHT_WHEEL_NAME);
         leftDriveFront  = hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME);
         rightDriveFront = hardwareMap.dcMotor.get(FRONTRIGHT_WHEEL_NAME);
+
+        leftDriveFront.setDirection(DcMotor.Direction.FORWARD);
+        rightDriveFront.setDirection(DcMotor.Direction.REVERSE);
+        leftDriveBack.setDirection(DcMotor.Direction.FORWARD);
+        rightDriveBack.setDirection(DcMotor.Direction.REVERSE);
     }
 
     public void wheelsTeleOp() {
@@ -68,10 +73,25 @@ public class TankDriveTrain extends TankComponentImplBase {
     }
 
     public void reverseWheels(){
-        leftDriveFront.setDirection(DcMotor.Direction.REVERSE);
-        leftDriveBack.setDirection(DcMotor.Direction.REVERSE);
-        rightDriveFront.setDirection(DcMotor.Direction.FORWARD);
-        rightDriveBack.setDirection(DcMotor.Direction.FORWARD);
+        leftDriveFront.setDirection(DcMotor.Direction.FORWARD);
+        leftDriveBack.setDirection(DcMotor.Direction.FORWARD);
+        rightDriveFront.setDirection(DcMotor.Direction.REVERSE);
+        rightDriveBack.setDirection(DcMotor.Direction.REVERSE);
+    }
+    public void runMotors(double lfSpeed, double rfSpeed, double lbSpeed, double rbSpeed, double time){
+        leftDriveFront.setPower(lfSpeed);
+        rightDriveFront.setPower(rfSpeed);
+        leftDriveBack.setPower(lbSpeed);
+        rightDriveBack.setPower(rbSpeed);
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < time)) {
+            telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
+        leftDriveFront.setPower(0);
+        rightDriveFront.setPower(0);
+        leftDriveBack.setPower(0);
+        rightDriveBack.setPower(0);
     }
 
     public void setUpAuto() {
@@ -86,6 +106,7 @@ public class TankDriveTrain extends TankComponentImplBase {
         leftDriveFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightDriveFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftDriveBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightDriveBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Send telemetry message to indicate successful Encoder reset
         telemetry.addData("Path0", "Starting at %7d :%7d",

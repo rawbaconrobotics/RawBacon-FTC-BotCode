@@ -33,17 +33,9 @@ public class Tank {
     }
 
      */
-    public void driveForward(double inches, double speed, double timeoutS){
-        drive.encoderDrive(speed, inches, inches, inches, inches, timeoutS);
-    }
-    public void driveBackward(double inches, double speed, double timeoutS){
-        drive.encoderDrive(speed, -inches, -inches, -inches, -inches, timeoutS);
-    }
-    public void strafeLeft(double inches, double speed, double timeoutS){
-        drive.encoderDrive(speed, -inches, inches, inches, -inches, timeoutS);
-    }
-    public void strafeRight(double inches, double speed, double timeoutS){
-        drive.encoderDrive(speed, inches, -inches, -inches, inches, timeoutS);
+    public void driveByTime(double lfSpeed, double rfSpeed, double lbSpeed, double rbSpeed, double time){
+        drive.runMotors(lfSpeed, rfSpeed, lbSpeed, rbSpeed, time);
+
     }
     public void autoLatch(double position1, double position2){
         latch.autoLatch(position1, position2);

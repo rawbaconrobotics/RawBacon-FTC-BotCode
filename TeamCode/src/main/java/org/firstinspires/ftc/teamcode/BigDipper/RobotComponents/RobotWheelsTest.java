@@ -377,6 +377,14 @@ public class RobotWheelsTest extends RobotComponentImplBase {
                 // Display it for the driver.
                 telemetry.addData("Path1",  "Running to %7d :%7d");
                 telemetry.addData("Path2",  "Running at %7d :%7d");
+                String s1 = Boolean.toString(leftDriveFront.isBusy());
+                String s2 = Boolean.toString(rightDriveFront.isBusy());
+                String s3 = Boolean.toString(leftDriveBack.isBusy());
+                String s4 = Boolean.toString(rightDriveBack.isBusy());
+
+                telemetry.addData("FRONT LEFT: " + s1," and FRONT RIGHT " + s2);
+                telemetry.addData("BACK LEFT: " + s3," and BACK RIGHT " + s4);
+                telemetry.update();
 
                 telemetry.update();
                 System.out.println("ROBOT SHOULD BE RUNNING NOW");

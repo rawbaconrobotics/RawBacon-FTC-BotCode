@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.BigDipper;
 
 import android.graphics.Bitmap;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -29,7 +30,7 @@ import org.opencv.core.Mat;
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 import static org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BDLatch.latchButton;
 
-@TeleOp(name="Autonomousv1-Blue-PLACEbotBYpikto ", group="Big Dipper")
+@Autonomous(name="Autonomousv1-Blue-PLACEbotBYpikto ", group="Big Dipper")
 
 public class SomeAutonomous extends BaseLinearOpMode
 {
@@ -261,6 +262,9 @@ public class SomeAutonomous extends BaseLinearOpMode
 
             if (0 < xcoord && xcoord < 200) { // stone is on left, run left path
                 System.out.println("DRIVING LEFT PATH");
+                robot.robotWheelsTest.turnFor(-90, 0.5, 15);
+                sleep(1000);
+//the above needs to go
                 robot.robotWheelsTest.driveFor(16, 0.5, 15);
                 sleep(1000);
                 System.out.println("DRIVING LEFT PATH PART 2");

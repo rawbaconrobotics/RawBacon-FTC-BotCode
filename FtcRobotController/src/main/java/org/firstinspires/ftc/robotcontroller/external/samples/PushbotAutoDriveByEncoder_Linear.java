@@ -163,11 +163,11 @@ public class PushbotAutoDriveByEncoder_Linear extends LinearOpMode {
                    (robot.leftDrive.isBusy() && robot.rightDrive.isBusy())) {
 
                 // Display it for the driver.
-                telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget,  newRightTarget);
-                telemetry.addData("Path2",  "Running at %7d :%7d",
-                                            robot.leftDrive.getCurrentPosition(),
-                                            robot.rightDrive.getCurrentPosition());
-                telemetry.update();
+                //telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget,  newRightTarget);
+                //telemetry.addData("Path2",  "Running at %7d :%7d",
+                 //                           robot.leftDrive.getCurrentPosition(),
+                 //                           robot.rightDrive.getCurrentPosition());
+
             }
 
             // Stop all motion;
