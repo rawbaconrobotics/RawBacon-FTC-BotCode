@@ -45,7 +45,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.BigDipper.Robot;
-import org.firstinspires.ftc.teamcode.BigDipper.SomeAutonomous;
 
 import static org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.RobotWheels.FRONTLEFT_WHEEL_NAME;
 
@@ -183,6 +182,11 @@ public class RobotWheelsTest extends RobotComponentImplBase {
         leftDriveFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightDriveBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightDriveFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        leftDriveFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftDriveBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightDriveFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightDriveBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
 

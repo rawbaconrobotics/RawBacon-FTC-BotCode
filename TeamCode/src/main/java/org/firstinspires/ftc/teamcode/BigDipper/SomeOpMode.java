@@ -23,7 +23,7 @@ public class SomeOpMode extends BaseLinearOpMode
 
     @Override
     public void on_init(){
-        robot.robotWheelsTest.init();
+        robot.robotWheelsDeadEncoders.init();
         robot.bdlatch.init();
     }
 
@@ -53,8 +53,7 @@ public class SomeOpMode extends BaseLinearOpMode
     @Override
     public void on_stop() {
 
-        robot.robotWheelsTest.stopDrive();
-
+        robot.robotWheelsDeadEncoders.stopDrive();
     }
 
 

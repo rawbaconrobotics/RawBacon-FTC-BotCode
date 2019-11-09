@@ -19,7 +19,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.BigDipper.Robot;
-import org.firstinspires.ftc.teamcode.BigDipper.SomeAutonomous;
 
 @TeleOp(name="ENCODER TEST", group="Big Dipper")
 public class EncoderTest extends LinearOpMode {

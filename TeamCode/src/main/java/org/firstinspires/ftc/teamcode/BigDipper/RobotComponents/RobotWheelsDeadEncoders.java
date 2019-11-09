@@ -38,6 +38,7 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
+
 /**
  * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
  * the autonomous or the teleop period of an FTC match. The names of OpModes appear on the menu
@@ -52,6 +53,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
  */
 
 public class RobotWheelsDeadEncoders extends RobotComponentImplBase {
+    double leftPower;
+    double rightPower;
     boolean speedModeOn;
     final double WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT = 2;
     final double WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT = 15;
@@ -142,6 +145,8 @@ public class RobotWheelsDeadEncoders extends RobotComponentImplBase {
         leftDriveBack.setDirection(DcMotor.Direction.REVERSE);
         rightDriveBack.setDirection(DcMotor.Direction.FORWARD);
 
+
+
         leftDriveFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftDriveBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightDriveFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -166,6 +171,11 @@ public class RobotWheelsDeadEncoders extends RobotComponentImplBase {
         rightDriveFront.setDirection(DcMotor.Direction.FORWARD);
         leftDriveBack.setDirection(DcMotor.Direction.REVERSE);
         rightDriveBack.setDirection(DcMotor.Direction.FORWARD);
+
+        leftDriveFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftDriveBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightDriveFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightDriveBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         leftDriveBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftDriveFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -194,7 +204,6 @@ public class RobotWheelsDeadEncoders extends RobotComponentImplBase {
      */
 
     public void wheelsTeleOp() {
-        speedModeOn = isBumperPressed();
 
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Tank Controller app on the phone).
@@ -211,8 +220,7 @@ public class RobotWheelsDeadEncoders extends RobotComponentImplBase {
         //while (opModeIsActive()) {
 
         // Setup a variable for each drive wheel to save power level for telemetry
-        double leftPower;
-        double rightPower;
+
 
         // Choose to drive using either Tank Mode, or POV Mode
         // Comment out the method that's not used.  The default below is POV.
@@ -236,7 +244,9 @@ public class RobotWheelsDeadEncoders extends RobotComponentImplBase {
         leftDriveFront.setPower(leftPower);
         rightDriveFront.setPower(rightPower);
 */
+        speedModeOn = isBumperPressed();
 
+        opMode.sleep(3);
 
 
         mechanumTeleOp(gamepad1.left_stick_x,gamepad1.left_stick_y,-gamepad1.right_stick_x);        // Initialize the hardware variables. Note that the strings used here as parameters
@@ -268,10 +278,10 @@ public class RobotWheelsDeadEncoders extends RobotComponentImplBase {
 
         if(speedModeOn) {
 
-            leftDriveBack.setPower(wheelSpeeds[0]);
-            rightDriveBack.setPower(wheelSpeeds[1]);
-            leftDriveFront.setPower(wheelSpeeds[2]);
-            rightDriveFront.setPower(wheelSpeeds[3]);
+            leftDriveBack.setPower(Range.clip((wheelSpeeds[0]), -1, 1));
+            rightDriveBack.setPower(Range.clip((wheelSpeeds[1]), -1, 1));
+            leftDriveFront.setPower(Range.clip((wheelSpeeds[2]), -1, 1));
+            rightDriveFront.setPower(Range.clip((wheelSpeeds[3]), -1, 1));
         }
         else{
             accLeftDriveBack.setTargetPower(wheelSpeeds[0]);
