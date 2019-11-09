@@ -123,6 +123,7 @@ public class RobotWheelsTest extends RobotComponentImplBase {
     private DcMotor rightDriveBack = null;
     private DcMotor leftDriveFront = null;
     private DcMotor rightDriveFront = null;
+    boolean speedModeOn;
 
     BNO055IMU imu;
     Orientation   lastAngles = new Orientation();
@@ -205,6 +206,7 @@ public class RobotWheelsTest extends RobotComponentImplBase {
      */
 
     public void wheelsTeleOp() {
+        speedModeOn = isBumperPressed();
 
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Tank Controller app on the phone).
@@ -275,11 +277,19 @@ public class RobotWheelsTest extends RobotComponentImplBase {
         wheelSpeeds[3] = x + y - rotation;
 
         normalize(wheelSpeeds);
+if(speedModeOn) {
 
-        accLeftDriveBack.setTargetPower(wheelSpeeds[0]);
-        accRightDriveBack.setTargetPower(wheelSpeeds[1]);
-        accLeftDriveFront.setTargetPower(wheelSpeeds[2]);
-        accRightDriveFront.setTargetPower(wheelSpeeds[3]);
+    leftDriveBack.setPower(wheelSpeeds[0]);
+    rightDriveBack.setPower(wheelSpeeds[1]);
+    leftDriveFront.setPower(wheelSpeeds[2]);
+    rightDriveFront.setPower(wheelSpeeds[3]);
+}
+else{
+    accLeftDriveBack.setTargetPower(wheelSpeeds[0]);
+    accRightDriveBack.setTargetPower(wheelSpeeds[1]);
+    accLeftDriveFront.setTargetPower(wheelSpeeds[2]);
+    accRightDriveFront.setTargetPower(wheelSpeeds[3]);
+}
 
     }   //mecanumDrive_Cartesian
 
@@ -587,6 +597,17 @@ public void normalizeAuto(){
     }
 }
 */
+boolean isBumperPressed(){
+    float bumperNumber = gamepad1.right_trigger;
+    boolean bumperPressed;
+    if(bumperNumber > 0.3){
+        bumperPressed = true;
+    }
+    else{
+        bumperPressed = false;
+    }
+    return bumperPressed;
+}
 
 }
 

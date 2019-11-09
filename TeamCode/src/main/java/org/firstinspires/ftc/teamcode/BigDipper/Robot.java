@@ -7,12 +7,13 @@ import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BDDistanceSensor
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BDLatch;
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.RobotWheels;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.RobotWheelsDeadEncoders;
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.RobotWheelsTest;
 
 public class Robot {
     //Initialize new components
     public RobotWheels robotWheels;
-    public RobotWheelsTest robotWheelsTest;
+    public RobotWheelsDeadEncoders robotWheelsDeadEncoders;
     public BDDistanceSensor distanceSensor;
     public BDLatch bdlatch;
 
@@ -34,7 +35,7 @@ public class Robot {
 
 
 
-    robotWheelsTest.wheelsTeleOp();
+    robotWheelsDeadEncoders.wheelsTeleOp();
 
     //Activate distance sensor for opmode
 
@@ -52,7 +53,7 @@ public class Robot {
  public Robot(LinearOpMode opMode)
  {
 
-     robotWheelsTest = new RobotWheelsTest(opMode);
+     robotWheelsDeadEncoders = new RobotWheelsDeadEncoders(opMode);
      //distanceSensor = new BDDistanceSensor(opMode);
      bdlatch = new BDLatch(opMode);
 

@@ -52,6 +52,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
  */
 
 public class RobotWheelsDeadEncoders extends RobotComponentImplBase {
+    boolean speedModeOn;
     final double WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT = 2;
     final double WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT = 15;
     final double WHEEL_ACCEL_SPEED_PER_SECOND_TURNING = 15;
@@ -193,6 +194,7 @@ public class RobotWheelsDeadEncoders extends RobotComponentImplBase {
      */
 
     public void wheelsTeleOp() {
+        speedModeOn = isBumperPressed();
 
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Tank Controller app on the phone).
@@ -264,11 +266,19 @@ public class RobotWheelsDeadEncoders extends RobotComponentImplBase {
 
         normalize(wheelSpeeds);
 
-        accLeftDriveBack.setTargetPower(wheelSpeeds[0]);
-        accRightDriveBack.setTargetPower(wheelSpeeds[1]);
-        accLeftDriveFront.setTargetPower(wheelSpeeds[2]);
-        accRightDriveFront.setTargetPower(wheelSpeeds[3]);
+        if(speedModeOn) {
 
+            leftDriveBack.setPower(wheelSpeeds[0]);
+            rightDriveBack.setPower(wheelSpeeds[1]);
+            leftDriveFront.setPower(wheelSpeeds[2]);
+            rightDriveFront.setPower(wheelSpeeds[3]);
+        }
+        else{
+            accLeftDriveBack.setTargetPower(wheelSpeeds[0]);
+            accRightDriveBack.setTargetPower(wheelSpeeds[1]);
+            accLeftDriveFront.setTargetPower(wheelSpeeds[2]);
+            accRightDriveFront.setTargetPower(wheelSpeeds[3]);
+        }
     }   //mecanumDrive_Cartesian
 
     private void normalize(double[] wheelSpeeds) {
@@ -561,6 +571,17 @@ public void normalizeAuto(){
     }
 }
 */
+boolean isBumperPressed(){
+    float bumperNumber = gamepad1.right_trigger;
+    boolean bumperPressed;
+    if(bumperNumber > 0.3){
+        bumperPressed = true;
+    }
+    else{
+        bumperPressed = false;
+    }
+    return bumperPressed;
+}
 
 }
 

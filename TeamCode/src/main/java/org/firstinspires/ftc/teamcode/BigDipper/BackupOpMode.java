@@ -97,6 +97,7 @@ public class BackupOpMode extends LinearOpMode {
             // Setup a variable for each drive wheel to save power level for telemetry
             double leftPower;
             double rightPower;
+            boolean speedModeOn = isBumperPressed();
 
             // Choose to drive using either Tank Mode, or POV Mode
             // Comment out the method that's not used.  The default below is POV.
@@ -133,5 +134,16 @@ public class BackupOpMode extends LinearOpMode {
             telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
             telemetry.update();
         }
+    }
+    boolean isBumperPressed(){
+        float bumperNumber = gamepad1.right_trigger;
+        boolean bumperPressed;
+        if(bumperNumber > 0.5){
+            bumperPressed = true;
+        }
+        else{
+            bumperPressed = false;
+        }
+                return bumperPressed;
     }
 }
