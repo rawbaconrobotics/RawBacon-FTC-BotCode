@@ -27,9 +27,10 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.Clyde;
+package org.firstinspires.ftc.teamcode.Clyde_OLD;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -58,7 +59,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 //The official autonomous for Clyde
 @Autonomous(name="Clyde AutoV1", group="Clyde")
-
+@Disabled
 public class ClydeAutov1 extends LinearOpMode {
 
     //Create Clyde

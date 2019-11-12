@@ -27,9 +27,10 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.Clyde;
+package org.firstinspires.ftc.teamcode.Clyde_OLD;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -60,7 +61,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 //The official testing autonomous for Clyde
 @Autonomous(name="Clyde Test AutoV2", group="Clyde")
-
+@Disabled
 public class ClydeProtoAutonomous extends LinearOpMode {
 
     //Create Clyde
@@ -76,7 +77,7 @@ public class ClydeProtoAutonomous extends LinearOpMode {
         telemetry.update();
 
         //Map all of the motors/servos and reset encoders
-        clyde.init(hardwareMap);
+        clyde.init(hardwareMap, this);
         clyde.resetEncoders();
 
         // Send telemetry message to indicate successful Encoder reset
@@ -92,14 +93,16 @@ public class ClydeProtoAutonomous extends LinearOpMode {
         //MOVE
 
         //This works,need to test encoders now
-        runtime.reset();
+        clyde.wheels.turnTime(1, 0.5);
+        clyde.wheels.driveTime(1, 0.5);
+        /*runtime.reset();
         clyde.wheels.drive(0.5);
         while(opModeIsActive() && runtime.seconds() < 1.00){}
         clyde.wheels.drive(0);
         runtime.reset();
         clyde.wheels.turn(1);
         while(opModeIsActive() && runtime.seconds() < 1.00){}
-        clyde.wheels.turn(0);
+        clyde.wheels.turn(0);*/
 
         sleep(1000);     // pause for servos to move
 

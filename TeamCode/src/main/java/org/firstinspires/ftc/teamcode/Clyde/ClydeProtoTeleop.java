@@ -27,13 +27,15 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.Clyde;
+package org.firstinspires.ftc.teamcode.Clyde_OLD;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 //Does teleop stuff for Clyde
 @TeleOp(name="Clyde TeleOp", group="Clyde")
+@Disabled
 public class ClydeProtoTeleop extends OpMode{
 
     // Create Clyde

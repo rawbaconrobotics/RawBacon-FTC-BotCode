@@ -37,8 +37,13 @@ public class Tank {
         drive.runMotors(lfSpeed, rfSpeed, lbSpeed, rbSpeed, time);
 
     }
+
     public void autoLatch(double position1, double position2){
         latch.autoLatch(position1, position2);
+    }
+
+    public void encoderDrive(double inches, double lfSpeed, double rfSpeed, double lbSpeed, double rbSpeed, double timeouts){
+        drive.encoderDrive(inches, lfSpeed, rfSpeed, lbSpeed, rbSpeed, timeouts);
     }
 
     public Tank(LinearOpMode opMode) {

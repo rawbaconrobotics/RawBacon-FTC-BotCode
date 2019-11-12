@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Clyde;
+package org.firstinspires.ftc.teamcode.Clyde_OLD;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -9,7 +9,7 @@ public class Latch implements HardwareHelper {
     private final double DOWN_POSITION = 1.0;
 
     public void init(HardwareMap mappy){
-        hook = mappy.get(Servo.class, ClydeHWNames.LATCH_NAME);
+        hook = mappy.get(Servo.class, ClydeHWNames.LATCH);
         up();
     }
 

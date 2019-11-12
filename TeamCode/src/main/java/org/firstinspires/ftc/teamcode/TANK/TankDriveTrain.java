@@ -116,41 +116,42 @@ public class TankDriveTrain extends TankComponentImplBase {
                 rightDriveBack.getCurrentPosition());
         telemetry.update();
     }
-    public void encoderDrive(double speed,
-                             double lfInches, double rfInches,
-                             double lbInches, double rbInches,
+    public void encoderDrive(double inches,
+                             double lfSpeed, double rfSpeed,
+                             double lbSpeed, double rbSpeed,
                              double timeoutS) {
+
         int newLeftFrontTarget;
-        int newLeftBackTarget;
         int newRightFrontTarget;
+        int newLeftBackTarget;
         int newRightBackTarget;
 
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newLeftFrontTarget = leftDriveFront.getCurrentPosition() + (int)(lfInches * COUNTS_PER_INCH);
-            newLeftBackTarget = leftDriveBack.getCurrentPosition() + (int)(rfInches * COUNTS_PER_INCH);
-            newRightFrontTarget = rightDriveFront.getCurrentPosition() + (int)(lbInches * COUNTS_PER_INCH);
-            newRightBackTarget = rightDriveBack.getCurrentPosition() + (int)(rbInches * COUNTS_PER_INCH);
+            newLeftFrontTarget = leftDriveFront.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
+            newRightFrontTarget = rightDriveFront.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
+            newLeftBackTarget = leftDriveBack.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
+            newRightBackTarget = rightDriveBack.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
 
             leftDriveFront.setTargetPosition(newLeftFrontTarget);
-            leftDriveBack.setTargetPosition(newLeftBackTarget);
             rightDriveFront.setTargetPosition(newRightFrontTarget);
+            leftDriveBack.setTargetPosition(newLeftBackTarget);
             rightDriveBack.setTargetPosition(newRightBackTarget);
 
-            // Turn On RUN_TO_POSITION
+            // Turn On RUN_TO_POSITION\
             leftDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             leftDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rightDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            leftDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             // reset the timeout time and start motion.
             runtime.reset();
-            leftDriveFront.setPower(speed);
-            rightDriveFront.setPower(speed);
-            rightDriveBack.setPower(speed);
-            leftDriveBack.setPower(speed);
+            leftDriveFront.setPower(lfSpeed);
+            rightDriveFront.setPower(rfSpeed);
+            leftDriveBack.setPower(lbSpeed);
+            rightDriveBack.setPower(rbSpeed);
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -163,10 +164,12 @@ public class TankDriveTrain extends TankComponentImplBase {
                     (leftDriveFront.isBusy() && rightDriveFront.isBusy())) {
 
                 // Display it for the driver.
-                telemetry.addData("Path1",  "Running to %7d :%7d", newLeftFrontTarget,  newRightFrontTarget, newLeftBackTarget, newRightBackTarget);
+                telemetry.addData("Path1",  "Running to %7d :%7d", newLeftBackTarget, newRightBackTarget);
                 telemetry.addData("Path2",  "Running at %7d :%7d",
                         leftDriveFront.getCurrentPosition(),
-                        rightDriveFront.getCurrentPosition());
+                        rightDriveBack.getCurrentPosition(),
+                        leftDriveBack.getCurrentPosition(),
+                        rightDriveBack.getCurrentPosition());
                 telemetry.update();
             }
 
@@ -178,8 +181,8 @@ public class TankDriveTrain extends TankComponentImplBase {
 
             // Turn off RUN_TO_POSITION
             leftDriveFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            leftDriveFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightDriveFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            leftDriveBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightDriveBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
             //  sleep(250);   // optional pause after each move

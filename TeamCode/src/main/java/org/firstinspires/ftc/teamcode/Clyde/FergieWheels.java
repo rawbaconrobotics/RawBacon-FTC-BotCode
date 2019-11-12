@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode.Clyde;
+package org.firstinspires.ftc.teamcode.Clyde_OLD;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 //Class is designed to handle driving/turning in opmodes for Fergie's robot design
@@ -38,12 +38,13 @@ public class FergieWheels implements WheelMethods, HardwareHelper {
     private DcMotor driver;  //Motor that turns the wheels/treads in the middle
     private LinearOpMode opper;
     private boolean hasOpMode = false;
+    private ElapsedTime timer = new ElapsedTime();
 
     //Maps wheel motors/servos
     public void init(HardwareMap mappy) {
-        turner1 = mappy.dcMotor.get(ClydeHWNames.TURN_1_NAME);
-        turner2 = mappy.dcMotor.get(ClydeHWNames.TURN_2_NAME);
-        driver = mappy.dcMotor.get(ClydeHWNames.DRIVE_NAME);
+        turner1 = mappy.dcMotor.get(ClydeHWNames.TURN_1);
+        turner2 = mappy.dcMotor.get(ClydeHWNames.TURN_2);
+        driver = mappy.dcMotor.get(ClydeHWNames.DRIVER);
         driver.setDirection(DcMotor.Direction.REVERSE);
         turner2.setDirection(DcMotor.Direction.REVERSE);
         turner1.setPower(0);
@@ -57,7 +58,7 @@ public class FergieWheels implements WheelMethods, HardwareHelper {
         hasOpMode = true;
     }
     //Returns true if the current opMode is active or there isn't an opMode
-    private boolean opModeIsActivated(){
+    private boolean opModeIsActivate(){
         if(hasOpMode){
             return opper.opModeIsActive();
         }
@@ -75,6 +76,20 @@ public class FergieWheels implements WheelMethods, HardwareHelper {
         turner2.setPower(speed);
     }
 
+    public void driveTime(double seconds, double speed){
+        timer.reset();
+        drive(speed);
+        while(opModeIsActivate() && (timer.seconds() < seconds)){}
+        drive(0);
+    }
+
+    public void turnTime(double seconds, double speed){
+        timer.reset();
+        turn(speed);
+        while(opModeIsActivate() && (timer.seconds() < seconds)){}
+        turn(0);
+    }
+
     //Drive for a specified distance using encoders
     public void driveFor(int distance_inches, double speed){
 
@@ -85,7 +100,7 @@ public class FergieWheels implements WheelMethods, HardwareHelper {
         driver.setTargetPosition(targetDist);
         driver.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         drive(speed);
-        while(driver.isBusy() && opModeIsActivated()){}
+        while(driver.isBusy() && opModeIsActivate()){}
         drive(0);
         driver.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
@@ -102,7 +117,7 @@ public class FergieWheels implements WheelMethods, HardwareHelper {
         turner2.setTargetPosition(targetDist2);
         turner2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         turn(speed);
-        while((turner1.isBusy() || turner2.isBusy()) && opModeIsActivated()){}
+        while((turner1.isBusy() || turner2.isBusy()) && opModeIsActivate()){}
         turn(0);
         turner1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         turner2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
