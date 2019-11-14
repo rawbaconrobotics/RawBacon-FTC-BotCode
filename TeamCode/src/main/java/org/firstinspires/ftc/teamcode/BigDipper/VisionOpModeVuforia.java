@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.BigDipper;
 
 import android.graphics.Bitmap;
+import android.hardware.Camera;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -113,8 +114,14 @@ public class VisionOpModeVuforia extends LinearOpMode {
 
         Vuforia.setFrameFormat(PIXEL_FORMAT.RGB565, true);
         vuforia.setFrameQueueCapacity(1);
+        Camera cam = Camera.open();
+        Camera.Parameters params = cam.getParameters();
+        params.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+        cam.setParameters(params);
+        cam.startPreview();
 
-       // FtcDashboard dashboard = FtcDashboard.getInstance();
+
+        // FtcDashboard dashboard = FtcDashboard.getInstance();
 
         Mat frame;
         waitForStart();

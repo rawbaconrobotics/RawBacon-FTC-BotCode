@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode.BigDipper;
 
 import android.graphics.Bitmap;
+import android.hardware.Camera;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.vuforia.CameraDevice;
 import com.vuforia.Image;
 import com.vuforia.PIXEL_FORMAT;
 import com.vuforia.Vuforia;
@@ -20,11 +22,12 @@ import org.opencv.core.Mat;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
-@Autonomous(name="dead encoder autonomous blue", group="Big Dipper")
+@Autonomous(name="OFFICIAL Autonomous", group="Big Dipper")
 
-public class SomeAutonomousDeadEncoders extends BaseLinearOpMode
+public class SomeAutonomous extends BaseLinearOpMode
 {
     private ElapsedTime runtime = new ElapsedTime();
+
     //RobotWheelsTest robotWheelsTest = new RobotWheelsTest(this);
 
     public BDLatch bdlatch;
@@ -143,7 +146,7 @@ public class SomeAutonomousDeadEncoders extends BaseLinearOpMode
     public void on_init() {
         System.out.println("INIT PROCESS STARTING");
 
-        robot.robotWheelsDeadEncoders.initAutonomous();
+        robot.robotWheelsTest.initAutonomous();
 
         robot.bdlatch.initAutonomous();
 
@@ -182,6 +185,8 @@ public class SomeAutonomousDeadEncoders extends BaseLinearOpMode
         VuforiaLocalizer.CloseableFrame vuFrame = null;
 
         System.out.println("INITIALIZED, STARTING TO LOOK FOR SKYSTONES");
+        //CameraDevice.getInstance().setFlashTorchMode(true);
+
 
         while(!opModeIsActive() && !isStopRequested()){
 
@@ -221,9 +226,9 @@ public class SomeAutonomousDeadEncoders extends BaseLinearOpMode
       /*      if (gamepad1.a)
                 shouldWrite = true;
             else
-                shouldWrite = false; */
+                shouldWrite = fals  e; */
 
-
+        //CameraDevice.getInstance().setFlashTorchMode(true);
 
 
     }
@@ -251,44 +256,44 @@ public class SomeAutonomousDeadEncoders extends BaseLinearOpMode
 
             if (0 < xcoord && xcoord < 200) { // stone is on left, run left path
                 System.out.println("DRIVING LEFT PATH");
-                robot.robotWheelsDeadEncoders.turnFor(-90, 0.5, 15);
+                robot.robotWheelsTest.turnFor(-90, 0.5, 15);
                 sleep(1000);
 //the above needs to go
-                robot.robotWheelsDeadEncoders.driveFor(16, 0.5, 15);
+                robot.robotWheelsTest.driveFor(16, 0.5, 15);
                 sleep(1000);
                 System.out.println("DRIVING LEFT PATH PART 2");
-                robot.robotWheelsDeadEncoders.turnFor(-90, 0.5, 15);
+                robot.robotWheelsTest.turnFor(-90, 0.5, 15);
                 sleep(1000);
-                robot.robotWheelsDeadEncoders.driveFor(9, 0.5, 15);
+                robot.robotWheelsTest.driveFor(9, 0.5, 15);
                 sleep(1000);
-                robot.robotWheelsDeadEncoders.turnFor(90, 0.5, 15);
+                robot.robotWheelsTest.turnFor(90, 0.5, 15);
                 sleep(1000);
-                robot.robotWheelsDeadEncoders.driveFor(18, 0.5, 15);
+                robot.robotWheelsTest.driveFor(18, 0.5, 15);
                 sleep(1000);
-                robot.robotWheelsDeadEncoders.turnFor(-180, 0.5, 15);
+                robot.robotWheelsTest.turnFor(-180, 0.5, 15);
                 sleep(1000);
-                robot.robotWheelsDeadEncoders.driveFor(23.5, 0.5, 15);
+                robot.robotWheelsTest.driveFor(23.5, 0.5, 15);
                 sleep(1000);
-                robot.robotWheelsDeadEncoders.turnFor(90, 0.5, 15);
+                robot.robotWheelsTest.turnFor(90, 0.5, 15);
                 sleep(1000);
-                robot.robotWheelsDeadEncoders.driveFor(25.125, 0.5, 15);
+                robot.robotWheelsTest.driveFor(25.125, 0.5, 15);
                 sleep(1000);
 
             } else if (xcoord > 200 && xcoord < 400) { // stone is in middle, run middle path
 //move straight approx 34 inches, turn 180 degrees counter clockwise, go forward 47/2 inches, turn 90 deg. clockwise, forward 34.125 inches.
-                robot.robotWheelsDeadEncoders.driveFor(34, 0.5, 15);
+                robot.robotWheelsTest.driveFor(34, 0.5, 15);
                 sleep(1000);
                 System.out.println("DRIVING MID PATH");
 
-                robot.robotWheelsDeadEncoders.turnFor(-180, 0.5, 15);
+                robot.robotWheelsTest.turnFor(-180, 0.5, 15);
                 sleep(1000);
                 System.out.println("DRIVING MID PATH PART 2");
 
-                robot.robotWheelsDeadEncoders.driveFor(23.5, 0.5, 15);
+                robot.robotWheelsTest.driveFor(23.5, 0.5, 15);
                 sleep(1000);
-                robot.robotWheelsDeadEncoders.turnFor(90, 0.5, 15);
+                robot.robotWheelsTest.turnFor(90, 0.5, 15);
                 sleep(1000);
-                robot.robotWheelsDeadEncoders.driveFor(34.125, 0.5, 15);
+                robot.robotWheelsTest.driveFor(34.125, 0.5, 15);
                 sleep(1000);
 
 
@@ -296,29 +301,29 @@ public class SomeAutonomousDeadEncoders extends BaseLinearOpMode
 
             } else if (xcoord > 400) { //stone on right, run right path
 
-                robot.robotWheelsDeadEncoders.driveFor(16, 0.5, 5);
+                robot.robotWheelsTest.driveFor(16, 0.5, 5);
                 sleep(1000);
                 System.out.println("DRIVING RIGHT PATH");
 
-                robot.robotWheelsDeadEncoders.turnFor(90, 0.5, 15);
+                robot.robotWheelsTest.turnFor(90, 0.5, 15);
                 sleep(1000);
                 System.out.println("DRIVING RIGHT PATH PART 2");
 
-                robot.robotWheelsDeadEncoders.driveFor(9, 0.5, 15);
+                robot.robotWheelsTest.driveFor(9, 0.5, 15);
                 sleep(1000);
-                robot.robotWheelsDeadEncoders.turnFor(-90, 0.5, 15);
+                robot.robotWheelsTest.turnFor(-90, 0.5, 15);
                 sleep(1000);
-                robot.robotWheelsDeadEncoders.driveFor(18,0.5, 15);
+                robot.robotWheelsTest.driveFor(18,0.5, 15);
                 sleep(1000);
-                robot.robotWheelsDeadEncoders.turnFor(-180, 0.5, 15);
+                robot.robotWheelsTest.turnFor(-180, 0.5, 15);
                 sleep(1000);
-                robot.robotWheelsDeadEncoders.driveFor(23.5, 0.5, 15);
+                robot.robotWheelsTest.driveFor(23.5, 0.5, 15);
                 sleep(1000);
-                robot.robotWheelsDeadEncoders.turnFor(90, 0.5, 15);
+                robot.robotWheelsTest.turnFor(90, 0.5, 15);
                 sleep(1000);
-                robot.robotWheelsDeadEncoders.driveFor(48.125, 0.5, 15);
+                robot.robotWheelsTest.driveFor(48.125, 0.5, 15);
                 sleep(1000);
-                robot.robotWheelsDeadEncoders.driveFor(-5, -0.5, 15);
+                robot.robotWheelsTest.driveFor(-5, -0.5, 15);
                 sleep(1000);
 
 
@@ -329,11 +334,11 @@ public class SomeAutonomousDeadEncoders extends BaseLinearOpMode
                 telemetry.update();
                 System.out.println("IT BROKE");
 
-                robot.robotWheelsDeadEncoders.driveFor(9, 0.5, 15);
+                robot.robotWheelsTest.driveFor(9, 0.5, 15);
                 sleep(1000);
-                robot.robotWheelsDeadEncoders.turnFor(-90, 0.5, 15);
+                robot.robotWheelsTest.turnFor(-90, 0.5, 15);
                 sleep(1000);
-                robot.robotWheelsDeadEncoders.driveFor(47, 0.5, 15);
+                robot.robotWheelsTest.driveFor(47, 0.5, 15);
                 sleep(1000);
 
 
