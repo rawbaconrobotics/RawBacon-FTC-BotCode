@@ -18,6 +18,9 @@ dependencies {
     implementation 'com.github.dogecv:dogecv:2020.4-alpha'
     implementation 'com.acmerobotics.roadrunner:core:0.4.6'
 
+    implementation 'org.openftc:ftc-opmode-tuner-common:0.22'
+
+
     turboImplementation project(':Hardware')
     turboImplementation project(':RobotCore')
     turboImplementation project(':FtcCommon')
@@ -25,4 +28,7 @@ dependencies {
     extremeTurboImplementation project(':Hardware')
     extremeTurboImplementation project(':RobotCore')
     extremeTurboImplementation project(':FtcCommon')
+
+    implementation 'org.openftc:rev-extensions-2:1.2'
+
 }
