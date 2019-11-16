@@ -49,10 +49,10 @@ public class VisionPipeline extends OpenCvPipeline{
     private final int dilateIterations = 20;
 
     // THESE NEED TO BE TUNED BASED ON YOUR DISTANCE FROM THE BLOCKS
-    public double minContourArea = 300.0;
-    public double minContourPerimeter = 1000.0;
-    public double minContourWidth = 300.0;
-    public double minContourHeight = 0.0;
+    public static double minContourArea = 300.0;
+    public static double minContourPerimeter = 1000.0;
+    public static double minContourWidth = 300.0;
+    public static double minContourHeight = 0.0;
 
     private final double cbMin = 105;
     private final double cbMax = 140;
