@@ -49,7 +49,7 @@ public class LukeMomentAuto extends BaseLinearOpMode {
     final double WHEEL_MAXIMUM_POWER = 1.0;
     public static boolean DONT_RESET_RUNTIME = false;
 
-    private static final double COUNTS_PER_MOTOR_REV = 1440;
+    private static final double COUNTS_PER_MOTOR_REV = 1120;
     private static final double DRIVE_GEAR_REDUCTION = 1.0;
     private static final double WHEEL_DIAMETER_INCHES = 4.0;
     private static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /

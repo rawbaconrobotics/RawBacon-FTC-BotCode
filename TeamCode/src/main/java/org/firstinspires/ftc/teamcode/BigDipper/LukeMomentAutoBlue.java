@@ -49,7 +49,7 @@ public class LukeMomentAutoBlue extends BaseLinearOpMode {
     final double WHEEL_MAXIMUM_POWER = 1.0;
     public static boolean DONT_RESET_RUNTIME = false;
 
-    private static final double COUNTS_PER_MOTOR_REV = 1440;
+    private static final double COUNTS_PER_MOTOR_REV = 1120;
     private static final double DRIVE_GEAR_REDUCTION = 1.0;
     private static final double WHEEL_DIAMETER_INCHES = 4.0;
     private static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
@@ -189,31 +189,31 @@ public class LukeMomentAutoBlue extends BaseLinearOpMode {
         runtime.reset();
         telemetry.addData("Runtime Reset", "Complete");
         System.out.println("RUNTIME RESET COMPLETE");
-        robot.robotWheelsTest.driveFor(-40,0.5,10);
-        sleep(1000);
-        robot.robotWheelsTest.strafeFor(-50,0.5,false, 10);
-        sleep(1000);
+        robot.robotWheelsTest.driveFor(-45,0.5,10);
+        sleep(750);
+        robot.robotWheelsTest.strafeFor(7,0.5,false, 10);
+        sleep(750);
 
         robot.robotWheelsTest.driveFor(26,0.5,10);
-        sleep(1000);
+        sleep(750);
 
-        robot.robotWheelsTest.strafeFor(-40,0.5,false, 10);
-        sleep(1000);
+        robot.robotWheelsTest.strafeFor(30,0.5, false, 10);
+        sleep(750);
 
-        robot.robotWheelsTest.driveFor(-4,0.5,10);
-        sleep(1000);
+        robot.robotWheelsTest.driveFor(-12,0.5,10);
+        sleep(750);
 
         robot.bdlatch.closeLatch();
-        sleep(1000);
+        sleep(750);
 
-        robot.robotWheelsTest.driveFor(33,0.5,10);
-        sleep(1000);
+        robot.robotWheelsTest.driveFor(20,0.5,10);
+        sleep(750);
 
         robot.bdlatch.openLatch();
-        sleep(1000);
+        sleep(750);
 
 
-        robot.robotWheelsTest.strafeFor(-40,0.5,true, 10);
+        robot.robotWheelsTest.strafeFor(60,0.5,true, 10);
 
 
     }
