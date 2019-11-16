@@ -87,7 +87,7 @@ public class BDLatch extends RobotComponentImplBase {
         latchServo2 = hardwareMap.servo.get(LATCH_SERVO_2_NAME);
 
         latchServo.setPosition(LATCH_CLOSED);
-        latchServo2.setPosition(LATCH_OPEN);
+        latchServo2.setPosition(LATCH_CLOSED);
     }
 
 

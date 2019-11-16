@@ -71,7 +71,7 @@ public class RobotWheelsTest extends RobotComponentImplBase {
     final double WHEEL_MAXIMUM_POWER = 1.0;
     public static boolean DONT_RESET_RUNTIME = false;
 
-    private static final double   COUNTS_PER_MOTOR_REV    = 1440;
+    private static final double   COUNTS_PER_MOTOR_REV    = 1440; //1120
     private static final double   DRIVE_GEAR_REDUCTION    = 1.0;
     private static final double   WHEEL_DIAMETER_INCHES   = 4.0;
     private static final double   COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
@@ -333,6 +333,21 @@ public class RobotWheelsTest extends RobotComponentImplBase {
         rightDriveFront.setPower(speed);
     }
 
+    public void strafe(double speed, boolean strafingLeft){
+        if(strafingLeft) {
+            leftDriveBack.setPower(speed);
+            rightDriveBack.setPower(-speed);
+            leftDriveFront.setPower(-speed);
+            rightDriveFront.setPower(speed);
+        }
+        else{
+            leftDriveBack.setPower(-speed);
+            rightDriveBack.setPower(speed);
+            leftDriveFront.setPower(speed);
+            rightDriveFront.setPower(-speed);
+        }
+    }
+
     public void turn(double speed, boolean clockwise){
         System.out.println("TURN METHOD CALLED, SETTING TO SPEED " + speed + " and clockwise = " + clockwise);
 
@@ -414,6 +429,84 @@ public class RobotWheelsTest extends RobotComponentImplBase {
             System.out.println("RUN USING ENCODERS METHOD RAN");
 
         }
+
+    }
+    public void strafeFor(double distance_inches, double speed, boolean strafingLeft, double timeoutS) {
+        System.out.println("DRIVEFOR METHOD CALLED");
+
+        //runUsingEncoders();
+
+        //System.out.println("RUNUSINGENCODERS COMPLETE!");
+
+        if (opModeIsActive()) {
+
+            int targetDist;
+
+
+            leftDriveBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            leftDriveFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            rightDriveBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            rightDriveFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+            targetDist = leftDriveFront.getCurrentPosition() + (int) (distance_inches * COUNTS_PER_INCH);
+
+            if(strafingLeft){
+                leftDriveBack.setTargetPosition(targetDist);
+                rightDriveBack.setTargetPosition(-targetDist);
+                rightDriveFront.setTargetPosition(targetDist);
+                leftDriveFront.setTargetPosition(-targetDist);
+            }
+            else{
+                leftDriveBack.setTargetPosition(-targetDist);
+                rightDriveBack.setTargetPosition(targetDist);
+                rightDriveFront.setTargetPosition(-targetDist);
+                leftDriveFront.setTargetPosition(targetDist);
+            }
+
+            System.out.println("SET TARGET POSITIONS");
+
+            leftDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rightDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            leftDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rightDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            System.out.println("SET MODE RUN TO POSITION");
+
+            runtime.reset();
+
+            strafe(speed, strafingLeft);
+
+            System.out.println("DRIVING AT THAT SPEED");
+
+
+            while (opModeIsActive() &&
+                    (runtime.seconds() < timeoutS) &&
+                    (leftDriveBack.isBusy() && rightDriveBack.isBusy())) {
+
+                // Display it for the driver.
+                telemetry.addData("Path1",  "Running to %7d :%7d");
+                telemetry.addData("Path2",  "Running at %7d :%7d");
+                String s3 = Boolean.toString(leftDriveBack.isBusy());
+                String s4 = Boolean.toString(rightDriveBack.isBusy());
+
+                telemetry.addData("BACK LEFT: " + s3," and BACK RIGHT " + s4);
+                telemetry.update();
+
+                telemetry.update();
+                System.out.println("ROBOT SHOULD BE RUNNING NOW");
+
+            }
+            drive(0);
+            System.out.println("ROBOT STOPPED");
+
+            runUsingEncoders();
+            System.out.println("RUN USING ENCODERS METHOD RAN");
+
+        }
+        leftDriveBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftDriveFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightDriveBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightDriveFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
     }
 

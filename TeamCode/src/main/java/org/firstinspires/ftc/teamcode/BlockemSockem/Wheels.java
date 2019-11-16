@@ -19,12 +19,13 @@ public class Wheels implements HardwareHelper {
     private ElapsedTime timer = new ElapsedTime();
 
     public void init(HardwareMap mappy){
-        leftFront = mappy.get(DcMotor.class, BMSM_HW_Names.LEFTFRONT);
-        rightFront = mappy.get(DcMotor.class, BMSM_HW_Names.RIGHTFRONT);
-        leftBack = mappy.get(DcMotor.class, BMSM_HW_Names.LEFTBACK);
-        rightBack = mappy.get(DcMotor.class, BMSM_HW_Names.RIGHTBACK);
+        leftFront = mappy.get(DcMotor.class, BESE_HW_Names.LEFTFRONT);
+        rightFront = mappy.get(DcMotor.class, BESE_HW_Names.RIGHTFRONT);
+        leftBack = mappy.get(DcMotor.class, BESE_HW_Names.LEFTBACK);
+        rightBack = mappy.get(DcMotor.class, BESE_HW_Names.RIGHTBACK);
         rightFront.setDirection(DcMotor.Direction.REVERSE);
         rightBack.setDirection(DcMotor.Direction.REVERSE);
+        setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         halt();
     }
     public void halt(){
@@ -90,7 +91,7 @@ public class Wheels implements HardwareHelper {
     }
 
     public void addCounts(double distance, String type){
-        int counts = 0;
+        int counts;
         int pattern[] = {1, 1, 1, 1};
         switch(type){
             case "drive":
@@ -107,7 +108,7 @@ public class Wheels implements HardwareHelper {
                 pattern[3] = -1;
                 break;
             default:
-                counts = 0;
+                throw new IllegalArgumentException("Invalid type \""+type+"\"");
         }
         leftFront.setTargetPosition(leftFront.getTargetPosition() + counts * pattern[0]);
         rightFront.setTargetPosition(rightFront.getTargetPosition() + counts * pattern[0]);
