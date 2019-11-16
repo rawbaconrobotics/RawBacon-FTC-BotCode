@@ -17,6 +17,7 @@ dependencies {
      * Other Modules
      */
     implementation project(':RobotCore')
+    implementation 'com.acmerobotics.dashboard:dashboard:0.3.5'
 
     /*
      * External

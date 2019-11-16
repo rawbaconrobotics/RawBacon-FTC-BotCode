@@ -2,6 +2,9 @@ package org.firstinspires.ftc.teamcode.BigDipper;
 
 import android.graphics.Bitmap;
 import android.hardware.Camera;
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -180,6 +183,7 @@ public class SomeAutonomous extends BaseLinearOpMode
         // FtcDashboard dashboard = FtcDashboard.getInstance();
 
         Mat frame;
+        FtcDashboard dashboard = FtcDashboard.getInstance();
 
 
         VuforiaLocalizer.CloseableFrame vuFrame = null;
@@ -210,21 +214,11 @@ public class SomeAutonomous extends BaseLinearOpMode
                         Mat ret = p.processFrame(mat);
                         Bitmap displayBitmap = Bitmap.createBitmap(ret.width(), ret.height(), Bitmap.Config.RGB_565);
                         Utils.matToBitmap(ret, displayBitmap);
-                        //dashboard.sendImage(displayBitmap);
+                        dashboard.sendImage(displayBitmap);
+
+                        dashboard.sendImage(displayBitmap);
                         System.out.println("VUFORIA PICTURE TAKEN");
                     }
-                }
-                if(gamepad1.dpad_up){
-                    p.setMinContourArea(p.minContourArea + 1);
-                }
-                if(gamepad1.dpad_down){
-                    p.setMinContourArea(p.minContourArea - 1);
-                }
-                if(gamepad1.dpad_right){
-                    p.setMinContourWidth(p.minContourWidth + 1);
-                }
-                if(gamepad1.dpad_left){
-                    p.setMinContourWidth(p.minContourWidth - 1);
                 }
 
 
