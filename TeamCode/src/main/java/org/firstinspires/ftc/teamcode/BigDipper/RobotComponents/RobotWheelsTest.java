@@ -30,6 +30,7 @@
 package org.firstinspires.ftc.teamcode.BigDipper.RobotComponents;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -189,20 +190,19 @@ public class RobotWheelsTest extends RobotComponentImplBase {
         //rightDriveBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-
-        parameters.mode = BNO055IMU.SensorMode.IMU;
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.loggingEnabled      = false;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+        parameters.loggingEnabled      = true;
+        parameters.loggingTag          = "IMU";
+        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
         // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
         // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
         // and named "imu".
         imu = hardwareMap.get(BNO055IMU.class, "imu");
-
         imu.initialize(parameters);
 
-        System.out.println("AUTONOMOUS INITIALIZED!");
 
         runUsingEncoders();
 
@@ -404,7 +404,7 @@ public class RobotWheelsTest extends RobotComponentImplBase {
 
             while (opModeIsActive() &&
                     (runtime.seconds() < timeoutS) &&
-                    (leftDriveFront.isBusy() && rightDriveFront.isBusy())) {
+                    (leftDriveFront.isBusy() || rightDriveFront.isBusy() || rightDriveBack.isBusy() || leftDriveBack.isBusy())) {
 
                 // Display it for the driver.
                 telemetry.addData("Path1",  "Running to %7d :%7d");

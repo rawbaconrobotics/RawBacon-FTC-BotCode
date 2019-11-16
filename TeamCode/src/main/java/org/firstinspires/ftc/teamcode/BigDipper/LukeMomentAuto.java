@@ -189,31 +189,31 @@ public class LukeMomentAuto extends BaseLinearOpMode {
         runtime.reset();
         telemetry.addData("Runtime Reset", "Complete");
         System.out.println("RUNTIME RESET COMPLETE");
-        robot.robotWheelsTest.driveFor(-40,0.5,10);
-        sleep(1000);
-        robot.robotWheelsTest.strafeFor(5,0.5,false, 10);
-        sleep(1000);
+        robot.robotWheelsTest.driveFor(-45,0.5,10);
+        sleep(750);
+        robot.robotWheelsTest.strafeFor(7,0.5,true, 10);
+        sleep(750);
 
         robot.robotWheelsTest.driveFor(26,0.5,10);
-        sleep(1000);
+        sleep(750);
 
-        robot.robotWheelsTest.strafeFor(40,0.5, true, 10);
-        sleep(1000);
+        robot.robotWheelsTest.strafeFor(30,0.5, true, 10);
+        sleep(750);
 
-        robot.robotWheelsTest.driveFor(-4,0.5,10);
-        sleep(1000);
+        robot.robotWheelsTest.driveFor(-12,0.5,10);
+        sleep(750);
 
         robot.bdlatch.closeLatch();
-        sleep(1000);
+        sleep(750);
 
-        robot.robotWheelsTest.driveFor(33,0.5,10);
-        sleep(1000);
+        robot.robotWheelsTest.driveFor(20,0.5,10);
+        sleep(750);
 
         robot.bdlatch.openLatch();
-        sleep(1000);
+        sleep(750);
 
 
-        robot.robotWheelsTest.strafeFor(40,0.5,true, 10);
+        robot.robotWheelsTest.strafeFor(60,0.5,false, 10);
 
 
     }
