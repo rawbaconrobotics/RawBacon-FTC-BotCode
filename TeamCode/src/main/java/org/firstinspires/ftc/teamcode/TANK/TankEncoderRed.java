@@ -14,6 +14,7 @@ public class TankEncoderRed extends TankLinearOpMode {
 
     @Override
     public void run(){
+        robot.setUpAuto();
         //strafe right 25inches to wall
         robot.encoderDrive(25, DRIVE_SPEED * -1, DRIVE_SPEED * 1, DRIVE_SPEED * 1, DRIVE_SPEED * -1, 5);
         sleep(500);

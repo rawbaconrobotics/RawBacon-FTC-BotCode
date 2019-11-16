@@ -45,14 +45,27 @@ public class VisionPipeline extends OpenCvPipeline{
 
     private final int dilateIterations = 20;
 
-    // THESE NEED TO BE TUNED BASED ON YOUR DISTANCE FROM THE BLOCKS
-    private final double minContourArea = 300.0;
-    private final double minContourPerimeter = 1000.0;
-    private final double minContourWidth = 300.0;
-    private final double minContourHeight = 0.0;
+    public void setMinContourArea(double minContourArea) {
+        this.minContourArea = minContourArea;
+    }
 
-    private final double cbMin = 105;
-    private final double cbMax = 140;
+
+    public void setMinContourWidth(double minContourWidth) {
+        this.minContourWidth = minContourWidth;
+    }
+
+    public void setMinContourHeight(double minContourHeight) {
+        this.minContourHeight = minContourHeight;
+    }
+
+    // THESE NEED TO BE TUNED BASED ON YOUR DISTANCE FROM THE BLOCKS
+    public  double minContourArea = 40.0;
+    public  double minContourPerimeter = 1000;
+    public  double minContourWidth = 20.0;
+    public  double minContourHeight = 0.0;
+
+    private final double cbMin = 105; //105
+    private final double cbMax = 140; //140
 
     private int minX, minY = Integer.MAX_VALUE;
     private int maxX, maxY = -1 * Integer.MAX_VALUE;
@@ -60,7 +73,7 @@ public class VisionPipeline extends OpenCvPipeline{
     // TUNE THESE THEY WILL VARY BASED ON WEBCAM PLACEMENT!!!!!
 
     private final int maxVumarkValue = 80; // used to be 150
-    private final int valleyLength = 40;
+    private final int valleyLength = 30;
 
     private int vumarkLeftBoundary = -1;
 

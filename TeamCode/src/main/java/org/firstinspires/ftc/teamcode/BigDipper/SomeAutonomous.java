@@ -185,21 +185,21 @@ public class SomeAutonomous extends BaseLinearOpMode
         VuforiaLocalizer.CloseableFrame vuFrame = null;
 
         System.out.println("INITIALIZED, STARTING TO LOOK FOR SKYSTONES");
-        //CameraDevice.getInstance().setFlashTorchMode(true);
+        CameraDevice.getInstance().setFlashTorchMode(true);
 
 
         while(!opModeIsActive() && !isStopRequested()){
 
-        if (!vuforia.getFrameQueue().isEmpty()) {
-            try {
-                vuFrame = vuforia.getFrameQueue().take();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                System.out.println("VUFORIA BROKE");
+            if (!vuforia.getFrameQueue().isEmpty()) {
+                try {
+                    vuFrame = vuforia.getFrameQueue().take();
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    System.out.println("VUFORIA BROKE");
 
-            }
+                }
 
-            if (vuFrame == null) continue;
+                if (vuFrame == null) continue;
 
                 for (int i = 0; i < vuFrame.getNumImages(); i++) {
                     Image img = vuFrame.getImage(i);
@@ -214,21 +214,34 @@ public class SomeAutonomous extends BaseLinearOpMode
                         System.out.println("VUFORIA PICTURE TAKEN");
                     }
                 }
+                if(gamepad1.dpad_up){
+                    p.setMinContourArea(p.minContourArea + 1);
+                }
+                if(gamepad1.dpad_down){
+                    p.setMinContourArea(p.minContourArea - 1);
+                }
+                if(gamepad1.dpad_right){
+                    p.setMinContourWidth(p.minContourWidth + 1);
+                }
+                if(gamepad1.dpad_left){
+                    p.setMinContourWidth(p.minContourWidth - 1);
+                }
 
 
-
-        }
-        //dashboard.sendTelemetryPacket(new TelemetryPacket());
+            }
+            //dashboard.sendTelemetryPacket(new TelemetryPacket());
             telemetry.addData("position: ", p.getVumarkLeftBoundary());
+            telemetry.addData("Minimum Area of Skystone: ", Double.toString(p.minContourArea));
+            telemetry.addData("Minimum Perimeter of Skystone: ", Double.toString(p.minContourPerimeter));
             telemetry.update();
 
-    }
+        }
       /*      if (gamepad1.a)
                 shouldWrite = true;
             else
                 shouldWrite = fals  e; */
 
-        //CameraDevice.getInstance().setFlashTorchMode(true);
+        CameraDevice.getInstance().setFlashTorchMode(false);
 
 
     }
@@ -254,95 +267,95 @@ public class SomeAutonomous extends BaseLinearOpMode
 
 
 
-            if (0 < xcoord && xcoord < 200) { // stone is on left, run left path
-                System.out.println("DRIVING LEFT PATH");
-                robot.robotWheelsTest.turnFor(-90, 0.5, 15);
-                sleep(1000);
+        if (0 < xcoord && xcoord < 200) { // stone is on left, run left path
+            System.out.println("DRIVING LEFT PATH");
+            robot.robotWheelsTest.turnFor(-90, 0.5, 15);
+            sleep(1000);
 //the above needs to go
-                robot.robotWheelsTest.driveFor(16, 0.5, 15);
-                sleep(1000);
-                System.out.println("DRIVING LEFT PATH PART 2");
-                robot.robotWheelsTest.turnFor(-90, 0.5, 15);
-                sleep(1000);
-                robot.robotWheelsTest.driveFor(9, 0.5, 15);
-                sleep(1000);
-                robot.robotWheelsTest.turnFor(90, 0.5, 15);
-                sleep(1000);
-                robot.robotWheelsTest.driveFor(18, 0.5, 15);
-                sleep(1000);
-                robot.robotWheelsTest.turnFor(-180, 0.5, 15);
-                sleep(1000);
-                robot.robotWheelsTest.driveFor(23.5, 0.5, 15);
-                sleep(1000);
-                robot.robotWheelsTest.turnFor(90, 0.5, 15);
-                sleep(1000);
-                robot.robotWheelsTest.driveFor(25.125, 0.5, 15);
-                sleep(1000);
+            robot.robotWheelsTest.driveFor(16, 0.5, 15);
+            sleep(1000);
+            System.out.println("DRIVING LEFT PATH PART 2");
+            robot.robotWheelsTest.turnFor(-90, 0.5, 15);
+            sleep(1000);
+            robot.robotWheelsTest.driveFor(9, 0.5, 15);
+            sleep(1000);
+            robot.robotWheelsTest.turnFor(90, 0.5, 15);
+            sleep(1000);
+            robot.robotWheelsTest.driveFor(18, 0.5, 15);
+            sleep(1000);
+            robot.robotWheelsTest.turnFor(-180, 0.5, 15);
+            sleep(1000);
+            robot.robotWheelsTest.driveFor(23.5, 0.5, 15);
+            sleep(1000);
+            robot.robotWheelsTest.turnFor(90, 0.5, 15);
+            sleep(1000);
+            robot.robotWheelsTest.driveFor(25.125, 0.5, 15);
+            sleep(1000);
 
-            } else if (xcoord > 200 && xcoord < 400) { // stone is in middle, run middle path
+        } else if (xcoord > 200 && xcoord < 400) { // stone is in middle, run middle path
 //move straight approx 34 inches, turn 180 degrees counter clockwise, go forward 47/2 inches, turn 90 deg. clockwise, forward 34.125 inches.
-                robot.robotWheelsTest.driveFor(34, 0.5, 15);
-                sleep(1000);
-                System.out.println("DRIVING MID PATH");
+            robot.robotWheelsTest.driveFor(34, 0.5, 15);
+            sleep(1000);
+            System.out.println("DRIVING MID PATH");
 
-                robot.robotWheelsTest.turnFor(-180, 0.5, 15);
-                sleep(1000);
-                System.out.println("DRIVING MID PATH PART 2");
+            robot.robotWheelsTest.turnFor(-180, 0.5, 15);
+            sleep(1000);
+            System.out.println("DRIVING MID PATH PART 2");
 
-                robot.robotWheelsTest.driveFor(23.5, 0.5, 15);
-                sleep(1000);
-                robot.robotWheelsTest.turnFor(90, 0.5, 15);
-                sleep(1000);
-                robot.robotWheelsTest.driveFor(34.125, 0.5, 15);
-                sleep(1000);
-
-
-
-
-            } else if (xcoord > 400) { //stone on right, run right path
-
-                robot.robotWheelsTest.driveFor(16, 0.5, 5);
-                sleep(1000);
-                System.out.println("DRIVING RIGHT PATH");
-
-                robot.robotWheelsTest.turnFor(90, 0.5, 15);
-                sleep(1000);
-                System.out.println("DRIVING RIGHT PATH PART 2");
-
-                robot.robotWheelsTest.driveFor(9, 0.5, 15);
-                sleep(1000);
-                robot.robotWheelsTest.turnFor(-90, 0.5, 15);
-                sleep(1000);
-                robot.robotWheelsTest.driveFor(18,0.5, 15);
-                sleep(1000);
-                robot.robotWheelsTest.turnFor(-180, 0.5, 15);
-                sleep(1000);
-                robot.robotWheelsTest.driveFor(23.5, 0.5, 15);
-                sleep(1000);
-                robot.robotWheelsTest.turnFor(90, 0.5, 15);
-                sleep(1000);
-                robot.robotWheelsTest.driveFor(48.125, 0.5, 15);
-                sleep(1000);
-                robot.robotWheelsTest.driveFor(-5, -0.5, 15);
-                sleep(1000);
+            robot.robotWheelsTest.driveFor(23.5, 0.5, 15);
+            sleep(1000);
+            robot.robotWheelsTest.turnFor(90, 0.5, 15);
+            sleep(1000);
+            robot.robotWheelsTest.driveFor(34.125, 0.5, 15);
+            sleep(1000);
 
 
 
-            } else {
-                //whoops it broke
-                telemetry.addData("UNABLE TO FIND SKYSTONE", ", GOING TO SKYBRIDGE");
-                telemetry.update();
-                System.out.println("IT BROKE");
 
-                robot.robotWheelsTest.driveFor(9, 0.5, 15);
-                sleep(1000);
-                robot.robotWheelsTest.turnFor(-90, 0.5, 15);
-                sleep(1000);
-                robot.robotWheelsTest.driveFor(47, 0.5, 15);
-                sleep(1000);
+        } else if (xcoord > 400) { //stone on right, run right path
+
+            robot.robotWheelsTest.driveFor(16, 0.5, 5);
+            sleep(1000);
+            System.out.println("DRIVING RIGHT PATH");
+
+            robot.robotWheelsTest.turnFor(90, 0.5, 15);
+            sleep(1000);
+            System.out.println("DRIVING RIGHT PATH PART 2");
+
+            robot.robotWheelsTest.driveFor(9, 0.5, 15);
+            sleep(1000);
+            robot.robotWheelsTest.turnFor(-90, 0.5, 15);
+            sleep(1000);
+            robot.robotWheelsTest.driveFor(18,0.5, 15);
+            sleep(1000);
+            robot.robotWheelsTest.turnFor(-180, 0.5, 15);
+            sleep(1000);
+            robot.robotWheelsTest.driveFor(23.5, 0.5, 15);
+            sleep(1000);
+            robot.robotWheelsTest.turnFor(90, 0.5, 15);
+            sleep(1000);
+            robot.robotWheelsTest.driveFor(48.125, 0.5, 15);
+            sleep(1000);
+            robot.robotWheelsTest.driveFor(-5, -0.5, 15);
+            sleep(1000);
 
 
-            }
+
+        } else {
+            //whoops it broke
+            telemetry.addData("UNABLE TO FIND SKYSTONE", ", GOING TO SKYBRIDGE");
+            telemetry.update();
+            System.out.println("IT BROKE");
+
+            robot.robotWheelsTest.driveFor(9, 0.5, 15);
+            sleep(1000);
+            robot.robotWheelsTest.turnFor(-90, 0.5, 15);
+            sleep(1000);
+            robot.robotWheelsTest.driveFor(47, 0.5, 15);
+            sleep(1000);
+
+
+        }
 
 
 

@@ -91,7 +91,7 @@ public class RobotWheelsTest extends RobotComponentImplBase {
     //Find the number of counts in a full spin of the robot
     private static final double   COUNTS_PER_FULL_TURN = (TURNER_FLOOR_CIRCUMFERENCE / OMNIWHEEL_CIRCUMFERENCE) * COUNTS_PER_TURNER_TURN;
     //Find the number of counts in a degree of a full spin of the robot
-    private static final double   COUNTS_PER_DEGREE          = COUNTS_PER_FULL_TURN / 360;
+    private static final double   COUNTS_PER_DEGREE          = 15;
 
 
 
@@ -282,19 +282,20 @@ public class RobotWheelsTest extends RobotComponentImplBase {
         wheelSpeeds[3] = x + y - rotation;
 
         normalize(wheelSpeeds);
-if(speedModeOn) {
+        if(speedModeOn) {
 
-    leftDriveBack.setPower(wheelSpeeds[0]);
-    rightDriveBack.setPower(wheelSpeeds[1]);
-    leftDriveFront.setPower(wheelSpeeds[2]);
-    rightDriveFront.setPower(wheelSpeeds[3]);
-}
-else{
-    accLeftDriveBack.setTargetPower(wheelSpeeds[0]);
-    accRightDriveBack.setTargetPower(wheelSpeeds[1]);
-    accLeftDriveFront.setTargetPower(wheelSpeeds[2]);
-    accRightDriveFront.setTargetPower(wheelSpeeds[3]);
-}
+            leftDriveBack.setPower(Range.clip((wheelSpeeds[0]), -1, 1));
+            rightDriveBack.setPower(Range.clip((wheelSpeeds[1]), -1, 1));
+            leftDriveFront.setPower(Range.clip((wheelSpeeds[2]), -1, 1));
+            rightDriveFront.setPower(Range.clip((wheelSpeeds[3]), -1, 1));
+
+        }
+        else{
+            accLeftDriveBack.setTargetPower(wheelSpeeds[0]);
+            accRightDriveBack.setTargetPower(wheelSpeeds[1]);
+            accLeftDriveFront.setTargetPower(wheelSpeeds[2]);
+            accRightDriveFront.setTargetPower(wheelSpeeds[3]);
+        }
 
     }   //mecanumDrive_Cartesian
 
@@ -427,8 +428,8 @@ else{
         boolean turningRight = false;
         if (opModeIsActive()) {
             if (degrees > 0) {
-                targetDistRight = rightDriveFront.getCurrentPosition() - (int) (degrees * COUNTS_PER_DEGREE);
-                targetDistLeft = leftDriveFront.getCurrentPosition() + (int) (degrees * COUNTS_PER_DEGREE);
+                targetDistRight = rightDriveFront.getCurrentPosition() - (int) (degrees * COUNTS_PER_DEGREE * COUNTS_PER_MOTOR_REV);
+                targetDistLeft = leftDriveFront.getCurrentPosition() + (int) (degrees * COUNTS_PER_DEGREE * COUNTS_PER_MOTOR_REV);
 
                 leftDriveFront.setTargetPosition(targetDistLeft);
                 leftDriveBack.setTargetPosition(targetDistLeft);
@@ -521,7 +522,7 @@ else{
 
     }
 
-//AUTONOMOUS STUFF
+    //AUTONOMOUS STUFF
     /*
     public double gyroStrafeNormalized(double pow, double target, double Kp)
     {
@@ -602,17 +603,17 @@ public void normalizeAuto(){
     }
 }
 */
-boolean isBumperPressed(){
-    float bumperNumber = gamepad1.right_trigger;
-    boolean bumperPressed;
-    if(bumperNumber > 0.3){
-        bumperPressed = true;
+    boolean isBumperPressed(){
+        float bumperNumber = gamepad1.right_trigger;
+        boolean bumperPressed;
+        if(bumperNumber > 0.3){
+            bumperPressed = true;
+        }
+        else{
+            bumperPressed = false;
+        }
+        return bumperPressed;
     }
-    else{
-        bumperPressed = false;
-    }
-    return bumperPressed;
-}
 
 }
 

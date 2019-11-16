@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name="TankEncoderBlue", group="Tank")
-public class TankEncoderBlue extends TankLinearOpMode {
+public class  TankEncoderBlue extends TankLinearOpMode {
     final double DRIVE_SPEED = 0.4;
     final double LATCH_CLOSED = 0.2;
     final double LATCH_OPEN = 0.9;
@@ -14,6 +14,7 @@ public class TankEncoderBlue extends TankLinearOpMode {
 
     @Override
     public void run(){
+        robot.setUpAuto();
         //strafe right 25inches to wall
        robot.encoderDrive(25, DRIVE_SPEED * 1, DRIVE_SPEED * -1, DRIVE_SPEED * -1, DRIVE_SPEED * 1, 5);
        sleep(500);
