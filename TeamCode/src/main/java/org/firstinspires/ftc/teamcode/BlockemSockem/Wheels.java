@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Clyde_OLD.HardwareHelper;
 
 public class Wheels implements HardwareHelper {
-    //THIS NEEDS TO BE DONE!!!!!!!!!!!!!!!!!!!!!!!
+    //MATH/TESTING NEEDS TO BE DONE!!!!!!!!!!!!!!!!!!!!!!!
     private final double COUNTS_PER_INCH = 6;
     private final double COUNTS_PER_DEGREE = 6;
     private final double STRAFE_COUNTS_PER_INCH = 6;

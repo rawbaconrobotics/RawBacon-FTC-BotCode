@@ -1,0 +1,72 @@
+package org.firstinspires.ftc.teamcode.BlockemSockem;
+
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.teamcode.Clyde_OLD.HardwareHelper;
+
+public class Arm implements HardwareHelper {
+    //CHANGE/TEST ThESE !!!!!!!!!!!!!!!!!!
+    private final static double CLAW_OPEN = 0;
+    private final static double CLAW_CLOSE = 1;
+    private final static int ARM_UPPER_BOUND = 0;
+    private final static int ARM_LOWER_BOUND = 1000;
+    private final static double COUNTS_PER_DEGREE = 3;
+
+    private DcMotor arm;
+    private Servo claw;
+    private ElapsedTime timer = new ElapsedTime();
+
+    public void init(HardwareMap mappy) {
+        arm = mappy.get(DcMotor.class, BESE_HW_Names.ARM);
+        claw = mappy.get(Servo.class, BESE_HW_Names.ClAW);
+        arm.setPower(0);
+        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        claw.setPosition(CLAW_CLOSE);
+    }
+
+
+    public void openClaw(){
+        claw.setPosition(CLAW_OPEN);
+    }
+    public void closeClaw(){
+        claw.setPosition(CLAW_CLOSE);
+    }
+
+    private void setArmDir(double speed){
+        if(speed >= 0){
+            arm.setTargetPosition(ARM_UPPER_BOUND);
+        }
+        else{
+            arm.setTargetPosition(ARM_LOWER_BOUND);
+        }
+    }
+    private void moveArm(double speed){
+        arm.setPower(speed);
+        setArmDir(speed);
+    }
+    private void stopArm(){
+        arm.setPower(0);
+    }
+    public void moveArmTeleop(double speed){
+        moveArm(speed);
+        if(!arm.isBusy()) stopArm();
+    }
+    public void moveArmTime(double seconds, double speed){
+        timer.reset();
+        moveArm(speed);
+        while(timer.seconds() < seconds){
+            if(!arm.isBusy()) break;
+        }
+        stopArm();
+    }
+    public void moveArmFor(int degrees, double speed){}
+
+    public void resetEncoders(){
+        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+}
