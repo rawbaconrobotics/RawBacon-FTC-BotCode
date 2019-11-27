@@ -21,7 +21,7 @@ import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
-
+@Config
 @Autonomous(name = "LukeMoment Autonomous", group = "Big Dipper")
 
 public class LukeMomentAuto extends BaseLinearOpMode {
@@ -48,6 +48,16 @@ public class LukeMomentAuto extends BaseLinearOpMode {
     final double WHEEL_MINIMUM_POWER = 0.3; //Allows for deadband compensation.
     final double WHEEL_MAXIMUM_POWER = 1.0;
     public static boolean DONT_RESET_RUNTIME = false;
+
+    public static double FIRSTdriveinches1 = -39;
+    public static double SECONDstrafeinches1 = 7;
+    public static double THIRDstrafeinches2 = 4;
+    public static double FOURTHdriveinches2 = 25;
+    public static double FIFTHstrafeinches3 = 28;
+    public static double SIXTHdriveinches3 = -15;
+    public static double SEVENTHdriveinches4 = 32;
+    public static int EIGHTHturndegrees1 = 0;
+    public static double NINTHstrafeinches4 = 52;
 
     private static final double COUNTS_PER_MOTOR_REV = 1120;
     private static final double DRIVE_GEAR_REDUCTION = 1.0;
@@ -189,33 +199,34 @@ public class LukeMomentAuto extends BaseLinearOpMode {
         runtime.reset();
         telemetry.addData("Runtime Reset", "Complete");
         System.out.println("RUNTIME RESET COMPLETE");
-        robot.robotWheelsTest.driveFor(-40,0.5,10);
+        robot.robotWheelsTest.driveFor(FIRSTdriveinches1,0.5,10);
         sleep(750);
-        robot.robotWheelsTest.strafeFor(8.5,0.2,true, 10);
+        robot.robotWheelsTest.strafeFor(SECONDstrafeinches1,0.2,true, 10);
         sleep(750);
-        robot.robotWheelsTest.strafeFor(4,0.5,false, 10);
-        sleep(750);
-
-        robot.robotWheelsTest.driveFor(20,0.5,10);
+        robot.robotWheelsTest.strafeFor(THIRDstrafeinches2,0.2,false, 10);
         sleep(750);
 
-        robot.robotWheelsTest.strafeFor(35,0.5, true, 10);
+        robot.robotWheelsTest.driveFor(FOURTHdriveinches2,0.5,10);
         sleep(750);
 
-        robot.robotWheelsTest.driveFor(-9,0.5,10);
+        robot.robotWheelsTest.strafeFor(FIFTHstrafeinches3,0.2, true, 10);
+        sleep(750);
+
+        robot.robotWheelsTest.driveFor(SIXTHdriveinches3,0.5,10);
         sleep(750);
 
         robot.bdlatch.closeLatch();
         sleep(750);
 
-        robot.robotWheelsTest.driveFor(42,0.5,10);
+        robot.robotWheelsTest.driveFor(SEVENTHdriveinches4,0.5,10);
         sleep(750);
 
         robot.bdlatch.openLatch();
         sleep(750);
 
+        robot.robotWheelsTest.turnFor(EIGHTHturndegrees1, 0.5, 10);
 
-        robot.robotWheelsTest.strafeFor(45,0.5,false, 10);
+        robot.robotWheelsTest.strafeFor(NINTHstrafeinches4,0.5,false, 10);
 
 
     }

@@ -8,9 +8,9 @@ import org.firstinspires.ftc.teamcode.Clyde_OLD.HardwareHelper;
 
 public class Wheels implements HardwareHelper {
     //MATH/TESTING NEEDS TO BE DONE!!!!!!!!!!!!!!!!!!!!!!!
-    private final double COUNTS_PER_INCH = 6;
-    private final double COUNTS_PER_DEGREE = 6;
-    private final double STRAFE_COUNTS_PER_INCH = 6;
+    private final double COUNTS_PER_INCH = 600;
+    private final double COUNTS_PER_DEGREE = 600;
+    private final double STRAFE_COUNTS_PER_INCH = 600;
 
     private DcMotor leftFront;
     private DcMotor rightFront;
@@ -111,9 +111,9 @@ public class Wheels implements HardwareHelper {
                 throw new IllegalArgumentException("Invalid type \""+type+"\"");
         }
         leftFront.setTargetPosition(leftFront.getTargetPosition() + counts * pattern[0]);
-        rightFront.setTargetPosition(rightFront.getTargetPosition() + counts * pattern[0]);
-        leftBack.setTargetPosition(leftBack.getTargetPosition() + counts * pattern[0]);
-        rightBack.setTargetPosition(rightBack.getTargetPosition() + counts * pattern[0]);
+        rightFront.setTargetPosition(rightFront.getTargetPosition() + counts * pattern[1]);
+        leftBack.setTargetPosition(leftBack.getTargetPosition() + counts * pattern[2]);
+        rightBack.setTargetPosition(rightBack.getTargetPosition() + counts * pattern[3]);
     }
     public void driveFor(double inches, double speed){
         addCounts(inches, "drive");
