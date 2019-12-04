@@ -14,6 +14,7 @@ import com.vuforia.PIXEL_FORMAT;
 import com.vuforia.Vuforia;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
@@ -191,6 +192,7 @@ public class SomeAutonomous extends BaseLinearOpMode
         System.out.println("INITIALIZED, STARTING TO LOOK FOR SKYSTONES");
         CameraDevice.getInstance().setFlashTorchMode(true);
 
+        Telemetry dashboardTelemetry = dashboard.getTelemetry();
 
         while(!opModeIsActive() && !isStopRequested()){
 
@@ -224,6 +226,11 @@ public class SomeAutonomous extends BaseLinearOpMode
 
             }
             //dashboard.sendTelemetryPacket(new TelemetryPacket());
+
+            dashboardTelemetry.addData("position: ", p.getVumarkLeftBoundary());
+            dashboardTelemetry.addData("Minimum Area of Skystone: ", Double.toString(p.minContourArea));
+            dashboardTelemetry.addData("Minimum Perimeter of Skystone: ", Double.toString(p.minContourPerimeter));
+            dashboardTelemetry.update();
             telemetry.addData("position: ", p.getVumarkLeftBoundary());
             telemetry.addData("Minimum Area of Skystone: ", Double.toString(p.minContourArea));
             telemetry.addData("Minimum Perimeter of Skystone: ", Double.toString(p.minContourPerimeter));

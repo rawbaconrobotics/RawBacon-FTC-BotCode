@@ -55,9 +55,9 @@ public class LukeMomentAuto extends BaseLinearOpMode {
     public static double FOURTHdriveinches2 = 25;
     public static double FIFTHstrafeinches3 = 28;
     public static double SIXTHdriveinches3 = -15;
-    public static double SEVENTHdriveinches4 = 32;
+    public static double SEVENTHdriveinches4 = 31.5;
     public static int EIGHTHturndegrees1 = 0;
-    public static double NINTHstrafeinches4 = 52;
+    public static double NINTHstrafeinches4 = 50;
 
     private static final double COUNTS_PER_MOTOR_REV = 1120;
     private static final double DRIVE_GEAR_REDUCTION = 1.0;
