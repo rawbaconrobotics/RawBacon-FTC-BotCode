@@ -1,105 +1,32 @@
 package org.firstinspires.ftc.teamcode.Uhaul;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-
 
 
 public class Uhaul {
     public UhaulDriveTrain drive;
+    public UhaulLatch latch;
+    public UhaulLift lift;
+    public UhaulArm arm;
+    public UhaulGrabber grabber;
+    public UhaulIntake intake;
+
     public void teleOpActivated() {
-        //Activate wheels for opmode
-    drive.wheelsTeleOp();
+    drive.wheelsTeleOp(); //Activate wheels for opmode
+    latch.moveLatch();
+    lift.moveLift();
+    arm.moveArm();
+    grabber.moveGrabber();
+    intake.runIntake();
     }
 
     public Uhaul(LinearOpMode opMode) {
         drive.init();
+        latch.init();
+        lift.init();
+        arm.init();
+        grabber.init();
+        intake.init();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

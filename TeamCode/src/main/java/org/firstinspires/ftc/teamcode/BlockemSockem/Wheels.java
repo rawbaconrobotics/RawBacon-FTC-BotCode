@@ -50,12 +50,18 @@ public class Wheels implements HardwareHelper {
         setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
+    public void left_drive(double speed){
+        leftFront.setPower(speed);
+        leftBack.setPower(speed);
+    }
+    public void right_drive(double speed){
+        rightFront.setPower(speed);
+        rightBack.setPower(speed);
+    }
     //Positive is forwards
     public void drive(double speed){
-        leftFront.setPower(speed);
-        rightFront.setPower(speed);
-        leftBack.setPower(speed);
-        rightBack.setPower(speed);
+        left_drive(speed);
+        right_drive(speed);
     }
     //Positive is clockwise
     public void turn(double speed){

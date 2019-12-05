@@ -190,7 +190,7 @@ public class SomeAutonomous extends BaseLinearOpMode
         VuforiaLocalizer.CloseableFrame vuFrame = null;
 
         System.out.println("INITIALIZED, STARTING TO LOOK FOR SKYSTONES");
-        CameraDevice.getInstance().setFlashTorchMode(true);
+        //CameraDevice.getInstance().setFlashTorchMode(true);
 
         Telemetry dashboardTelemetry = dashboard.getTelemetry();
 
@@ -242,7 +242,7 @@ public class SomeAutonomous extends BaseLinearOpMode
             else
                 shouldWrite = fals  e; */
 
-        CameraDevice.getInstance().setFlashTorchMode(false);
+        //CameraDevice.getInstance().setFlashTorchMode(false);
 
 
     }
