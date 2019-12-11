@@ -20,6 +20,7 @@ import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BDLatch;
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BaseLinearOpMode;
+import org.firstinspires.ftc.teamcode.CloseableVuforiaLocalizer;
 import org.opencv.android.Utils;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
@@ -116,7 +117,7 @@ public class SomeAutonomous extends BaseLinearOpMode
 
     // Class Members
     private OpenGLMatrix lastLocation = null;
-    private VuforiaLocalizer vuforia = null;
+    private CloseableVuforiaLocalizer vuforia = null;
 
     /**
      * This is the webcam we are to use. As with other hardware devices such as motors and
@@ -176,7 +177,7 @@ public class SomeAutonomous extends BaseLinearOpMode
 //NOT SURE IF WE NEED THE ABOVE!
 
         //  Instantiate the Vuforia engine
-        vuforia = ClassFactory.getInstance().createVuforia(parameters);
+        vuforia = (CloseableVuforiaLocalizer) ClassFactory.getInstance().createVuforia(parameters);
 
         Vuforia.setFrameFormat(PIXEL_FORMAT.RGB565, true);
         vuforia.setFrameQueueCapacity(1);
@@ -254,6 +255,7 @@ public class SomeAutonomous extends BaseLinearOpMode
 
         xcoord = p.getVumarkLeftBoundary();
 
+        vuforia.close();
 
         //robotWheelsTest.initAutonomous();
         //distanceSensor.init();

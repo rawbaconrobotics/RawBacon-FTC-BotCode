@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.BigDipper;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BDGrabber;
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BDLatch;
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BaseLinearOpMode;
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.RobotWheels;
@@ -14,11 +15,13 @@ public class SomeOpMode extends BaseLinearOpMode
     private ElapsedTime runtime = new ElapsedTime();
     RobotWheels robotWheels;
     public BDLatch bdlatch;
+    public BDGrabber bdgrabber;
 
     @Override
     public void on_init(){
         robot.robotWheelsTest.init();
         robot.bdlatch.init();
+        robot.bdgrabber.init();
     }
 
 
@@ -49,11 +52,6 @@ public class SomeOpMode extends BaseLinearOpMode
 
         robot.robotWheelsTest.stopDrive();
     }
-
-
-
-
-
 
 
 }

@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BDDistanceSensor;
+import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BDGrabber;
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BDLatch;
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.RobotWheels;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -15,6 +16,7 @@ public class Robot {
     public RobotWheelsTest robotWheelsTest;
     public BDDistanceSensor distanceSensor;
     public BDLatch bdlatch;
+    public BDGrabber bdgrabber;
 
 
 //public BDAutonomousv1 bdautono = new BDAutonomousv1();
@@ -42,8 +44,7 @@ public class Robot {
         //distanceSensor.findDistance();
 
     bdlatch.latch();
-
-
+    bdgrabber.grabber();
     }
 
 
@@ -55,6 +56,7 @@ public class Robot {
      robotWheelsTest = new RobotWheelsTest(opMode);
      //distanceSensor = new BDDistanceSensor(opMode);
      bdlatch = new BDLatch(opMode);
+     bdgrabber = new BDGrabber(opMode);
 
 
 

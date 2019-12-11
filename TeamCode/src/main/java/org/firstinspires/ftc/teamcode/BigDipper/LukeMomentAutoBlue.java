@@ -215,13 +215,11 @@ public class LukeMomentAutoBlue extends BaseLinearOpMode {
         robot.robotWheelsTest.driveFor(SIXTHdriveinches3,0.5,10);
         sleep(750);
 
-        robot.bdlatch.closeLatchBIGNUMBER();
         sleep(750);
 
         robot.robotWheelsTest.driveFor(SEVENTHdriveinches4,1,10);
         sleep(750);
 
-        robot.bdlatch.openLatchBIGNUMBER();
         sleep(750);
 
         robot.robotWheelsTest.turnFor(EIGHTHturndegrees1, 0.5, 10);
