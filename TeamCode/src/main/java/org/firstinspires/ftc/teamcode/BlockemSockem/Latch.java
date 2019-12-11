@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.Clyde_OLD.HardwareHelper;
 
 public class Latch implements HardwareHelper {
+    //NEEDS TO BE CHANGED!!!!!!!!!!!!!!!!!!!!!!
     private final static double right_Latch_Down = 1;
     private final static double right_Latch_Up = 0;
     private final static double left_Latch_Down = 1;

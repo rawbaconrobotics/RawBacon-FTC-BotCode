@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.BlockemSockem;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -19,7 +20,16 @@ public class Arm implements HardwareHelper {
     private DcMotor arm;
     private Servo claw;
     private ElapsedTime timer = new ElapsedTime();
+    private boolean hasLinearOpMode;
+    private LinearOpMode opper;
 
+    public Arm(){
+        hasLinearOpMode = false;
+    }
+    public Arm(LinearOpMode oppy){
+        opper = oppy;
+        hasLinearOpMode = true;
+    }
     public void init(HardwareMap mappy) {
         arm = mappy.get(DcMotor.class, BESE_HW_Names.ARM);
         claw = mappy.get(Servo.class, BESE_HW_Names.ClAW);
@@ -27,7 +37,14 @@ public class Arm implements HardwareHelper {
         arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         claw.setPosition(CLAW_CLOSE);
     }
-
+    public boolean opModeIsActive(){
+        if(hasLinearOpMode){
+            return false;
+        }
+        else{
+            return opper.opModeIsActive();
+        }
+    }
 
     public void openClaw(){
         claw.setPosition(CLAW_OPEN);
@@ -58,7 +75,7 @@ public class Arm implements HardwareHelper {
     public void moveArmTime(double seconds, double speed){
         timer.reset();
         moveArm(speed);
-        while(timer.seconds() < seconds){
+        while(timer.seconds() < seconds && opModeIsActive()){
             if(!arm.isBusy()) break;
         }
         stopArm();
@@ -68,7 +85,7 @@ public class Arm implements HardwareHelper {
         targetDist = Range.clip(targetDist, ARM_LOWER_BOUND, ARM_UPPER_BOUND);
         arm.setTargetPosition(targetDist);
         arm.setPower(speed);
-        while(arm.isBusy()){}
+        while(arm.isBusy() && opModeIsActive()){}
         stopArm();
     }
 

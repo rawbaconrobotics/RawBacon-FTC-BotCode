@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.BlockemSockem;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -17,6 +18,16 @@ public class Wheels implements HardwareHelper {
     private DcMotor leftBack;
     private DcMotor rightBack;
     private ElapsedTime timer = new ElapsedTime();
+    private boolean hasLinearOpMode;
+    private LinearOpMode opper;
+    public Wheels(){
+        hasLinearOpMode = false;
+    }
+
+    public Wheels(LinearOpMode oppy){
+        opper = oppy;
+        hasLinearOpMode = true;
+    }
 
     public void init(HardwareMap mappy){
         leftFront = mappy.get(DcMotor.class, BESE_HW_Names.LEFTFRONT);
@@ -27,6 +38,9 @@ public class Wheels implements HardwareHelper {
         rightBack.setDirection(DcMotor.Direction.REVERSE);
         setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         halt();
+    }
+    public boolean opModeIsActive(){
+        return opper.opModeIsActive();
     }
     public void halt(){
         leftFront.setPower(0);
@@ -80,19 +94,19 @@ public class Wheels implements HardwareHelper {
     public void driveTime(double seconds, double speed){
         timer.reset();
         drive(speed);
-        while(/*opModeIsActivate() && */(timer.seconds() < seconds)){}
+        while(opModeIsActive() && (timer.seconds() < seconds)){}
         halt();
     }
     public void turnTime(double seconds, double speed){
         timer.reset();
         turn(speed);
-        while(/*opModeIsActivate() && */(timer.seconds() < seconds)){}
+        while(opModeIsActive() && (timer.seconds() < seconds)){}
         halt();
     }
     public void strafeTime(double seconds, double speed){
         timer.reset();
         strafe(speed);
-        while(/*opModeIsActivate() && */(timer.seconds() < seconds)){}
+        while(opModeIsActive() && (timer.seconds() < seconds)){}
         halt();
     }
 
@@ -125,7 +139,7 @@ public class Wheels implements HardwareHelper {
         addCounts(inches, "drive");
         setMode(DcMotor.RunMode.RUN_TO_POSITION);
         drive(speed);
-        while(isBusy()){}
+        while(isBusy() && opModeIsActive()){}
         halt();
         setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
@@ -133,7 +147,7 @@ public class Wheels implements HardwareHelper {
         addCounts(degrees, "turn");
         setMode(DcMotor.RunMode.RUN_TO_POSITION);
         turn(speed);
-        while(isBusy()){}
+        while(isBusy() && opModeIsActive()){}
         halt();
         setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
@@ -141,7 +155,7 @@ public class Wheels implements HardwareHelper {
         addCounts(inches, "strafe");
         setMode(DcMotor.RunMode.RUN_TO_POSITION);
         strafe(speed);
-        while(isBusy()){}
+        while(isBusy() && opModeIsActive()){}
         halt();
         setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }

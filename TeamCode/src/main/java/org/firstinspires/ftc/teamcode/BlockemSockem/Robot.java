@@ -1,20 +1,29 @@
 package org.firstinspires.ftc.teamcode.BlockemSockem;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Clyde_OLD.HardwareHelper;
 
 class Robot implements HardwareHelper {
-    Wheels w = new Wheels();
-    Arm a = new Arm();
-    Latch l = new Latch();
+    Wheels wheels;
+    //Arm arm;
+    //Latch latch = new Latch();
+    public Robot(){
+        wheels = new Wheels();
+        //arm = new Arm();
+    }
+    public Robot(LinearOpMode oppy){
+        wheels = new Wheels(oppy);
+        //arm = new Arm(oppy);
+    }
     public void init(HardwareMap mappy) {
-        w.init(mappy);
-        a.init(mappy);
-        l.init(mappy);
+        wheels.init(mappy);
+        //arm.init(mappy);
+        //latch.init(mappy);
     }
     public void resetEncoders(){
-        w.resetEncoders();
-        a.resetEncoders();
+        wheels.resetEncoders();
+        //arm.resetEncoders();
     }
 }

@@ -268,7 +268,7 @@ public class SomeAutonomous extends BaseLinearOpMode
 
 
 
-        if (0 < xcoord && xcoord < 200) { // stone is on left, run left path
+        if (250 < xcoord && xcoord < 450) { // stone is on left, run left path
             System.out.println("DRIVING LEFT PATH");
             robot.robotWheelsTest.turnFor(-90, 0.5, 15);
             sleep(1000);
@@ -293,7 +293,7 @@ public class SomeAutonomous extends BaseLinearOpMode
             robot.robotWheelsTest.driveFor(25.125, 0.5, 15);
             sleep(1000);
 
-        } else if (xcoord > 200 && xcoord < 400) { // stone is in middle, run middle path
+        } else if (xcoord > 450 && xcoord < 550) { // stone is in middle, run middle path
 //move straight approx 34 inches, turn 180 degrees counter clockwise, go forward 47/2 inches, turn 90 deg. clockwise, forward 34.125 inches.
             robot.robotWheelsTest.driveFor(34, 0.5, 15);
             sleep(1000);
@@ -313,7 +313,7 @@ public class SomeAutonomous extends BaseLinearOpMode
 
 
 
-        } else if (xcoord > 400) { //stone on right, run right path
+        } else if (xcoord > 550 || (xcoord < 250)) { //stone on right, run right path
 
             robot.robotWheelsTest.driveFor(16, 0.5, 5);
             sleep(1000);
@@ -369,6 +369,7 @@ public class SomeAutonomous extends BaseLinearOpMode
 
     @Override
     public void on_stop() {
+        robot.robotWheelsTest.stopDrive();
         //do something when the robot stops?
     }
 

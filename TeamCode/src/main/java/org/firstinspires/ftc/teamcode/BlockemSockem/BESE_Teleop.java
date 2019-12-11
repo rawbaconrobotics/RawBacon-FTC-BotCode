@@ -12,15 +12,15 @@ public class BESE_Teleop extends OpMode {
 
     @Override
     public void loop() {
-        bese.w.left_drive(-gamepad1.left_stick_x);
-        bese.w.right_drive(-gamepad1.right_stick_x);
+        bese.wheels.left_drive(-gamepad1.left_stick_x);
+        bese.wheels.right_drive(-gamepad1.right_stick_x);
 
         if(gamepad1.right_bumper){
-            bese.w.strafe(-0.5);
+            bese.wheels.strafe(-0.5);
         }
 
         if(gamepad1.left_bumper){
-            bese.w.strafe(0.5);
+            bese.wheels.strafe(0.5);
         }
     }
 }

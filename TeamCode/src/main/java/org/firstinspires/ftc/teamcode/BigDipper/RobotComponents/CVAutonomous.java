@@ -128,10 +128,10 @@ public class CVAutonomous extends LinearOpMode {
              * and resume the viewport if the "Y" button on gamepad1 is pressed.
              */
             else if(gamepad1.x) {
-                phoneCam.pauseViewport();
-            }
-            else if(gamepad1.y) {
-                phoneCam.resumeViewport();
+                    phoneCam.pauseViewport();
+                }
+                else if(gamepad1.y) {
+                    phoneCam.resumeViewport();
             }
         }
     }
