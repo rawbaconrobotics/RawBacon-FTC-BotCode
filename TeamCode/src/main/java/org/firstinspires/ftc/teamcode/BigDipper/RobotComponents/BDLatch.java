@@ -56,9 +56,9 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class BDLatch extends RobotComponentImplBase {
 
     private final static String LATCH_SERVO_NAME = "tank_latch_1" ;
-    private final static String LATCH_SERVO_2_NAME = "tank_latch_2";
-    double LATCH_OPEN = 0.9;
-    double LATCH_CLOSED = 0.2;
+    //private final static String LATCH_SERVO_2_NAME = "tank_latch_2";
+    double LATCH_OPEN = 0.3;
+    double LATCH_CLOSED = 0;
 
 
     public static boolean latchButton = false;
@@ -67,7 +67,7 @@ public class BDLatch extends RobotComponentImplBase {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     private Servo latchServo = null;
-    private Servo latchServo2 = null;
+    //private Servo latchServo2 = null;
 
     public BDLatch(LinearOpMode opMode) {
         super(opMode);
@@ -78,16 +78,16 @@ public class BDLatch extends RobotComponentImplBase {
     public void init() {
 
         latchServo = hardwareMap.servo.get(LATCH_SERVO_NAME);
-        latchServo2 = hardwareMap.servo.get(LATCH_SERVO_2_NAME);
+      //  latchServo2 = hardwareMap.servo.get(LATCH_SERVO_2_NAME);
 
     }
     public void initAutonomous(){
 
         latchServo = hardwareMap.servo.get(LATCH_SERVO_NAME);
-        latchServo2 = hardwareMap.servo.get(LATCH_SERVO_2_NAME);
+        //latchServo2 = hardwareMap.servo.get(LATCH_SERVO_2_NAME);
 
         latchServo.setPosition(LATCH_OPEN);
-        latchServo2.setPosition(LATCH_CLOSED);
+        //latchServo2.setPosition(LATCH_CLOSED);
     }
 
 
@@ -112,11 +112,11 @@ public class BDLatch extends RobotComponentImplBase {
 
             if(openLatch){
                 latchServo.setPosition(LATCH_OPEN);
-                latchServo2.setPosition(LATCH_CLOSED);
+                //latchServo2.setPosition(LATCH_CLOSED);
             }
             if (closeLatch){
                 latchServo.setPosition(LATCH_CLOSED);
-                latchServo2.setPosition(LATCH_OPEN);
+                //latchServo2.setPosition(LATCH_OPEN);
             }
 
 
@@ -130,21 +130,21 @@ public class BDLatch extends RobotComponentImplBase {
     public void openLatch(){
         System.out.println("LATCH OPENING");
         latchServo.setPosition(LATCH_OPEN);
-        latchServo2.setPosition(LATCH_CLOSED);
+        //latchServo2.setPosition(LATCH_CLOSED);
     }
 
     public void closeLatch(){
         System.out.println("LATCH CLOSING");
         latchServo.setPosition(LATCH_CLOSED);
-        latchServo2.setPosition(LATCH_OPEN);
+        //latchServo2.setPosition(LATCH_OPEN);
     }
     public void closeLatchBIGNUMBER(){
         System.out.println("LATCH CLOSING");
-        latchServo2.setPosition(LATCH_OPEN);
+        //latchServo2.setPosition(LATCH_OPEN);
     }
     public void openLatchBIGNUMBER(){
         System.out.println("LATCH CLOSING");
-        latchServo2.setPosition(LATCH_OPEN);
+        //latchServo2.setPosition(LATCH_OPEN);
     }
 }
 

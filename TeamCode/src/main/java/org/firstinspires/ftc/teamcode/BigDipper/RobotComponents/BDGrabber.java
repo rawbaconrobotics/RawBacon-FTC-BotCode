@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode.BigDipper.RobotComponents;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -49,7 +50,7 @@ public class BDGrabber extends RobotComponentImplBase{
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private Servo grabberServo = null;
+    private CRServo grabberServo = null;
 
     public BDGrabber(LinearOpMode opMode) {
         super(opMode);
@@ -59,7 +60,7 @@ public class BDGrabber extends RobotComponentImplBase{
     @Override
     public void init() {
 
-        grabberServo = hardwareMap.servo.get(GRABBER_SERVO_NAME);
+        grabberServo = hardwareMap.crservo.get(GRABBER_SERVO_NAME);
 
     }
 
@@ -88,11 +89,15 @@ public class BDGrabber extends RobotComponentImplBase{
         boolean closeGrabber = gamepad1.left_bumper;
 
 
-        if(openGrabber){
-            grabberServo.setPosition(GRABBER_OPEN);
+
+        if(openGrabber && (grabberServo.getPower() != 1)){
+            grabberServo.setPower(1);
         }
-        if (closeGrabber){
-            grabberServo.setPosition(GRABBER_CLOSED);
+        if(closeGrabber && (grabberServo.getPower() != -0.6)){
+            grabberServo.setPower(-0.6);
+        }
+        if(!openGrabber || !closeGrabber){
+                grabberServo.setPower(0);
         }
 
 
@@ -105,12 +110,12 @@ public class BDGrabber extends RobotComponentImplBase{
 
     public void openGrabber(){
         System.out.println("GRABBER OPENING");
-        grabberServo.setPosition(GRABBER_OPEN);
+        grabberServo.setPower(GRABBER_OPEN);
     }
 
     public void closeGrabber(){
         System.out.println("GRABBER CLOSING");
-        grabberServo.setPosition(GRABBER_CLOSED);
+        grabberServo.setPower(GRABBER_CLOSED);
 
     }
 }
