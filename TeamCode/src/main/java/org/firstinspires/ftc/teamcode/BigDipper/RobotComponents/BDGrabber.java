@@ -68,6 +68,9 @@ public class BDGrabber extends RobotComponentImplBase{
     @Override
     public void initAutonomous() {
 
+        grabberServo = hardwareMap.crservo.get(GRABBER_SERVO_NAME);
+
+
     }
 
     public void grabber() {

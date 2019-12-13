@@ -150,6 +150,8 @@ public class LukeMomentAuto extends BaseLinearOpMode {
 
         robot.bdlatch.initAutonomous();
 
+        robot.bdgrabber.initAutonomous();
+
         //webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
 
         /*
