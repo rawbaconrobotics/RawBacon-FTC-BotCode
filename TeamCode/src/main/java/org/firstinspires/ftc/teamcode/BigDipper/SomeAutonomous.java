@@ -177,7 +177,7 @@ public class SomeAutonomous extends BaseLinearOpMode
 //NOT SURE IF WE NEED THE ABOVE!
 
         //  Instantiate the Vuforia engine
-        vuforia = (CloseableVuforiaLocalizer) ClassFactory.getInstance().createVuforia(parameters);
+          vuforia = new CloseableVuforiaLocalizer(parameters);
 
         Vuforia.setFrameFormat(PIXEL_FORMAT.RGB565, true);
         vuforia.setFrameQueueCapacity(1);
