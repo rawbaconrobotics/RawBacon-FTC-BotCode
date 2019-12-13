@@ -174,10 +174,10 @@ public class RobotWheelsTest extends RobotComponentImplBase {
         leftDriveFront = hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME);
         rightDriveFront = hardwareMap.dcMotor.get(FRONTRIGHT_WHEEL_NAME);
 
-        accLeftDriveFront = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
-        accLeftDriveBack = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(BACKLEFT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
-        accRightDriveFront = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(FRONTRIGHT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
-        accRightDriveBack = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(BACKRIGHT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
+       //accLeftDriveFront = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
+       // accLeftDriveBack = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(BACKLEFT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
+        //accRightDriveFront = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(FRONTRIGHT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
+        //accRightDriveBack = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(BACKRIGHT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
 
 
 
@@ -210,11 +210,11 @@ public class RobotWheelsTest extends RobotComponentImplBase {
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
 
-        wheelAccelerationThread.addMotor(accLeftDriveFront);
-        wheelAccelerationThread.addMotor(accLeftDriveBack);
-        wheelAccelerationThread.addMotor(accRightDriveFront);
-        wheelAccelerationThread.addMotor(accRightDriveBack);
-        wheelAccelerationThread.start();
+      //  wheelAccelerationThread.addMotor(accLeftDriveFront);
+       // wheelAccelerationThread.addMotor(accLeftDriveBack);
+       // wheelAccelerationThread.addMotor(accRightDriveFront);
+       // wheelAccelerationThread.addMotor(accRightDriveBack);
+        //wheelAccelerationThread.start();
 
         runUsingEncoders();
 
@@ -339,42 +339,46 @@ public class RobotWheelsTest extends RobotComponentImplBase {
     public void drive(double speed){
         System.out.println("DRIVE METHOD CALLED, SETTING TO SPEED" + speed);
 
-      /*  leftDriveBack.setPower(speed);
+        leftDriveBack.setPower(speed);
         rightDriveBack.setPower(speed);
         leftDriveFront.setPower(speed);
         rightDriveFront.setPower(speed);
-*/
-        accLeftDriveBack.setTargetPower(speed);
+
+     /*   accLeftDriveBack.setTargetPower(speed);
         accRightDriveBack.setTargetPower(speed);
         accLeftDriveFront.setTargetPower(speed);
         accRightDriveFront.setTargetPower(speed);
-
+*/
     }
 
     public void strafe(double speed, boolean strafingLeft){
         if(strafingLeft) {
-            /*
+
             leftDriveBack.setPower(speed);
             rightDriveBack.setPower(-speed);
             leftDriveFront.setPower(-speed);
             rightDriveFront.setPower(speed);
-*/
-            accLeftDriveBack.setTargetPower(speed);
+
+          /*  accLeftDriveBack.setTargetPower(speed);
             accRightDriveBack.setTargetPower(-speed);
             accLeftDriveFront.setTargetPower(-speed);
             accRightDriveFront.setTargetPower(speed);
+        */
         }
+
         else{
-            /*
+
             leftDriveBack.setPower(-speed);
             rightDriveBack.setPower(speed);
             leftDriveFront.setPower(speed);
             rightDriveFront.setPower(-speed);
-*/
+/*
             accLeftDriveBack.setTargetPower(-speed);
             accRightDriveBack.setTargetPower(speed);
             accLeftDriveFront.setTargetPower(speed);
             accRightDriveFront.setTargetPower(-speed);
+            */
+
         }
     }
 
@@ -382,28 +386,33 @@ public class RobotWheelsTest extends RobotComponentImplBase {
         System.out.println("TURN METHOD CALLED, SETTING TO SPEED " + speed + " and clockwise = " + clockwise);
 
         if(clockwise) {
-            /*
+
             leftDriveBack.setPower(speed);
             rightDriveBack.setPower(-speed);
             leftDriveFront.setPower(speed);
-            rightDriveFront.setPower(-speed); */
+            rightDriveFront.setPower(-speed);
+            /*
 
             accLeftDriveBack.setTargetPower(speed);
             accRightDriveBack.setTargetPower(-speed);
             accLeftDriveFront.setTargetPower(speed);
             accRightDriveFront.setTargetPower(-speed);
+            */
+
         }
         else{
-            /*
+
             leftDriveBack.setPower(-speed);
             rightDriveBack.setPower(speed);
             leftDriveFront.setPower(-speed);
             rightDriveFront.setPower(speed);
-*/
+/*
             accLeftDriveBack.setTargetPower(-speed);
             accRightDriveBack.setTargetPower(speed);
             accLeftDriveFront.setTargetPower(-speed);
             accRightDriveFront.setTargetPower(speed);
+            */
+
         }
     }
 
