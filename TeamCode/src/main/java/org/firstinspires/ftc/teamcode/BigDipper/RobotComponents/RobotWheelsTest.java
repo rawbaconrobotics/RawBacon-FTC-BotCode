@@ -47,6 +47,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.BigDipper.Robot;
 
+import static android.os.SystemClock.sleep;
 import static org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.RobotWheels.FRONTLEFT_WHEEL_NAME;
 
 
@@ -94,6 +95,7 @@ public class RobotWheelsTest extends RobotComponentImplBase {
     //Find the number of counts in a degree of a full spin of the robot
     private static final double   COUNTS_PER_DEGREE          = 15;
 
+    public double currentSpeed;
 
 
     public DcMotorAccelerationThread wheelAccelerationThread = new DcMotorAccelerationThread();
@@ -131,9 +133,7 @@ public class RobotWheelsTest extends RobotComponentImplBase {
 
 
 
-    public RobotWheelsTest(LinearOpMode opMode) {
-        super(opMode);
-    }
+
 
 
     @Override
@@ -174,8 +174,8 @@ public class RobotWheelsTest extends RobotComponentImplBase {
         leftDriveFront = hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME);
         rightDriveFront = hardwareMap.dcMotor.get(FRONTRIGHT_WHEEL_NAME);
 
-       //accLeftDriveFront = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
-       // accLeftDriveBack = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(BACKLEFT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
+        //accLeftDriveFront = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
+        // accLeftDriveBack = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(BACKLEFT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
         //accRightDriveFront = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(FRONTRIGHT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
         //accRightDriveBack = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(BACKRIGHT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
 
@@ -191,29 +191,30 @@ public class RobotWheelsTest extends RobotComponentImplBase {
         rightDriveBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightDriveFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+        currentSpeed = Math.abs(leftDriveBack.getPower());
+
         //leftDriveFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //leftDriveBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //rightDriveFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //rightDriveBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
-        parameters.loggingEnabled      = true;
-        parameters.loggingTag          = "IMU";
-        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
-
-        // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
-        // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
-        // and named "imu".
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
-        imu.initialize(parameters);
-
-      //  wheelAccelerationThread.addMotor(accLeftDriveFront);
-       // wheelAccelerationThread.addMotor(accLeftDriveBack);
-       // wheelAccelerationThread.addMotor(accRightDriveFront);
-       // wheelAccelerationThread.addMotor(accRightDriveBack);
+/**
+ BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+ parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+ parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+ parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+ parameters.loggingEnabled      = true;
+ parameters.loggingTag          = "IMU";
+ parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+ // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
+ // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
+ // and named "imu".
+ imu = hardwareMap.get(BNO055IMU.class, "imu");
+ imu.initialize(parameters);
+ **/
+        //  wheelAccelerationThread.addMotor(accLeftDriveFront);
+        // wheelAccelerationThread.addMotor(accLeftDriveBack);
+        // wheelAccelerationThread.addMotor(accRightDriveFront);
+        // wheelAccelerationThread.addMotor(accRightDriveBack);
         //wheelAccelerationThread.start();
 
         runUsingEncoders();
@@ -392,7 +393,6 @@ public class RobotWheelsTest extends RobotComponentImplBase {
             leftDriveFront.setPower(speed);
             rightDriveFront.setPower(-speed);
             /*
-
             accLeftDriveBack.setTargetPower(speed);
             accRightDriveBack.setTargetPower(-speed);
             accLeftDriveFront.setTargetPower(speed);
@@ -415,9 +415,26 @@ public class RobotWheelsTest extends RobotComponentImplBase {
 
         }
     }
+    public double betterDrive(double speed){
+        currentSpeed = Math.abs(leftDriveBack.getPower());
+        double MaxAccel = 0.8;
+        double deltaTime = 1;
+        double rawChange = (MaxAccel * deltaTime);
+        double targetSpeed = speed;
+        if(targetSpeed > currentSpeed){
+            currentSpeed = Math.min(targetSpeed, currentSpeed + rawChange);
+        }
+        else{
+            currentSpeed = Math.max(targetSpeed, currentSpeed - rawChange);
+        }
+
+        return currentSpeed;
+
+    }
 
     //Drive for a specified distance using encoders
     public void driveFor(double distance_inches, double speed, double timeoutS) {
+
         System.out.println("DRIVEFOR METHOD CALLED");
 
         //runUsingEncoders();
@@ -425,7 +442,7 @@ public class RobotWheelsTest extends RobotComponentImplBase {
         //System.out.println("RUNUSINGENCODERS COMPLETE!");
 
         if (opModeIsActive()) {
-
+            double speedWeWant = betterDrive(speed);
 
             int targetDistLeft;
             int targetDistRight;
@@ -448,15 +465,21 @@ public class RobotWheelsTest extends RobotComponentImplBase {
 
             runtime.reset();
 
-            drive(speed);
-
+            drive(speedWeWant);
+            //drive(speed);
             System.out.println("DRIVING AT THAT SPEED");
-
 
             while (opModeIsActive() &&
                     (runtime.seconds() < timeoutS) &&
-                    (leftDriveFront.isBusy() || rightDriveFront.isBusy() || rightDriveBack.isBusy() || leftDriveBack.isBusy())) {
+                    (leftDriveFront.isBusy() || rightDriveFront.isBusy() || rightDriveBack.isBusy() || leftDriveBack.isBusy()))
+            {
 
+
+                if(speedWeWant != leftDriveBack.getPower()){
+                    speedWeWant = betterDrive(speed);
+                    drive(speedWeWant);
+                    sleep(1000);
+                }
                 // Display it for the driver.
                 telemetry.addData("Path1",  "Running to %7d :%7d");
                 telemetry.addData("Path2",  "Running at %7d :%7d");
@@ -500,7 +523,7 @@ public class RobotWheelsTest extends RobotComponentImplBase {
             rightDriveFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
             targetDist = leftDriveFront.getCurrentPosition() + (int) (distance_inches * COUNTS_PER_INCH);
-
+            double currentSpeed = betterDrive(speed);
             if(strafingLeft){
                 leftDriveBack.setTargetPosition(targetDist);
                 rightDriveBack.setTargetPosition(-targetDist);
@@ -525,7 +548,7 @@ public class RobotWheelsTest extends RobotComponentImplBase {
 
             runtime.reset();
 
-            strafe(speed, strafingLeft);
+            strafe(currentSpeed, strafingLeft);
 
             System.out.println("DRIVING AT THAT SPEED");
 
@@ -533,6 +556,12 @@ public class RobotWheelsTest extends RobotComponentImplBase {
             while (opModeIsActive() &&
                     (runtime.seconds() < timeoutS) &&
                     (leftDriveBack.isBusy() && rightDriveBack.isBusy())) {
+
+                if(currentSpeed != leftDriveBack.getPower()){
+                    currentSpeed = betterDrive(speed);
+                    drive(currentSpeed);
+                }
+
 
                 // Display it for the driver.
                 telemetry.addData("Path1",  "Running to %7d :%7d");
@@ -619,6 +648,16 @@ public class RobotWheelsTest extends RobotComponentImplBase {
             System.out.println("ABOUT TO RUN TURN COMMAND");
             runtime.reset();
 
+            /** ADD IMU TURNING **/
+            /** ADD IMU TURNING **/
+            /** ADD IMU TURNING **/
+            /** ADD IMU TURNING **/
+            /** ADD IMU TURNING **/
+            /** ADD IMU TURNING **/
+            /** ADD IMU TURNING **/
+            /** ADD IMU TURNING **/
+            /** ADD IMU TURNING **/
+
             turn(speed, turningRight);
 
             System.out.println("TURN COMMAND COMPLETED");
@@ -674,40 +713,28 @@ public class RobotWheelsTest extends RobotComponentImplBase {
         MecanumDrive.cartesian(driveTrain, 0, pow, err*Kp);
         return err;
     }
-
     public double gyroStraightNormalized(double pow, double target, double Kp)
     {
         double err = getAngle() - target;
-
         MecanumDrive.cartesian(driveTrain, pow, 0, err*Kp);
-
         return err;
     }
-
     public static void cartesian(DriveTrain driveTrain, double mainSpeed, double strafeSpeed, double turnSpeed){
-
     }
-
     private double getAngle()
     {
         // We experimentally determined the Z axis is the axis we want to use for heading angle.
         // We have to process the angle because the imu works in euler angles so the Z axis is
         // returned as 0 to +180 or 0 to -180 rolling back to -179 or +179 when rotation passes
         // 180 degrees. We detect this transition and track the total cumulative angle of rotation.
-
         Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-
         double deltaAngle = angles.firstAngle - lastAngles.firstAngle;
-
         if (deltaAngle < -180)
             deltaAngle += 360;
         else if (deltaAngle > 180)
             deltaAngle -= 360;
-
         globalAngle += deltaAngle;
-
         lastAngles = angles;
-
         return globalAngle;
     }
 public void normalizeAuto(){
@@ -726,15 +753,12 @@ public void normalizeAuto(){
         maxLeft = Math.max(Math.abs(FL_power_raw), Math.abs(RL_power_raw));
         maxRight = Math.max(Math.abs(FR_power_raw), Math.abs(RR_power_raw));
         max = Math.max(maxLeft, maxRight);
-
         ratio = 1 / max; //Create a ratio to normalize them all
-
         motorPowers.frontLeft  = FL_power_raw * ratio;
         motorPowers.frontRight = FR_power_raw * ratio;
         motorPowers.rearLeft   = RL_power_raw * ratio;
         motorPowers.rearRight  = RR_power_raw * ratio;
     }
-
     /*
      * Nothing we need to do to the raw powers
      *//*
@@ -758,10 +782,8 @@ public void normalizeAuto(){
         }
         return bumperPressed;
     }
-
+    public RobotWheelsTest(LinearOpMode opMode) {
+        super(opMode);
+    }
 }
-
-
-
-
 
