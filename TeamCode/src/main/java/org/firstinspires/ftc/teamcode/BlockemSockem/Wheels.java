@@ -39,8 +39,14 @@ public class Wheels implements HardwareHelper {
         setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         halt();
     }
+    //Drive by time/encoder counts won't work without a LinearOpMode
     public boolean opModeIsActive(){
-        return opper.opModeIsActive();
+        if(hasLinearOpMode){
+            return opper.opModeIsActive();
+        }
+        else{
+            return false;
+        }
     }
     public void halt(){
         leftFront.setPower(0);
@@ -91,22 +97,25 @@ public class Wheels implements HardwareHelper {
         leftBack.setPower(speed);
         rightBack.setPower(-speed);
     }
-    public void driveTime(double seconds, double speed){
+    private void waitFor(double seconds){
         timer.reset();
+        while(opModeIsActive() && (timer.seconds() < seconds)){
+            //Could put telemetry here.
+        }
+    }
+    public void driveTime(double seconds, double speed){
         drive(speed);
-        while(opModeIsActive() && (timer.seconds() < seconds)){}
+        waitFor(seconds);
         halt();
     }
     public void turnTime(double seconds, double speed){
-        timer.reset();
         turn(speed);
-        while(opModeIsActive() && (timer.seconds() < seconds)){}
+        waitFor(seconds);
         halt();
     }
     public void strafeTime(double seconds, double speed){
-        timer.reset();
         strafe(speed);
-        while(opModeIsActive() && (timer.seconds() < seconds)){}
+        waitFor(seconds);
         halt();
     }
 

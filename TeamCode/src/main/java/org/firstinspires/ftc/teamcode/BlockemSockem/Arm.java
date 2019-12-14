@@ -39,10 +39,11 @@ public class Arm implements HardwareHelper {
     }
     public boolean opModeIsActive(){
         if(hasLinearOpMode){
-            return false;
-        }
-        else{
             return opper.opModeIsActive();
+        }
+        //Drive by encoder counts/time simply won't work outside of a LinearOpMode
+        else{
+            return false;
         }
     }
 

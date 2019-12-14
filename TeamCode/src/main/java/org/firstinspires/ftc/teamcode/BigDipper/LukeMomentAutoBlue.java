@@ -55,7 +55,7 @@ public class LukeMomentAutoBlue extends BaseLinearOpMode {
     public static double FOURTHdriveinches2 = 25;
     public static double FIFTHstrafeinches3 = 22;
     public static double SIXTHdriveinches3 = -16.5;
-    public static double SEVENTHdriveinches4 = 30;
+    public static double SEVENTHdriveinches4 = 29;
     public static int EIGHTHturndegrees1 = 0;
     public static double NINTHstrafeinches4 = 50;
 

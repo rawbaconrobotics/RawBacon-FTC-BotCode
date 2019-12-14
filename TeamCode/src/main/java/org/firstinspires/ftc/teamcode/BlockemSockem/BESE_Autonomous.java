@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.BlockemSockem;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-public class BESE_Auto extends LinearOpMode {
+public class BESE_Autonomous extends LinearOpMode {
     Robot bese = new Robot(this);
     @Override
     public void runOpMode() {

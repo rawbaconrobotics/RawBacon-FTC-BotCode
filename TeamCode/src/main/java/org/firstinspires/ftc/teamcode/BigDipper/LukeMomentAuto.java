@@ -228,6 +228,7 @@ public class LukeMomentAuto extends BaseLinearOpMode {
 
         robot.robotWheelsTest.turnFor(EIGHTHturndegrees1, 0.5, 10);
 
+        sleep(250);
         robot.robotWheelsTest.strafeFor(NINTHstrafeinches4,0.5,false, 10);
 
 

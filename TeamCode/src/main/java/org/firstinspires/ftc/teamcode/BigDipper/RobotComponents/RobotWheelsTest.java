@@ -195,7 +195,7 @@ public class RobotWheelsTest extends RobotComponentImplBase {
         //leftDriveBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //rightDriveFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //rightDriveBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
+/**
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
@@ -209,7 +209,7 @@ public class RobotWheelsTest extends RobotComponentImplBase {
         // and named "imu".
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
-
+**/
       //  wheelAccelerationThread.addMotor(accLeftDriveFront);
        // wheelAccelerationThread.addMotor(accLeftDriveBack);
        // wheelAccelerationThread.addMotor(accRightDriveFront);
@@ -415,7 +415,22 @@ public class RobotWheelsTest extends RobotComponentImplBase {
 
         }
     }
+    public double betterDrive(double speed){
+        double MaxAccel = 0.2;
+        double deltaTime = 0.2;
+        double rawChange = (MaxAccel * deltaTime);
+        double targetSpeed = speed;
+        double currentSpeed = 0;
+        if(targetSpeed > currentSpeed){
+            currentSpeed = Math.min(targetSpeed, currentSpeed + rawChange);
+        }
+        else{
+            currentSpeed = Math.max(targetSpeed, currentSpeed - rawChange);
+        }
 
+        return currentSpeed;
+
+    }
     //Drive for a specified distance using encoders
     public void driveFor(double distance_inches, double speed, double timeoutS) {
         System.out.println("DRIVEFOR METHOD CALLED");
@@ -425,7 +440,7 @@ public class RobotWheelsTest extends RobotComponentImplBase {
         //System.out.println("RUNUSINGENCODERS COMPLETE!");
 
         if (opModeIsActive()) {
-
+            double currentSpeed = betterDrive(speed);
 
             int targetDistLeft;
             int targetDistRight;
@@ -448,15 +463,20 @@ public class RobotWheelsTest extends RobotComponentImplBase {
 
             runtime.reset();
 
-            drive(speed);
-
+            drive(currentSpeed);
+            //drive(speed);
             System.out.println("DRIVING AT THAT SPEED");
 
-
             while (opModeIsActive() &&
-                    (runtime.seconds() < timeoutS) &&
-                    (leftDriveFront.isBusy() || rightDriveFront.isBusy() || rightDriveBack.isBusy() || leftDriveBack.isBusy())) {
+                  (runtime.seconds() < timeoutS) &&
+                  (leftDriveFront.isBusy() || rightDriveFront.isBusy() || rightDriveBack.isBusy() || leftDriveBack.isBusy()))
+                {
 
+
+                if(currentSpeed != leftDriveBack.getPower()){
+                    currentSpeed = betterDrive(speed);
+                    drive(currentSpeed);
+                }
                 // Display it for the driver.
                 telemetry.addData("Path1",  "Running to %7d :%7d");
                 telemetry.addData("Path2",  "Running at %7d :%7d");
@@ -500,7 +520,7 @@ public class RobotWheelsTest extends RobotComponentImplBase {
             rightDriveFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
             targetDist = leftDriveFront.getCurrentPosition() + (int) (distance_inches * COUNTS_PER_INCH);
-
+            double currentSpeed = betterDrive(speed);
             if(strafingLeft){
                 leftDriveBack.setTargetPosition(targetDist);
                 rightDriveBack.setTargetPosition(-targetDist);
@@ -525,7 +545,7 @@ public class RobotWheelsTest extends RobotComponentImplBase {
 
             runtime.reset();
 
-            strafe(speed, strafingLeft);
+            strafe(currentSpeed, strafingLeft);
 
             System.out.println("DRIVING AT THAT SPEED");
 
@@ -533,6 +553,12 @@ public class RobotWheelsTest extends RobotComponentImplBase {
             while (opModeIsActive() &&
                     (runtime.seconds() < timeoutS) &&
                     (leftDriveBack.isBusy() && rightDriveBack.isBusy())) {
+
+                if(currentSpeed != leftDriveBack.getPower()){
+                    currentSpeed = betterDrive(speed);
+                    drive(currentSpeed);
+                }
+
 
                 // Display it for the driver.
                 telemetry.addData("Path1",  "Running to %7d :%7d");
@@ -618,6 +644,16 @@ public class RobotWheelsTest extends RobotComponentImplBase {
 
             System.out.println("ABOUT TO RUN TURN COMMAND");
             runtime.reset();
+
+            /** ADD IMU TURNING **/
+            /** ADD IMU TURNING **/
+            /** ADD IMU TURNING **/
+            /** ADD IMU TURNING **/
+            /** ADD IMU TURNING **/
+            /** ADD IMU TURNING **/
+            /** ADD IMU TURNING **/
+            /** ADD IMU TURNING **/
+            /** ADD IMU TURNING **/
 
             turn(speed, turningRight);
 
