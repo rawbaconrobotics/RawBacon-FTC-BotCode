@@ -416,8 +416,8 @@ public class RobotWheelsTest extends RobotComponentImplBase {
         }
     }
     public double betterDrive(double speed){
-        double MaxAccel = 0.2;
-        double deltaTime = 0.2;
+        double MaxAccel = 0.8;
+        double deltaTime = 1;
         double rawChange = (MaxAccel * deltaTime);
         double targetSpeed = speed;
         double currentSpeed = 0;
