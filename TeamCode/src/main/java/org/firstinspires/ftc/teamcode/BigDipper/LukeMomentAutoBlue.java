@@ -50,12 +50,12 @@ public class LukeMomentAutoBlue extends BaseLinearOpMode {
     public static boolean DONT_RESET_RUNTIME = false;
 
     public static double FIRSTdriveinches1 = -39;
-    public static double SECONDstrafeinches1 = 8;
+    public static double SECONDstrafeinches1 = 6;
     public static double THIRDstrafeinches2 = 4;
     public static double FOURTHdriveinches2 = 25;
     public static double FIFTHstrafeinches3 = 22;
     public static double SIXTHdriveinches3 = -16.5;
-    public static double SEVENTHdriveinches4 = 31.5;
+    public static double SEVENTHdriveinches4 = 30;
     public static int EIGHTHturndegrees1 = 0;
     public static double NINTHstrafeinches4 = 50;
 
@@ -200,27 +200,29 @@ public class LukeMomentAutoBlue extends BaseLinearOpMode {
         telemetry.addData("Runtime Reset", "Complete");
         System.out.println("RUNTIME RESET COMPLETE");
         robot.robotWheelsTest.driveFor(FIRSTdriveinches1,0.5,10);
-        sleep(750);
+        sleep(250);
         robot.robotWheelsTest.strafeFor(SECONDstrafeinches1,0.2,false, 10);
-        sleep(750);
+        sleep(250);
         robot.robotWheelsTest.strafeFor(THIRDstrafeinches2,0.2,true, 10);
-        sleep(750);
+        sleep(250);
 
         robot.robotWheelsTest.driveFor(FOURTHdriveinches2,0.5,10);
-        sleep(750);
+        sleep(250);
 
         robot.robotWheelsTest.strafeFor(FIFTHstrafeinches3,0.2, false, 10);
-        sleep(750);
+        sleep(250);
 
         robot.robotWheelsTest.driveFor(SIXTHdriveinches3,0.5,10);
-        sleep(750);
+        sleep(250);
 
-        sleep(750);
+        robot.bdlatch.closeLatch();
+        sleep(250);
 
-        robot.robotWheelsTest.driveFor(SEVENTHdriveinches4,1,10);
-        sleep(750);
+        robot.robotWheelsTest.driveFor(SEVENTHdriveinches4,0.5,10);
+        sleep(250);
 
-        sleep(750);
+        robot.bdlatch.openLatch();
+        sleep(250);
 
         robot.robotWheelsTest.turnFor(EIGHTHturndegrees1, 0.5, 10);
 

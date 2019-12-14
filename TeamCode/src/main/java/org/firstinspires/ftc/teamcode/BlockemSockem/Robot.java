@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.Clyde_OLD.HardwareHelper;
 class Robot implements HardwareHelper {
     Wheels wheels;
     //Arm arm;
-    //Latch latch = new Latch();
+    Latch latch = new Latch();
     public Robot(){
         wheels = new Wheels();
         //arm = new Arm();
@@ -20,7 +20,7 @@ class Robot implements HardwareHelper {
     public void init(HardwareMap mappy) {
         wheels.init(mappy);
         //arm.init(mappy);
-        //latch.init(mappy);
+        latch.init(mappy);
     }
     public void resetEncoders(){
         wheels.resetEncoders();

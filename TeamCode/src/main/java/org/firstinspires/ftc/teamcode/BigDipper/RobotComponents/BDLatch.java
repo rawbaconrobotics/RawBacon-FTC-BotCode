@@ -57,8 +57,8 @@ public class BDLatch extends RobotComponentImplBase {
 
     private final static String LATCH_SERVO_NAME = "tank_latch_1" ;
     //private final static String LATCH_SERVO_2_NAME = "tank_latch_2";
-    double LATCH_OPEN = 0.3;
-    double LATCH_CLOSED = 0;
+    double LATCH_OPEN = 0;
+    double LATCH_CLOSED = 0.3;
 
 
     public static boolean latchButton = false;
