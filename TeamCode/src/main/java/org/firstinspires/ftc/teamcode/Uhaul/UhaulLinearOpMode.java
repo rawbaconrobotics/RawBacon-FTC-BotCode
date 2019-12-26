@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.Uhaul;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.TANK.Tank;
+import org.firstinspires.ftc.teamcode.Uhaul.Uhaul;
 
 public abstract class UhaulLinearOpMode extends LinearOpMode
 {

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Uhaul;
+package org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -24,6 +24,10 @@ import org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents.UhaulComponentImplBa
 
         public void moveLift () {
             uhaulLift.setPower(gamepad2.right_stick_y);
+
+        }
+        @Override
+        public void initAutonomous() {
 
         }
     }

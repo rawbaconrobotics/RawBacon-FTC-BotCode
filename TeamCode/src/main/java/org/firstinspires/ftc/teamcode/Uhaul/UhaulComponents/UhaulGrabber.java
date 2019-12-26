@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Uhaul;
+package org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -31,5 +31,10 @@ public class UhaulGrabber extends UhaulComponentImplBase {
         if (gamepad2.left_bumper){
             uhaulGrabber.setPosition(UHAUL_GRABBER_CLOSED);
         }
+    }
+
+    @Override
+    public void initAutonomous() {
+
     }
 }

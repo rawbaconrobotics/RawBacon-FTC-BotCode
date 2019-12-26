@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.BigDipper.RobotComponents;
+package org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
@@ -45,54 +45,21 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.teamcode.BigDipper.Robot;
+import org.firstinspires.ftc.teamcode.Uhaul.Uhaul;
 
 import static android.os.SystemClock.sleep;
-import static org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.RobotWheels.FRONTLEFT_WHEEL_NAME;
 
-
-/**
- * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
- * the autonomous or the teleop period of an FTC match. The names of OpModes appear on the menu
- * of the FTC Driver Station. When an selection is made from the menu, the corresponding OpMode
- * class is instantiated on the Tank Controller and executed.
- *
- * This particular OpMode just executes a basic Tank Drive Teleop for a two wheeled robot
- * It includes all the skeletal structure that all linear OpModes contain.
- *
- * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
- */
-
-public class RobotWheelsTest extends RobotComponentImplBase {
+public class UhaulDriveTrain extends UhaulComponentImplBase {
     final double WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT = 2;
     final double WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT = 15;
-    final double WHEEL_ACCEL_SPEED_PER_SECOND_TURNING = 15;
-    final double WHEEL_DECEL_SPEED_PER_SECOND_TURNING = 15;
     final double WHEEL_MINIMUM_POWER = 0.3; //Allows for deadband compensation.
     final double WHEEL_MAXIMUM_POWER = 1.0;
-    public static boolean DONT_RESET_RUNTIME = false;
 
     private static final double   COUNTS_PER_MOTOR_REV    = 1440; //1120
     private static final double   DRIVE_GEAR_REDUCTION    = 1.0;
     private static final double   WHEEL_DIAMETER_INCHES   = 4.0;
-    private static final double   COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
-            (WHEEL_DIAMETER_INCHES * 3.1415);
-    //Get diameter of turning wheels
-    private static final double   OMNIWHEEL_DIAMETER_INCHES  = 4.0;
-    //Find circumference of turning wheels
-    private static final double   OMNIWHEEL_CIRCUMFERENCE    = OMNIWHEEL_DIAMETER_INCHES * 3.1415;
-    //Get distance from center of turning to turning wheels
-    private static final double TURNER_TO_DRIVER_INCHES = 9.5;
-    //Find the total distance a full spin of the robot covers
-    private static final double   TURNER_FLOOR_CIRCUMFERENCE = TURNER_TO_DRIVER_INCHES * 2 * 3.1415;
-    //Get drive gear reduction of turning wheels
-    private static final double   TURN_DRIVE_GEAR_REDUCTION  = 1.0;
-    //Find the number of counts in one turn of the turning wheels
-    private static final double   COUNTS_PER_TURNER_TURN     = COUNTS_PER_MOTOR_REV * TURN_DRIVE_GEAR_REDUCTION;
-    //Find the number of counts in a full spin of the robot
-    private static final double   COUNTS_PER_FULL_TURN = (TURNER_FLOOR_CIRCUMFERENCE / OMNIWHEEL_CIRCUMFERENCE) * COUNTS_PER_TURNER_TURN;
-    //Find the number of counts in a degree of a full spin of the robot
+    private static final double   COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV*DRIVE_GEAR_REDUCTION)/(WHEEL_DIAMETER_INCHES * 3.1415);
+
     private static final double   COUNTS_PER_DEGREE          = 15;
 
     public double currentSpeed;
@@ -118,8 +85,6 @@ public class RobotWheelsTest extends RobotComponentImplBase {
     private static final double STICK_DIGITAL_THRESHOLD = 0.25;
     private static final double TURNING_SCALAR = 0.875;
 
-
-    // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftDriveBack = null;
     private DcMotor rightDriveBack = null;
@@ -174,12 +139,6 @@ public class RobotWheelsTest extends RobotComponentImplBase {
         leftDriveFront = hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME);
         rightDriveFront = hardwareMap.dcMotor.get(FRONTRIGHT_WHEEL_NAME);
 
-        //accLeftDriveFront = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
-        // accLeftDriveBack = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(BACKLEFT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
-        //accRightDriveFront = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(FRONTRIGHT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
-        //accRightDriveBack = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(BACKRIGHT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
-
-
 
         leftDriveFront.setDirection(DcMotor.Direction.FORWARD);
         rightDriveFront.setDirection(DcMotor.Direction.REVERSE);
@@ -220,74 +179,18 @@ public class RobotWheelsTest extends RobotComponentImplBase {
         runUsingEncoders();
 
     }
-    /*
-     */
 
     public void wheelsTeleOp() {
         speedModeOn = isBumperPressed();
 
-        // to 'get' must correspond to the names assigned during the robot configuration
-        // step (using the FTC Tank Controller app on the phone).
-
-        // Most robots need the motor on one side to be reversed to drive forward
-        // Reverse the motor that runs backwards when connected directly to the battery
-
-
-        // Wait for the game to start (driver presses PLAY)
-        //waitForStart();
-        //runtime.reset();
-
-        // run until the end of the match (driver presses STOP)
-        //while (opModeIsActive()) {
-
-        // Setup a variable for each drive wheel to save power level for telemetry
-        double leftPower;
-        double rightPower;
-
-        // Choose to drive using either Tank Mode, or POV Mode
-        // Comment out the method that's not used.  The default below is POV.
-
-        // POV Mode uses left stick to go forward, and right stick to turn.
-        // - This uses basic math to combine motions and is easier to drive straight.
         double drive = -gamepad1.left_stick_y;
         double turn = gamepad1.right_stick_x;
-        leftPower = Range.clip(drive + turn, -1.0, 1.0);
-        rightPower = Range.clip(drive - turn, -1.0, 1.0);
 
-        // Tank Mode uses one stick to control each wheel.
-        // - This requires no math, but it is hard to drive forward slowly and keep straight.
-        // leftPower  = -gamepad1.left_stick_y ;
-        // rightPower = -gamepad1.right_stick_y ;
-
-        // Send calculated power to wheels
-
-        /*leftDriveBack.setPower(leftPower);
-            rightDriveBack.setPower(rightPower);
-        leftDriveFront.setPower(leftPower);
-        rightDriveFront.setPower(rightPower);
-*/
-
-
-
-        mechanumTeleOp(gamepad1.left_stick_x,gamepad1.left_stick_y,-gamepad1.right_stick_x);        // Initialize the hardware variables. Note that the strings used here as parameters
-        //while (opModeIsActive()) {
-
-
-
-
-
-
+        mechanumTeleOp(gamepad1.left_stick_x,gamepad1.left_stick_y,-gamepad1.right_stick_x);
     }
-    // Show the elapsed game time and wheel power.
-
-    //}
 
     public void mechanumTeleOp(double x, double y, double rotation) {
         double wheelSpeeds[] = new double[4];
-
-
-
-
 
         wheelSpeeds[0] = x + y + rotation;
         wheelSpeeds[1] = -x + y - rotation;
@@ -296,12 +199,10 @@ public class RobotWheelsTest extends RobotComponentImplBase {
 
         normalize(wheelSpeeds);
         if(speedModeOn) {
-
             leftDriveBack.setPower(Range.clip((wheelSpeeds[0]), -1, 1));
             rightDriveBack.setPower(Range.clip((wheelSpeeds[1]), -1, 1));
             leftDriveFront.setPower(Range.clip((wheelSpeeds[2]), -1, 1));
             rightDriveFront.setPower(Range.clip((wheelSpeeds[3]), -1, 1));
-
         }
         else{
             accLeftDriveBack.setTargetPower(wheelSpeeds[0]);
@@ -309,8 +210,7 @@ public class RobotWheelsTest extends RobotComponentImplBase {
             accLeftDriveFront.setTargetPower(wheelSpeeds[2]);
             accRightDriveFront.setTargetPower(wheelSpeeds[3]);
         }
-
-    }   //mecanumDrive_Cartesian
+    }
 
     private void normalize(double[] wheelSpeeds) {
         double maxMagnitude = Math.abs(wheelSpeeds[0]);
@@ -328,9 +228,6 @@ public class RobotWheelsTest extends RobotComponentImplBase {
                 wheelSpeeds[i] /= maxMagnitude;
             }
         }
-        //normalize
-
-
     }
 
 
@@ -344,27 +241,14 @@ public class RobotWheelsTest extends RobotComponentImplBase {
         rightDriveBack.setPower(speed);
         leftDriveFront.setPower(speed);
         rightDriveFront.setPower(speed);
-
-     /*   accLeftDriveBack.setTargetPower(speed);
-        accRightDriveBack.setTargetPower(speed);
-        accLeftDriveFront.setTargetPower(speed);
-        accRightDriveFront.setTargetPower(speed);
-*/
     }
 
     public void strafe(double speed, boolean strafingLeft){
         if(strafingLeft) {
-
             leftDriveBack.setPower(speed);
             rightDriveBack.setPower(-speed);
             leftDriveFront.setPower(-speed);
             rightDriveFront.setPower(speed);
-
-          /*  accLeftDriveBack.setTargetPower(speed);
-            accRightDriveBack.setTargetPower(-speed);
-            accLeftDriveFront.setTargetPower(-speed);
-            accRightDriveFront.setTargetPower(speed);
-        */
         }
 
         else{
@@ -703,7 +587,6 @@ public class RobotWheelsTest extends RobotComponentImplBase {
     public void stopDrive(){
         wheelAccelerationThread.stop();
         System.out.println("STOPDRIVE completed");
-
     }
 
     //AUTONOMOUS STUFF
@@ -783,7 +666,7 @@ public void normalizeAuto(){
         }
         return bumperPressed;
     }
-    public RobotWheelsTest(LinearOpMode opMode) {
+    public UhaulDriveTrain(LinearOpMode opMode) {
         super(opMode);
     }
 }

@@ -2,6 +2,13 @@ package org.firstinspires.ftc.teamcode.Uhaul;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents.UhaulArm;
+import org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents.UhaulDriveTrain;
+import org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents.UhaulGrabber;
+import org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents.UhaulIntake;
+import org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents.UhaulLatch;
+import org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents.UhaulLift;
+
 
 public class Uhaul {
     public UhaulDriveTrain drive;

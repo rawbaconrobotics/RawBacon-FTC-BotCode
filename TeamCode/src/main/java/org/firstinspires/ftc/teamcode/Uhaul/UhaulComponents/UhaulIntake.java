@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Uhaul;
+package org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -42,7 +42,10 @@ public class UhaulIntake extends UhaulComponentImplBase {
 
 
 
+    @Override
+    public void initAutonomous() {
 
+    }
 
 
 

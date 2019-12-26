@@ -13,7 +13,7 @@ public abstract class UhaulComponentImplBase implements UhaulRobotComponent
     protected Telemetry telemetry;
     protected Gamepad gamepad1;
     protected Gamepad gamepad2;
-    private LinearOpMode opMode;
+    public LinearOpMode opMode;
 
     public UhaulComponentImplBase(LinearOpMode opMode)
     {

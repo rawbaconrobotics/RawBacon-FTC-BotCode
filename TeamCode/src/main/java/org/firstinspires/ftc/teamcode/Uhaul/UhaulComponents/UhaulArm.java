@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Uhaul;
+package org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -27,5 +27,10 @@ import org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents.UhaulComponentImplBa
         public void moveArm() {
             uhaulArm1.setPosition((gamepad2.left_stick_x + 1) / 2);
             uhaulArm2.setPosition(1-(gamepad2.left_stick_x + 1) / 2);
+        }
+
+        @Override
+        public void initAutonomous() {
+
         }
     }
