@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode.BigDipper.RobotComponents;
 
+import com.acmerobotics.roadrunner.drive.MecanumDrive;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -46,6 +47,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.BigDipper.Robot;
+
+import java.time.temporal.ValueRange;
+import java.util.stream.IntStream;
 
 import static android.os.SystemClock.sleep;
 
@@ -96,7 +100,9 @@ public class BDDriveTrain extends RobotComponentImplBase {
     Orientation   lastAngles = new Orientation();
     double                  globalAngle, power = .30, correction;
 
-
+    double headingAngle = 0;
+    double realAngle = 0;
+    double degreesWanted = 0;
 
 
 
@@ -156,7 +162,7 @@ public class BDDriveTrain extends RobotComponentImplBase {
         //leftDriveBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //rightDriveFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //rightDriveBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-/**
+
  BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
  parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
  parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
@@ -169,7 +175,7 @@ public class BDDriveTrain extends RobotComponentImplBase {
  // and named "imu".
  imu = hardwareMap.get(BNO055IMU.class, "imu");
  imu.initialize(parameters);
- **/
+
         //  wheelAccelerationThread.addMotor(accLeftDriveFront);
         // wheelAccelerationThread.addMotor(accLeftDriveBack);
         // wheelAccelerationThread.addMotor(accRightDriveFront);
@@ -477,9 +483,8 @@ public class BDDriveTrain extends RobotComponentImplBase {
 
     //Turn for a specified amount of degrees using encoders
     public void turnFor ( int degrees, double speed, double timeoutS) {
-
         System.out.println("TURNFOR METHOD CALLED");
-
+    degreesWanted = degrees;
 
         int targetDistLeft;
         int targetDistRight;
@@ -533,15 +538,7 @@ public class BDDriveTrain extends RobotComponentImplBase {
             System.out.println("ABOUT TO RUN TURN COMMAND");
             runtime.reset();
 
-            /** ADD IMU TURNING **/
-            /** ADD IMU TURNING **/
-            /** ADD IMU TURNING **/
-            /** ADD IMU TURNING **/
-            /** ADD IMU TURNING **/
-            /** ADD IMU TURNING **/
-            /** ADD IMU TURNING **/
-            /** ADD IMU TURNING **/
-            /** ADD IMU TURNING **/
+           // headingAngle = getAngle();
 
             turn(speed, turningRight);
 
@@ -565,6 +562,16 @@ public class BDDriveTrain extends RobotComponentImplBase {
 
             runUsingEncoders();
             System.out.println("RAN RUNUSINGENCODERS");
+            realAngle = getAngle();
+
+            double acceptableAngleError = 10;
+
+            if (realAngle > (degreesWanted - acceptableAngleError) || realAngle < (degreesWanted + acceptableAngleError)){
+System.out.println("within range, no change needed");
+            }
+            else{
+                turnFor((int)(degreesWanted - realAngle), 0.2, 5);
+            }
 
         }
     }
@@ -589,22 +596,8 @@ public class BDDriveTrain extends RobotComponentImplBase {
         System.out.println("STOPDRIVE completed");
     }
 
-    //AUTONOMOUS STUFF
-    /*
-    public double gyroStrafeNormalized(double pow, double target, double Kp)
-    {
-        double err = getAngle() - target;
-        MecanumDrive.cartesian(driveTrain, 0, pow, err*Kp);
-        return err;
-    }
-    public double gyroStraightNormalized(double pow, double target, double Kp)
-    {
-        double err = getAngle() - target;
-        MecanumDrive.cartesian(driveTrain, pow, 0, err*Kp);
-        return err;
-    }
-    public static void cartesian(DriveTrain driveTrain, double mainSpeed, double strafeSpeed, double turnSpeed){
-    }
+
+
     private double getAngle()
     {
         // We experimentally determined the Z axis is the axis we want to use for heading angle.
@@ -621,19 +614,21 @@ public class BDDriveTrain extends RobotComponentImplBase {
         lastAngles = angles;
         return globalAngle;
     }
+    /**
 public void normalizeAuto(){
     /*
      * Are any of the computed wheel powers greater than 1?
      */
-    /*
+
+    /**
     if(Math.abs(FL_power_raw) > 1
             || Math.abs(FR_power_raw) > 1
             || Math.abs(RL_power_raw) > 1
             || Math.abs(RR_power_raw) > 1)
     {
-        /*
-         * Yeah, figure out which one
-         *//*
+
+         // Yeah, figure out which one
+         //*
         maxLeft = Math.max(Math.abs(FL_power_raw), Math.abs(RL_power_raw));
         maxRight = Math.max(Math.abs(FR_power_raw), Math.abs(RR_power_raw));
         max = Math.max(maxLeft, maxRight);
@@ -645,7 +640,8 @@ public void normalizeAuto(){
     }
     /*
      * Nothing we need to do to the raw powers
-     *//*
+     */
+    /**
     else
     {
         motorPowers.frontLeft = FL_power_raw;
@@ -654,7 +650,7 @@ public void normalizeAuto(){
         motorPowers.rearRight = RR_power_raw;
     }
 }
-*/
+**/
     boolean isBumperPressed(){
         float bumperNumber = gamepad1.right_trigger;
         boolean bumperPressed;
@@ -666,8 +662,11 @@ public void normalizeAuto(){
         }
         return bumperPressed;
     }
+
     public BDDriveTrain(LinearOpMode opMode) {
         super(opMode);
     }
+
 }
+
 
