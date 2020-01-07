@@ -44,9 +44,7 @@ public class BDGrabber extends RobotComponentImplBase{
     double GRABBER_OPEN = 0.9;
     double GRABBER_CLOSED = 0.2;
 
-
     public static boolean grabberButton = false;
-
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -56,44 +54,21 @@ public class BDGrabber extends RobotComponentImplBase{
         super(opMode);
     }
 
-
     @Override
     public void init() {
-
         grabberServo = hardwareMap.crservo.get(GRABBER_SERVO_NAME);
-
     }
-
 
     @Override
     public void initAutonomous() {
-
         grabberServo = hardwareMap.crservo.get(GRABBER_SERVO_NAME);
-
-
     }
 
     public void grabber() {
-
-
-
-        // Wait for the game to start (driver presses PLAY)
-        //waitForStart();
-
-        // run until the end of the match (driver presses STOP)
-        //while (opModeIsActive()) {
-
-        // Setup a variable for each drive wheel to save power level for telemetry
-
-
-
-
         boolean openGrabber = gamepad1.right_bumper;
         boolean closeGrabber = gamepad1.left_bumper;
 
-
-
-        if(openGrabber && (grabberServo.getPower() != 1)){
+        if(openGrabber && (grabberServo.getPower()) != 1){
             grabberServo.setPower(1);
         }
         if(closeGrabber && (grabberServo.getPower() != -0.6)){
@@ -102,23 +77,5 @@ public class BDGrabber extends RobotComponentImplBase{
         if(!openGrabber || !closeGrabber){
                 grabberServo.setPower(0);
         }
-
-
-
-        // Show the elapsed game time and wheel power.
-
-        //}
-
-    }
-
-    public void openGrabber(){
-        System.out.println("GRABBER OPENING");
-        grabberServo.setPower(GRABBER_OPEN);
-    }
-
-    public void closeGrabber(){
-        System.out.println("GRABBER CLOSING");
-        grabberServo.setPower(GRABBER_CLOSED);
-
     }
 }

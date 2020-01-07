@@ -18,4 +18,6 @@ public abstract class UhaulLinearOpMode extends LinearOpMode
     }
 
     public abstract void run();
+    public abstract void on_init();
+    public abstract void on_stop();
 }

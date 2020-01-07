@@ -38,4 +38,14 @@ import org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents.UhaulComponentImplBa
         public void initAutonomous() {
 
         }
+        public void openLatch(){
+            System.out.println("LATCH OPENING");
+            uhaulLatch.setPosition(LATCH_OPEN_POSITION);
+        }
+
+        public void closeLatch(){
+            System.out.println("LATCH CLOSING");
+            uhaulLatch.setPosition(LATCH_CLOSED_POSITION);
+            //latchServo2.setPosition(LATCH_OPEN);
+        }
     }

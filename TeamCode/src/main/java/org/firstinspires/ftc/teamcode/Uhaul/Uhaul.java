@@ -22,7 +22,7 @@ public class Uhaul {
     drive.wheelsTeleOp(); //Activate wheels for opmode
     latch.moveLatch();
     lift.moveLift();
-    arm.moveArm();
+    arm.moveSlider();
     grabber.moveGrabber();
     intake.runIntake();
     }

@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents;
 
+import com.acmerobotics.roadrunner.drive.MecanumDrive;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -45,7 +46,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.teamcode.Uhaul.Uhaul;
+
+import java.time.temporal.ValueRange;
+import java.util.stream.IntStream;
 
 import static android.os.SystemClock.sleep;
 
@@ -74,7 +77,6 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
     DcMotorAccelerated accRightDriveBack;
 
 
-
     private final static String FRONTRIGHT_WHEEL_NAME = "right_drive_front";
     private final static String FRONTLEFT_WHEEL_NAME = "left_drive_front";
     private final static String BACKRIGHT_WHEEL_NAME = "right_drive_back";
@@ -96,7 +98,8 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
     Orientation   lastAngles = new Orientation();
     double                  globalAngle, power = .30, correction;
 
-
+    double realAngle = 0;
+    double degreesWanted = 0;
 
 
 
@@ -156,20 +159,20 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
         //leftDriveBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //rightDriveFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //rightDriveBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-/**
- BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
- parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
- parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
- parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
- parameters.loggingEnabled      = true;
- parameters.loggingTag          = "IMU";
- parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
- // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
- // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
- // and named "imu".
- imu = hardwareMap.get(BNO055IMU.class, "imu");
- imu.initialize(parameters);
- **/
+
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+        parameters.loggingEnabled      = true;
+        parameters.loggingTag          = "IMU";
+        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+        // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
+        // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
+        // and named "imu".
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        imu.initialize(parameters);
+
         //  wheelAccelerationThread.addMotor(accLeftDriveFront);
         // wheelAccelerationThread.addMotor(accLeftDriveBack);
         // wheelAccelerationThread.addMotor(accRightDriveFront);
@@ -302,8 +305,8 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
     }
     public double betterDrive(double speed){
         currentSpeed = Math.abs(leftDriveBack.getPower());
-        double MaxAccel = 0.8;
-        double deltaTime = 1;
+        double MaxAccel = 0.1;
+        double deltaTime = 0.1;
         double rawChange = (MaxAccel * deltaTime);
         double targetSpeed = speed;
         if(targetSpeed > currentSpeed){
@@ -363,7 +366,7 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
                 if(speedWeWant != leftDriveBack.getPower()){
                     speedWeWant = betterDrive(speed);
                     drive(speedWeWant);
-                    sleep(1000);
+                    sleep(100);
                 }
                 // Display it for the driver.
                 telemetry.addData("Path1",  "Running to %7d :%7d");
@@ -445,6 +448,7 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
                 if(currentSpeed != leftDriveBack.getPower()){
                     currentSpeed = betterDrive(speed);
                     drive(currentSpeed);
+                    sleep(100);
                 }
 
 
@@ -476,10 +480,9 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
     }
 
     //Turn for a specified amount of degrees using encoders
-    public void turnFor ( int degrees, double speed, double timeoutS) {
-
+    public void turnFor(int degrees, double speed, double timeoutS) {
         System.out.println("TURNFOR METHOD CALLED");
-
+        degreesWanted = degrees;
 
         int targetDistLeft;
         int targetDistRight;
@@ -533,15 +536,7 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
             System.out.println("ABOUT TO RUN TURN COMMAND");
             runtime.reset();
 
-            /** ADD IMU TURNING **/
-            /** ADD IMU TURNING **/
-            /** ADD IMU TURNING **/
-            /** ADD IMU TURNING **/
-            /** ADD IMU TURNING **/
-            /** ADD IMU TURNING **/
-            /** ADD IMU TURNING **/
-            /** ADD IMU TURNING **/
-            /** ADD IMU TURNING **/
+            // headingAngle = getAngle();
 
             turn(speed, turningRight);
 
@@ -565,10 +560,20 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
 
             runUsingEncoders();
             System.out.println("RAN RUNUSINGENCODERS");
+            realAngle = getAngle();
 
+            double acceptableAngleError = 10;
+
+            if (realAngle < Math.abs(degreesWanted - acceptableAngleError)){
+                System.out.println("within range, no change needed");
+            }
+            else{
+                if(opModeIsActive()) {
+                    turnFor((int) (degreesWanted - realAngle), 0.2, 5);
+                }
+            }
         }
     }
-
 
 
     public void runUsingEncoders(){
@@ -579,34 +584,14 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
         rightDriveBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightDriveFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         System.out.println("SET IT DIRECTLY!");
-
     }
-
-
 
     public void stopDrive(){
         wheelAccelerationThread.stop();
         System.out.println("STOPDRIVE completed");
     }
 
-    //AUTONOMOUS STUFF
-    /*
-    public double gyroStrafeNormalized(double pow, double target, double Kp)
-    {
-        double err = getAngle() - target;
-        MecanumDrive.cartesian(driveTrain, 0, pow, err*Kp);
-        return err;
-    }
-    public double gyroStraightNormalized(double pow, double target, double Kp)
-    {
-        double err = getAngle() - target;
-        MecanumDrive.cartesian(driveTrain, pow, 0, err*Kp);
-        return err;
-    }
-    public static void cartesian(DriveTrain driveTrain, double mainSpeed, double strafeSpeed, double turnSpeed){
-    }
-    private double getAngle()
-    {
+    private double getAngle() {
         // We experimentally determined the Z axis is the axis we want to use for heading angle.
         // We have to process the angle because the imu works in euler angles so the Z axis is
         // returned as 0 to +180 or 0 to -180 rolling back to -179 or +179 when rotation passes
@@ -621,40 +606,43 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
         lastAngles = angles;
         return globalAngle;
     }
-public void normalizeAuto(){
-    /*
+    /**
+     public void normalizeAuto(){
+     /*
      * Are any of the computed wheel powers greater than 1?
      */
-    /*
-    if(Math.abs(FL_power_raw) > 1
-            || Math.abs(FR_power_raw) > 1
-            || Math.abs(RL_power_raw) > 1
-            || Math.abs(RR_power_raw) > 1)
-    {
-        /*
-         * Yeah, figure out which one
-         *//*
-        maxLeft = Math.max(Math.abs(FL_power_raw), Math.abs(RL_power_raw));
-        maxRight = Math.max(Math.abs(FR_power_raw), Math.abs(RR_power_raw));
-        max = Math.max(maxLeft, maxRight);
-        ratio = 1 / max; //Create a ratio to normalize them all
-        motorPowers.frontLeft  = FL_power_raw * ratio;
-        motorPowers.frontRight = FR_power_raw * ratio;
-        motorPowers.rearLeft   = RL_power_raw * ratio;
-        motorPowers.rearRight  = RR_power_raw * ratio;
-    }
-    /*
+
+    /**
+     if(Math.abs(FL_power_raw) > 1
+     || Math.abs(FR_power_raw) > 1
+     || Math.abs(RL_power_raw) > 1
+     || Math.abs(RR_power_raw) > 1)
+     {
+
+     // Yeah, figure out which one
+     //*
+     maxLeft = Math.max(Math.abs(FL_power_raw), Math.abs(RL_power_raw));
+     maxRight = Math.max(Math.abs(FR_power_raw), Math.abs(RR_power_raw));
+     max = Math.max(maxLeft, maxRight);
+     ratio = 1 / max; //Create a ratio to normalize them all
+     motorPowers.frontLeft  = FL_power_raw * ratio;
+     motorPowers.frontRight = FR_power_raw * ratio;
+     motorPowers.rearLeft   = RL_power_raw * ratio;
+     motorPowers.rearRight  = RR_power_raw * ratio;
+     }
+     /*
      * Nothing we need to do to the raw powers
-     *//*
-    else
-    {
-        motorPowers.frontLeft = FL_power_raw;
-        motorPowers.frontRight = FR_power_raw;
-        motorPowers.rearLeft = RL_power_raw;
-        motorPowers.rearRight = RR_power_raw;
-    }
-}
-*/
+     */
+    /**
+     else
+     {
+     motorPowers.frontLeft = FL_power_raw;
+     motorPowers.frontRight = FR_power_raw;
+     motorPowers.rearLeft = RL_power_raw;
+     motorPowers.rearRight = RR_power_raw;
+     }
+     }
+     **/
     boolean isBumperPressed(){
         float bumperNumber = gamepad1.right_trigger;
         boolean bumperPressed;
@@ -666,8 +654,11 @@ public void normalizeAuto(){
         }
         return bumperPressed;
     }
+
     public UhaulDriveTrain(LinearOpMode opMode) {
         super(opMode);
     }
+
 }
+
 

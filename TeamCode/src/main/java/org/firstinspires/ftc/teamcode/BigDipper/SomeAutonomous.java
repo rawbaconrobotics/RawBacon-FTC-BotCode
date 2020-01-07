@@ -29,8 +29,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 
 @Autonomous(name="OFFICIAL Autonomous", group="Big Dipper")
 
-public class SomeAutonomous extends BaseLinearOpMode
-{
+public class SomeAutonomous extends BaseLinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
     //BDDriveTrain robotWheelsTest = new BDDriveTrain(this);
@@ -78,8 +77,6 @@ public class SomeAutonomous extends BaseLinearOpMode
     //Find the number of counts in a degree of a full spin of the robot
     private static final double   COUNTS_PER_DEGREE          = COUNTS_PER_FULL_TURN / 360;
     */
-
-
 
 
     /*
@@ -131,10 +128,6 @@ public class SomeAutonomous extends BaseLinearOpMode
     private float phoneZRotate    = 0;
 
     VisionPipeline p;
-
-
-
-
 
     private boolean shouldWrite = false;
 
@@ -224,7 +217,6 @@ public class SomeAutonomous extends BaseLinearOpMode
                     }
                 }
 
-
             }
 
             dashboardTelemetry.addData("position: ", p.getVumarkLeftBoundary());
@@ -244,13 +236,10 @@ public class SomeAutonomous extends BaseLinearOpMode
                 shouldWrite = fals  e; */
 
         //CameraDevice.getInstance().setFlashTorchMode(false);
-
-
     }
 
     @Override
     public void run() {
-
         System.out.println("ROBOT RUN SEQUENCE INITIALIZED!");
 
         xcoord = p.getVumarkLeftBoundary();
@@ -261,20 +250,16 @@ public class SomeAutonomous extends BaseLinearOpMode
         //distanceSensor.init();
         //bdlatch.init();
 
-
-
         runtime.reset();
         telemetry.addData("Runtime Reset", "Complete");
         System.out.println("RUNTIME RESET COMPLETE");
-
-
 
 
         if (250 < xcoord && xcoord < 450) { // stone is on left, run left path
             System.out.println("DRIVING LEFT PATH");
             robot.bddrivetrain.turnFor(-90, 0.5, 15);
             sleep(1000);
-//the above needs to go
+        //the above needs to go
             robot.bddrivetrain.driveFor(16, 0.5, 15);
             sleep(1000);
             System.out.println("DRIVING LEFT PATH PART 2");
@@ -295,8 +280,10 @@ public class SomeAutonomous extends BaseLinearOpMode
             robot.bddrivetrain.driveFor(25.125, 0.5, 15);
             sleep(1000);
 
-        } else if (xcoord > 450 && xcoord < 550) { // stone is in middle, run middle path
-//move straight approx 34 inches, turn 180 degrees counter clockwise, go forward 47/2 inches, turn 90 deg. clockwise, forward 34.125 inches.
+        }
+        else if (xcoord > 450 && xcoord < 550) { // stone is in middle, run middle path
+            //move straight approx 34 inches, turn 180 degrees counter clockwise,
+            //go forward 47/2 inches, turn 90 deg. clockwise, forward 34.125 inches.
             robot.bddrivetrain.driveFor(34, 0.5, 15);
             sleep(1000);
             System.out.println("DRIVING MID PATH");
@@ -311,11 +298,8 @@ public class SomeAutonomous extends BaseLinearOpMode
             sleep(1000);
             robot.bddrivetrain.driveFor(34.125, 0.5, 15);
             sleep(1000);
-
-
-
-
-        } else if (xcoord > 550 || (xcoord < 250)) { //stone on right, run right path
+        }
+        else if (xcoord > 550 || (xcoord < 250)) { //stone on right, run right path
 
             robot.bddrivetrain.driveFor(16, 0.5, 5);
             sleep(1000);
@@ -341,10 +325,8 @@ public class SomeAutonomous extends BaseLinearOpMode
             sleep(1000);
             robot.bddrivetrain.driveFor(-5, -0.5, 15);
             sleep(1000);
-
-
-
-        } else {
+        }
+        else {
             //whoops it broke
             telemetry.addData("UNABLE TO FIND SKYSTONE", ", GOING TO SKYBRIDGE");
             telemetry.update();
@@ -356,24 +338,16 @@ public class SomeAutonomous extends BaseLinearOpMode
             sleep(1000);
             robot.bddrivetrain.driveFor(47, 0.5, 15);
             sleep(1000);
-
-
         }
-
-
 
         telemetry.addData("PATH", "COMPLETE");
         System.out.println("PATH COMPLETE");
-
-
     }
-
 
     @Override
     public void on_stop() {
         robot.bddrivetrain.stopDrive();
         //do something when the robot stops?
     }
-
 
 }

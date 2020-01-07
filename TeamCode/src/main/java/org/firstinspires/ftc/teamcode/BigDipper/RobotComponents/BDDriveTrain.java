@@ -100,7 +100,6 @@ public class BDDriveTrain extends RobotComponentImplBase {
     Orientation   lastAngles = new Orientation();
     double                  globalAngle, power = .30, correction;
 
-    double headingAngle = 0;
     double realAngle = 0;
     double degreesWanted = 0;
 
@@ -308,8 +307,8 @@ public class BDDriveTrain extends RobotComponentImplBase {
     }
     public double betterDrive(double speed){
         currentSpeed = Math.abs(leftDriveBack.getPower());
-        double MaxAccel = 0.8;
-        double deltaTime = 1;
+        double MaxAccel = 0.1;
+        double deltaTime = 0.1;
         double rawChange = (MaxAccel * deltaTime);
         double targetSpeed = speed;
         if(targetSpeed > currentSpeed){
@@ -369,7 +368,7 @@ public class BDDriveTrain extends RobotComponentImplBase {
                 if(speedWeWant != leftDriveBack.getPower()){
                     speedWeWant = betterDrive(speed);
                     drive(speedWeWant);
-                    sleep(1000);
+                    sleep(100);
                 }
                 // Display it for the driver.
                 telemetry.addData("Path1",  "Running to %7d :%7d");
@@ -451,6 +450,7 @@ public class BDDriveTrain extends RobotComponentImplBase {
                 if(currentSpeed != leftDriveBack.getPower()){
                     currentSpeed = betterDrive(speed);
                     drive(currentSpeed);
+                    sleep(100);
                 }
 
 
@@ -566,7 +566,7 @@ public class BDDriveTrain extends RobotComponentImplBase {
 
             double acceptableAngleError = 10;
 
-            if (realAngle > (degreesWanted - acceptableAngleError) || realAngle < (degreesWanted + acceptableAngleError)){
+            if (realAngle < (degreesWanted - acceptableAngleError) || realAngle > (degreesWanted + acceptableAngleError)){
 System.out.println("within range, no change needed");
             }
             else{

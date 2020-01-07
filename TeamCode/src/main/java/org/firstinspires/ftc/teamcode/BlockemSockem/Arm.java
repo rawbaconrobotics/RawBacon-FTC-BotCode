@@ -7,8 +7,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.Clyde_OLD.HardwareHelper;
-
 public class Arm implements HardwareHelper {
     //CHANGE/TEST ThESE !!!!!!!!!!!!!!!!!!
     private final static double CLAW_OPEN = 0;
@@ -30,7 +28,7 @@ public class Arm implements HardwareHelper {
         opper = oppy;
         hasLinearOpMode = true;
     }
-    public void init(HardwareMap mappy) {
+    public void init(HardwareMap mappy){
         arm = mappy.get(DcMotor.class, BESE_HW_Names.ARM);
         claw = mappy.get(Servo.class, BESE_HW_Names.ClAW);
         arm.setPower(0);
@@ -66,7 +64,7 @@ public class Arm implements HardwareHelper {
         arm.setPower(speed);
         setArmDir(speed);
     }
-    private void stopArm(){
+    private void stopArm() {
         arm.setPower(0);
     }
     public void moveArmTeleop(double speed){

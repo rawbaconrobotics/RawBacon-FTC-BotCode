@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.BlockemSockem;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+//@Disabled
 public class BESE_Autonomous extends LinearOpMode {
     Robot bese = new Robot(this);
     @Override
@@ -22,6 +24,5 @@ public class BESE_Autonomous extends LinearOpMode {
         //Move latches down
         //Move forward until just in front of left wall
         //Strafe left until under blue bridge
-
     }
 }

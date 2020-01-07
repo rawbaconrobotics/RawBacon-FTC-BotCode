@@ -60,13 +60,13 @@ public class Calibrate extends LinearOpMode {
             backleft.setPower(speed);
             backright.setPower(speed);
             //
-            while (frontleft.isBusy() && frontright.isBusy() && backleft.isBusy() && backright.isBusy()) {
-            }
+            while (frontleft.isBusy() && frontright.isBusy() && backleft.isBusy() && backright.isBusy()) {}
             frontleft.setPower(0);
             frontright.setPower(0);
             backleft.setPower(0);
             backright.setPower(0);
-        } else {
+        }
+        else {
             int move1 = (int) (Math.round((inches - 5) * conversion));
             int movefl2 = frontleft.getCurrentPosition() + (int) (Math.round(inches * conversion));
             int movefr2 = frontright.getCurrentPosition() + (int) (Math.round(inches * conversion));
@@ -88,8 +88,7 @@ public class Calibrate extends LinearOpMode {
             backleft.setPower(speed);
             backright.setPower(speed);
             //
-            while (frontleft.isBusy() && frontright.isBusy() && backleft.isBusy() && backright.isBusy()) {
-            }
+            while (frontleft.isBusy() && frontright.isBusy() && backleft.isBusy() && backright.isBusy()) {}
             //
             frontleft.setTargetPosition(movefl2);
             frontright.setTargetPosition(movefr2);
@@ -101,14 +100,12 @@ public class Calibrate extends LinearOpMode {
             backleft.setPower(.1);
             backright.setPower(.1);
             //
-            while (frontleft.isBusy() && frontright.isBusy() && backleft.isBusy() && backright.isBusy()) {
-            }
+            while (frontleft.isBusy() && frontright.isBusy() && backleft.isBusy() && backright.isBusy()) {}
             frontleft.setPower(0);
             frontright.setPower(0);
             backleft.setPower(0);
             backright.setPower(0);
         }
-        return;
     }
     /*
     A tradition within the Thunder Pengwins code, we always start programs with waitForStartify,

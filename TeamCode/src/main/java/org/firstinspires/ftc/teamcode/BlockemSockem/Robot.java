@@ -3,8 +3,6 @@ package org.firstinspires.ftc.teamcode.BlockemSockem;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.Clyde_OLD.HardwareHelper;
-
 class Robot implements HardwareHelper {
     Wheels wheels;
     //Arm arm;

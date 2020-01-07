@@ -11,14 +11,11 @@ public abstract class BaseLinearOpMode extends LinearOpMode
     protected Robot robot;
     public boolean init = true;
 
-
     @Override
     public final void runOpMode() throws InterruptedException
     {
-
         robot = new Robot(this);
         //robot.startup();
-
         on_init();
         System.out.println("Initialized robot");
         waitForStart();
@@ -28,9 +25,7 @@ public abstract class BaseLinearOpMode extends LinearOpMode
         System.out.println("Finished running the robot");
         on_stop();
         System.out.println("Robot Stopped!");
-
         //robot.shutdown();
-
     }
 
     public abstract void run();

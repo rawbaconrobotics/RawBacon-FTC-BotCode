@@ -30,115 +30,57 @@
 package org.firstinspires.ftc.teamcode.BigDipper.RobotComponents;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
-
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-
-
-/**
- * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
- * the autonomous or the teleop period of an FTC match. The names of OpModes appear on the menu
- * of the FTC Driver Station. When an selection is made from the menu, the corresponding OpMode
- * class is instantiated on the Tank Contrller and executed.
- *
- * This particular OpMode just executes a basic Tank Drive Teleop for a two wheeled robot
- * It includes all the skeletal structure that all linear OpModes contain.
- *
- * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
- */
 
 public class BDLatch extends RobotComponentImplBase {
 
-    private final static String LATCH_SERVO_NAME = "tank_latch_1" ;
-    //private final static String LATCH_SERVO_2_NAME = "tank_latch_2";
+    private final static String LATCH_SERVO_NAME = "bd_latch" ;
+
     double LATCH_OPEN = 0;
     double LATCH_CLOSED = 0.3;
 
-
-    public static boolean latchButton = false;
-
-
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private Servo latchServo = null;
-    //private Servo latchServo2 = null;
+    private Servo bdLatch = null;
 
     public BDLatch(LinearOpMode opMode) {
         super(opMode);
     }
 
-
     @Override
     public void init() {
-
-        latchServo = hardwareMap.servo.get(LATCH_SERVO_NAME);
-      //  latchServo2 = hardwareMap.servo.get(LATCH_SERVO_2_NAME);
-
+        bdLatch = hardwareMap.servo.get(LATCH_SERVO_NAME);
     }
+
     public void initAutonomous(){
-
-        latchServo = hardwareMap.servo.get(LATCH_SERVO_NAME);
-        //latchServo2 = hardwareMap.servo.get(LATCH_SERVO_2_NAME);
-
-        latchServo.setPosition(LATCH_OPEN);
-        //latchServo2.setPosition(LATCH_CLOSED);
+        bdLatch = hardwareMap.servo.get(LATCH_SERVO_NAME);
+        bdLatch.setPosition(LATCH_OPEN);
     }
-
 
     public void latch() {
-
-
-
-        // Wait for the game to start (driver presses PLAY)
-        //waitForStart();
-
-        // run until the end of the match (driver presses STOP)
-        //while (opModeIsActive()) {
-
-        // Setup a variable for each drive wheel to save power level for telemetry
-
-
-
-
         boolean openLatch = gamepad2.y;
         boolean closeLatch = gamepad2.x;
-
-
-            if(openLatch){
-                latchServo.setPosition(LATCH_OPEN);
-                //latchServo2.setPosition(LATCH_CLOSED);
-            }
-            if (closeLatch){
-                latchServo.setPosition(LATCH_CLOSED);
-                //latchServo2.setPosition(LATCH_OPEN);
-            }
-
-
-
-        // Show the elapsed game time and wheel power.
-
-        //}
-
+        if(openLatch){
+            bdLatch.setPosition(LATCH_OPEN);
+            //latchServo2.setPosition(LATCH_CLOSED);
+        }
+        if (closeLatch){
+            bdLatch.setPosition(LATCH_CLOSED);
+            //latchServo2.setPosition(LATCH_OPEN);
+        }
     }
-
     public void openLatch(){
         System.out.println("LATCH OPENING");
-        latchServo.setPosition(LATCH_OPEN);
+        bdLatch.setPosition(LATCH_OPEN);
         //latchServo2.setPosition(LATCH_CLOSED);
     }
 
     public void closeLatch(){
         System.out.println("LATCH CLOSING");
-        latchServo.setPosition(LATCH_CLOSED);
+        bdLatch.setPosition(LATCH_CLOSED);
         //latchServo2.setPosition(LATCH_OPEN);
     }
-
 }
 
 

@@ -3,8 +3,6 @@ package org.firstinspires.ftc.teamcode.BlockemSockem;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.Clyde_OLD.HardwareHelper;
-
 public class Latch implements HardwareHelper {
     //NEEDS TO BE CHANGED!!!!!!!!!!!!!!!!!!!!!!
     /*private final static double right_Latch_Down = 1;

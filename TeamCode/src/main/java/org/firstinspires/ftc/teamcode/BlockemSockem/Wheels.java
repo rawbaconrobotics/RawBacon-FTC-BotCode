@@ -5,8 +5,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Clyde_OLD.HardwareHelper;
-
 public class Wheels implements HardwareHelper {
     //MATH/TESTING NEEDS TO BE DONE!!!!!!!!!!!!!!!!!!!!!!!
     private final double COUNTS_PER_INCH = 600;
@@ -20,10 +18,10 @@ public class Wheels implements HardwareHelper {
     private ElapsedTime timer = new ElapsedTime();
     private boolean hasLinearOpMode;
     private LinearOpMode opper;
+
     public Wheels(){
         hasLinearOpMode = false;
     }
-
     public Wheels(LinearOpMode oppy){
         opper = oppy;
         hasLinearOpMode = true;

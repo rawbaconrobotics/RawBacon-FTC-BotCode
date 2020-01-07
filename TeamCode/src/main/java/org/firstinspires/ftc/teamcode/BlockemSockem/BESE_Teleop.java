@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.BlockemSockem;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+//@Disabled
 public class BESE_Teleop extends OpMode {
     Robot bese = new Robot();
 

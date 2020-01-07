@@ -23,7 +23,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 @Config
-public class VisionPipeline extends OpenCvPipeline{
+public class VisionPipeline extends OpenCvPipeline {
     // THIS DETECTOR RETURNS THE PIXEL LOCATION OF THE LEFT MOST BOUNDARY OF THE BLACK TARGET
     // YOU CAN EASILY MODIFY IT TO GET YOU THE CENTER
     // IT IS YOUR JOB TO DETERMINE WHERE YOU WANT TO GO BASED ON THIS VALUE
@@ -202,13 +202,11 @@ public class VisionPipeline extends OpenCvPipeline{
 
 
         for (int i = 0; i < colsumArray.length; i++) {
-
             if (colsumArray[i] < maxVumarkValue) {
                 // Log.d("colsum", i+"");
                 if (i + valleyLength > colsumArray.length - 1) return INDEX_ERROR;
                 int[] slice = Arrays.copyOfRange(colsumArray, i, i+valleyLength);
                 if (isLargeValley(slice, maxVumarkValue, 25)) {
-
                     return i;
                 }
             }
