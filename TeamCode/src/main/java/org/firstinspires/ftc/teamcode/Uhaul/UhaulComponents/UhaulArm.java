@@ -29,14 +29,16 @@ public class UhaulArm extends UhaulComponentImplBase {
     }
 
     public void moveSlider() {
+//WORKING ON THIS CODE!!!!!!!!!!!!!
+        uhaulSlider1.setPosition(gamepad2.left_stick_y);
+        uhaulSlider2.setPosition(gamepad2.left_stick_y);
 
-        double slider = gamepad2.left_stick_y;
 
 
-        if (((slider > -0.1) && (slider < 0.1))) {
+     //   if (((slider > -0.1) && (slider < 0.1))) {
             //uhaulSlider1.setPower(0);
             //uhaulSlider2.setPower(0);
-        } else {
+       // } else {
             //uhaulSlider1.setPower(slider);
             //uhaulSlider2.setPower(slider);
             //slider = sliderPower;
