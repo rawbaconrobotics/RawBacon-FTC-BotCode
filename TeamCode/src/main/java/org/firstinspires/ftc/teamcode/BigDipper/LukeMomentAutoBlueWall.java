@@ -5,6 +5,13 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BaseLinearOpMode;
 
+
+/**
+ * Autonomous code to score the foundation and park under the bridge
+ * near the wall when the robot is on the blue alliance.
+ * @author Raw Bacon Coders
+ */
+
 @Config
 @Autonomous(name = "LukeMomentAutoBlueWall", group = "Big Dipper")
 
@@ -19,7 +26,10 @@ public class LukeMomentAutoBlueWall extends BaseLinearOpMode {
     public static double SIXTHdriveinches = -16.5;
     public static double SEVENTHdriveinches = 29;
     public static double NINTHstrafeinches = 47;
-
+    
+    /**
+     * Initializes the components the robot uses
+     */
     @Override
     public void on_init() {
         System.out.println("INIT PROCESS STARTING");
@@ -31,6 +41,10 @@ public class LukeMomentAutoBlueWall extends BaseLinearOpMode {
         System.out.println("Ready To Start!");
 
     }
+    
+    /**
+     * Runs the opmode
+     */
     @Override
     public void run() {
 
@@ -72,6 +86,10 @@ public class LukeMomentAutoBlueWall extends BaseLinearOpMode {
     }
 
 
+    /**
+     * Runs code when the opmode stops.
+     * Currently unused.
+     */
     @Override
     public void on_stop() {
         //do something when the robot stops?
