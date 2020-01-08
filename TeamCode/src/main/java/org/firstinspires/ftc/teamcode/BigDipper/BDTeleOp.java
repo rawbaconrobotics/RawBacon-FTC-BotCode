@@ -4,12 +4,23 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BaseLinearOpMode;
 
+
+/**
+ * The teleop 
+ * @auther Raw Bacon Coders
+ */
+
+
 @TeleOp(name="OFFICIAL TeleOp", group="Big Dipper")
 
 public class BDTeleOp extends BaseLinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
 
+    
+    /**
+     * Initializes the teleop
+     */
     @Override
     public void on_init() {
         robot.bddrivetrain.init();
@@ -17,6 +28,10 @@ public class BDTeleOp extends BaseLinearOpMode {
         robot.bdgrabber.init();
         robot.bdcapstone.init();
     }
+    
+    /**
+     * Activates the teleop 
+     */
 
     @Override
     public void run() {
@@ -27,6 +42,10 @@ public class BDTeleOp extends BaseLinearOpMode {
             robot.teleOpActivated();
         }
     }
+    
+    /**
+     * Stops the teleop
+     */
 
     @Override
     public void on_stop() {
