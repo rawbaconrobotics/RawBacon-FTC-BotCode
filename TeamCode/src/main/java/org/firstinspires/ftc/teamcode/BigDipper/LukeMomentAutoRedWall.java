@@ -6,6 +6,13 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BDLatch;
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BaseLinearOpMode;
 
+
+
+
+/**
+ * Scores the foundation and parks under the bridge
+ * @author Raw Bacon Coders
+ */
 @Config
 @Autonomous(name = "LukeMoment Autonomous", group = "Big Dipper")
 
@@ -21,6 +28,9 @@ public class LukeMomentAutoRedWall extends BaseLinearOpMode {
     public static double SEVENTHdriveinches = 28;
     public static double NINTHstrafeinches = 48;
 
+    /**
+     * Initializes the opmode
+     */
     @Override
     public void on_init() {
         System.out.println("INIT PROCESS STARTING");
@@ -31,6 +41,10 @@ public class LukeMomentAutoRedWall extends BaseLinearOpMode {
 
         System.out.println("Ready To Start!");
     }
+    
+    /**
+     * Starts the opmode
+     */
     @Override
     public void run() {
 
@@ -70,6 +84,10 @@ public class LukeMomentAutoRedWall extends BaseLinearOpMode {
 
 
     }
+    
+    /**
+     * Stops the opmode
+     */
     @Override
     public void on_stop() {
         //do something when the robot stops?
