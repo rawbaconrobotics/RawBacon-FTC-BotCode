@@ -6,6 +6,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+/**
+ * A template for robot components
+ */
 public interface RobotComponent {
     void init();
     void initAutonomous();
