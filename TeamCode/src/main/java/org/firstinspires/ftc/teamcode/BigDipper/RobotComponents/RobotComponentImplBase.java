@@ -7,6 +7,10 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+/**
+ * Adds methods relevent to the components
+ * @author Raw Bacon Coders
+ */
 public abstract class RobotComponentImplBase implements RobotComponent
 {
     protected HardwareMap hardwareMap;
@@ -15,6 +19,10 @@ public abstract class RobotComponentImplBase implements RobotComponent
     protected Gamepad gamepad2;
     public LinearOpMode opMode;
 
+    /**
+     * Constructor
+     * @param opMode The opmode in use. Use keyword this.
+     */
     public RobotComponentImplBase(LinearOpMode opMode)
     {
         hardwareMap = opMode.hardwareMap;
@@ -24,6 +32,9 @@ public abstract class RobotComponentImplBase implements RobotComponent
         this.opMode = opMode;
     }
 
+    /**
+     * @returns Whether the opmode is active
+     */
     public boolean opModeIsActive()
     {
         return opMode.opModeIsActive();
