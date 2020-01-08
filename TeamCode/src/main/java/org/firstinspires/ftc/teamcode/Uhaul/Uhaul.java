@@ -18,6 +18,9 @@ public class Uhaul {
     public UhaulGrabber grabber;
     public UhaulIntake intake;
 
+    /**
+     * Organizes and runs all components
+     */
     public void teleOpActivated() {
     drive.wheelsTeleOp(); //Activate wheels for opmode
     latch.moveLatch();
@@ -26,7 +29,11 @@ public class Uhaul {
     grabber.moveGrabber();
     intake.runIntake();
     }
-
+    
+    /**
+     * Constructor
+     * @param opMode The opmode that is being run. Use keyword this.
+     */
     public Uhaul(LinearOpMode opMode) {
         drive.init();
         latch.init();
@@ -35,5 +42,4 @@ public class Uhaul {
         grabber.init();
         intake.init();
     }
-
 }
