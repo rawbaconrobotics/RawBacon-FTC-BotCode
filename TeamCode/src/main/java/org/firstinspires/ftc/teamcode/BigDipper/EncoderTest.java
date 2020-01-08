@@ -20,6 +20,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.BigDipper.Robot;
 
+/**
+ * Provides encoder counts through telemetry
+ */
 @TeleOp(name="ENCODER TEST", group="Big Dipper")
 public class EncoderTest extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
@@ -31,6 +34,10 @@ public class EncoderTest extends LinearOpMode {
 
 
 
+    /**
+     * Checks for wheel movement and outputs encoder counts to the screen
+     * @throws InterruptedException
+     */
     @Override
     public void runOpMode() throws InterruptedException {
         leftDrive  = hardwareMap.get(DcMotor.class, "left_drive_front");
