@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BaseLinearOpMode
 import org.firstinspires.ftc.teamcode.Uhaul.UhaulLinearOpMode;
 
 @Config
-@Autonomous(name = "LukeMomentAutoBlueWall", group = "Big Dipper")
+@Autonomous(name = "UhaulBlueFoundWall", group = "Uhaul")
 
 public class UhaulBlueFoundWall extends UhaulLinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
