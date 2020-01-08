@@ -5,6 +5,13 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BaseLinearOpMode;
 
+/**
+ * Scores the foundation and drives under the bridge
+ * @author Raw Bacon Coders
+ */
+
+
+
 @Config
 @Autonomous(name = "LukeMomentAutoRedMiddle", group = "Big Dipper")
 
@@ -20,6 +27,11 @@ public class LukeMomentAutoRedMiddle extends BaseLinearOpMode {
     public static double SEVENTHdriveinches = 28;
     public static double NINTHstrafeinches = 48;
 
+    
+    
+    /**
+     * Initializes all components.
+     */
     @Override
     public void on_init() {
         System.out.println("INIT PROCESS STARTING");
@@ -30,6 +42,10 @@ public class LukeMomentAutoRedMiddle extends BaseLinearOpMode {
 
         System.out.println("Ready To Start!");
     }
+    
+    /**
+     * Runs the opmode
+     */
     @Override
     public void run() {
 
@@ -69,6 +85,11 @@ public class LukeMomentAutoRedMiddle extends BaseLinearOpMode {
 
 
     }
+    
+    /**
+     * Does nothing
+     * @deprecated 
+     */
     @Override
     public void on_stop() {
         //do something when the robot stops?
