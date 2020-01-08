@@ -9,7 +9,10 @@ import org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents.UhaulIntake;
 import org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents.UhaulLatch;
 import org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents.UhaulLift;
 
-
+/**
+ * Represents the robot Uhaul as a whole. Organizes the various components.
+ * @author Luke Aschenbrener
+ */
 public class Uhaul {
     public UhaulDriveTrain drive;
     public UhaulLatch latch;
