@@ -12,7 +12,10 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.RobotComponentImplBase;
 
 
-
+/**
+ * Represents a capstone lever
+ * @author Raw Bacon Coders
+ */
 
 public class BDCapstone extends RobotComponentImplBase {
 
@@ -24,20 +27,36 @@ public class BDCapstone extends RobotComponentImplBase {
     private Servo bdCapstone = null;
 
 
+    /**
+     * Constructor
+     */
     public BDCapstone(LinearOpMode opMode) {
         super(opMode);
     }
 
+    
+     /**
+     * Initializes the components 
+     */
     @Override
     public void init() {
         bdCapstone = hardwareMap.servo.get(CAPSTONE_SERVO_NAME);
     }
+    
+     /**
+     * Initializes the components and opens
+     */
 
     public void initAutonomous() {
         bdCapstone = hardwareMap.servo.get(CAPSTONE_SERVO_NAME);
         bdCapstone.setPosition(CAPSTONE_OPEN);
     }
+    
+    
 
+     /**
+     * Opens or closes the capstone depending on which state it is currently in
+     */
     public void releaseCapstone() {
 
         boolean openCapstone = gamepad2.right_bumper;
