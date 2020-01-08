@@ -27,6 +27,12 @@ import org.opencv.core.Mat;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
+
+/**
+ * Autonomous code to use VuForia to find the skystones and
+ * park under the bridge.
+ * @author Raw Bacon Coders
+ */
 @Autonomous(name="OFFICIAL Autonomous", group="Big Dipper")
 
 public class SomeAutonomous extends BaseLinearOpMode {
@@ -116,7 +122,7 @@ public class SomeAutonomous extends BaseLinearOpMode {
     private OpenGLMatrix lastLocation = null;
     private CloseableVuforiaLocalizer vuforia = null;
 
-    /**
+    /*
      * This is the webcam we are to use. As with other hardware devices such as motors and
      * servos, this device is identified using the robot configuration tool in the FTC application.
      */
@@ -140,6 +146,9 @@ public class SomeAutonomous extends BaseLinearOpMode {
         return newMat;
     }
 
+    /**
+     * Runs initialization code for the robot and VuForia
+     */
     @Override
     public void on_init() {
         System.out.println("INIT PROCESS STARTING");
@@ -163,7 +172,7 @@ public class SomeAutonomous extends BaseLinearOpMode {
 
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
 
-        /**
+        /*
          * We also indicate which camera on the RC we wish to use.
          */
         //parameters.cameraName = webcamName;
@@ -238,6 +247,9 @@ public class SomeAutonomous extends BaseLinearOpMode {
         //CameraDevice.getInstance().setFlashTorchMode(false);
     }
 
+    /**
+     * Runs the opmode
+     */
     @Override
     public void run() {
         System.out.println("ROBOT RUN SEQUENCE INITIALIZED!");
@@ -344,6 +356,9 @@ public class SomeAutonomous extends BaseLinearOpMode {
         System.out.println("PATH COMPLETE");
     }
 
+    /**
+     * Stops the motors
+     */
     @Override
     public void on_stop() {
         robot.bddrivetrain.stopDrive();
