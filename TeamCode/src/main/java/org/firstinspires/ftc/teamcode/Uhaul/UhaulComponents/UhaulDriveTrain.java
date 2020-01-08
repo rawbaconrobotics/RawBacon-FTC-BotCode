@@ -1,32 +1,3 @@
-/* Copyright (c) 2017 FIRST. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted (subject to the limitations in the disclaimer below) provided that
- * the following conditions are met:
- *
- * Redistributions of source code must retain the above copyright notice, this list
- * of conditions and the following disclaimer.
- *
- * Redistributions in binary form must reproduce the above copyright notice, this
- * list of conditions and the following disclaimer in the documentation and/or
- * other materials provided with the distribution.
- *
- * Neither the name of FIRST nor the names of its contributors may be used to endorse or
- * promote products derived from this software without specific prior written permission.
- *
- * NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS
- * LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-
 package org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents;
 
 import com.acmerobotics.roadrunner.drive.MecanumDrive;
@@ -51,6 +22,12 @@ import java.time.temporal.ValueRange;
 import java.util.stream.IntStream;
 
 import static android.os.SystemClock.sleep;
+
+
+/**
+ * Represents the four wheel mechanum drive on Uhaul
+ * @author Luke Aschenbrener
+ */
 public class UhaulDriveTrain extends UhaulComponentImplBase {
     final double WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT = 2;
     final double WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT = 15;
@@ -102,7 +79,9 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
 
 
 
-
+    /**
+     * Hardware maps and sets modes of all motors
+     */
     @Override
     public void init() {
         accLeftDriveFront = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
@@ -132,6 +111,10 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
         wheelAccelerationThread.addMotor(accRightDriveBack);
         wheelAccelerationThread.start();
     }
+    
+    /**
+     * Hardware maps and sets modes of all motors and sets up the imu
+     */
     @Override
     public void initAutonomous(){
         System.out.println("STARTING TO INIT AUTONOMOUS...");
@@ -181,7 +164,10 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
         runUsingEncoders();
 
     }
-
+    
+    /**
+     * Reformats input and runs the {@link #mechanumTeleOp} method
+     */
     public void wheelsTeleOp() {
         speedModeOn = isBumperPressed();
 
@@ -191,6 +177,12 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
         mechanumTeleOp(gamepad1.left_stick_x,gamepad1.left_stick_y,-gamepad1.right_stick_x);
     }
 
+    /**
+     * Adds the forward movement, strafing, and rotation together, normalizes them, and sets the motor powers appropriatly
+     * @param x the strafing speed, with -1 being full speed left, and 1 being full speed right
+     * @param y the forward speed, from -1 to 1
+     * @param rotation the rotation speed, with -1 being full speed left, and 1 being full speed right
+     */
     public void mechanumTeleOp(double x, double y, double rotation) {
         double wheelSpeeds[] = new double[4];
 
@@ -213,7 +205,11 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
             accRightDriveFront.setTargetPower(wheelSpeeds[3]);
         }
     }
-
+    
+    /**
+     * Adjusts the motor power values to fit in the -1 to 1 range
+     * @param wheelSpeeds an array with all four unadjusted motor powers
+     */
     private void normalize(double[] wheelSpeeds) {
         double maxMagnitude = Math.abs(wheelSpeeds[0]);
 
@@ -232,10 +228,10 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
         }
     }
 
-
-    //Autonomous methods below
-
-    //Set speeds of turning or driving motors
+    /**
+     * Drives forward
+     * @param speed the speed of movement from -1 to 1
+     */
     public void drive(double speed){
         System.out.println("DRIVE METHOD CALLED, SETTING TO SPEED" + speed);
 
