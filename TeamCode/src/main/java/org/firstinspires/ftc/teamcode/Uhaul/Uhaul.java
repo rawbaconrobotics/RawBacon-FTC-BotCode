@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.Uhaul;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents.UhaulArm;
+import org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents.UhaulSlider;
 import org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents.UhaulDriveTrain;
 import org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents.UhaulGrabber;
 import org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents.UhaulIntake;
@@ -17,32 +17,37 @@ public class Uhaul {
     public UhaulDriveTrain drive;
     public UhaulLatch latch;
     public UhaulLift lift;
-    public UhaulArm arm;
     public UhaulGrabber grabber;
     public UhaulIntake intake;
+    public UhaulSlider slider;
 
     /**
-     * Organizes and runs all components
+     * Used for teleops, when this function is called on a loop, all components
+     * on a teleop are activated to function by controller input.
      */
     public void teleOpActivated() {
     drive.wheelsTeleOp(); //Activate wheels for opmode
     latch.moveLatch();
-    lift.moveLift();
-    arm.moveSlider();
+    lift.liftTeleOp();
     grabber.moveGrabber();
     intake.runIntake();
+    slider.moveSlider();
+
     }
     
     /**
      * Constructor
      * @param opMode The opmode that is being run. Use keyword this.
+     * Runs on creation.
+     * Is not necessary to include because most teleops initialize components usually by themselves!
+     * It's more like a fail-safe than anything else, still init yourselves for autos!
      */
     public Uhaul(LinearOpMode opMode) {
         drive.init();
         latch.init();
         lift.init();
-        arm.init();
         grabber.init();
         intake.init();
+        slider.init();
     }
 }

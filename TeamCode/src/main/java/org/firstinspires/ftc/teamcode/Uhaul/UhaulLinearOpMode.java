@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.Uhaul.Uhaul;
 
 /**
- * A template for linear opmodes
+ * Abstract class that is run through other pseudo-opmodes.
  * @author Luke Aschenbrener
  */
 public abstract class UhaulLinearOpMode extends LinearOpMode

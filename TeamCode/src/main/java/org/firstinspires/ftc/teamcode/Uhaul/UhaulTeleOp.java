@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * A linear opmode that activates the teleop stored in the {@link Uhaul} class
  * @author Luke Aschenbrener
  */
-@TeleOp(name="UhaulTeleOp", group="Uhaul")
+@TeleOp(name="Uhaul TeleOp (Official)", group="Uhaul")
 public class  UhaulTeleOp extends UhaulLinearOpMode
 {
     private ElapsedTime runtime = new ElapsedTime();
@@ -17,7 +17,7 @@ public class  UhaulTeleOp extends UhaulLinearOpMode
         robot.drive.init();
         robot.latch.init();
         robot.grabber.init();
-        robot.arm.init();
+        robot.slider.init();
         robot.intake.init();
         robot.lift.init();
     }
@@ -28,8 +28,7 @@ public class  UhaulTeleOp extends UhaulLinearOpMode
     @Override
     public void run()
     {
-        waitForStart();
-
+//no waitforstart method call needed here!
         runtime.reset();
         telemetry.addData("Runtime Reset", "Complete");
 

@@ -59,7 +59,7 @@ public class BDDriveTrain extends RobotComponentImplBase {
     final double WHEEL_MINIMUM_POWER = 0.3; //Allows for deadband compensation.
     final double WHEEL_MAXIMUM_POWER = 1.0;
 
-    private static final double   COUNTS_PER_MOTOR_REV    = 1440; //1120
+    private static final double   COUNTS_PER_MOTOR_REV    = 1120; //1440
     private static final double   DRIVE_GEAR_REDUCTION    = 1.0;
     private static final double   WHEEL_DIAMETER_INCHES   = 4.0;
     private static final double   COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV*DRIVE_GEAR_REDUCTION)/(WHEEL_DIAMETER_INCHES * 3.1415);
@@ -654,12 +654,7 @@ public void normalizeAuto(){
     boolean isBumperPressed(){
         float bumperNumber = gamepad1.right_trigger;
         boolean bumperPressed;
-        if(bumperNumber > 0.3){
-            bumperPressed = true;
-        }
-        else{
-            bumperPressed = false;
-        }
+        bumperPressed = bumperNumber > 0.3;
         return bumperPressed;
     }
 

@@ -6,8 +6,11 @@ import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.PIDCoefficients;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.hardware.bosch.BNO055IMU;
@@ -29,12 +32,18 @@ import static android.os.SystemClock.sleep;
  * @author Luke Aschenbrener
  */
 public class UhaulDriveTrain extends UhaulComponentImplBase {
+
+    double kp = 0.3;
+    double ki = 0.1;
+    double kd = 0;
+    double kf = 12.6;
+
     final double WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT = 2;
     final double WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT = 15;
     final double WHEEL_MINIMUM_POWER = 0.3; //Allows for deadband compensation.
     final double WHEEL_MAXIMUM_POWER = 1.0;
 
-    private static final double   COUNTS_PER_MOTOR_REV    = 1440; //1120
+    private static final double   COUNTS_PER_MOTOR_REV    = 1120; //1440
     private static final double   DRIVE_GEAR_REDUCTION    = 1.0;
     private static final double   WHEEL_DIAMETER_INCHES   = 4.0;
     private static final double   COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV*DRIVE_GEAR_REDUCTION)/(WHEEL_DIAMETER_INCHES * 3.1415);
@@ -64,10 +73,10 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
     private static final double TURNING_SCALAR = 0.875;
 
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor leftDriveBack = null;
-    private DcMotor rightDriveBack = null;
-    private DcMotor leftDriveFront = null;
-    private DcMotor rightDriveFront = null;
+    private DcMotorEx leftDriveBack = null;
+    private DcMotorEx rightDriveBack = null;
+    private DcMotorEx leftDriveFront = null;
+    private DcMotorEx rightDriveFront = null;
     boolean speedModeOn;
 
     BNO055IMU imu;
@@ -76,6 +85,7 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
 
     double realAngle = 0;
     double degreesWanted = 0;
+
 
 
 
@@ -90,10 +100,10 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
         accRightDriveBack = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(BACKRIGHT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
 
 
-        leftDriveBack = hardwareMap.dcMotor.get(BACKLEFT_WHEEL_NAME);
-        rightDriveBack = hardwareMap.dcMotor.get(BACKRIGHT_WHEEL_NAME);
-        leftDriveFront = hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME);
-        rightDriveFront = hardwareMap.dcMotor.get(FRONTRIGHT_WHEEL_NAME);
+        leftDriveBack = (DcMotorEx) hardwareMap.dcMotor.get(BACKLEFT_WHEEL_NAME);
+        rightDriveBack = (DcMotorEx) hardwareMap.dcMotor.get(BACKRIGHT_WHEEL_NAME);
+        leftDriveFront = (DcMotorEx) hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME);
+        rightDriveFront = (DcMotorEx) hardwareMap.dcMotor.get(FRONTRIGHT_WHEEL_NAME);
 
         leftDriveFront.setDirection(DcMotor.Direction.REVERSE);
         rightDriveFront.setDirection(DcMotor.Direction.FORWARD);
@@ -104,6 +114,13 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
         leftDriveBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightDriveFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightDriveBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        PIDFCoefficients pidNew = new PIDFCoefficients(kp, ki, kd, kf);
+        leftDriveFront.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
+        leftDriveBack.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
+        rightDriveFront.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
+        rightDriveBack.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
+
 
         wheelAccelerationThread.addMotor(accLeftDriveFront);
         wheelAccelerationThread.addMotor(accLeftDriveBack);
@@ -119,10 +136,10 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
     public void initAutonomous(){
         System.out.println("STARTING TO INIT AUTONOMOUS...");
 
-        leftDriveBack = hardwareMap.dcMotor.get(BACKLEFT_WHEEL_NAME);
-        rightDriveBack = hardwareMap.dcMotor.get(BACKRIGHT_WHEEL_NAME);
-        leftDriveFront = hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME);
-        rightDriveFront = hardwareMap.dcMotor.get(FRONTRIGHT_WHEEL_NAME);
+        leftDriveBack = (DcMotorEx) hardwareMap.dcMotor.get(BACKLEFT_WHEEL_NAME);
+        rightDriveBack = (DcMotorEx) hardwareMap.dcMotor.get(BACKRIGHT_WHEEL_NAME);
+        leftDriveFront = (DcMotorEx) hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME);
+        rightDriveFront = (DcMotorEx) hardwareMap.dcMotor.get(FRONTRIGHT_WHEEL_NAME);
 
 
         leftDriveFront.setDirection(DcMotor.Direction.FORWARD);
@@ -134,6 +151,12 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
         leftDriveFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightDriveBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightDriveFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        PIDFCoefficients pidNew = new PIDFCoefficients(kp, ki, kd, kf);
+        leftDriveFront.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
+        leftDriveBack.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
+        rightDriveFront.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
+        rightDriveBack.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
 
         currentSpeed = Math.abs(leftDriveBack.getPower());
 
@@ -317,6 +340,8 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
 
     //Drive for a specified distance using encoders
     public void driveFor(double distance_inches, double speed, double timeoutS) {
+        //CURRENTLY ONLY USING 1 OUT OF 4 ENCODERS, COULD BE MADE MORE ACCURATE!
+
 
         System.out.println("DRIVEFOR METHOD CALLED");
 
@@ -354,7 +379,7 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
 
             while (opModeIsActive() &&
                     (runtime.seconds() < timeoutS) &&
-                    (leftDriveFront.isBusy() || rightDriveFront.isBusy() || rightDriveBack.isBusy() || leftDriveBack.isBusy()))
+                    (leftDriveBack.isBusy()))
             {
 
 
@@ -389,6 +414,7 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
 
     }
     public void strafeFor(double distance_inches, double speed, boolean strafingLeft, double timeoutS) {
+        //CURRENTLY ONLY USING 1 OUT OF 4 ENCODERS, COULD BE MADE MORE ACCURATE!
         System.out.println("DRIVEFOR METHOD CALLED");
 
         //runUsingEncoders();
@@ -438,7 +464,7 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
 
             while (opModeIsActive() &&
                     (runtime.seconds() < timeoutS) &&
-                    (leftDriveBack.isBusy() && rightDriveBack.isBusy())) {
+                    (leftDriveBack.isBusy())) {
 
                 if(currentSpeed != leftDriveBack.getPower()){
                     currentSpeed = betterDrive(speed);
@@ -474,7 +500,9 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
 
     }
 
-    //Turn for a specified amount of degrees using encoders
+    //TURNS USING IMU HEADING!!! ALTERNATIVE ONE THAT USES ENCODERS, BUT THEN IMU TO VERIFY ANGLE FOUND HERE:
+    //     https://gist.github.com/lukehasawii/b17ee074bfe98d056b97725c67670539
+
     public void turnFor(int degrees, double speed, double timeoutS) {
         System.out.println("TURNFOR METHOD CALLED");
         degreesWanted = degrees;
@@ -483,90 +511,30 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
         int targetDistRight;
         boolean turningRight = false;
         if (opModeIsActive()) {
+
             if (degrees > 0) {
-                targetDistRight = rightDriveFront.getCurrentPosition() - (int) (degrees * COUNTS_PER_DEGREE * COUNTS_PER_MOTOR_REV);
-                targetDistLeft = leftDriveFront.getCurrentPosition() + (int) (degrees * COUNTS_PER_DEGREE * COUNTS_PER_MOTOR_REV);
-
-                leftDriveFront.setTargetPosition(targetDistLeft);
-                leftDriveBack.setTargetPosition(targetDistLeft);
-                rightDriveFront.setTargetPosition(targetDistRight);
-                rightDriveBack.setTargetPosition(targetDistRight);
-
-                System.out.println("SET TURNING TARGET POS.");
-
-
-                leftDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                leftDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                rightDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                rightDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                System.out.println("SET RUN TO POSITION");
-
-            }
-            else {
-                targetDistRight = rightDriveFront.getCurrentPosition() + (int) (degrees * COUNTS_PER_DEGREE);
-                targetDistLeft = leftDriveFront.getCurrentPosition() - (int) (degrees * COUNTS_PER_DEGREE);
-
-                leftDriveFront.setTargetPosition(targetDistLeft);
-                leftDriveBack.setTargetPosition(targetDistLeft);
-                rightDriveFront.setTargetPosition(targetDistRight);
-                rightDriveBack.setTargetPosition(targetDistRight);
-
-                System.out.println("SET TURNING TARGET POS.");
-
-
-                leftDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                leftDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                rightDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                rightDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                System.out.println("SET RUN TO POSITION");
-
-
+                turningRight = true;
+            } else {
+                turningRight = false;
             }
 
-            if(degrees > 0){turningRight = true;}
-            else{turningRight = false;}
-
-            System.out.println("ABOUT TO RUN TURN COMMAND");
             runtime.reset();
 
-            // headingAngle = getAngle();
+            realAngle = getAngle();
 
             turn(speed, turningRight);
-
-            System.out.println("TURN COMMAND COMPLETED");
-
 
 
             while (opModeIsActive() &&
                     (runtime.seconds() < timeoutS) &&
-                    (leftDriveFront.isBusy() && rightDriveFront.isBusy())) {
+                    (degreesWanted) != realAngle) {
 
-                // Display it for the driver.
-                telemetry.addData("Path1",  "Running to %7d :%7d");
-                telemetry.addData("Path2",  "Running at %7d :%7d");
-                System.out.println("TURNING THE ROBOT");
-
+                telemetry.addData("TURNING THE ROBOT to %7d DEGREES, ", "CURRENTLY AT %7d DEGREES", degreesWanted, realAngle);
                 telemetry.update();
             }
             drive(0);
-            System.out.println("SPEED SET TO 0");
 
-            runUsingEncoders();
-            System.out.println("RAN RUNUSINGENCODERS");
-            realAngle = getAngle();
 
-            double acceptableAngleError = 10;
-
-            if (realAngle < Math.abs(degreesWanted - acceptableAngleError)){
-                System.out.println("within range, no change needed");
-            }
-            else{
-                if(opModeIsActive()) {
-                    turnFor((int) (degreesWanted - realAngle), 0.2, 5);
-                }
-            }
         }
     }
 
