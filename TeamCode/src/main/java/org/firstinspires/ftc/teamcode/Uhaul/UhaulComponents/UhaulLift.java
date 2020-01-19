@@ -7,9 +7,11 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.RobotComponentImplBase;
+import org.firstinspires.ftc.teamcode.Uhaul.AutonomousSelector;
 import org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents.UhaulComponentImplBase;
 
 import static android.os.SystemClock.sleep;
+import static org.firstinspires.ftc.teamcode.Uhaul.AutonomousSelector.deserializeAlliance;
 
 public class UhaulLift extends UhaulComponentImplBase {
 //DONE FOR UHAUL!
@@ -76,6 +78,8 @@ public void initForTesting(){
     uhaulLiftTwo.setDirection(DcMotor.Direction.FORWARD);
     uhaulLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     uhaulLiftTwo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
 }
 //increment encoder positions using specified dpad presses in order to go up that many blocks high
     //have joystick at .25 if a dpad value is above 0 and then at .5 when dpad = 0
@@ -87,6 +91,7 @@ public void initForTesting(){
     boolean override = false;
     int liftEncoderSetpoint = 0;
 
+//Would be nice to use state machines here and enums! Example:   https://gm0.copperforge.cc/en/latest/docs/software/fundamental-concepts.html#finite-state-machines-and-enums
 
     public void liftTeleOp() {
 
@@ -102,6 +107,8 @@ public void initForTesting(){
             uhaulLiftTwo.setTargetPosition(liftEncoderSetpoint);
             uhaulLift.setPower(LIFT_MAX_SPEED);
             uhaulLiftTwo.setPower(LIFT_MAX_SPEED);
+
+
 
 
         } else if (gamepad2.a) {
