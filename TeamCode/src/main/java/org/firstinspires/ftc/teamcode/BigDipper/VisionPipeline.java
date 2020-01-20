@@ -22,6 +22,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+
+/**
+ * @author Raw Bacon Coders
+ * Defines the vision pipeline
+ */
 @Config
 public class VisionPipeline extends OpenCvPipeline {
     // THIS DETECTOR RETURNS THE PIXEL LOCATION OF THE LEFT MOST BOUNDARY OF THE BLACK TARGET
@@ -78,6 +83,11 @@ public class VisionPipeline extends OpenCvPipeline {
 
     private final int INDEX_ERROR = -2; // index error code
 
+    /**  
+     *  Defines advanced vision
+     * @deprecated
+     * @param input This parameter in an input parameter
+     */
     public Mat processFrame(Mat input) {
         Mat workingMat = input.clone();
         Imgproc.cvtColor(workingMat,workingMat,Imgproc.COLOR_RGB2HSV); // convert to HSV space
