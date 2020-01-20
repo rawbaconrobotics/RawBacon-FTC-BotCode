@@ -9,6 +9,11 @@ import org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents.UhaulComponentImplBa
 
 import static android.os.SystemClock.sleep;
 
+
+/**
+  * @author Raw Bacon Coders
+  * Defines the Slider on the Uhaul robot
+  */
 public class UhaulSlider extends UhaulComponentImplBase {
 //SLIDER IS READY!
         private ElapsedTime runtime = new ElapsedTime();
@@ -26,6 +31,7 @@ public class UhaulSlider extends UhaulComponentImplBase {
         }
 
 
+        /** Initializes the proccess */
         @Override
         public void init() {
             uhaulSlider1 = hardwareMap.crservo.get(UHAUL_SLIDER_1);
@@ -35,6 +41,7 @@ public class UhaulSlider extends UhaulComponentImplBase {
 
         }
 
+        /** Defines the slider movement controls */
         public void moveSlider() {
 
             sliderPower = gamepad2.left_stick_y;
@@ -57,6 +64,7 @@ public class UhaulSlider extends UhaulComponentImplBase {
 
         }
 //idea: contPower = -.20;
+        /** Defines power values for slider1 and 2 */
         public void slideOut(){
             uhaulSlider1.setPower(1);
             uhaulSlider2.setPower(1);
@@ -64,6 +72,7 @@ public class UhaulSlider extends UhaulComponentImplBase {
             uhaulSlider1.setPower(0);
             uhaulSlider2.setPower(0);
         }
+        /** Defines power values for slider 1 and 2 */
         public void slideIn(){
             uhaulSlider1.setPower(-1);
             uhaulSlider2.setPower(-1);
@@ -81,6 +90,7 @@ public class UhaulSlider extends UhaulComponentImplBase {
 
        */
 
+        /** Initializes the slider for the autonomous */
         @Override
         public void initAutonomous() {
 
