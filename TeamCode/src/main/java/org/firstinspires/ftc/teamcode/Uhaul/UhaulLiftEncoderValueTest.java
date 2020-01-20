@@ -2,14 +2,26 @@ package org.firstinspires.ftc.teamcode.Uhaul;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+
+/**
+ * @author Raw Bacon Coders
+ * This class tests the Uhaul Life Encoder
+ */
 @TeleOp(name="Uhaul Lift Encoder Test", group="Uhaul")
 public class UhaulLiftEncoderValueTest extends UhaulLinearOpMode {
 
 
+    
+    /**
+    * Initializes the code
+    */
     @Override
     public void on_init() {
         robot.lift.initForTesting();
     }
+    /**
+     * Runs the code and updates the telemetry
+     */
     @Override
     public void run() {
         while(opModeIsActive()){
@@ -19,6 +31,9 @@ public class UhaulLiftEncoderValueTest extends UhaulLinearOpMode {
         }
     }
 
+    /**
+    * Stops the code
+    */
     @Override
     public void on_stop() {
 
