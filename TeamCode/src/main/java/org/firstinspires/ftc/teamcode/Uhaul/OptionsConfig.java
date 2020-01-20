@@ -4,7 +4,8 @@ package org.firstinspires.ftc.teamcode.Uhaul;
 import org.firstinspires.ftc.teamcode.Uhaul.AutonomousSelector;
 
 /**
- * Class to hold the other opmode options
+ * @author Raw Bacon Coders
+ * Class holds the other opmode options
  */
 public class OptionsConfig {
 
