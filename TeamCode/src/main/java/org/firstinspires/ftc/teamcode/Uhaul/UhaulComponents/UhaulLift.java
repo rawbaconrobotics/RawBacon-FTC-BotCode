@@ -35,9 +35,9 @@ public class UhaulLift extends UhaulComponentImplBase {
     public DcMotorEx uhaulLiftTwo = null;
 
 
-    private static final double COUNTS_PER_MOTOR_REV = 1120; //1440
+    private static final double COUNTS_PER_MOTOR_REV = 383.6;
     private static final double DRIVE_GEAR_REDUCTION = 1.0;
-    private static final double WHEEL_DIAMETER_INCHES = 4.0;
+    private static final double WHEEL_DIAMETER_INCHES = 0.315;
     private static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
     private static final double COUNTS_PER_DEGREE = 15;
 

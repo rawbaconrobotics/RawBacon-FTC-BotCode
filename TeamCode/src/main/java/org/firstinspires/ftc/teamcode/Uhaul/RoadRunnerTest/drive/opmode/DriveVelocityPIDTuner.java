@@ -23,8 +23,8 @@ import org.firstinspires.ftc.teamcode.Uhaul.RoadRunnerTest.drive.mecanum.SampleM
 
 import java.util.List;
 
-import static org.firstinspires.ftc.teamcode.BigDipper.RoadRunnerTest.drive.DriveConstants.RUN_USING_ENCODER;
-import static org.firstinspires.ftc.teamcode.BigDipper.RoadRunnerTest.drive.DriveConstants.kV;
+import static org.firstinspires.ftc.teamcode.Uhaul.RoadRunnerTest.drive.DriveConstants.RUN_USING_ENCODER;
+import static org.firstinspires.ftc.teamcode.Uhaul.RoadRunnerTest.drive.DriveConstants.kV;
 
 /*
  * This routine is designed to tune the PID coefficients used by the REV Expansion Hubs for closed-
@@ -38,7 +38,7 @@ import static org.firstinspires.ftc.teamcode.BigDipper.RoadRunnerTest.drive.Driv
  * ctor.
  */
 @Config
-@Autonomous(group = "drive")
+@Autonomous(name = "Uhaul PID Tuner", group = "drive")
 public class DriveVelocityPIDTuner extends LinearOpMode {
     public static double DISTANCE = 72;
 

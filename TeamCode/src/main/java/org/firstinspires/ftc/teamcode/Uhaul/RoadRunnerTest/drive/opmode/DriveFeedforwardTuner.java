@@ -15,11 +15,11 @@ import org.firstinspires.ftc.robotcore.internal.system.Misc;
 import org.firstinspires.ftc.teamcode.Uhaul.RoadRunnerTest.drive.mecanum.SampleMecanumDriveBase;
 import org.firstinspires.ftc.teamcode.Uhaul.RoadRunnerTest.drive.mecanum.SampleMecanumDriveREV;
 
-import static org.firstinspires.ftc.teamcode.BigDipper.RoadRunnerTest.drive.DriveConstants.RUN_USING_ENCODER;
-import static org.firstinspires.ftc.teamcode.BigDipper.RoadRunnerTest.drive.DriveConstants.getMaxRpm;
-import static org.firstinspires.ftc.teamcode.BigDipper.RoadRunnerTest.drive.DriveConstants.rpmToVelocity;
+import static org.firstinspires.ftc.teamcode.Uhaul.RoadRunnerTest.drive.DriveConstants.RUN_USING_ENCODER;
+import static org.firstinspires.ftc.teamcode.Uhaul.RoadRunnerTest.drive.DriveConstants.getMaxRpm;
+import static org.firstinspires.ftc.teamcode.Uhaul.RoadRunnerTest.drive.DriveConstants.rpmToVelocity;
 
-//import org.firstinspires.ftc.teamcode.BigDipper.RoadRunnerTest.util.LoggingUtil;
+//import org.firstinspires.ftc.teamcode.Uhaul.RoadRunnerTest.util.LoggingUtil;
 
 /*
  * Op mode for computing kV, kStatic, and kA from various drive routines. For the curious, here's an
@@ -32,7 +32,7 @@ import static org.firstinspires.ftc.teamcode.BigDipper.RoadRunnerTest.drive.Driv
  *      regression.
  */
 @Config
-@Autonomous(group = "drive")
+@Autonomous(name = "Uhaul FeedForward Tuner", group = "drive")
 public class DriveFeedforwardTuner extends LinearOpMode {
     public static final double MAX_POWER = 0.7;
     public static final double DISTANCE = 100;

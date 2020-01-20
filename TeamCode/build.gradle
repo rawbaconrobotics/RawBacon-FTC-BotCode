@@ -15,8 +15,9 @@ dependencies {
      * Other Modules
      */
     implementation project(':FtcRobotController')
-    implementation 'com.github.dogecv:dogecv:2020.4-alpha'
     implementation 'com.acmerobotics.roadrunner:core:0.4.6'
+    implementation 'org.openftc:easyopencv:1.3.2'
+
 
 
     turboImplementation project(':Hardware')
