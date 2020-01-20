@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents.UhaulLift;
 
 /**
  * Represents the robot Uhaul as a whole. Organizes the various components.
- * @author Luke Aschenbrener
+ * @author Raw Bacon Coders
  */
 public class Uhaul {
     public UhaulDriveTrain drive;
