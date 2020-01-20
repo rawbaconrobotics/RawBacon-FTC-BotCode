@@ -1,7 +1,8 @@
 package org.firstinspires.ftc.teamcode.Uhaul;
 
 /**
- * Class to hold the driver controls
+ * @author Raw Bacon Coders
+ * This class holds the driver controls
  */
 public class AllianceConfig {
 
