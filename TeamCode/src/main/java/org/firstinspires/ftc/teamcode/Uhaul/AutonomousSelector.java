@@ -14,7 +14,10 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ReadWriteFile;
 
 
-/** Contains the current configurations of the drive team. */
+/** 
+ * @author Raw Bacon Coders
+ * Selects which autonomous to use
+ */
 @TeleOp(name = "Autonomous Selector", group = "Uhaul")
 //@Disabled
 public class AutonomousSelector extends LinearOpMode {
@@ -67,8 +70,8 @@ public class AutonomousSelector extends LinearOpMode {
     };
 
 
-    /**Enum to represent options and also the method to utilize(?) them.
-     *
+    /** 
+     * Enum to represent options
      */
     public enum Options {
         FOUNDATION_SIDE,
@@ -86,6 +89,9 @@ public class AutonomousSelector extends LinearOpMode {
             }
         }
     }
+    /**
+     * Enum to represent the alliances
+     */
     public enum Alliance {
         RED,
         BLUE;
@@ -99,7 +105,9 @@ public class AutonomousSelector extends LinearOpMode {
         }
     }
 
-    //we aren't using these!
+    /**
+     * Defines gamepad inputs
+     */
     public enum Trigger {
         LEFT_STICK_Y,
         LEFT_STICK_X,
@@ -125,6 +133,9 @@ public class AutonomousSelector extends LinearOpMode {
     private int stepNumber = 0;
 
 
+    /**
+     * Runs the opmode
+     */
     @Override public void runOpMode()throws InterruptedException {
 
         telemetry.log().add("-- Autonomous Selector --");
@@ -350,16 +361,25 @@ public class AutonomousSelector extends LinearOpMode {
     }
 
 
+    /**
+     * Puts the alliance config into a Json file
+     */
     private String serializeAllianceConfig(){
 
         return SimpleGson.getInstance().toJson(allianceConfig);
     }
 
+    /**
+     * Puts the options config into a Json file
+     */
     private String serializeOptionsConfig(){
 
         return SimpleGson.getInstance().toJson(optionsConfig);
     }
 
+    /**
+     * After button1 is pressed returns gamepad values
+     */
     private boolean buttonPressed1(){
         return (gamepad1.right_bumper || gamepad1.left_bumper || gamepad1.a || gamepad1.x || gamepad1.y ||
                 gamepad1.dpad_up || gamepad1.dpad_down || gamepad1.dpad_left || gamepad1.dpad_right || gamepad1.left_stick_button
@@ -368,6 +388,7 @@ public class AutonomousSelector extends LinearOpMode {
 
 
 
+    /** Maps gamepad inputs to the options */
     private void registerWhatSide(Gamepad gamepad, Options mapTo){
         if(gamepad.a) mapTo = Options.FOUNDATION_SIDE;
         else if (gamepad.b) mapTo = Options.STONE_SIDE;
@@ -382,7 +403,7 @@ public class AutonomousSelector extends LinearOpMode {
         //else if(gamepad.dpad_left) mapTo = Button.DPAD_LEFT;
         //else if(gamepad.dpad_right) mapTo = Button.DPAD_RIGHT;
     }
-
+    /** Maps gamepad inputs to the options */
     private void registerMiddleOrWall(Gamepad gamepad, Options mapTo){
         if(gamepad.a) mapTo = Options.MIDDLE;
         else if (gamepad.b) mapTo = Options.WALL;
@@ -397,7 +418,7 @@ public class AutonomousSelector extends LinearOpMode {
         //else if(gamepad.dpad_left) mapTo = Button.DPAD_LEFT;
         //else if(gamepad.dpad_right) mapTo = Button.DPAD_RIGHT;
     }
-
+    /** Selects either the red or blue alliance */
     private void registerAllianceButton(Gamepad gamepad, Alliance mapTo){
         if(gamepad.a) mapTo = Alliance.RED;
         else if (gamepad.b) mapTo = Alliance.BLUE;
@@ -415,7 +436,7 @@ public class AutonomousSelector extends LinearOpMode {
 
 
     /**
-     * List with all the messages that appear.
+     * List all the messages that appear.
      */
     private static final String[] queries = new String[]{
             "To ensure the controls are working, press A to continue.",
