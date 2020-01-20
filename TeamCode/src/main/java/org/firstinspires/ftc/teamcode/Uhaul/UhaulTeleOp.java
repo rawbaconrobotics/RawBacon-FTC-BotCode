@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * A linear opmode that activates the teleop stored in the {@link Uhaul} class
- * @author Luke Aschenbrener
+ * @author Raw Bacon Coders
  */
 @TeleOp(name="Uhaul TeleOp (Official)", group="Uhaul")
 public class  UhaulTeleOp extends UhaulLinearOpMode
