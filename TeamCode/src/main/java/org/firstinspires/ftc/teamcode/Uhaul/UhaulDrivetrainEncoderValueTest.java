@@ -6,6 +6,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+
+/**
+ * @author Raw Bacon Coders
+ * Tests the Uhaul Drivetrain Encoder
+ */
 public class UhaulDrivetrainEncoderValueTest {
 
 
