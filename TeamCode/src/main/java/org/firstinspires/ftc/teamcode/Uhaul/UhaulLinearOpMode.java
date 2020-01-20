@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.Uhaul.Uhaul;
 
 /**
  * Abstract class that is run through other pseudo-opmodes.
- * @author Luke Aschenbrener
+ * @author Raw Bacon Coders
  */
 public abstract class UhaulLinearOpMode extends LinearOpMode
 {
