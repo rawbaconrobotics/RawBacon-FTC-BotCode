@@ -33,6 +33,7 @@ public class Robot {
 
     /**
      * Constructor
+     * @param opMode The opmode in use. use this keyword.
      */
     public Robot(LinearOpMode opMode){
         bddrivetrain = new BDDriveTrain(opMode);

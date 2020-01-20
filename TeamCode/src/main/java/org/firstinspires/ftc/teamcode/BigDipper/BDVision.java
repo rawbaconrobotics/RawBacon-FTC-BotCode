@@ -29,16 +29,16 @@ package org.firstinspires.ftc.teamcode.BigDipper;
 
 
 /**
- * Created by maryjaneb  on 11/13/2016.
- *
- * nerverest ticks
- * 60 1680
- * 40 1120
- * 20 560
- *
- * monitor: 640 x 480
- *YES
+ * @author Raw Bacon Coders
+ * Defines the vision
  */
+ //nerverest ticks
+ //60 1680
+ //40 1120
+ //20 560
+ 
+ //monitor: 640 x 480
+
 @Autonomous(name= "BDVision", group="TEST AUTO")
 
 public class BDVision extends BaseLinearOpMode {
@@ -66,6 +66,7 @@ public class BDVision extends BaseLinearOpMode {
 
     OpenCvCamera phoneCam;
 
+    /** Defines a proccess that starts when initialization occurs */
     @Override
     public void on_init() {
         System.out.println("INIT PROCESS STARTING");
@@ -92,6 +93,7 @@ public class BDVision extends BaseLinearOpMode {
         }
 
         }
+        /** Runs the process */
         @Override
         public void run () {
             runtime.reset();
@@ -200,6 +202,7 @@ public class BDVision extends BaseLinearOpMode {
         }
 
 
+        /** Stops the vision process */
     public void on_stop() {
 
     }
@@ -222,6 +225,7 @@ public class BDVision extends BaseLinearOpMode {
         private Stage stageToRenderToViewport = Stage.detection;
         private Stage[] stages = Stage.values();
 
+        
         @Override
         public void onViewportTapped()
         {

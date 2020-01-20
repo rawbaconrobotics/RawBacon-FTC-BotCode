@@ -1,5 +1,10 @@
 package org.firstinspires.ftc.teamcode.BigDipper.RobotComponents;
 
+
+/**
+ * @author Raw Bacon Coders
+ * Establishes Big Dipper motor accelerations processes
+ */
 public class DcMotorAccelerationThread implements Runnable {
 
     private static final int MAX_MOTORS = 8;
@@ -15,10 +20,12 @@ public class DcMotorAccelerationThread implements Runnable {
 
     }
 
+    /** Adds a motor */
     public void addMotor(DcMotorAccelerated aMotor) {
         acceleratedMotors[motorCount++] = aMotor;
     }
 
+    /** Runs the proccess */
     @Override
     public synchronized void run() {
         while (isAccelerationControlRunning) {
@@ -33,7 +40,7 @@ public class DcMotorAccelerationThread implements Runnable {
             }
         }
     }
-
+    /** Starts the proccess */
     public synchronized void start() {
         if(!isAccelerationControlRunning) {
             isAccelerationControlRunning = true;
@@ -42,6 +49,7 @@ public class DcMotorAccelerationThread implements Runnable {
         }
     }
 
+    /** Stops the proccess */
     public void stop() {
         isAccelerationControlRunning = false;
 
