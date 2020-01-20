@@ -28,6 +28,10 @@ import static android.os.SystemClock.sleep;
 
 
 
+/**
+ * @author Raw Bacon Coders
+ * Defines the Uhaul Autonomous
+ */
 @Autonomous(name= "Uhaul Autonomous (Official)", group="Uhaul")
 
 //
@@ -61,6 +65,10 @@ public class UhaulAutonomous extends UhaulLinearOpMode {
 
     OpenCvCamera phoneCam;
 
+    
+    /**
+    * Initializes the autonomous.
+    */
     @Override
     public void on_init() {
         System.out.println("INIT PROCESS STARTING");
@@ -91,6 +99,10 @@ public class UhaulAutonomous extends UhaulLinearOpMode {
         }
 
     }
+    
+    /**
+     * Starts the autonomous.
+     */
     @Override
     public void run () {
         runtime.reset();
@@ -199,11 +211,16 @@ public class UhaulAutonomous extends UhaulLinearOpMode {
     }
 
 
+    /**
+     * Stops the autonomous.
+     */
     public void on_stop() {
 
     }
 
-    //detection pipeline
+    /**
+     * Uses the camera to check if a skystone is there in 3 rectangular areas, and then returns 1 if there is a skystone and 0 if there isn't.
+     */
     static class StageSwitchingPipeline extends OpenCvPipeline
     {
         Mat yCbCrChan2Mat = new Mat();
@@ -221,6 +238,10 @@ public class UhaulAutonomous extends UhaulLinearOpMode {
         private Stage stageToRenderToViewport = Stage.detection;
         private Stage[] stages = Stage.values();
 
+        
+        /**
+         * Defines the onViewportTapped() method.
+         */
         @Override
         public void onViewportTapped()
         {
@@ -241,6 +262,10 @@ public class UhaulAutonomous extends UhaulLinearOpMode {
             stageToRenderToViewport = stages[nextStageNum];
         }
 
+        /**
+         * Defines the processFrame method
+         * @param input This is the input parameter.
+         */ 
         @Override
         public Mat processFrame(Mat input)
         {
