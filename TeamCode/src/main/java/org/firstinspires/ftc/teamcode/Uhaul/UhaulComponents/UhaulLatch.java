@@ -6,6 +6,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents.UhaulComponentImplBase;
 
+/**
+ * @author Raw Bacon Coders
+ * Defines the UhaulLatch
+ */
 
     public class UhaulLatch extends UhaulComponentImplBase  {
 //READY TO GO FOR UHAUL
@@ -24,12 +28,15 @@ import org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents.UhaulComponentImplBa
             super(opMode);
         }
 
+        
+         /** Initializes the uhaul latch */
         @Override
         public void init() {
             uhaulLatch = hardwareMap.servo.get(LATCH_SERVO_1);
             uhaulLatchTwo = hardwareMap.servo.get(LATCH_SERVO_2);
         }
 
+         /** Defines how to move the latch using the gamepad. */
         public void moveLatch () {
             if (gamepad1.right_bumper || gamepad1.left_bumper) {
 
@@ -40,6 +47,7 @@ import org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents.UhaulComponentImplBa
                 uhaulLatch.setPosition(LATCH_CLOSED_POSITION);
             }
         }
+         /** Initializes the autonomous */
         @Override
         public void initAutonomous() {
             uhaulLatch = hardwareMap.servo.get(LATCH_SERVO_1);
@@ -47,12 +55,13 @@ import org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents.UhaulComponentImplBa
             uhaulLatch.setPosition(LATCH_OPEN_POSITION);
             uhaulLatchTwo.setPosition(LATCH_OPEN_POSITION);
         }
+         /** Opens the latch */
         public void openLatch(){
             System.out.println("LATCH OPENING");
             uhaulLatch.setPosition(LATCH_OPEN_POSITION);
             uhaulLatchTwo.setPosition(LATCH_OPEN_POSITION);
         }
-
+      /** Closes the latch */
         public void closeLatch(){
             System.out.println("LATCH CLOSING");
             uhaulLatch.setPosition(LATCH_CLOSED_POSITION);
