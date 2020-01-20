@@ -7,6 +7,11 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.RobotComponent;
 
+
+/**
+ * @author Raw Bacon Coders
+ * Establishes a component base for the Uhaul robot
+ */
 public abstract class UhaulComponentImplBase implements UhaulRobotComponent
 {
     protected HardwareMap hardwareMap;
@@ -15,6 +20,11 @@ public abstract class UhaulComponentImplBase implements UhaulRobotComponent
     protected Gamepad gamepad2;
     public LinearOpMode opMode;
 
+    /** 
+     * Constructor
+     * @param opMode This parameter takes in a LinearOpMode as the variable opMode.
+     *
+     */
     public UhaulComponentImplBase(LinearOpMode opMode)
     {
         hardwareMap = opMode.hardwareMap;
@@ -24,6 +34,7 @@ public abstract class UhaulComponentImplBase implements UhaulRobotComponent
         this.opMode = opMode;
     }
 
+    /** Returns whether the opmode is active or not */
     public boolean opModeIsActive()
     {
         return opMode.opModeIsActive();

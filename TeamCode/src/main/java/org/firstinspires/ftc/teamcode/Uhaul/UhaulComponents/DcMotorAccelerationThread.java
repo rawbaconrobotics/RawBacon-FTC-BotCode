@@ -1,5 +1,10 @@
 package org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents;
 
+
+/**
+* @author Raw Bacon Coders
+* Defines the Dc Motor Acceleration Thread
+*/
 public class DcMotorAccelerationThread implements Runnable {
 
     private static final int MAX_MOTORS = 8;
@@ -14,11 +19,12 @@ public class DcMotorAccelerationThread implements Runnable {
     public DcMotorAccelerationThread() {
 
     }
-
+      /** Adds motors */
     public void addMotor(DcMotorAccelerated aMotor) {
         acceleratedMotors[motorCount++] = aMotor;
     }
 
+ /** Runs the motors */
     @Override
     public synchronized void run() {
         while (isAccelerationControlRunning) {
@@ -34,6 +40,7 @@ public class DcMotorAccelerationThread implements Runnable {
         }
     }
 
+   /** Starts the motors */
     public synchronized void start() {
         if(!isAccelerationControlRunning) {
             isAccelerationControlRunning = true;
@@ -41,7 +48,7 @@ public class DcMotorAccelerationThread implements Runnable {
             accelerationControlThread.start();
         }
     }
-
+    /** Stops the motors */
     public void stop() {
         isAccelerationControlRunning = false;
 

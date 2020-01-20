@@ -13,6 +13,10 @@ import org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents.UhaulComponentImplBa
 import static android.os.SystemClock.sleep;
 import static org.firstinspires.ftc.teamcode.Uhaul.AutonomousSelector.deserializeAlliance;
 
+/**
+ * Defines the Uhaul Lift
+ * @author Raw Bacon Coders
+ */
 public class UhaulLift extends UhaulComponentImplBase {
 //DONE FOR UHAUL!
 
@@ -44,10 +48,12 @@ public class UhaulLift extends UhaulComponentImplBase {
     public int dpadBlocks = 0;
 
 
+    /** Overrides the default opmode for UhaulLift */
     public UhaulLift(LinearOpMode opMode) {
         super(opMode);
     }
 
+    /** Initializes the proccess */
     @Override
     public void init() {
         uhaulLift = (DcMotorEx) hardwareMap.dcMotor.get(UHAUL_LIFT_1);
@@ -65,6 +71,7 @@ public class UhaulLift extends UhaulComponentImplBase {
         uhaulLiftTwo.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
     }
+    /** Initializes the proccess for testing purposes */
 public void initForTesting(){
     //we don't want it to brake on 0 power!
     uhaulLift = (DcMotorEx) hardwareMap.dcMotor.get(UHAUL_LIFT_1);
@@ -93,6 +100,7 @@ public void initForTesting(){
 
 //Would be nice to use state machines here and enums! Example:   https://gm0.copperforge.cc/en/latest/docs/software/fundamental-concepts.html#finite-state-machines-and-enums
 
+    /** Defines the lift for the teleop */
     public void liftTeleOp() {
 
         if ((gamepad2.dpad_up || gamepad2.dpad_down) && (gamepad2.right_stick_y == 0)) {
@@ -143,6 +151,7 @@ public void initForTesting(){
 
     int previousBlocks = 0;
 
+    /** Defines the liftAuto proccess */
     public void liftAuto(int howManyBlocks) {
 
         telemetry.addData("Status", "Resetting Encoders");    //
@@ -169,6 +178,7 @@ public void initForTesting(){
     }
 
 
+    /** Initializes the proccess for the autonomous */
     @Override
     public void initAutonomous() {
 
@@ -187,6 +197,7 @@ public void initForTesting(){
     }
 
 
+    /** Defines the targets */
     public void encoderDrive(double heightInInches) {
         int newLeftTarget;
         int newRightTarget;

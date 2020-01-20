@@ -13,7 +13,10 @@ import org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents.UhaulComponentImplBa
 
 import static android.os.SystemClock.sleep;
 
-
+/**
+ * @author Raw Bacon Coders
+ * Defines the UhaulIntake proccess 
+ */
 public class UhaulIntake extends UhaulComponentImplBase {
 //READY TO GO FOR INTAKE
     private ElapsedTime runtime = new ElapsedTime();
@@ -46,6 +49,7 @@ public class UhaulIntake extends UhaulComponentImplBase {
     int blues = 0;
     int greens = 0; */
 
+    /** Initializes the proccess */
     public void init(){
         uhaulLeftIntake = hardwareMap.dcMotor.get(LEFT_INTAKE);
         uhaulRightIntake = hardwareMap.dcMotor.get(RIGHT_INTAKE);
@@ -56,6 +60,7 @@ public class UhaulIntake extends UhaulComponentImplBase {
         sensorColor = hardwareMap.colorSensor.get(COLOR_SENSOR);
 
     }
+    /** Runs the intake proccess */
     public void runIntake(){
         if (gamepad2.right_trigger > 0.1){
             uhaulLeftIntake.setPower(1);
@@ -72,6 +77,7 @@ public class UhaulIntake extends UhaulComponentImplBase {
     }
 
 
+    /** Defines the proccess for the autonomous */
     public boolean autonomousIntake(){
         runtime.reset();
         boolean stoneFound = true;
@@ -103,6 +109,7 @@ public class UhaulIntake extends UhaulComponentImplBase {
 
 
 
+    /** Initializes the proccess for the autonomous */
     @Override
     public void initAutonomous() {
         uhaulLeftIntake = hardwareMap.dcMotor.get("left_intake");
@@ -115,6 +122,7 @@ public class UhaulIntake extends UhaulComponentImplBase {
 
     }
 
+    /** Overrides the default opmode method */
     public UhaulIntake(LinearOpMode opMode) {
         super(opMode);
     }

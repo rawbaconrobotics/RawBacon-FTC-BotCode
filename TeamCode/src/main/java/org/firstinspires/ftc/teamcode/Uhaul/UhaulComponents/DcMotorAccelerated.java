@@ -3,6 +3,11 @@ package org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
 
+
+/**
+ * @author Raw Bacon Coders
+ * Defines the DcMotorAccelerated class
+ */
 public class DcMotorAccelerated {
 
     private static final double MAX_MOTOR_POWER = 1;
@@ -16,6 +21,7 @@ public class DcMotorAccelerated {
     private double minimumPower;
     private double targetPower;
 
+    /** Constructor */
     public DcMotorAccelerated(DcMotor aMotor, double anAccelerationRateMotorSpeedPerSecond, double aDecelerationRateMotorSpeedPerSecond,
                               double aMinimumPower, double aMaximumPower) {
         acceleratedMotor = aMotor;
@@ -24,11 +30,13 @@ public class DcMotorAccelerated {
         setMaxPower(aMaximumPower);
     }
 
+    /** Constructor */
     public synchronized void setAccelerationRates(double anAccelerationRateMotorSpeedPerSecond, double aDecelerationRateMotorSpeedPerSecond) {
         accelerationRateSpeedPerHardwareTick = anAccelerationRateMotorSpeedPerSecond / (1000 / DcMotorAccelerationThread.UPDATE_PERIOD_MS);
         decelerationRateSpeedPerHardwareTick = aDecelerationRateMotorSpeedPerSecond / (1000 / DcMotorAccelerationThread.UPDATE_PERIOD_MS);
     }
 
+    /** Constructor */
     public synchronized void setDirectPower(double aPower) {
         currentPower = aPower;
         setTargetPower(currentPower);
@@ -38,23 +46,28 @@ public class DcMotorAccelerated {
         acceleratedMotor.setPower(currentPower);
     }
 
+    /** Constructor */
     public synchronized void setMaxPower(double aMaxPower) {
         maximumPower = aMaxPower;
     }
 
+    /** Constructor */
     public synchronized void setMinPower(double aMinPower) {
         minimumPower = aMinPower;
     }
 
+    /** Constructor */
     public synchronized void setTargetPower(double aTargetPower) {
         targetPower = aTargetPower;
     }
 
+    /** Stops the motor */
     public void stopMotorHard() {
         acceleratedMotor.setPower(0.0);
         setTargetPower(0.0);
     }
 
+    /** Defines accelerating and decelerating, and the robot driving backwards. */
     public synchronized void update() {
         //Robot driving forward.
         if(currentPower > 0) {
@@ -111,12 +124,14 @@ public class DcMotorAccelerated {
         acceleratedMotor.setPower(currentPower);
     }
 
-    //All below methods wrap the DcMotor class.
+   
 
+    /** Returns the current motor direction. */
     public Direction getDirection() {
         return acceleratedMotor.getDirection();
     }
 
+    /** Sets the current motor direction. */
     public void setDirection(Direction aDirection) {
         acceleratedMotor.setDirection(aDirection);
     }
