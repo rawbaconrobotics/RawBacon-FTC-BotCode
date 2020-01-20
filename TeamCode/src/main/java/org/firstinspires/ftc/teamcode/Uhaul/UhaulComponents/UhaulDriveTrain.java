@@ -29,7 +29,7 @@ import static android.os.SystemClock.sleep;
 
 /**
  * Represents the four wheel mechanum drive on Uhaul
- * @author Luke Aschenbrener
+ * @author Raw Bacon Coders
  */
 public class UhaulDriveTrain extends UhaulComponentImplBase {
 
@@ -539,6 +539,7 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
     }
 
 
+    /** Runs the proccess using encoders */
     public void runUsingEncoders(){
         System.out.println("ABOUT TO SET RUNUSINGENCODERS DIRECTLY...");
 
@@ -549,6 +550,7 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
         System.out.println("SET IT DIRECTLY!");
     }
 
+    /** Stops the proccess */
     public void stopDrive(){
         wheelAccelerationThread.stop();
         System.out.println("STOPDRIVE completed");
