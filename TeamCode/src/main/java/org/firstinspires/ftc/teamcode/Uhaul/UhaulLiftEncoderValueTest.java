@@ -32,7 +32,7 @@ public class UhaulLiftEncoderValueTest extends UhaulLinearOpMode {
     }
 
     /**
-    * Stops the code
+    * Stops the process 
     */
     @Override
     public void on_stop() {
