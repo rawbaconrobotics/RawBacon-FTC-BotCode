@@ -119,10 +119,10 @@ public class BDDriveTrain extends RobotComponentImplBase {
         leftDriveFront = hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME);
         rightDriveFront = hardwareMap.dcMotor.get(FRONTRIGHT_WHEEL_NAME);
 
-        leftDriveFront.setDirection(DcMotor.Direction.REVERSE);
-        rightDriveFront.setDirection(DcMotor.Direction.FORWARD);
-        leftDriveBack.setDirection(DcMotor.Direction.REVERSE);
-        rightDriveBack.setDirection(DcMotor.Direction.FORWARD);
+        leftDriveFront.setDirection(DcMotor.Direction.FORWARD);
+        rightDriveFront.setDirection(DcMotor.Direction.REVERSE);
+        leftDriveBack.setDirection(DcMotor.Direction.FORWARD);
+        rightDriveBack.setDirection(DcMotor.Direction.REVERSE);
 
         leftDriveFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftDriveBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

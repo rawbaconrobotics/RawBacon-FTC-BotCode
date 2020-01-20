@@ -27,6 +27,7 @@ public class BDTeleOp extends BaseLinearOpMode {
         robot.bdlatch.init();
         robot.bdgrabber.init();
         robot.bdcapstone.init();
+        robot.bdtapemeasure.init();
     }
     
     /**
