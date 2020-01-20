@@ -39,5 +39,6 @@ public class Robot {
         bdlatch = new BDLatch(opMode);
         bdgrabber = new BDGrabber(opMode);
         bdcapstone = new BDCapstone(opMode);
+        bdtapemeasure = new BDTapeMeasure(opMode);
     }
 }

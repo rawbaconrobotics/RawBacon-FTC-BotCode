@@ -17,13 +17,13 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  */
 
 public class BDTapeMeasure extends RobotComponentImplBase{
-    private final static String TAPE_MEASURE_NAME = "tape_measure_servo";
+    private final static String TAPE_MEASURE_NAME = "bd_tape_measure";
 
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     private CRServo tapeMeasureServo = null;
-    double measurePower = gamepad2.right_stick_y;
+    double measurePower = 0;
     double previousPower = 0;
 
 
@@ -56,6 +56,8 @@ public class BDTapeMeasure extends RobotComponentImplBase{
      * Opens or closes the grabber based upon the current state it is in
      */
     public void tapeMeasureTeleOp() {
+
+        measurePower = gamepad2.right_stick_y;
 
         if(measurePower != previousPower) {
             tapeMeasureServo.setPower(measurePower);

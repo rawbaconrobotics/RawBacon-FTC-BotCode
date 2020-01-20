@@ -6,25 +6,31 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BaseLinearOpMode;
+
 
 /**
  * @author Raw Bacon Coders
  * Tests the Uhaul Drivetrain Encoder
  */
-public class UhaulDrivetrainEncoderValueTest {
+@TeleOp(name="Uhaul Drivetrain Encoder Test", group="Uhaul")
 
+public class UhaulDrivetrainEncoderValueTest extends LinearOpMode {
+
+    private ElapsedTime runtime = new ElapsedTime();
+    private Servo latchServo = null;
+    private DcMotor leftDrive = null;
+    private DcMotor rightDrive = null;
+    private DcMotor leftDriveBack = null;
+    private DcMotor rightDriveBack = null;
 
     /**
      * Provides encoder counts through telemetry
      */
-    @TeleOp(name="Uhaul Drivetrain Encoder Test", group="Uhaul")
-    public class EncoderTest extends LinearOpMode {
-        private ElapsedTime runtime = new ElapsedTime();
-        private Servo latchServo = null;
-        private DcMotor leftDrive = null;
-        private DcMotor rightDrive = null;
-        private DcMotor leftDriveBack = null;
-        private DcMotor rightDriveBack = null;
+@Override
+    public void runOpMode() throws InterruptedException {
+
+
 
 
 
@@ -32,8 +38,7 @@ public class UhaulDrivetrainEncoderValueTest {
          * Checks for wheel movement and outputs encoder counts to the screen
          * @throws InterruptedException
          */
-        @Override
-        public void runOpMode() throws InterruptedException {
+
             leftDrive  = hardwareMap.get(DcMotor.class, "left_drive_front");
             rightDrive = hardwareMap.get(DcMotor.class, "right_drive_front");
             leftDriveBack = hardwareMap.get(DcMotor.class, "left_drive_back");
@@ -62,4 +67,4 @@ public class UhaulDrivetrainEncoderValueTest {
         }
     }
 
-}
+
