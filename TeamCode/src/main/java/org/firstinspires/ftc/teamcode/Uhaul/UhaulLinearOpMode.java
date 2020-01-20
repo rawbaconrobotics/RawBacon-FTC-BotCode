@@ -21,8 +21,14 @@ public abstract class UhaulLinearOpMode extends LinearOpMode
     {
 
         robot = new Uhaul(this);
+        on_init();
+        System.out.println("Initialized robot");
+        waitForStart();
+        System.out.println("Play has been pressed");
         run();
-
+        System.out.println("Finished running the robot");
+        on_stop();
+        System.out.println("Robot Stopped!");
     }
     
     /**

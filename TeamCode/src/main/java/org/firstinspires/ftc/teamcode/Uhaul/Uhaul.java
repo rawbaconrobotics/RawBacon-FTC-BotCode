@@ -43,11 +43,11 @@ public class Uhaul {
      * It's more like a fail-safe than anything else, still init yourselves for autos!
      */
     public Uhaul(LinearOpMode opMode) {
-        drive.init();
-        latch.init();
-        lift.init();
-        grabber.init();
-        intake.init();
-        slider.init();
+        drive = new UhaulDriveTrain(opMode);
+        latch = new UhaulLatch(opMode);
+        lift = new UhaulLift(opMode);
+        grabber = new UhaulGrabber(opMode);
+        intake = new UhaulIntake(opMode);
+        slider = new UhaulSlider(opMode);
     }
 }

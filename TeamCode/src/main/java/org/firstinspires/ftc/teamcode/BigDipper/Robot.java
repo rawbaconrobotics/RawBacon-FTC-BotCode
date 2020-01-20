@@ -6,6 +6,7 @@ import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BDCapstone;
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BDDriveTrain;
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BDGrabber;
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BDLatch;
+import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BDTapeMeasure;
 
 /**
  * Organizes the various components on the robot
@@ -17,6 +18,7 @@ public class Robot {
     public BDLatch bdlatch;
     public BDGrabber bdgrabber;
     public BDCapstone bdcapstone;
+    public BDTapeMeasure bdtapemeasure;
 
     /**
      * Runs the teleop on all components
@@ -26,6 +28,7 @@ public class Robot {
         bdlatch.latch();
         bdgrabber.grabber();
         bdcapstone.releaseCapstone();
+        bdtapemeasure.tapeMeasureTeleOp();
     }
 
     /**

@@ -14,7 +14,7 @@ public class BDLatch extends RobotComponentImplBase {
     private final static String LATCH_SERVO_NAME = "bd_latch" ;
 
     double LATCH_OPEN = 0;
-    double LATCH_CLOSED = 0.3;
+    double LATCH_CLOSED = 0.6;
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
