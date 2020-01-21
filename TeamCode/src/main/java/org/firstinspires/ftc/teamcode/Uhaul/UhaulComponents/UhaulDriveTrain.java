@@ -214,24 +214,21 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
         wheelSpeeds[2] = -x + y + rotation;
         wheelSpeeds[3] = x + y - rotation;
 
-        normalize(wheelSpeeds);
-        if(speedModeOn) {
-            //leftDriveBack.setPower(Range.clip((wheelSpeeds[0]), -1, 1));
-            //rightDriveBack.setPower(Range.clip((wheelSpeeds[1]), -1, 1));
-            //leftDriveFront.setPower(Range.clip((wheelSpeeds[2]), -1, 1));
-            //rightDriveFront.setPower(Range.clip((wheelSpeeds[3]), -1, 1));
-            accLeftDriveBack.setDirectPower(Range.clip((wheelSpeeds[0]), -1, 1));
-            accRightDriveBack.setDirectPower(Range.clip((wheelSpeeds[1]), -1, 1));
-            accLeftDriveFront.setDirectPower(Range.clip((wheelSpeeds[2]), -1, 1));
-            accRightDriveFront.setDirectPower(Range.clip((wheelSpeeds[3]), -1, 1));
-                //normalizeAuto(wheelSpeeds[0], wheelSpeeds[1], wheelSpeeds[2], wheelSpeeds[3]);
+        //normalize(wheelSpeeds);
+        double[] normalSpeeds = normalizeAuto(wheelSpeeds[0], wheelSpeeds[1], wheelSpeeds[2], wheelSpeeds[3]);
 
+        if(speedModeOn) {
+            accLeftDriveBack.setDirectPower(Range.clip((normalSpeeds[0]), -1, 1));
+            accRightDriveBack.setDirectPower(Range.clip((normalSpeeds[1]), -1, 1));
+            accLeftDriveFront.setDirectPower(Range.clip((normalSpeeds[2]), -1, 1));
+            accRightDriveFront.setDirectPower(Range.clip((normalSpeeds[3]), -1, 1));
+            //normalizeAuto(wheelSpeeds[0], wheelSpeeds[1], wheelSpeeds[2], wheelSpeeds[3]);
         }
         else{
-            accLeftDriveBack.setTargetPower(wheelSpeeds[0]);
-            accRightDriveBack.setTargetPower(wheelSpeeds[1]);
-            accLeftDriveFront.setTargetPower(wheelSpeeds[2]);
-            accRightDriveFront.setTargetPower(wheelSpeeds[3]);
+            accLeftDriveBack.setTargetPower(normalSpeeds[0]);
+            accRightDriveBack.setTargetPower(normalSpeeds[1]);
+            accLeftDriveFront.setTargetPower(normalSpeeds[2]);
+            accRightDriveFront.setTargetPower(normalSpeeds[3]);
         }
     }
 
@@ -577,6 +574,48 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
         lastAngles = angles;
         return globalAngle;
     }
+
+    public double maxLeft, maxRight, max, ratio;
+
+    public double[] normalizeAuto(double wheelspeeds0, double wheelspeeds1, double wheelspeeds2, double wheelspeeds3){
+        /*
+         * Are any of the computed wheel powers greater than 1?
+         */
+
+        if(Math.abs(wheelspeeds0) > 1
+                || Math.abs(wheelspeeds1) > 1
+                || Math.abs(wheelspeeds2) > 1
+                || Math.abs(wheelspeeds3) > 1)
+        {
+
+            // Yeah, figure out which one
+
+            maxLeft = Math.max(Math.abs(wheelspeeds0), Math.abs(wheelspeeds2));
+            maxRight = Math.max(Math.abs(wheelspeeds1), Math.abs(wheelspeeds3));
+            max = Math.max(maxLeft, maxRight);
+            ratio = 1 / max; //Create a ratio to normalize them all
+            double[] normalSpeeds = {(wheelspeeds0 * ratio), (wheelspeeds1 * ratio), (wheelspeeds2 * ratio), (wheelspeeds3 * ratio)};
+            //leftDriveBack.setPower(wheelspeeds0 * ratio);
+            //rightDriveBack.setPower(wheelspeeds1 * ratio);
+            //leftDriveFront.setPower(wheelspeeds2 * ratio);
+            //rightDriveFront.setPower(wheelspeeds3 * ratio);
+            return normalSpeeds;
+        }
+        /*
+         * Nothing we need to do to the raw powers
+         */
+
+        else
+        {
+            // leftDriveBack.setPower(wheelspeeds0);
+            //  rightDriveBack.setPower(wheelspeeds1);
+            // leftDriveFront.setPower(wheelspeeds2);
+            // rightDriveFront.setPower(wheelspeeds3);
+            double[] normalSpeedz = {(wheelspeeds0), (wheelspeeds1), (wheelspeeds2), (wheelspeeds3)};
+            return normalSpeedz;
+        }
+    }
+
     /**
      public void normalizeAuto(){
      /*
