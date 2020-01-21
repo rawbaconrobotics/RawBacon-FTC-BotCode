@@ -81,7 +81,7 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
 
     BNO055IMU imu;
     Orientation   lastAngles = new Orientation();
-    double                  globalAngle, power = .30, correction;
+    double globalAngle, power = .30, correction;
 
     double realAngle = 0;
     double degreesWanted = 0;
@@ -128,7 +128,7 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
         wheelAccelerationThread.addMotor(accRightDriveBack);
         wheelAccelerationThread.start();
     }
-    
+
     /**
      * Hardware maps and sets modes of all motors and sets up the imu
      */
@@ -187,7 +187,7 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
         runUsingEncoders();
 
     }
-    
+
     /**
      * Reformats input and runs the {@link #mechanumTeleOp} method
      */
@@ -216,10 +216,16 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
 
         normalize(wheelSpeeds);
         if(speedModeOn) {
-            leftDriveBack.setPower(Range.clip((wheelSpeeds[0]), -1, 1));
-            rightDriveBack.setPower(Range.clip((wheelSpeeds[1]), -1, 1));
-            leftDriveFront.setPower(Range.clip((wheelSpeeds[2]), -1, 1));
-            rightDriveFront.setPower(Range.clip((wheelSpeeds[3]), -1, 1));
+            //leftDriveBack.setPower(Range.clip((wheelSpeeds[0]), -1, 1));
+            //rightDriveBack.setPower(Range.clip((wheelSpeeds[1]), -1, 1));
+            //leftDriveFront.setPower(Range.clip((wheelSpeeds[2]), -1, 1));
+            //rightDriveFront.setPower(Range.clip((wheelSpeeds[3]), -1, 1));
+            accLeftDriveBack.setDirectPower(Range.clip((wheelSpeeds[0]), -1, 1));
+            accRightDriveBack.setDirectPower(Range.clip((wheelSpeeds[1]), -1, 1));
+            accLeftDriveFront.setDirectPower(Range.clip((wheelSpeeds[2]), -1, 1));
+            accRightDriveFront.setDirectPower(Range.clip((wheelSpeeds[3]), -1, 1));
+                //normalizeAuto(wheelSpeeds[0], wheelSpeeds[1], wheelSpeeds[2], wheelSpeeds[3]);
+
         }
         else{
             accLeftDriveBack.setTargetPower(wheelSpeeds[0]);
@@ -228,7 +234,7 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
             accRightDriveFront.setTargetPower(wheelSpeeds[3]);
         }
     }
-    
+
     /**
      * Adjusts the motor power values to fit in the -1 to 1 range
      * @param wheelSpeeds an array with all four unadjusted motor powers

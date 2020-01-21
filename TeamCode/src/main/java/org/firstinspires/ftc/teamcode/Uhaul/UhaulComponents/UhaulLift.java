@@ -59,9 +59,9 @@ public class UhaulLift extends UhaulComponentImplBase {
         uhaulLift = (DcMotorEx) hardwareMap.dcMotor.get(UHAUL_LIFT_1);
         uhaulLiftTwo = (DcMotorEx) hardwareMap.dcMotor.get(UHAUL_LIFT_2);
 
-        PIDFCoefficients pidNew = new PIDFCoefficients(kp, ki, kd, kf);
-        uhaulLift.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
-        uhaulLiftTwo.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
+        //PIDFCoefficients pidNew = new PIDFCoefficients(kp, ki, kd, kf);
+        //uhaulLift.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
+        //uhaulLiftTwo.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
 
         uhaulLift.setDirection(DcMotor.Direction.FORWARD);
         uhaulLiftTwo.setDirection(DcMotor.Direction.FORWARD);
@@ -77,9 +77,9 @@ public void initForTesting(){
     uhaulLift = (DcMotorEx) hardwareMap.dcMotor.get(UHAUL_LIFT_1);
     uhaulLiftTwo = (DcMotorEx) hardwareMap.dcMotor.get(UHAUL_LIFT_2);
 
-    PIDFCoefficients pidNew = new PIDFCoefficients(kp, ki, kd, kf);
-    uhaulLift.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
-    uhaulLiftTwo.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
+   // PIDFCoefficients pidNew = new PIDFCoefficients(kp, ki, kd, kf);
+   // uhaulLift.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
+   // uhaulLiftTwo.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
 
     uhaulLift.setDirection(DcMotor.Direction.FORWARD);
     uhaulLiftTwo.setDirection(DcMotor.Direction.FORWARD);
@@ -103,6 +103,15 @@ public void initForTesting(){
     /** Defines the lift for the teleop */
     public void liftTeleOp() {
 
+        if((uhaulLift.getTargetPosition() == uhaulLift.getCurrentPosition() || ((gamepad2.right_stick_y != 0) && !override)) && (uhaulLift.getMode() != DcMotor.RunMode.RUN_USING_ENCODER)){
+            uhaulLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            uhaulLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
+        else if(uhaulLift.getMode() != DcMotor.RunMode.RUN_TO_POSITION){
+            uhaulLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            uhaulLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+
         if ((gamepad2.dpad_up || gamepad2.dpad_down) && (gamepad2.right_stick_y == 0)) {
             if (gamepad2.dpad_up) {
                 dpadBlocks++;
@@ -118,15 +127,22 @@ public void initForTesting(){
 
 
 
-
         } else if (gamepad2.a) {
             dpadBlocks = 0;
+
+
         } else if (dpadBlocks == 0) {
-            if (uhaulLift.getCurrentPosition() < MAX_TICKS_BEFORE_OVERRIDE) {
+            if ((uhaulLift.getCurrentPosition() < MAX_TICKS_BEFORE_OVERRIDE) && (gamepad2.right_stick_y != 0)) {
                 uhaulLift.setPower(gamepad2.right_stick_y / 2);
-            } else {
-                override = true;
+                uhaulLiftTwo.setPower(gamepad2.right_stick_y /2);
+            } else if((uhaulLift.getCurrentPosition() < MAX_TICKS_BEFORE_OVERRIDE) && (gamepad2.right_stick_y == 0)) {
+                //do nothing, it's already at the right speed
             }
+            else{
+                    override = true;
+                }
+
+
 
         } else if (override) {
 
@@ -185,9 +201,7 @@ public void initForTesting(){
         uhaulLift = (DcMotorEx) hardwareMap.dcMotor.get(UHAUL_LIFT_1);
         uhaulLiftTwo = (DcMotorEx) hardwareMap.dcMotor.get(UHAUL_LIFT_2);
 
-        PIDFCoefficients pidNew = new PIDFCoefficients(kp, ki, kd, kf);
-        uhaulLift.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
-        uhaulLiftTwo.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
+
 
         uhaulLift.setDirection(DcMotor.Direction.FORWARD);
         uhaulLiftTwo.setDirection(DcMotor.Direction.FORWARD);

@@ -39,7 +39,7 @@ package org.firstinspires.ftc.teamcode.BigDipper;
  
  //monitor: 640 x 480
 
-@Autonomous(name= "BDVision", group="TEST AUTO")
+@Autonomous(name= "LukeMoment Auto w/ Vision", group="Tank")
 
 public class BDVision extends BaseLinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
