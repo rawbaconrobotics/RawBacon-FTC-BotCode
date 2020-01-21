@@ -360,7 +360,7 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
             targetDistLeft = leftDriveFront.getCurrentPosition() + (int) (distance_inches * COUNTS_PER_INCH);
             targetDistRight = rightDriveFront.getCurrentPosition() + (int) (distance_inches * COUNTS_PER_INCH);
 
-            leftDriveFront.setTargetPosition(targetDistLeft);
+          /*  leftDriveFront.setTargetPosition(targetDistLeft);
             rightDriveFront.setTargetPosition(targetDistRight);
             leftDriveBack.setTargetPosition(targetDistLeft);
             rightDriveBack.setTargetPosition(targetDistRight);
@@ -373,16 +373,23 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
             rightDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             System.out.println("SET MODE RUN TO POSITION");
+*/
+            leftDriveBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            leftDriveFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            rightDriveBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            rightDriveFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+            runUsingEncoders();
 
             runtime.reset();
 
-            drive(speedWeWant);
+           // drive(speedWeWant);
             //drive(speed);
             System.out.println("DRIVING AT THAT SPEED");
 
             while (opModeIsActive() &&
                     (runtime.seconds() < timeoutS) &&
-                    (leftDriveBack.isBusy()))
+                    ((Math.abs((leftDriveBack.getCurrentPosition() + leftDriveFront.getCurrentPosition() + rightDriveBack.getCurrentPosition() + rightDriveFront.getCurrentPosition())/4)) < (Math.abs((distance_inches * COUNTS_PER_INCH)))))
             {
 
 
@@ -392,7 +399,7 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
                     sleep(100);
                 }
                 // Display it for the driver.
-                telemetry.addData("Path1",  "Running to %7d :%7d");
+             /*   telemetry.addData("Path1",  "Running to %7d :%7d");
                 telemetry.addData("Path2",  "Running at %7d :%7d");
                 String s1 = Boolean.toString(leftDriveFront.isBusy());
                 String s2 = Boolean.toString(rightDriveFront.isBusy());
@@ -405,20 +412,18 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
 
                 telemetry.update();
                 System.out.println("ROBOT SHOULD BE RUNNING NOW");
-
+*/
             }
             drive(0);
             System.out.println("ROBOT STOPPED");
 
-            runUsingEncoders();
+            //runUsingEncoders();
             System.out.println("RUN USING ENCODERS METHOD RAN");
 
         }
 
     }
     public void strafeFor(double distance_inches, double speed, boolean strafingLeft, double timeoutS) {
-        //CURRENTLY ONLY USING 1 OUT OF 4 ENCODERS, COULD BE MADE MORE ACCURATE!
-        System.out.println("DRIVEFOR METHOD CALLED");
 
         //runUsingEncoders();
 
@@ -434,9 +439,11 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
             rightDriveBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             rightDriveFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-            targetDist = leftDriveFront.getCurrentPosition() + (int) (distance_inches * COUNTS_PER_INCH);
+            runUsingEncoders();
+
+            //targetDist = leftDriveFront.getCurrentPosition() + (int) (distance_inches * COUNTS_PER_INCH);
             double currentSpeed = betterDrive(speed);
-            if(strafingLeft){
+            /*if(strafingLeft){
                 leftDriveBack.setTargetPosition(targetDist);
                 rightDriveBack.setTargetPosition(-targetDist);
                 rightDriveFront.setTargetPosition(targetDist);
@@ -448,21 +455,22 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
                 rightDriveFront.setTargetPosition(-targetDist);
                 leftDriveFront.setTargetPosition(targetDist);
             }
+            */
 
-            System.out.println("SET TARGET POSITIONS");
 
-            leftDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            /*leftDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             leftDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            System.out.println("SET MODE RUN TO POSITION");
+             */
+
 
             runtime.reset();
 
-            strafe(currentSpeed, strafingLeft);
+          //  strafe(currentSpeed, strafingLeft);
 
-            System.out.println("DRIVING AT THAT SPEED");
 
 
             while (opModeIsActive() &&
@@ -471,40 +479,29 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
 
                 if(currentSpeed != leftDriveBack.getPower()){
                     currentSpeed = betterDrive(speed);
-                    drive(currentSpeed);
+                    strafe(currentSpeed, strafingLeft);
                     sleep(100);
                 }
 
 
                 // Display it for the driver.
-                telemetry.addData("Path1",  "Running to %7d :%7d");
-                telemetry.addData("Path2",  "Running at %7d :%7d");
-                String s3 = Boolean.toString(leftDriveBack.isBusy());
-                String s4 = Boolean.toString(rightDriveBack.isBusy());
 
-                telemetry.addData("BACK LEFT: " + s3," and BACK RIGHT " + s4);
-                telemetry.update();
-
-                telemetry.update();
-                System.out.println("ROBOT SHOULD BE RUNNING NOW");
 
             }
             drive(0);
             System.out.println("ROBOT STOPPED");
 
-            runUsingEncoders();
+           // runUsingEncoders();
             System.out.println("RUN USING ENCODERS METHOD RAN");
 
         }
-        leftDriveBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftDriveFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightDriveBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightDriveFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
 
     }
 
     //TURNS USING IMU HEADING!!! ALTERNATIVE ONE THAT USES ENCODERS, BUT THEN IMU TO VERIFY ANGLE FOUND HERE:
     //     https://gist.github.com/lukehasawii/b17ee074bfe98d056b97725c67670539
+
 
     public void turnFor(int degrees, double speed, double timeoutS) {
         System.out.println("TURNFOR METHOD CALLED");
@@ -520,6 +517,14 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
             } else {
                 turningRight = false;
             }
+
+
+         //   leftDriveBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+         //   leftDriveFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+         //   rightDriveBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+         //   rightDriveFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+         //   runUsingEncoders();
 
             runtime.reset();
 
