@@ -106,13 +106,13 @@ public class BDVision extends BaseLinearOpMode {
         /** Runs the process */
         @Override
         public void run () {
+
             runtime.reset();
 
             if (valLeft == 0) { // stone is on left, run left path
                 System.out.println("DRIVING LEFT PATH");
                 robot.bddrivetrain.turnFor(-90, 0.5, 15);
                 sleep(1000);
-//the above needs to go
                 robot.bddrivetrain.driveFor(16, 0.5, 15);
                 sleep(1000);
                 System.out.println("DRIVING LEFT PATH PART 2");

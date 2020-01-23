@@ -39,4 +39,6 @@ public abstract class RobotComponentImplBase implements RobotComponent
     {
         return opMode.opModeIsActive();
     }
+    public boolean isStopRequested(){return opMode.isStopRequested();}
+
 }

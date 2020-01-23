@@ -50,6 +50,8 @@ public class BDDriveTrain extends RobotComponentImplBase {
 
     private static final double COUNTS_PER_DEGREE = 15;
 
+    Orientation lastAngles = new Orientation();
+
     public double currentSpeed;
 
 
@@ -80,7 +82,6 @@ public class BDDriveTrain extends RobotComponentImplBase {
     boolean speedModeOn;
 
     BNO055IMU imu;
-    Orientation lastAngles = new Orientation();
     double globalAngle, power = .30, correction;
 
     double realAngle = 0;
@@ -183,6 +184,7 @@ public class BDDriveTrain extends RobotComponentImplBase {
         //wheelAccelerationThread.start();
 
         runUsingEncoders();
+
 
     }
 
@@ -492,94 +494,124 @@ public class BDDriveTrain extends RobotComponentImplBase {
 
     //TURNS USING IMU HEADING!!! ALTERNATIVE ONE THAT USES ENCODERS, BUT THEN IMU TO VERIFY ANGLE FOUND HERE:
     //     https://gist.github.com/lukehasawii/b17ee074bfe98d056b97725c67670539
+    double leftPow;
+    double rightPow;
+    double error = 100; //random number greater than 2;
 
 
-    public void turnFor(int degrees, double speed, double timeoutS) {
-        System.out.println("TURNFOR METHOD CALLED");
-        degreesWanted = degrees;
+    /**
+     * Resets the cumulative angle tracking to zero.
+     */
+    public void resetAngle()
+    {
+        lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
-        int targetDistLeft;
-        int targetDistRight;
-        boolean turningRight = false;
-        if (opModeIsActive()) {
-            if (degrees > 0) {
-                targetDistRight = rightDriveFront.getCurrentPosition() - (int) (degrees * COUNTS_PER_DEGREE * COUNTS_PER_MOTOR_REV);
-                targetDistLeft = leftDriveFront.getCurrentPosition() + (int) (degrees * COUNTS_PER_DEGREE * COUNTS_PER_MOTOR_REV);
-
-                leftDriveFront.setTargetPosition(targetDistLeft);
-                leftDriveBack.setTargetPosition(targetDistLeft);
-                rightDriveFront.setTargetPosition(targetDistRight);
-                rightDriveBack.setTargetPosition(targetDistRight);
-
-                System.out.println("SET TURNING TARGET POS.");
-
-
-                leftDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                leftDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                rightDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                rightDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                System.out.println("SET RUN TO POSITION");
-
-            } else {
-                targetDistRight = rightDriveFront.getCurrentPosition() + (int) (degrees * COUNTS_PER_DEGREE);
-                targetDistLeft = leftDriveFront.getCurrentPosition() - (int) (degrees * COUNTS_PER_DEGREE);
-
-                leftDriveFront.setTargetPosition(targetDistLeft);
-                leftDriveBack.setTargetPosition(targetDistLeft);
-                rightDriveFront.setTargetPosition(targetDistRight);
-                rightDriveBack.setTargetPosition(targetDistRight);
-
-                System.out.println("SET TURNING TARGET POS.");
-
-
-                leftDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                leftDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                rightDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                rightDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                System.out.println("SET RUN TO POSITION");
-
-
-            }
-
-            if (degrees > 0) {
-                turningRight = true;
-            } else {
-                turningRight = false;
-            }
-
-            System.out.println("ABOUT TO RUN TURN COMMAND");
-            runtime.reset();
-
-            // headingAngle = getAngle();
-
-            turn(speed, turningRight);
-
-            System.out.println("TURN COMMAND COMPLETED");
-
-
-            while (opModeIsActive() &&
-                    (runtime.seconds() < timeoutS) &&
-                    (leftDriveFront.isBusy() && rightDriveFront.isBusy())) {
-
-                // Display it for the driver.
-                telemetry.addData("Path1", "Running to %7d :%7d");
-                telemetry.addData("Path2", "Running at %7d :%7d");
-                System.out.println("TURNING THE ROBOT");
-
-                telemetry.update();
-            }
-            drive(0);
-            System.out.println("SPEED SET TO 0");
-
-            runUsingEncoders();
-            System.out.println("RAN RUNUSINGENCODERS");
-            realAngle = getAngle();
-        }
+        globalAngle = 0;
     }
 
+    /**
+     * Get current cumulative angle rotation from last reset.
+     * @return Angle in degrees. + = left, - = right.
+     */
+    public double getAngle()
+    {
+        // We experimentally determined the Z axis is the axis we want to use for heading angle.
+        // We have to process the angle because the imu works in euler angles so the Z axis is
+        // returned as 0 to +180 or 0 to -180 rolling back to -179 or +179 when rotation passes
+        // 180 degrees. We detect this transition and track the total cumulative angle of rotation.
 
+        Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        double deltaAngle = angles.firstAngle - lastAngles.firstAngle;
+
+        if (deltaAngle < -180)
+            deltaAngle += 360;
+        else if (deltaAngle > 180)
+            deltaAngle -= 360;
+
+        globalAngle += deltaAngle;
+
+        lastAngles = angles;
+
+        return globalAngle;
+    }
+
+    /**
+     * See if we are moving in a straight line and if not return a power correction value.
+     * @return Power adjustment, + is adjust left - is adjust right.
+     */
+    public double checkDirection()
+    {
+        // The gain value determines how sensitive the correction is to direction changes.
+        // You will have to experiment with your robot to get small smooth direction changes
+        // to stay on a straight line.
+        double correction, angle, gain = .10;
+
+        angle = getAngle();
+
+        if (angle == 0)
+            correction = 0;             // no adjustment.
+        else
+            correction = -angle;        // reverse sign of angle for correction.
+
+        correction = correction * gain;
+
+        return correction;
+    }
+
+    /**
+     * Rotate left or right the number of degrees. Does not support turning more than 180 degrees.
+     * @param  origDegrees to turn, + is RIGHT - is LEFT
+     */
+    public void turnFor(double origDegrees, double power, double timeoutS) {
+        double leftPower, rightPower;
+        double degrees = (int) -origDegrees; //- is actually right but that isn't very useful so it is flipped in the param
+
+        // restart imu movement tracking.
+        resetAngle();
+
+        // getAngle() returns + when rotating counter clockwise (left) and - when rotating
+        // clockwise (right).
+
+        if (degrees < 0) {   // turn right.
+            leftPower = power;
+            rightPower = -power;
+        } else if (degrees > 0) {   // turn left.
+            leftPower = -power;
+            rightPower = power;
+        } else return;
+
+        // set power to rotate.
+        leftDriveBack.setPower(leftPower);
+        leftDriveFront.setPower(leftPower);
+        rightDriveBack.setPower(rightPower);
+        rightDriveFront.setPower(rightPower);
+        runtime.reset();
+
+        // rotate until turn is completed.
+        if (degrees < 0) {
+            // On right turn we have to get off zero first.
+            while (opModeIsActive() && getAngle() == 0) {
+            }
+
+            while ((opModeIsActive() && getAngle() > degrees) && (runtime.seconds() < timeoutS)) {
+            }
+        } else    // left turn.
+            while ((opModeIsActive() && getAngle() < degrees) && (runtime.seconds() < timeoutS)) {
+            }
+
+        // turn the motors off.
+        leftDriveBack.setPower(0);
+        leftDriveFront.setPower(0);
+        rightDriveBack.setPower(0);
+        rightDriveFront.setPower(0);
+
+        // wait for rotation to stop.
+        sleep(500); //use 1000 if this is not enough
+
+        // reset angle tracking on new heading.
+        resetAngle();
+    }
 
 
             /** Runs the proccess using encoders */
@@ -599,21 +631,7 @@ public class BDDriveTrain extends RobotComponentImplBase {
         System.out.println("STOPDRIVE completed");
     }
 
-    private double getAngle() {
-        // We experimentally determined the Z axis is the axis we want to use for heading angle.
-        // We have to process the angle because the imu works in euler angles so the Z axis is
-        // returned as 0 to +180 or 0 to -180 rolling back to -179 or +179 when rotation passes
-        // 180 degrees. We detect this transition and track the total cumulative angle of rotation.
-        Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        double deltaAngle = angles.firstAngle - lastAngles.firstAngle;
-        if (deltaAngle < -180)
-            deltaAngle += 360;
-        else if (deltaAngle > 180)
-            deltaAngle -= 360;
-        globalAngle += deltaAngle;
-        lastAngles = angles;
-        return globalAngle;
-    }
+
 
     public double maxLeft, maxRight, max, ratio;
 
