@@ -38,7 +38,7 @@ import static org.firstinspires.ftc.teamcode.Uhaul.RoadRunnerTest.drive.DriveCon
  * ctor.
  */
 @Config
-@Autonomous(name = "Uhaul PID Tuner", group = "drive")
+@Autonomous(name = "PID Tuner", group = "drive")
 public class DriveVelocityPIDTuner extends LinearOpMode {
     public static double DISTANCE = 72;
 

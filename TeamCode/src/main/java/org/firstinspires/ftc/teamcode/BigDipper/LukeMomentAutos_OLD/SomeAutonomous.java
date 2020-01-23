@@ -1,19 +1,16 @@
-package org.firstinspires.ftc.teamcode.BigDipper;
+package org.firstinspires.ftc.teamcode.BigDipper.LukeMomentAutos_OLD;
 
 import android.graphics.Bitmap;
-import android.hardware.Camera;
+
 import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.vuforia.CameraDevice;
 import com.vuforia.Image;
 import com.vuforia.PIXEL_FORMAT;
 import com.vuforia.Vuforia;
 
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
@@ -33,6 +30,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
  * park under the bridge.
  * @author Raw Bacon Coders
  */
+@Disabled
 @Autonomous(name="OFFICIAL Autonomous", group="Big Dipper")
 
 public class SomeAutonomous extends BaseLinearOpMode {

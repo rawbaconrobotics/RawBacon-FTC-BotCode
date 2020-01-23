@@ -1,7 +1,8 @@
-package org.firstinspires.ftc.teamcode.BigDipper;
+package org.firstinspires.ftc.teamcode.BigDipper.LukeMomentAutos_OLD;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BaseLinearOpMode;
 
@@ -12,7 +13,7 @@ import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BaseLinearOpMode
 
 
 
-@Config
+@Disabled
 @Autonomous(name = "LukeMomentAutoRedMiddle", group = "Big Dipper")
 
 public class LukeMomentAutoRedMiddle extends BaseLinearOpMode {

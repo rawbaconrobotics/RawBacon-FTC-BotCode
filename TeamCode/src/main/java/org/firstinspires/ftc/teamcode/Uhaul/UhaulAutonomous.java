@@ -35,6 +35,7 @@ import static android.os.SystemClock.sleep;
  * @author Raw Bacon Coders
  * Defines the Uhaul Autonomous
  */
+@Disabled
 @Autonomous(name= "Uhaul Autonomous (Official)", group="Uhaul")
 
 //

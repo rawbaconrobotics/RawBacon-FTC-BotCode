@@ -32,7 +32,7 @@ import static org.firstinspires.ftc.teamcode.Uhaul.RoadRunnerTest.drive.DriveCon
  *      regression.
  */
 @Config
-@Autonomous(name = "Uhaul FeedForward Tuner", group = "drive")
+@Autonomous(name = "FeedForward Tuner", group = "drive")
 public class DriveFeedforwardTuner extends LinearOpMode {
     public static final double MAX_POWER = 0.7;
     public static final double DISTANCE = 100;

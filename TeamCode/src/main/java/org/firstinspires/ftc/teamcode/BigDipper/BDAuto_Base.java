@@ -2,55 +2,47 @@ package org.firstinspires.ftc.teamcode.BigDipper;
 
 
 
+        import com.acmerobotics.dashboard.config.Config;
         import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-        import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-        import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
         import com.qualcomm.robotcore.util.ElapsedTime;
 
         import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
         import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BaseLinearOpMode;
-        import org.firstinspires.ftc.teamcode.Uhaul.UhaulAutonomous;
         import org.opencv.core.Core;
         import org.opencv.core.Mat;
         import org.opencv.core.MatOfPoint;
-        import org.opencv.core.MatOfPoint2f;
         import org.opencv.core.Point;
-        import org.opencv.core.Rect;
         import org.opencv.core.Scalar;
         import org.opencv.imgproc.Imgproc;
         import org.openftc.easyopencv.OpenCvCamera;
         import org.openftc.easyopencv.OpenCvCameraFactory;
         import org.openftc.easyopencv.OpenCvCameraRotation;
-        import org.openftc.easyopencv.OpenCvInternalCamera;
         import org.openftc.easyopencv.OpenCvPipeline;
 
         import java.util.ArrayList;
         import java.util.List;
 
-        import static android.os.SystemClock.sleep;
-
 
 /**
  * @author Raw Bacon Coders
- * Defines the vision
+ * Autonomous for robot
  */
  //nerverest ticks
  //60 1680
  //40 1120
  //20 560
- 
- //monitor: 640 x 480
+@Config
+@Autonomous(name= "Tank OFFICIAL Autonomous Base", group="Tank")
 
-@Autonomous(name= "LukeMoment Auto w/ Vision", group="Tank")
-
-public class BDVision extends BaseLinearOpMode {
+public class BDAuto_Base extends BaseLinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
-    //0 means skystone, 1 means yellow stone
+    //0 means skystone, 1 (or 255) means yellow stone
     //-1 for debug, but we can keep it like this because if it works, it should change to either 0 or 255
     private static int valMid = -1;
     private static int valLeft = -1;
     private static int valRight = -1;
+
 
     private static float rectHeight = .6f/8f;
     private static float rectWidth = 1.5f/8f;
@@ -66,19 +58,21 @@ public class BDVision extends BaseLinearOpMode {
     private final int rows = 640;
     private final int cols = 480;
 
+
     OpenCvCamera webcam;
 
     /** Defines a proccess that starts when initialization occurs */
     @Override
     public void on_init() {
         System.out.println("INIT PROCESS STARTING");
-
         robot.bddrivetrain.initAutonomous();
-
         robot.bdlatch.initAutonomous();
+        robot.bdtapemeasure.initAutonomous();
+        robot.bdgrabber.initAutonomous();
+        robot.bdcapstone.initAutonomous();
 
-
-      //  int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        //The following commented out code is what we would use if we didn't have a webcam.
+        //  int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
       //  phoneCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
       //  phoneCam.openCameraDevice();//open camera
       //  phoneCam.setPipeline(new StageSwitchingPipeline());//different stages
@@ -89,7 +83,7 @@ public class BDVision extends BaseLinearOpMode {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         webcam.openCameraDevice();//open camera
-        webcam.setPipeline(new BDVision.StageSwitchingPipeline());//different stages
+        webcam.setPipeline(new BDAuto_Base.StageSwitchingPipeline());//different stages
         webcam.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT);//display on RC
         //width, height
         //width = height in this case, because camera is in portrait mode.
@@ -104,107 +98,75 @@ public class BDVision extends BaseLinearOpMode {
 
         }
         /** Runs the process */
+
+        /*Sebastian, here is where you code the auto. If you need to code for a scenario where we don't start by
+        looking at stones, just reuse one of the old lukemoment autos (add @Config at beginning for dashboard). I re-coded
+        turnfor using gyros that work so I *hope*
+        that it works. I'm pretty sure this is obvious but I just wanted to mention, add the tasks that the robot can do
+        are under our robot class, so you will be calling all functions under robot.component.function.
+        For easier testing if you make a distance into a static variable (outside of the function) then just reference it
+        here, you can change the values live with FTC dashboard. Just make sure you're connected to the phone wifi
+        and go to http://192.168.49.1:8080/dash and you're good. Just make sure to scroll up and click save every time you
+        change something and of course because the values don't save to the code file, when you get them down, write
+        them down somewhere else to transfer here!
+
+        Oh last thing dont forget to push at the end of the day thanks
+
+        -Luke
+         */
         @Override
         public void run () {
 
             runtime.reset();
 
             if (valLeft == 0) { // stone is on left, run left path
-                System.out.println("DRIVING LEFT PATH");
-                robot.bddrivetrain.turnFor(-90, 0.5, 15);
-                sleep(1000);
-                robot.bddrivetrain.driveFor(16, 0.5, 15);
-                sleep(1000);
-                System.out.println("DRIVING LEFT PATH PART 2");
-                robot.bddrivetrain.turnFor(-90, 0.5, 15);
-                sleep(1000);
-                robot.bddrivetrain.driveFor(9, 0.5, 15);
-                sleep(1000);
+
+                robot.bddrivetrain.strafeFor(9,2,true,15);
+                sleep(500);
+                //I hope turnfor works! If not just look at our github history there's something somewhere
                 robot.bddrivetrain.turnFor(90, 0.5, 15);
                 sleep(1000);
-                robot.bddrivetrain.driveFor(18, 0.5, 15);
+                robot.bddrivetrain.driveFor(25.125, 0.5, 15);
                 sleep(1000);
-                robot.bddrivetrain.turnFor(-180, 0.5, 15);
+                robot.bdcapstone.openCapstoneAuto();
                 sleep(1000);
-                robot.bddrivetrain.driveFor(23.5, 0.5, 15);
+                robot.bdcapstone.closeCapstoneAuto();
                 sleep(1000);
+                robot.bdgrabber.grabDownAuto();
+                sleep(1000);
+                robot.bdgrabber.grabUpAuto();
+
+            } else if (valMid == 0) { // stone is in middle, run middle path
+
+                robot.bddrivetrain.strafeFor(9,2,true,15);
+                sleep(500);
                 robot.bddrivetrain.turnFor(90, 0.5, 15);
                 sleep(1000);
                 robot.bddrivetrain.driveFor(25.125, 0.5, 15);
                 sleep(1000);
 
-            } else if (valMid == 0) { // stone is in middle, run middle path
-//move straight approx 34 inches, turn 180 degrees counter clockwise, go forward 47/2 inches, turn 90 deg. clockwise, forward 34.125 inches.
-                robot.bddrivetrain.driveFor(34, 0.5, 15);
-                sleep(1000);
-                System.out.println("DRIVING MID PATH");
-
-                robot.bddrivetrain.turnFor(-180, 0.5, 15);
-                sleep(1000);
-                System.out.println("DRIVING MID PATH PART 2");
-
-                robot.bddrivetrain.driveFor(23.5, 0.5, 15);
-                sleep(1000);
-                robot.bddrivetrain.turnFor(90, 0.5, 15);
-                sleep(1000);
-                robot.bddrivetrain.driveFor(34.125, 0.5, 15);
-                sleep(1000);
-
-
-
-
             } else if (valRight == 0) { //stone on right, run right path
 
-                robot.bddrivetrain.driveFor(16, 0.5, 5);
-                sleep(1000);
-                System.out.println("DRIVING RIGHT PATH");
-
+                robot.bddrivetrain.strafeFor(9,2,true,15);
+                sleep(500);
                 robot.bddrivetrain.turnFor(90, 0.5, 15);
                 sleep(1000);
-                System.out.println("DRIVING RIGHT PATH PART 2");
-
-                robot.bddrivetrain.driveFor(9, 0.5, 15);
+                robot.bddrivetrain.driveFor(25.125, 0.5, 15);
                 sleep(1000);
-                robot.bddrivetrain.turnFor(-90, 0.5, 15);
-                sleep(1000);
-                robot.bddrivetrain.driveFor(18,0.5, 15);
-                sleep(1000);
-                robot.bddrivetrain.turnFor(-180, 0.5, 15);
-                sleep(1000);
-                robot.bddrivetrain.driveFor(23.5, 0.5, 15);
-                sleep(1000);
-                robot.bddrivetrain.turnFor(90, 0.5, 15);
-                sleep(1000);
-                robot.bddrivetrain.driveFor(48.125, 0.5, 15);
-                sleep(1000);
-                robot.bddrivetrain.driveFor(-5, -0.5, 15);
-                sleep(1000);
-
-
 
             } else {
-                //whoops it broke
-                telemetry.addData("UNABLE TO FIND SKYSTONE", ", GOING TO SKYBRIDGE");
-                telemetry.update();
-                System.out.println("IT BROKE");
+                    //skystone location cannot be determined, either try for a random one or just grab the foundation
 
-                robot.bddrivetrain.driveFor(9, 0.5, 15);
+                robot.bddrivetrain.strafeFor(9,2,true,15);
+                sleep(500);
+                robot.bddrivetrain.turnFor(90, 0.5, 15);
                 sleep(1000);
-                robot.bddrivetrain.turnFor(-90, 0.5, 15);
-                sleep(1000);
-                robot.bddrivetrain.driveFor(47, 0.5, 15);
+                robot.bddrivetrain.driveFor(25.125, 0.5, 15);
                 sleep(1000);
 
 
             }
-
-
-
             telemetry.addData("PATH", "COMPLETE");
-            System.out.println("PATH COMPLETE");
-
-
-            sleep(100);
             //call movement functions
 //            strafe(0.4, 200);
 //            moveDistance(0.4, 700);
@@ -212,12 +174,12 @@ public class BDVision extends BaseLinearOpMode {
         }
 
 
-        /** Stops the vision process */
+        /** What the robot should do when it sees the stop button was pressed / timer ended */
     public void on_stop() {
-
+//Nothing.
     }
 
-    //detection pipeline
+    //detection pipeline --- don't mess with any of this unless CV detection area is sketchy
     static class StageSwitchingPipeline extends OpenCvPipeline
     {
         Mat yCbCrChan2Mat = new Mat();

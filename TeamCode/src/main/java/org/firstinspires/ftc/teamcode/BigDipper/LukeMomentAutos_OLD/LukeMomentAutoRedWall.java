@@ -1,7 +1,8 @@
-package org.firstinspires.ftc.teamcode.BigDipper;
+package org.firstinspires.ftc.teamcode.BigDipper.LukeMomentAutos_OLD;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BDLatch;
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BaseLinearOpMode;
@@ -13,7 +14,7 @@ import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BaseLinearOpMode
  * Scores the foundation and parks under the bridge
  * @author Raw Bacon Coders
  */
-@Config
+@Disabled
 @Autonomous(name = "LukeMoment Autonomous", group = "Big Dipper")
 
 public class LukeMomentAutoRedWall extends BaseLinearOpMode {

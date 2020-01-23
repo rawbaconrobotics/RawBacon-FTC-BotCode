@@ -11,6 +11,8 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+import static android.os.SystemClock.sleep;
+
 /**
  * Represents the grabber  
  * @author Raw Bacon Coders
@@ -68,5 +70,16 @@ public class BDGrabber extends RobotComponentImplBase{
         if(!openGrabber || !closeGrabber){
                 grabberServo.setPower(0);
         }
+    }
+
+    public void grabDownAuto(){
+        grabberServo.setPower(-0.6);
+        sleep(1000);
+        grabberServo.setPower(0);
+    }
+    public void grabUpAuto(){
+        grabberServo.setPower(0.6);
+        sleep(1000);
+        grabberServo.setPower(0);
     }
 }

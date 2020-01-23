@@ -63,5 +63,6 @@ public class BDTapeMeasure extends RobotComponentImplBase{
             tapeMeasureServo.setPower(measurePower);
             previousPower = measurePower;
         }
-        }
+    }
+
 }

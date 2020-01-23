@@ -70,4 +70,11 @@ public class BDCapstone extends RobotComponentImplBase {
         }
 
     }
+
+    public void openCapstoneAuto(){
+        bdCapstone.setPosition(CAPSTONE_OPEN);
+    }
+    public void closeCapstoneAuto(){
+        bdCapstone.setPosition(CAPSTONE_CLOSED);
+    }
 }

@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Uhaul;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 
@@ -8,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  * This class tests the Uhaul Life Encoder
  */
 @TeleOp(name="Uhaul Lift Encoder Test", group="Uhaul")
+@Disabled
 public class UhaulLiftEncoderValueTest extends UhaulLinearOpMode {
 
 

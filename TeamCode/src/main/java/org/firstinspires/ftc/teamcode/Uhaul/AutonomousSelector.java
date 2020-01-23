@@ -18,7 +18,7 @@ import com.qualcomm.robotcore.util.ReadWriteFile;
  * @author Raw Bacon Coders
  * Selects which autonomous to use
  */
-@TeleOp(name = "Autonomous Selector", group = "Uhaul")
+@TeleOp(name = "Autonomous Selector")
 //@Disabled
 public class AutonomousSelector extends LinearOpMode {
 

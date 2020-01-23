@@ -2,12 +2,14 @@ package org.firstinspires.ftc.teamcode.Uhaul.UhaulAuto;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BDLatch;
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BaseLinearOpMode;
 import org.firstinspires.ftc.teamcode.Uhaul.UhaulLinearOpMode;
 
 @Config
+@Disabled
 @Autonomous(name = "UhaulRedFoundWall", group = "Uhaul")
 
 public class UhaulRedFoundWall extends UhaulLinearOpMode {

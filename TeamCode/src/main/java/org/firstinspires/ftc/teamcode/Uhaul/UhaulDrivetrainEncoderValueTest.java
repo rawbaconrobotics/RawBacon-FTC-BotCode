@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Uhaul;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -14,6 +15,7 @@ import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BaseLinearOpMode
  * Tests the Uhaul Drivetrain Encoder
  */
 @TeleOp(name="Uhaul Drivetrain Encoder Test", group="Uhaul")
+@Disabled
 
 public class UhaulDrivetrainEncoderValueTest extends LinearOpMode {
 
