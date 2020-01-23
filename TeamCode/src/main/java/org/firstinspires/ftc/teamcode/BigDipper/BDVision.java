@@ -7,7 +7,9 @@ package org.firstinspires.ftc.teamcode.BigDipper;
         import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
         import com.qualcomm.robotcore.util.ElapsedTime;
 
+        import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
         import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BaseLinearOpMode;
+        import org.firstinspires.ftc.teamcode.Uhaul.UhaulAutonomous;
         import org.opencv.core.Core;
         import org.opencv.core.Mat;
         import org.opencv.core.MatOfPoint;
@@ -64,7 +66,7 @@ public class BDVision extends BaseLinearOpMode {
     private final int rows = 640;
     private final int cols = 480;
 
-    OpenCvCamera phoneCam;
+    OpenCvCamera webcam;
 
     /** Defines a proccess that starts when initialization occurs */
     @Override
@@ -76,11 +78,19 @@ public class BDVision extends BaseLinearOpMode {
         robot.bdlatch.initAutonomous();
 
 
+      //  int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+      //  phoneCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
+      //  phoneCam.openCameraDevice();//open camera
+      //  phoneCam.setPipeline(new StageSwitchingPipeline());//different stages
+      //  phoneCam.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT);//display on RC
+        //width, height
+        //width = height in this case, because camera is in portrait mode.
+
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        phoneCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
-        phoneCam.openCameraDevice();//open camera
-        phoneCam.setPipeline(new StageSwitchingPipeline());//different stages
-        phoneCam.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT);//display on RC
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+        webcam.openCameraDevice();//open camera
+        webcam.setPipeline(new BDVision.StageSwitchingPipeline());//different stages
+        webcam.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT);//display on RC
         //width, height
         //width = height in this case, because camera is in portrait mode.
 

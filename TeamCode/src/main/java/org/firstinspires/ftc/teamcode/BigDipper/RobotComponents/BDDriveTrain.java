@@ -20,7 +20,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.RobotComponentImplBase;
 
 import java.time.temporal.ValueRange;
 import java.util.stream.IntStream;
@@ -29,28 +28,27 @@ import static android.os.SystemClock.sleep;
 
 
 /**
- * Represents the four wheel mechanum drive on Tank
- * Currently the same as Uhaul's Drivetrain Code, with custom PID.
+ * Represents the four wheel mechanum drive on Uhaul
  * @author Raw Bacon Coders
  */
 public class BDDriveTrain extends RobotComponentImplBase {
 
-    double kp = 0.3;
-    double ki = 0.1;
-    double kd = 0;
-    double kf = 12.6;
+    double kp = 14;
+    double ki = 0;
+    double kd = 8;
+    double kf = 0;
 
     final double WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT = 2;
     final double WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT = 15;
     final double WHEEL_MINIMUM_POWER = 0.3; //Allows for deadband compensation.
     final double WHEEL_MAXIMUM_POWER = 1.0;
 
-    private static final double   COUNTS_PER_MOTOR_REV    = 1120; //1440
-    private static final double   DRIVE_GEAR_REDUCTION    = 1.0;
-    private static final double   WHEEL_DIAMETER_INCHES   = 4.0;
-    private static final double   COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV*DRIVE_GEAR_REDUCTION)/(WHEEL_DIAMETER_INCHES * 3.1415);
+    private static final double COUNTS_PER_MOTOR_REV = 1120; //1440
+    private static final double DRIVE_GEAR_REDUCTION = 1.0;
+    private static final double WHEEL_DIAMETER_INCHES = 4.0;
+    private static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
 
-    private static final double   COUNTS_PER_DEGREE          = 15;
+    private static final double COUNTS_PER_DEGREE = 15;
 
     public double currentSpeed;
 
@@ -82,13 +80,11 @@ public class BDDriveTrain extends RobotComponentImplBase {
     boolean speedModeOn;
 
     BNO055IMU imu;
-    Orientation   lastAngles = new Orientation();
+    Orientation lastAngles = new Orientation();
     double globalAngle, power = .30, correction;
 
     double realAngle = 0;
     double degreesWanted = 0;
-
-
 
 
     /**
@@ -107,10 +103,10 @@ public class BDDriveTrain extends RobotComponentImplBase {
         leftDriveFront = (DcMotorEx) hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME);
         rightDriveFront = (DcMotorEx) hardwareMap.dcMotor.get(FRONTRIGHT_WHEEL_NAME);
 
-        leftDriveFront.setDirection(DcMotor.Direction.REVERSE);
-        rightDriveFront.setDirection(DcMotor.Direction.FORWARD);
-        leftDriveBack.setDirection(DcMotor.Direction.REVERSE);
-        rightDriveBack.setDirection(DcMotor.Direction.FORWARD);
+        leftDriveFront.setDirection(DcMotor.Direction.FORWARD);
+        rightDriveFront.setDirection(DcMotor.Direction.REVERSE);
+        leftDriveBack.setDirection(DcMotor.Direction.FORWARD);
+        rightDriveBack.setDirection(DcMotor.Direction.REVERSE);
 
         leftDriveFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftDriveBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -135,7 +131,7 @@ public class BDDriveTrain extends RobotComponentImplBase {
      * Hardware maps and sets modes of all motors and sets up the imu
      */
     @Override
-    public void initAutonomous(){
+    public void initAutonomous() {
         System.out.println("STARTING TO INIT AUTONOMOUS...");
 
         leftDriveBack = (DcMotorEx) hardwareMap.dcMotor.get(BACKLEFT_WHEEL_NAME);
@@ -168,11 +164,11 @@ public class BDDriveTrain extends RobotComponentImplBase {
         //rightDriveBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
-        parameters.loggingEnabled      = true;
-        parameters.loggingTag          = "IMU";
+        parameters.loggingEnabled = true;
+        parameters.loggingTag = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
         // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
         // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
@@ -199,13 +195,14 @@ public class BDDriveTrain extends RobotComponentImplBase {
         double drive = -gamepad1.left_stick_y;
         double turn = gamepad1.right_stick_x;
 
-        mechanumTeleOp(gamepad1.left_stick_x,gamepad1.left_stick_y,-gamepad1.right_stick_x);
+        mechanumTeleOp(gamepad1.left_stick_x, gamepad1.left_stick_y, -gamepad1.right_stick_x);
     }
 
     /**
      * Adds the forward movement, strafing, and rotation together, normalizes them, and sets the motor powers appropriatly
-     * @param x the strafing speed, with -1 being full speed left, and 1 being full speed right
-     * @param y the forward speed, from -1 to 1
+     *
+     * @param x        the strafing speed, with -1 being full speed left, and 1 being full speed right
+     * @param y        the forward speed, from -1 to 1
      * @param rotation the rotation speed, with -1 being full speed left, and 1 being full speed right
      */
     public void mechanumTeleOp(double x, double y, double rotation) {
@@ -219,14 +216,13 @@ public class BDDriveTrain extends RobotComponentImplBase {
         //normalize(wheelSpeeds);
         double[] normalSpeeds = normalizeAuto(wheelSpeeds[0], wheelSpeeds[1], wheelSpeeds[2], wheelSpeeds[3]);
 
-        if(speedModeOn) {
+        if (speedModeOn) {
             accLeftDriveBack.setDirectPower(Range.clip((normalSpeeds[0]), -1, 1));
             accRightDriveBack.setDirectPower(Range.clip((normalSpeeds[1]), -1, 1));
             accLeftDriveFront.setDirectPower(Range.clip((normalSpeeds[2]), -1, 1));
             accRightDriveFront.setDirectPower(Range.clip((normalSpeeds[3]), -1, 1));
             //normalizeAuto(wheelSpeeds[0], wheelSpeeds[1], wheelSpeeds[2], wheelSpeeds[3]);
-        }
-        else{
+        } else {
             accLeftDriveBack.setTargetPower(normalSpeeds[0]);
             accRightDriveBack.setTargetPower(normalSpeeds[1]);
             accLeftDriveFront.setTargetPower(normalSpeeds[2]);
@@ -236,6 +232,7 @@ public class BDDriveTrain extends RobotComponentImplBase {
 
     /**
      * Adjusts the motor power values to fit in the -1 to 1 range
+     *
      * @param wheelSpeeds an array with all four unadjusted motor powers
      */
     private void normalize(double[] wheelSpeeds) {
@@ -258,9 +255,10 @@ public class BDDriveTrain extends RobotComponentImplBase {
 
     /**
      * Drives forward
+     *
      * @param speed the speed of movement from -1 to 1
      */
-    public void drive(double speed){
+    public void drive(double speed) {
         System.out.println("DRIVE METHOD CALLED, SETTING TO SPEED" + speed);
 
         leftDriveBack.setPower(speed);
@@ -269,15 +267,13 @@ public class BDDriveTrain extends RobotComponentImplBase {
         rightDriveFront.setPower(speed);
     }
 
-    public void strafe(double speed, boolean strafingLeft){
-        if(strafingLeft) {
+    public void strafe(double speed, boolean strafingLeft) {
+        if (strafingLeft) {
             leftDriveBack.setPower(speed);
             rightDriveBack.setPower(-speed);
             leftDriveFront.setPower(-speed);
             rightDriveFront.setPower(speed);
-        }
-
-        else{
+        } else {
 
             leftDriveBack.setPower(-speed);
             rightDriveBack.setPower(speed);
@@ -293,10 +289,10 @@ public class BDDriveTrain extends RobotComponentImplBase {
         }
     }
 
-    public void turn(double speed, boolean clockwise){
+    public void turn(double speed, boolean clockwise) {
         System.out.println("TURN METHOD CALLED, SETTING TO SPEED " + speed + " and clockwise = " + clockwise);
 
-        if(clockwise) {
+        if (clockwise) {
 
             leftDriveBack.setPower(speed);
             rightDriveBack.setPower(-speed);
@@ -309,8 +305,7 @@ public class BDDriveTrain extends RobotComponentImplBase {
             accRightDriveFront.setTargetPower(-speed);
             */
 
-        }
-        else{
+        } else {
 
             leftDriveBack.setPower(-speed);
             rightDriveBack.setPower(speed);
@@ -326,23 +321,24 @@ public class BDDriveTrain extends RobotComponentImplBase {
 
         }
     }
-    public double betterDrive(double speed){
-        currentSpeed = Math.abs(leftDriveBack.getPower());
-        double MaxAccel = 0.1;
-        double deltaTime = 0.1;
-        double rawChange = (MaxAccel * deltaTime);
-        double targetSpeed = speed;
-        if(targetSpeed > currentSpeed){
-            currentSpeed = Math.min(targetSpeed, currentSpeed + rawChange);
-        }
-        else{
-            currentSpeed = Math.max(targetSpeed, currentSpeed - rawChange);
-        }
 
-        return currentSpeed;
+    /* public double betterDrive(double speed){
+         currentSpeed = Math.abs(leftDriveBack.getPower());
+         double MaxAccel = 0.1;
+         double deltaTime = 0.1;
+         double rawChange = (MaxAccel * deltaTime);
+         double targetSpeed = speed;
+         if(targetSpeed > currentSpeed){
+             currentSpeed = Math.min(targetSpeed, currentSpeed + rawChange);
+         }
+         else{
+             currentSpeed = Math.max(targetSpeed, currentSpeed - rawChange);
+         }
 
-    }
+         return currentSpeed;
 
+     }
+ */
     //Drive for a specified distance using encoders
     public void driveFor(double distance_inches, double speed, double timeoutS) {
         //CURRENTLY ONLY USING 1 OUT OF 4 ENCODERS, COULD BE MADE MORE ACCURATE!
@@ -355,7 +351,7 @@ public class BDDriveTrain extends RobotComponentImplBase {
         //System.out.println("RUNUSINGENCODERS COMPLETE!");
 
         if (opModeIsActive()) {
-            double speedWeWant = betterDrive(speed);
+            //double speedWeWant = betterDrive(speed);
 
             int targetDistLeft;
             int targetDistRight;
@@ -391,16 +387,12 @@ public class BDDriveTrain extends RobotComponentImplBase {
 
             while (opModeIsActive() &&
                     (runtime.seconds() < timeoutS) &&
-                    ((Math.abs((leftDriveBack.getCurrentPosition() + leftDriveFront.getCurrentPosition() + rightDriveBack.getCurrentPosition() + rightDriveFront.getCurrentPosition())/4)) < (Math.abs((distance_inches * COUNTS_PER_INCH)))))
-            {
+                    ((Math.abs((leftDriveBack.getCurrentPosition() + leftDriveFront.getCurrentPosition() + rightDriveBack.getCurrentPosition() + rightDriveFront.getCurrentPosition()) / 4)) < (Math.abs((distance_inches * COUNTS_PER_INCH))))) {
 
 
-                if(speedWeWant != leftDriveBack.getPower()){
-                    speedWeWant = betterDrive(speed);
-                    drive(speedWeWant);
-                    sleep(100);
-                }
-                // Display it for the driver.
+                drive(speed);
+            }
+            // Display it for the driver.
              /*   telemetry.addData("Path1",  "Running to %7d :%7d");
                 telemetry.addData("Path2",  "Running at %7d :%7d");
                 String s1 = Boolean.toString(leftDriveFront.isBusy());
@@ -415,16 +407,16 @@ public class BDDriveTrain extends RobotComponentImplBase {
                 telemetry.update();
                 System.out.println("ROBOT SHOULD BE RUNNING NOW");
 */
-            }
-            drive(0);
-            System.out.println("ROBOT STOPPED");
-
-            //runUsingEncoders();
-            System.out.println("RUN USING ENCODERS METHOD RAN");
-
         }
+        drive(0);
+        System.out.println("ROBOT STOPPED");
+
+        //runUsingEncoders();
+        System.out.println("RUN USING ENCODERS METHOD RAN");
 
     }
+
+
     public void strafeFor(double distance_inches, double speed, boolean strafingLeft, double timeoutS) {
 
         //runUsingEncoders();
@@ -444,7 +436,6 @@ public class BDDriveTrain extends RobotComponentImplBase {
             runUsingEncoders();
 
             //targetDist = leftDriveFront.getCurrentPosition() + (int) (distance_inches * COUNTS_PER_INCH);
-            double currentSpeed = betterDrive(speed);
             /*if(strafingLeft){
                 leftDriveBack.setTargetPosition(targetDist);
                 rightDriveBack.setTargetPosition(-targetDist);
@@ -474,15 +465,13 @@ public class BDDriveTrain extends RobotComponentImplBase {
             //  strafe(currentSpeed, strafingLeft);
 
 
-
             while (opModeIsActive() &&
                     (runtime.seconds() < timeoutS) &&
                     (leftDriveBack.isBusy())) {
 
-                if(currentSpeed != leftDriveBack.getPower()){
-                    currentSpeed = betterDrive(speed);
+                if (currentSpeed != leftDriveBack.getPower()) {
+                    currentSpeed = leftDriveBack.getPower();
                     strafe(currentSpeed, strafingLeft);
-                    sleep(100);
                 }
 
 
@@ -513,6 +502,46 @@ public class BDDriveTrain extends RobotComponentImplBase {
         int targetDistRight;
         boolean turningRight = false;
         if (opModeIsActive()) {
+            if (degrees > 0) {
+                targetDistRight = rightDriveFront.getCurrentPosition() - (int) (degrees * COUNTS_PER_DEGREE * COUNTS_PER_MOTOR_REV);
+                targetDistLeft = leftDriveFront.getCurrentPosition() + (int) (degrees * COUNTS_PER_DEGREE * COUNTS_PER_MOTOR_REV);
+
+                leftDriveFront.setTargetPosition(targetDistLeft);
+                leftDriveBack.setTargetPosition(targetDistLeft);
+                rightDriveFront.setTargetPosition(targetDistRight);
+                rightDriveBack.setTargetPosition(targetDistRight);
+
+                System.out.println("SET TURNING TARGET POS.");
+
+
+                leftDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                leftDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                rightDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                rightDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                System.out.println("SET RUN TO POSITION");
+
+            } else {
+                targetDistRight = rightDriveFront.getCurrentPosition() + (int) (degrees * COUNTS_PER_DEGREE);
+                targetDistLeft = leftDriveFront.getCurrentPosition() - (int) (degrees * COUNTS_PER_DEGREE);
+
+                leftDriveFront.setTargetPosition(targetDistLeft);
+                leftDriveBack.setTargetPosition(targetDistLeft);
+                rightDriveFront.setTargetPosition(targetDistRight);
+                rightDriveBack.setTargetPosition(targetDistRight);
+
+                System.out.println("SET TURNING TARGET POS.");
+
+
+                leftDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                leftDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                rightDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                rightDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                System.out.println("SET RUN TO POSITION");
+
+
+            }
 
             if (degrees > 0) {
                 turningRight = true;
@@ -520,36 +549,40 @@ public class BDDriveTrain extends RobotComponentImplBase {
                 turningRight = false;
             }
 
-
-            //   leftDriveBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            //   leftDriveFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            //   rightDriveBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            //   rightDriveFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-            //   runUsingEncoders();
-
+            System.out.println("ABOUT TO RUN TURN COMMAND");
             runtime.reset();
 
-            realAngle = getAngle();
+            // headingAngle = getAngle();
 
             turn(speed, turningRight);
+
+            System.out.println("TURN COMMAND COMPLETED");
 
 
             while (opModeIsActive() &&
                     (runtime.seconds() < timeoutS) &&
-                    (degreesWanted) != realAngle) {
+                    (leftDriveFront.isBusy() && rightDriveFront.isBusy())) {
 
-                telemetry.addData("TURNING THE ROBOT to %7d DEGREES, ", "CURRENTLY AT %7d DEGREES", degreesWanted, realAngle);
+                // Display it for the driver.
+                telemetry.addData("Path1", "Running to %7d :%7d");
+                telemetry.addData("Path2", "Running at %7d :%7d");
+                System.out.println("TURNING THE ROBOT");
+
                 telemetry.update();
             }
             drive(0);
+            System.out.println("SPEED SET TO 0");
 
-
+            runUsingEncoders();
+            System.out.println("RAN RUNUSINGENCODERS");
+            realAngle = getAngle();
         }
     }
 
 
-    /** Runs the proccess using encoders */
+
+
+            /** Runs the proccess using encoders */
     public void runUsingEncoders(){
         System.out.println("ABOUT TO SET RUNUSINGENCODERS DIRECTLY...");
 

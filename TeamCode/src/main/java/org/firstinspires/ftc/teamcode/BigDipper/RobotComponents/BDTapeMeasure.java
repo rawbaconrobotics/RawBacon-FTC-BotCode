@@ -57,7 +57,7 @@ public class BDTapeMeasure extends RobotComponentImplBase{
      */
     public void tapeMeasureTeleOp() {
 
-        measurePower = gamepad2.right_stick_y;
+        measurePower = gamepad2.left_stick_y;
 
         if(measurePower != previousPower) {
             tapeMeasureServo.setPower(measurePower);

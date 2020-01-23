@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.RobotComponentIm
 public class BDCapstone extends RobotComponentImplBase {
 
     private final static String CAPSTONE_SERVO_NAME = "bd_capstone";
-    double CAPSTONE_OPEN = 0.3;
+    double CAPSTONE_OPEN = 0;
     double CAPSTONE_CLOSED = 1;
     // Declare OpMode members
     private ElapsedTime runtime = new ElapsedTime();

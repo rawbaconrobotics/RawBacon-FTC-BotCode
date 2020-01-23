@@ -39,15 +39,15 @@ public class DriveConstants {
 
     /*
      * These are physical constants that can be determined from your robot (including the track
-     * width; it will be tune empirically later although a rough estimate is important). Users are
-     * free to chose whichever linear distance unit they would like so long as it is consistently
+     * width; it will be tuned empirically later although a rough estimate is important). Users are
+     * free to choose whichever linear distance unit they would like so long as it is consistently
      * used. The default values were selected with inches in mind. Road runner uses radians for
      * angular distances although most angular parameters are wrapped in Math.toRadians() for
      * convenience. Make sure to exclude any gear ratio included in MOTOR_CONFIG from GEAR_RATIO.
      */
-    public static double WHEEL_RADIUS = 2;
+    public static double WHEEL_RADIUS = 3.937;
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = 1;
+    public static double TRACK_WIDTH = 11.5;
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using
