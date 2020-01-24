@@ -1,26 +1,25 @@
-package org.firstinspires.ftc.teamcode.BigDipper;
+package org.firstinspires.ftc.teamcode.BigDipper.BDAutonomi.RedAlliance;
 
 
+import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
-        import com.acmerobotics.dashboard.config.Config;
-        import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-        import com.qualcomm.robotcore.util.ElapsedTime;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BaseLinearOpMode;
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfPoint;
+import org.opencv.core.Point;
+import org.opencv.core.Scalar;
+import org.opencv.imgproc.Imgproc;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
+import org.openftc.easyopencv.OpenCvPipeline;
 
-        import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-        import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BaseLinearOpMode;
-        import org.opencv.core.Core;
-        import org.opencv.core.Mat;
-        import org.opencv.core.MatOfPoint;
-        import org.opencv.core.Point;
-        import org.opencv.core.Scalar;
-        import org.opencv.imgproc.Imgproc;
-        import org.openftc.easyopencv.OpenCvCamera;
-        import org.openftc.easyopencv.OpenCvCameraFactory;
-        import org.openftc.easyopencv.OpenCvCameraRotation;
-        import org.openftc.easyopencv.OpenCvPipeline;
-
-        import java.util.ArrayList;
-        import java.util.List;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -32,9 +31,9 @@ package org.firstinspires.ftc.teamcode.BigDipper;
  //40 1120
  //20 560
 @Config
-@Autonomous(name= "Tank OFFICIAL Autonomous Base", group="Tank")
+@Autonomous(name= "BDAuto_MiddlePark_Stones_Red", group="Tank Red")
 
-public class BDAuto_Base extends BaseLinearOpMode {
+public class BDAuto_MiddlePark_Stones_Red extends BaseLinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
     //0 means skystone, 1 (or 255) means yellow stone
@@ -83,7 +82,7 @@ public class BDAuto_Base extends BaseLinearOpMode {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         webcam.openCameraDevice();//open camera
-        webcam.setPipeline(new BDAuto_Base.StageSwitchingPipeline());//different stages
+        webcam.setPipeline(new BDAuto_MiddlePark_Stones_Red.StageSwitchingPipeline());//different stages
         webcam.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT);//display on RC
         //width, height
         //width = height in this case, because camera is in portrait mode.

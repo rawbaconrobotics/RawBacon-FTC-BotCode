@@ -1,22 +1,28 @@
 package org.firstinspires.ftc.teamcode.BigDipper.LukeMomentAutos_OLD;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BaseLinearOpMode;
+import org.firstinspires.ftc.teamcode.Uhaul.AllianceConfig;
+import org.firstinspires.ftc.teamcode.Uhaul.AutonomousSelector;
+import org.firstinspires.ftc.teamcode.Uhaul.OptionsConfig;
 
 /**
  * Autonomous code to make the robot score the foundation and
  * drives under the bridge when the robot is on the blue alliance side.
  * @author Raw Bacon Coders
  */
-@Disabled
-@Autonomous(name = "LukeMomentAutoBlueMiddle", group = "Big Dipper")
+@Autonomous(name = "Test Selector", group = "Big Dipper")
 
 public class LukeMomentAutoBlueMiddle extends BaseLinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
-
+FtcDashboard dash = FtcDashboard.getInstance();
+Telemetry dashTelem = dash.getTelemetry();
     public static double FIRSTdriveinches = -39;
     public static double SECONDstrafeinches = 6;
     public static double THIRDstrafeinches = 4;
@@ -33,9 +39,24 @@ public class LukeMomentAutoBlueMiddle extends BaseLinearOpMode {
     public void on_init() {
         System.out.println("INIT PROCESS STARTING");
 
-        robot.bddrivetrain.initAutonomous();
+        AutonomousSelector.deserializeOptions();
+        dashTelem.addData("TASK:", OptionsConfig.tasks.option());
+        dashTelem.addData("PARK:", OptionsConfig.park_middle_or_wall.option());
+        AutonomousSelector.deserializeAlliance();
+        if(AllianceConfig.redAlliance.redAlliancePressed() == true){
+            dashTelem.addData("ALLIANCE IS RED", "NICE");
+        }
+        else if(AllianceConfig.redAlliance.redAlliancePressed() == false){
+            dashTelem.addData("ALLIANCE IS BLUE", "NICE");
+        }
+        else{
+            dashTelem.addData("ALLIANCE IS BROKEN", "OOF");
 
-        robot.bdlatch.initAutonomous();
+        }
+        dashTelem.update();
+        //robot.bddrivetrain.initAutonomous();
+
+        //robot.bdlatch.initAutonomous();
 
         System.out.println("Ready To Start!");
 
@@ -46,40 +67,6 @@ public class LukeMomentAutoBlueMiddle extends BaseLinearOpMode {
      */
     @Override
     public void run() {
-
-        System.out.println("ROBOT RUN SEQUENCE INITIALIZED!");
-
-        runtime.reset();
-        telemetry.addData("Runtime Reset", "Complete");
-        System.out.println("RUNTIME RESET COMPLETE");
-        robot.bddrivetrain.driveFor(FIRSTdriveinches,0.5,10);
-        sleep(250);
-
-        robot.bddrivetrain.strafeFor(SECONDstrafeinches,0.2,false, 10);
-        sleep(250);
-
-        robot.bddrivetrain.strafeFor(THIRDstrafeinches,0.2,true, 10);
-        sleep(250);
-
-        robot.bddrivetrain.driveFor(FOURTHdriveinches,0.5,10);
-        sleep(250);
-
-        robot.bddrivetrain.strafeFor(FIFTHstrafeinches,0.2, false, 10);
-        sleep(250);
-
-        robot.bddrivetrain.driveFor(SIXTHdriveinches,0.5,10);
-        sleep(250);
-
-        robot.bdlatch.closeLatch();
-        sleep(250);
-
-        robot.bddrivetrain.driveFor(SEVENTHdriveinches,0.5,10);
-        sleep(250);
-
-        robot.bdlatch.openLatch();
-        sleep(250);
-
-        robot.bddrivetrain.strafeFor(NINTHstrafeinches,0.5,true, 10);
 
 
     }

@@ -75,6 +75,8 @@ public class BDDriveTrain extends RobotComponentImplBase {
     private static final double TURNING_SCALAR = 0.875;
 
     private ElapsedTime runtime = new ElapsedTime();
+    private ElapsedTime motionProfileTime = new ElapsedTime();
+
     private DcMotorEx leftDriveBack = null;
     private DcMotorEx rightDriveBack = null;
     private DcMotorEx leftDriveFront = null;
@@ -157,7 +159,7 @@ public class BDDriveTrain extends RobotComponentImplBase {
         rightDriveFront.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
         rightDriveBack.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
 
-        currentSpeed = Math.abs(leftDriveBack.getPower());
+        currentSpeed = leftDriveBack.getPower();
 
         //leftDriveFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //leftDriveBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -263,24 +265,92 @@ public class BDDriveTrain extends RobotComponentImplBase {
     public void drive(double speed) {
         System.out.println("DRIVE METHOD CALLED, SETTING TO SPEED" + speed);
 
-        leftDriveBack.setPower(speed);
-        rightDriveBack.setPower(speed);
-        leftDriveFront.setPower(speed);
-        rightDriveFront.setPower(speed);
-    }
+        motionProfileTime.reset();
+        if(speed != 0) {
+            while (((motionProfileTime.milliseconds() < 250) && opModeIsActive())) {
 
-    public void strafe(double speed, boolean strafingLeft) {
-        if (strafingLeft) {
+                leftDriveBack.setPower(speed / 4);
+                rightDriveBack.setPower(speed / 4);
+                leftDriveFront.setPower(speed / 4);
+                rightDriveFront.setPower(speed / 4);
+            }
+            while (((motionProfileTime.milliseconds() < 500) && opModeIsActive()) && leftDriveBack.getPower() != 0) {
+
+                leftDriveBack.setPower(speed / 2);
+                rightDriveBack.setPower(speed / 2);
+                leftDriveFront.setPower(speed / 2);
+                rightDriveFront.setPower(speed / 2);
+            }
+        }
+        if(leftDriveBack.getPower() != 0){
             leftDriveBack.setPower(speed);
-            rightDriveBack.setPower(-speed);
-            leftDriveFront.setPower(-speed);
-            rightDriveFront.setPower(speed);
-        } else {
-
-            leftDriveBack.setPower(-speed);
             rightDriveBack.setPower(speed);
             leftDriveFront.setPower(speed);
-            rightDriveFront.setPower(-speed);
+            rightDriveFront.setPower(speed);
+        }
+    }
+
+    public void strafe(double speed) {
+        if (speed < 0) {
+            //leftDriveBack.setPower(speed);
+            //rightDriveBack.setPower(-speed);
+            //leftDriveFront.setPower(-speed);
+            //rightDriveFront.setPower(speed);
+            motionProfileTime.reset();
+            if(speed != 0) {
+                while (((motionProfileTime.milliseconds() < 250) && opModeIsActive())) {
+
+                    leftDriveBack.setPower(speed / 4);
+                    rightDriveBack.setPower(-speed / 4);
+                    leftDriveFront.setPower(-speed / 4);
+                    rightDriveFront.setPower(speed / 4);
+                }
+                while (((motionProfileTime.milliseconds() < 500) && opModeIsActive()) && leftDriveBack.getPower() != 0) {
+
+                    leftDriveBack.setPower(speed / 2);
+                    rightDriveBack.setPower(-speed / 2);
+                    leftDriveFront.setPower(-speed / 2);
+                    rightDriveFront.setPower(speed / 2);
+                }
+            }
+            if(leftDriveBack.getPower() != 0) {
+
+                leftDriveBack.setPower(speed);
+                rightDriveBack.setPower(-speed);
+                leftDriveFront.setPower(-speed);
+                rightDriveFront.setPower(speed);
+            }
+        } else {
+
+           // leftDriveBack.setPower(-speed);
+           // rightDriveBack.setPower(speed);
+           // leftDriveFront.setPower(speed);
+           // rightDriveFront.setPower(-speed);
+
+            motionProfileTime.reset();
+            if(speed != 0) {
+                while (((motionProfileTime.milliseconds() < 250) && opModeIsActive())) {
+
+                    leftDriveBack.setPower(-speed / 4);
+                    rightDriveBack.setPower(speed / 4);
+                    leftDriveFront.setPower(speed / 4);
+                    rightDriveFront.setPower(-speed / 4);
+                }
+                while (((motionProfileTime.milliseconds() < 500) && opModeIsActive()) && leftDriveBack.getPower() != 0) {
+
+                    leftDriveBack.setPower(-speed / 2);
+                    rightDriveBack.setPower(speed / 2);
+                    leftDriveFront.setPower(speed / 2);
+                    rightDriveFront.setPower(-speed / 2);
+                }
+            }
+            if(leftDriveBack.getPower() != 0) {
+
+                leftDriveBack.setPower(-speed);
+                rightDriveBack.setPower(speed);
+                leftDriveFront.setPower(speed);
+                rightDriveFront.setPower(-speed);
+            }
 /*
             accLeftDriveBack.setTargetPower(-speed);
             accRightDriveBack.setTargetPower(speed);
@@ -419,15 +489,12 @@ public class BDDriveTrain extends RobotComponentImplBase {
     }
 
 
-    public void strafeFor(double distance_inches, double speed, boolean strafingLeft, double timeoutS) {
+    public void strafeFor(double distance_inches, double speed, double timeoutS) {
 
         //runUsingEncoders();
 
-        //System.out.println("RUNUSINGENCODERS COMPLETE!");
 
         if (opModeIsActive()) {
-
-            int targetDist;
 
 
             leftDriveBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -437,51 +504,26 @@ public class BDDriveTrain extends RobotComponentImplBase {
 
             runUsingEncoders();
 
-            //targetDist = leftDriveFront.getCurrentPosition() + (int) (distance_inches * COUNTS_PER_INCH);
-            /*if(strafingLeft){
-                leftDriveBack.setTargetPosition(targetDist);
-                rightDriveBack.setTargetPosition(-targetDist);
-                rightDriveFront.setTargetPosition(targetDist);
-                leftDriveFront.setTargetPosition(-targetDist);
-            }
-            else{
-                leftDriveBack.setTargetPosition(-targetDist);
-                rightDriveBack.setTargetPosition(targetDist);
-                rightDriveFront.setTargetPosition(-targetDist);
-                leftDriveFront.setTargetPosition(targetDist);
-            }
-            */
-
-
-
-            /*leftDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rightDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            leftDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rightDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-             */
-
-
             runtime.reset();
 
-            //  strafe(currentSpeed, strafingLeft);
+            strafe(speed); //negative if strafing left!
 
 
             while (opModeIsActive() &&
                     (runtime.seconds() < timeoutS) &&
-                    (leftDriveBack.isBusy())) {
+                    (((Math.abs(leftDriveBack.getCurrentPosition()) + Math.abs(leftDriveFront.getCurrentPosition()) + Math.abs(rightDriveBack.getCurrentPosition()) + Math.abs(rightDriveFront.getCurrentPosition())) / 4)) < (Math.abs((distance_inches * COUNTS_PER_INCH)))) {
 
-                if (currentSpeed != leftDriveBack.getPower()) {
-                    currentSpeed = leftDriveBack.getPower();
-                    strafe(currentSpeed, strafingLeft);
-                }
-
+                telemetry.addData("Left Front",  " Position: %7d", leftDriveFront.getCurrentPosition());
+                telemetry.addData("Right Front",  " Position: %7d", rightDriveFront.getCurrentPosition());
+                telemetry.addData("Left Back",  " Position: %7d", leftDriveBack.getCurrentPosition());
+                telemetry.addData("Right Back",  " Position: %7d", rightDriveBack.getCurrentPosition());
+                telemetry.update();
 
                 // Display it for the driver.
 
 
             }
-            drive(0);
+            strafe(0);
             System.out.println("ROBOT STOPPED");
 
             // runUsingEncoders();
@@ -494,10 +536,6 @@ public class BDDriveTrain extends RobotComponentImplBase {
 
     //TURNS USING IMU HEADING!!! ALTERNATIVE ONE THAT USES ENCODERS, BUT THEN IMU TO VERIFY ANGLE FOUND HERE:
     //     https://gist.github.com/lukehasawii/b17ee074bfe98d056b97725c67670539
-    double leftPow;
-    double rightPow;
-    double error = 100; //random number greater than 2;
-
 
     /**
      * Resets the cumulative angle tracking to zero.
@@ -561,11 +599,9 @@ public class BDDriveTrain extends RobotComponentImplBase {
 
     /**
      * Rotate left or right the number of degrees. Does not support turning more than 180 degrees.
-     * @param  origDegrees to turn, + is RIGHT - is LEFT
      */
-    public void turnFor(double origDegrees, double power, double timeoutS) {
+    public void turnFor(double degrees, double power, double timeoutS) {
         double leftPower, rightPower;
-        double degrees = (int) -origDegrees; //- is actually right but that isn't very useful so it is flipped in the param
 
         // restart imu movement tracking.
         resetAngle();
@@ -591,13 +627,24 @@ public class BDDriveTrain extends RobotComponentImplBase {
         // rotate until turn is completed.
         if (degrees < 0) {
             // On right turn we have to get off zero first.
-            while (opModeIsActive() && getAngle() == 0) {
+            while (opModeIsActive() && -getAngle() == 0) {
+                telemetry.addData("Angle currently", -getAngle());
+                telemetry.addData("Angle wanted", degrees);
+                telemetry.update();
+
             }
 
-            while ((opModeIsActive() && getAngle() > degrees) && (runtime.seconds() < timeoutS)) {
+            while ((opModeIsActive() && -getAngle() > degrees) && (runtime.seconds() < timeoutS)) {
+                telemetry.addData("Angle currently", -getAngle());
+                telemetry.addData("Angle wanted", degrees);
+                telemetry.update();
+
             }
         } else    // left turn.
-            while ((opModeIsActive() && getAngle() < degrees) && (runtime.seconds() < timeoutS)) {
+            while ((opModeIsActive() && -getAngle() < degrees) && (runtime.seconds() < timeoutS)) {
+                telemetry.addData("Angle currently", -getAngle());
+                telemetry.addData("Angle wanted", degrees);
+                telemetry.update();
             }
 
         // turn the motors off.

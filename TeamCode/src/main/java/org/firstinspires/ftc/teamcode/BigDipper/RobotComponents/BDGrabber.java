@@ -73,13 +73,17 @@ public class BDGrabber extends RobotComponentImplBase{
     }
 
     public void grabDownAuto(){
-        grabberServo.setPower(-0.6);
-        sleep(1000);
-        grabberServo.setPower(0);
+        if(opModeIsActive()) {
+            grabberServo.setPower(-0.6);
+            sleep(1000);
+            grabberServo.setPower(0);
+        }
     }
     public void grabUpAuto(){
-        grabberServo.setPower(0.6);
-        sleep(1000);
-        grabberServo.setPower(0);
+        if(opModeIsActive()) {
+            grabberServo.setPower(0.6);
+            sleep(1000);
+            grabberServo.setPower(0);
+        }
     }
 }

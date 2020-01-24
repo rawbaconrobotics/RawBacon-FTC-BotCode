@@ -1,11 +1,8 @@
 ## TeamCode Module
- Hey there Raw Bacon coders!
-
-This module, TeamCode, is the place where you will write/paste the code for your team's
-robot controller App. This module is currently empty (a clean slate) but the
-process for adding OpModes is straightforward.
+ Where the magic happens -- the code for the robot!
 
 ## Creating your own OpModes
+
 
 The easiest way to create your own OpMode is to copy a Sample OpMode and make it your own.
 

@@ -10,8 +10,8 @@ import org.firstinspires.ftc.teamcode.Uhaul.AutonomousSelector;
 public class OptionsConfig {
 
 
-    public AutonomousSelector.Options foundation_or_stone_side = AutonomousSelector.Options.FOUNDATION_SIDE;
-    public AutonomousSelector.Options close_to_middle_or_wall = AutonomousSelector.Options.MIDDLE;
+    public static AutonomousSelector.Options tasks = AutonomousSelector.Options.DO_BOTH;
+    public static AutonomousSelector.Options park_middle_or_wall = AutonomousSelector.Options.PARK_MIDDLE;
 
 
 }

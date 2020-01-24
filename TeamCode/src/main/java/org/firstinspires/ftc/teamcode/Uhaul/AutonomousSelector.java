@@ -25,32 +25,18 @@ public class AutonomousSelector extends LinearOpMode {
     /*
     How to use in autonomous:
 
-     AutonomousSelector.Alliance allianceenum = AutonomousSelector.deserializeAlliance().redAlliance;
-     boolean redAlliancePressed = allianceenum.redAlliancePressed();
-
-     if redAlliancePressed true then you know they chose the Red Alliance!!!
-
-
-     for foundation or stone:
-
-     AutonomousSelector.Options foundorstoneenum = AutonomousSelector.deserializeOptions().foundation_or_stone_side;
-     String foundorstone = foundorstoneenum.option();
-
-     if foundorstone == "FOUNDATION_SIDE"
-     if foundorstone == "STONE_SIDE"
+            AutonomousSelector.deserializeOptions();
+        if((optionsConfig.tasks.option()) == "AHP"){
+        }
+            AutonomousSelector.deserializeAlliance();
+        if((AllianceConfig.redAlliance.option()) == true){
+}
 
 
-     for middle or wall side:
 
-     AutonomousSelector.Options middleorwallenum = AutonomousSelector.deserializeOptions().close_to_middle_or_wall;
-     String middleorwall = middleorwallenum.option();
-
-     if middleorwall == "MIDDLE"
-     if middleorwall == "WALL"
 
 
      */
-
 
     private AllianceConfig allianceConfig;
     private OptionsConfig optionsConfig;
@@ -74,17 +60,21 @@ public class AutonomousSelector extends LinearOpMode {
      * Enum to represent options
      */
     public enum Options {
-        FOUNDATION_SIDE,
-        STONE_SIDE,
-        MIDDLE,
-        WALL;
+        DO_FOUNDATION,
+        DO_STONE,
+        DO_BOTH,
+        DO_NEITHER,
+        PARK_MIDDLE,
+        PARK_WALL;
 
         public String option(){
             switch (this){
-                case FOUNDATION_SIDE: return "FOUNDATION SIDE";
-                case STONE_SIDE: return "STONE SIDE";
-                case MIDDLE: return "CLOSE TO MIDDLE";
-                case WALL: return "CLOSE TO WALL";
+                case DO_FOUNDATION: return "DO FOUNDATION";
+                case DO_STONE: return "DO STONE";
+                case DO_BOTH: return "DO BOTH";
+                case DO_NEITHER: return "DO NEITHER";
+                case PARK_MIDDLE: return "PARK MIDDLE";
+                case PARK_WALL: return "PARK WALL";
                 default: return "NO CONFIG SET!";
             }
         }
@@ -141,12 +131,12 @@ public class AutonomousSelector extends LinearOpMode {
         telemetry.log().add("-- Autonomous Selector --");
         telemetry.log().add("Press play to begin.");
         telemetry.log().add("");
-        telemetry.log().add("REMEMBER: You MUST select + init the OpMode");
-        telemetry.log().add("named \"Uhaul Autonomous (Official)\"  ");
+        telemetry.log().add("REMEMBER: This opMode only selects your options,");
+        telemetry.log().add("you still need to init + run the OFFICIAL Tank/Uhaul Autonomous.");
         telemetry.log().add("after finishing here!");
-        telemetry.log().add("When a question is shown, use A and B to select stuff.");
-        telemetry.log().add("It might take a bit to show the next question,");
-        telemetry.log().add("but don't press a button twice or multiple buttons!");
+        telemetry.log().add("");
+        telemetry.log().add("When you press a button to answer, it might take a bit,");
+        telemetry.log().add("*ALL YOU NEED TO DO IS*");
         telemetry.log().add("Hold the button down until you see \"Release\"");
         telemetry.log().add("Thanks, good luck guys!");
 
@@ -205,7 +195,7 @@ public class AutonomousSelector extends LinearOpMode {
             }
 
             if(stepNumber == 2 && buttonPressed1()){
-                registerWhatSide(gamepad1, optionsConfig.foundation_or_stone_side);
+                registerTasks(gamepad1, optionsConfig.tasks);
 
                 currentQuery.setValue("Release");
 
@@ -218,7 +208,7 @@ public class AutonomousSelector extends LinearOpMode {
                 currentQuery.setValue(message);
             }
             if(stepNumber == 3 && buttonPressed1()){
-                registerMiddleOrWall(gamepad1, optionsConfig.close_to_middle_or_wall);
+                registerMiddleOrWall(gamepad1, optionsConfig.park_middle_or_wall);
 
 
                 currentQuery.setValue("Release");
@@ -389,11 +379,11 @@ public class AutonomousSelector extends LinearOpMode {
 
 
     /** Maps gamepad inputs to the options */
-    private void registerWhatSide(Gamepad gamepad, Options mapTo){
-        if(gamepad.a) mapTo = Options.FOUNDATION_SIDE;
-        else if (gamepad.b) mapTo = Options.STONE_SIDE;
-        //else if(gamepad.x) mapTo = Button.X;
-        //else if(gamepad.y) mapTo = Button.Y;
+    private void registerTasks(Gamepad gamepad, Options mapTo){
+        if(gamepad.a) mapTo = Options.DO_FOUNDATION;
+        else if (gamepad.b) mapTo = Options.DO_STONE;
+        else if(gamepad.x) mapTo = Options.DO_BOTH;
+        else if(gamepad.y) mapTo = Options.DO_NEITHER;
         //else if(gamepad.left_bumper) mapTo = Button.LEFT_BUMPER;
         //else if(gamepad.right_bumper) mapTo = Button.RIGHT_BUMPER;
         //else if(gamepad.left_stick_button) mapTo = Button.LEFT_STICK_BUTTON;
@@ -405,8 +395,8 @@ public class AutonomousSelector extends LinearOpMode {
     }
     /** Maps gamepad inputs to the options */
     private void registerMiddleOrWall(Gamepad gamepad, Options mapTo){
-        if(gamepad.a) mapTo = Options.MIDDLE;
-        else if (gamepad.b) mapTo = Options.WALL;
+        if(gamepad.a) mapTo = Options.PARK_MIDDLE;
+        else if (gamepad.b) mapTo = Options.PARK_WALL;
         //else if(gamepad.x) mapTo = Button.X;
         //else if(gamepad.y) mapTo = Button.Y;
         //else if(gamepad.left_bumper) mapTo = Button.LEFT_BUMPER;
@@ -441,10 +431,10 @@ public class AutonomousSelector extends LinearOpMode {
     private static final String[] queries = new String[]{
             "To ensure the controls are working, press A to continue.",
             "Press \"A\" for RED ALLIANCE, and press \"B\" for BLUE ALLIANCE",
-            "Press \"A\" for FOUNDATION SIDE, and press \"B\" for STONE SIDE",
-            "Press \"A\" for MIDDLE SIDE, and press \"B\" for WALL SIDE",
+            "What tasks should the robot do? Press \"A\" for FOUNDATION ONLY, press \"B\" for STONE ONLY, press \"X\" for BOTH, and press \"Y\" for NEITHER",
+            "Should the robot park closer to the middle Skybridge, or the wall? Press \"A\" for MIDDLE SIDE, and press \"B\" for WALL SIDE",
             "Done! Please press \"A\" to continue (Don't exit yet!).",
-            "File Saved! Now press stop and init Uhaul Autonomous!"
+            "File Saved! Now press stop and init the OFFICIAL Autonomous!"
     };
 
 
