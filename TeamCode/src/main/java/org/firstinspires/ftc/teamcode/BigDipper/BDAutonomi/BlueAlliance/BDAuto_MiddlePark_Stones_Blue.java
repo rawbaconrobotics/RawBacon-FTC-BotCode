@@ -36,6 +36,21 @@ import java.util.List;
 public class BDAuto_MiddlePark_Stones_Blue extends BaseLinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
+    public static double one = 48;
+    public static double two = 10;
+    public static double three = 16;
+    public static double four = 28;
+    public static double fourpointfive = 7;
+    public static double five = 38;
+    public static double fivepointfive = 1;
+    public static double six = 34;
+    public static double seven = 27;
+    public static double eight = 20;
+    static double nine = 0;
+    static double ten = 0;
+    static double eleven = 0;
+
+
     //0 means skystone, 1 (or 255) means yellow stone
     //-1 for debug, but we can keep it like this because if it works, it should change to either 0 or 255
     private static int valMid = -1;
@@ -122,77 +137,72 @@ public class BDAuto_MiddlePark_Stones_Blue extends BaseLinearOpMode {
 
             runtime.reset();
 
+            robot.bddrivetrain.driveFor(28,.7,10);
+            sleep(1000);
+
             if (valLeft == 0) { // stone is on left, run left path
 
-                robot.bddrivetrain.strafeFor(9,-2,15);
-                sleep(500);
-                //I hope turnfor works! If not just look at our github history there's something somewhere
-                robot.bddrivetrain.turnFor(90, 0.5, 15);
+                robot.bddrivetrain.strafeFor(-8, .7, 10);
                 sleep(1000);
-                robot.bddrivetrain.driveFor(25.125, 0.5, 15);
-                sleep(1000);
-                robot.bdcapstone.openCapstoneAuto();
-                sleep(1000);
-                robot.bdcapstone.closeCapstoneAuto();
+                robot.bddrivetrain.driveFor(7,.7,10);
                 sleep(1000);
                 robot.bdgrabber.grabDownAuto();
                 sleep(1000);
-                robot.bdgrabber.grabUpAuto();
+                robot.bddrivetrain.driveFor(-4,-.7,10);
+                sleep(1000);
+                robot.bddrivetrain.strafeFor(8, .7, 10);
+                sleep(1000);
+
 
             } else if (valMid == 0) { // stone is in middle, run middle path
 
-                robot.bddrivetrain.strafeFor(9,-2,15);
-                sleep(500);
-                //I hope turnfor works! If not just look at our github history there's something somewhere
-                robot.bddrivetrain.turnFor(90, 0.5, 15);
-                sleep(1000);
-                robot.bddrivetrain.driveFor(25.125, 0.5, 15);
-                sleep(1000);
-                robot.bdcapstone.openCapstoneAuto();
-                sleep(1000);
-                robot.bdcapstone.closeCapstoneAuto();
+                robot.bddrivetrain.driveFor(7,.7,10);
                 sleep(1000);
                 robot.bdgrabber.grabDownAuto();
                 sleep(1000);
-                robot.bdgrabber.grabUpAuto();
+                robot.bddrivetrain.driveFor(-4,-.7,10);
+                sleep(1000);
+
 
             } else if (valRight == 0) { //stone on right, run right path
 
-                robot.bddrivetrain.strafeFor(9,-2,15);
-                sleep(500);
-                //I hope turnfor works! If not just look at our github history there's something somewhere
-                robot.bddrivetrain.turnFor(90, 0.5, 15);
+                robot.bddrivetrain.strafeFor(8, .7, 10);
                 sleep(1000);
-                robot.bddrivetrain.driveFor(25.125, 0.5, 15);
-                sleep(1000);
-                robot.bdcapstone.openCapstoneAuto();
-                sleep(1000);
-                robot.bdcapstone.closeCapstoneAuto();
+                robot.bddrivetrain.driveFor(7,.7,10);
                 sleep(1000);
                 robot.bdgrabber.grabDownAuto();
                 sleep(1000);
-                robot.bdgrabber.grabUpAuto();
+                robot.bddrivetrain.driveFor(-4,-.7,10);
+                sleep(1000);
+                robot.bddrivetrain.strafeFor(-8, .7, 10);
+                sleep(1000);
+
 
             } else {
-                    //skystone location cannot be determined, either try for a random one or just grab the foundation
-
-                robot.bddrivetrain.strafeFor(9,-2,15);
-                sleep(500);
-                //I hope turnfor works! If not just look at our github history there's something somewhere
-                robot.bddrivetrain.turnFor(90, 0.5, 15);
-                sleep(1000);
-                robot.bddrivetrain.driveFor(25.125, 0.5, 15);
-                sleep(1000);
-                robot.bdcapstone.openCapstoneAuto();
-                sleep(1000);
-                robot.bdcapstone.closeCapstoneAuto();
+                robot.bddrivetrain.driveFor(4,.7,10);
                 sleep(1000);
                 robot.bdgrabber.grabDownAuto();
                 sleep(1000);
-                robot.bdgrabber.grabUpAuto();
-
+                robot.bddrivetrain.driveFor(-4,-.7,10);
+                    //skystone location cannot be determined, either try for a random one or just grab the foundation
 
             }
+
+            robot.bddrivetrain.driveFor(-7,-.7,10);
+            sleep(1000);
+            robot.bddrivetrain.turnFor(-90, .7, 15);
+
+            //TURNING SAW THE ACTUAL VALUES AS POTITIVE!!!!!!!
+            //KEPT GOING FOREVER TURNING RIGHT
+
+            sleep(1000);
+            robot.bddrivetrain.driveFor(54,.7,10);
+            sleep(1000);
+            robot.bdgrabber.grabUpAuto();
+            sleep(1000);
+            robot.bddrivetrain.driveFor(-20,-20,10);
+
+
             telemetry.addData("PATH", "COMPLETE");
             //call movement functions
 //            strafe(0.4, 200);

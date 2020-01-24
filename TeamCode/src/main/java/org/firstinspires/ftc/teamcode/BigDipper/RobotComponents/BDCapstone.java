@@ -62,11 +62,13 @@ public class BDCapstone extends RobotComponentImplBase {
         boolean openCapstone = gamepad2.right_bumper;
         boolean closeCapstone = gamepad2.left_bumper;
 
-        if (openCapstone) {
-            bdCapstone.setPosition(CAPSTONE_OPEN);
-        }
-        if (closeCapstone) {
-            bdCapstone.setPosition(CAPSTONE_CLOSED);
+        if(opModeIsActive()) {
+            if (openCapstone) {
+                bdCapstone.setPosition(CAPSTONE_OPEN);
+            }
+            if (closeCapstone) {
+                bdCapstone.setPosition(CAPSTONE_CLOSED);
+            }
         }
 
     }

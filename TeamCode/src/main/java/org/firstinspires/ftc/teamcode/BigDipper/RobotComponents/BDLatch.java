@@ -51,13 +51,15 @@ public class BDLatch extends RobotComponentImplBase {
     public void latch() {
         boolean openLatch = gamepad2.y;
         boolean closeLatch = gamepad2.x;
-        if(openLatch){
-            bdLatch.setPosition(LATCH_OPEN);
-            //latchServo2.setPosition(LATCH_CLOSED);
-        }
-        if (closeLatch){
-            bdLatch.setPosition(LATCH_CLOSED);
-            //latchServo2.setPosition(LATCH_OPEN);
+        if(opModeIsActive()) {
+            if (openLatch) {
+                bdLatch.setPosition(LATCH_OPEN);
+                //latchServo2.setPosition(LATCH_CLOSED);
+            }
+            if (closeLatch) {
+                bdLatch.setPosition(LATCH_CLOSED);
+                //latchServo2.setPosition(LATCH_OPEN);
+            }
         }
     }
     

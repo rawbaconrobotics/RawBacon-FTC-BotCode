@@ -149,9 +149,13 @@ public class AutonomousSelector extends LinearOpMode {
             idle();
         }
 
+
         telemetry.log().add("...let's begin...");
 
-       // currentDriver = telemetry.addData("Current Driver", alliance.toString());
+        telemetry.log().clear();
+
+
+        // currentDriver = telemetry.addData("Current Driver", alliance.toString());
 
         currentQuery = telemetry.addData("-- ", message);
 
@@ -410,8 +414,8 @@ public class AutonomousSelector extends LinearOpMode {
     }
     /** Selects either the red or blue alliance */
     private void registerAllianceButton(Gamepad gamepad, Alliance mapTo){
-        if(gamepad.a) mapTo = Alliance.RED;
-        else if (gamepad.b) mapTo = Alliance.BLUE;
+        if(gamepad.b) mapTo = Alliance.RED;
+        else if (gamepad.x) mapTo = Alliance.BLUE;
         //else if(gamepad.x) mapTo = Button.X;
         //else if(gamepad.y) mapTo = Button.Y;
         //else if(gamepad.left_bumper) mapTo = Button.LEFT_BUMPER;
@@ -430,7 +434,7 @@ public class AutonomousSelector extends LinearOpMode {
      */
     private static final String[] queries = new String[]{
             "To ensure the controls are working, press A to continue.",
-            "Press \"A\" for RED ALLIANCE, and press \"B\" for BLUE ALLIANCE",
+            "Press \"B\" for RED ALLIANCE, and press \"X\" for BLUE ALLIANCE",
             "What tasks should the robot do? Press \"A\" for FOUNDATION ONLY, press \"B\" for STONE ONLY, press \"X\" for BOTH, and press \"Y\" for NEITHER",
             "Should the robot park closer to the middle Skybridge, or the wall? Press \"A\" for MIDDLE SIDE, and press \"B\" for WALL SIDE",
             "Done! Please press \"A\" to continue (Don't exit yet!).",

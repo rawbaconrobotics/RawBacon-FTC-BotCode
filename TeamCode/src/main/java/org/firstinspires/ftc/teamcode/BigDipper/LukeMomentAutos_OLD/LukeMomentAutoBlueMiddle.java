@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.BigDipper.LukeMomentAutos_OLD;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -21,8 +22,7 @@ import org.firstinspires.ftc.teamcode.Uhaul.OptionsConfig;
 
 public class LukeMomentAutoBlueMiddle extends BaseLinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
-FtcDashboard dash = FtcDashboard.getInstance();
-Telemetry dashTelem = dash.getTelemetry();
+
     public static double FIRSTdriveinches = -39;
     public static double SECONDstrafeinches = 6;
     public static double THIRDstrafeinches = 4;
@@ -39,21 +39,22 @@ Telemetry dashTelem = dash.getTelemetry();
     public void on_init() {
         System.out.println("INIT PROCESS STARTING");
 
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         AutonomousSelector.deserializeOptions();
-        dashTelem.addData("TASK:", OptionsConfig.tasks.option());
-        dashTelem.addData("PARK:", OptionsConfig.park_middle_or_wall.option());
+        telemetry.addData("TASK:", OptionsConfig.tasks.option());
+        telemetry.addData("PARK:", OptionsConfig.park_middle_or_wall.option());
         AutonomousSelector.deserializeAlliance();
         if(AllianceConfig.redAlliance.redAlliancePressed() == true){
-            dashTelem.addData("ALLIANCE IS RED", "NICE");
+            telemetry.addData("ALLIANCE IS RED", "NICE");
         }
         else if(AllianceConfig.redAlliance.redAlliancePressed() == false){
-            dashTelem.addData("ALLIANCE IS BLUE", "NICE");
+            telemetry.addData("ALLIANCE IS BLUE", "NICE");
         }
         else{
-            dashTelem.addData("ALLIANCE IS BROKEN", "OOF");
+            telemetry.addData("ALLIANCE IS BROKEN", "OOF");
 
         }
-        dashTelem.update();
+        telemetry.update();
         //robot.bddrivetrain.initAutonomous();
 
         //robot.bdlatch.initAutonomous();
