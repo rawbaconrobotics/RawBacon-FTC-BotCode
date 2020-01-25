@@ -211,7 +211,7 @@ public class ConceptVuforiaSkyStoneNavigationWebcam extends LinearOpMode {
          * If you are standing in the Red Alliance Station looking towards the center of the field,
          *     - The X axis runs from your left to the right. (positive from the center to the right)
          *     - The Y axis runs from the Red Alliance Station towards the other side of the field
-         *       where the Blue Alliance Station is. (Positive is from the center, towards the BlueAlliance station)
+         *       where the Blue Alliance Station is. (Positive is from the center, towards the BDAutonomi.RedAlliance station)
          *     - The Z axis runs from the floor, upwards towards the ceiling.  (Positive is above the floor)
          *
          * Before being transformed, each target image is conceptually located at the origin of the field's

@@ -1,8 +1,9 @@
-package org.firstinspires.ftc.teamcode.BigDipper.BDAutonomi.RedAlliance;
+package org.firstinspires.ftc.teamcode.BigDipper.BDAutonomi.RedAlliance.Both;
 
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -31,9 +32,10 @@ import java.util.List;
  //40 1120
  //20 560
 @Config
-@Autonomous(name= "BDAuto_WallPark_StonesAndFoundation_Red", group="Tank Red")
+@Disabled
+@Autonomous(name= "BDAuto_MiddlePark_StonesAndFoundation_Red", group="Tank")
 
-public class BDAuto_WallPark_StonesAndFoundation_Red extends BaseLinearOpMode {
+public class BDAuto_MiddlePark_StonesAndFoundation_Red extends BaseLinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
     //0 means skystone, 1 (or 255) means yellow stone
@@ -82,7 +84,7 @@ public class BDAuto_WallPark_StonesAndFoundation_Red extends BaseLinearOpMode {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         webcam.openCameraDevice();//open camera
-        webcam.setPipeline(new BDAuto_WallPark_StonesAndFoundation_Red.StageSwitchingPipeline());//different stages
+        webcam.setPipeline(new BDAuto_MiddlePark_StonesAndFoundation_Red.StageSwitchingPipeline());//different stages
         webcam.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT);//display on RC
         //width, height
         //width = height in this case, because camera is in portrait mode.

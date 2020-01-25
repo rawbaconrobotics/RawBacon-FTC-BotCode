@@ -84,7 +84,7 @@ if(opModeIsActive()) {
     public void grabUpAuto(){
         if(opModeIsActive()) {
             grabberServo.setPower(-0.6);
-            sleep(1000);
+            sleep(750);
             grabberServo.setPower(0);
         }
     }

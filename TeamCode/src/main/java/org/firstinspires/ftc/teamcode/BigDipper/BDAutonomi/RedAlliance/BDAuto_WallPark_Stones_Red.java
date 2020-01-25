@@ -21,20 +21,36 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.List;
 
+//DONE
 
 /**
  * @author Raw Bacon Coders
  * Autonomous for robot
  */
- //nerverest ticks
- //60 1680
- //40 1120
- //20 560
+//nerverest ticks
+//60 1680
+//40 1120
+//20 560
 @Config
-@Autonomous(name= "BDAuto_WallPark_Stones_Red", group="Tank Red")
+@Autonomous(name= "BDAuto_WallPark_Stones_Red", group="Tank")
 
 public class BDAuto_WallPark_Stones_Red extends BaseLinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
+
+    public static double one = 48;
+    public static double two = 10;
+    public static double three = 16;
+    public static double four = 28;
+    public static double fourpointfive = 7;
+    public static double five = 38;
+    public static double fivepointfive = 1;
+    public static double six = 34;
+    public static double seven = 27;
+    public static double eight = 20;
+    static double nine = 0;
+    static double ten = 0;
+    static double eleven = 0;
+
 
     //0 means skystone, 1 (or 255) means yellow stone
     //-1 for debug, but we can keep it like this because if it works, it should change to either 0 or 255
@@ -72,17 +88,17 @@ public class BDAuto_WallPark_Stones_Red extends BaseLinearOpMode {
 
         //The following commented out code is what we would use if we didn't have a webcam.
         //  int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-      //  phoneCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
-      //  phoneCam.openCameraDevice();//open camera
-      //  phoneCam.setPipeline(new StageSwitchingPipeline());//different stages
-      //  phoneCam.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT);//display on RC
+        //  phoneCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
+        //  phoneCam.openCameraDevice();//open camera
+        //  phoneCam.setPipeline(new StageSwitchingPipeline());//different stages
+        //  phoneCam.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT);//display on RC
         //width, height
         //width = height in this case, because camera is in portrait mode.
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         webcam.openCameraDevice();//open camera
-        webcam.setPipeline(new BDAuto_WallPark_Stones_Red.StageSwitchingPipeline());//different stages
+        webcam.setPipeline(new BDAuto_MiddlePark_Stones_Red.StageSwitchingPipeline());//different stages
         webcam.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT);//display on RC
         //width, height
         //width = height in this case, because camera is in portrait mode.
@@ -97,8 +113,8 @@ public class BDAuto_WallPark_Stones_Red extends BaseLinearOpMode {
         if(isStopRequested()){
             webcam.stopStreaming();
         }
-        }
-        /** Runs the process */
+    }
+    /** Runs the process */
 
         /*Sebastian, here is where you code the auto. If you need to code for a scenario where we don't start by
         looking at stones, just reuse one of the old lukemoment autos (add @Config at beginning for dashboard). I re-coded
@@ -115,96 +131,86 @@ public class BDAuto_WallPark_Stones_Red extends BaseLinearOpMode {
 
         -Luke
          */
-        @Override
-        public void run () {
+    @Override
+    public void run () {
 
-            webcam.stopStreaming();
+        webcam.stopStreaming();
 
-            runtime.reset();
+        runtime.reset();
 
-            if (valLeft == 0) { // stone is on left, run left path
+        robot.bddrivetrain.driveFor(28,.7,10);
+        sleep(1000);
 
-                robot.bddrivetrain.strafeFor(9,-2,15);
-                sleep(500);
-                //I hope turnfor works! If not just look at our github history there's something somewhere
-                robot.bddrivetrain.turnFor(90, 0.5, 15);
-                sleep(1000);
-                robot.bddrivetrain.driveFor(25.125, 0.5, 15);
-                sleep(1000);
-                robot.bdcapstone.openCapstoneAuto();
-                sleep(1000);
-                robot.bdcapstone.closeCapstoneAuto();
-                sleep(1000);
-                robot.bdgrabber.grabDownAuto();
-                sleep(1000);
-                robot.bdgrabber.grabUpAuto();
+        if (valLeft == 0) { // stone is on left, run left path
 
-            } else if (valMid == 0) { // stone is in middle, run middle path
-
-                robot.bddrivetrain.strafeFor(9,-2,15);
-                sleep(500);
-                //I hope turnfor works! If not just look at our github history there's something somewhere
-                robot.bddrivetrain.turnFor(90, 0.5, 15);
-                sleep(1000);
-                robot.bddrivetrain.driveFor(25.125, 0.5, 15);
-                sleep(1000);
-                robot.bdcapstone.openCapstoneAuto();
-                sleep(1000);
-                robot.bdcapstone.closeCapstoneAuto();
-                sleep(1000);
-                robot.bdgrabber.grabDownAuto();
-                sleep(1000);
-                robot.bdgrabber.grabUpAuto();
-
-            } else if (valRight == 0) { //stone on right, run right path
-
-                robot.bddrivetrain.strafeFor(9,-2,15);
-                sleep(500);
-                //I hope turnfor works! If not just look at our github history there's something somewhere
-                robot.bddrivetrain.turnFor(90, 0.5, 15);
-                sleep(1000);
-                robot.bddrivetrain.driveFor(25.125, 0.5, 15);
-                sleep(1000);
-                robot.bdcapstone.openCapstoneAuto();
-                sleep(1000);
-                robot.bdcapstone.closeCapstoneAuto();
-                sleep(1000);
-                robot.bdgrabber.grabDownAuto();
-                sleep(1000);
-                robot.bdgrabber.grabUpAuto();
-
-            } else {
-                    //skystone location cannot be determined, either try for a random one or just grab the foundation
-
-                robot.bddrivetrain.strafeFor(9,-2,15);
-                sleep(500);
-                //I hope turnfor works! If not just look at our github history there's something somewhere
-                robot.bddrivetrain.turnFor(90, 0.5, 15);
-                sleep(1000);
-                robot.bddrivetrain.driveFor(25.125, 0.5, 15);
-                sleep(1000);
-                robot.bdcapstone.openCapstoneAuto();
-                sleep(1000);
-                robot.bdcapstone.closeCapstoneAuto();
-                sleep(1000);
-                robot.bdgrabber.grabDownAuto();
-                sleep(1000);
-                robot.bdgrabber.grabUpAuto();
+            robot.bddrivetrain.strafeFor(8, .7, 10);
+            sleep(1000);
+            robot.bddrivetrain.driveFor(7,.7,10);
+            sleep(1000);
+            robot.bdgrabber.grabDownAuto();
+            sleep(1000);
+            robot.bddrivetrain.driveFor(-4,-.7,10);
+            sleep(1000);
+            robot.bddrivetrain.strafeFor(-8, .7, 10);
+            sleep(1000);
 
 
-            }
-            telemetry.addData("PATH", "COMPLETE");
-            //call movement functions
+        } else if (valMid == 0) { // stone is in middle, run middle path
+
+            robot.bddrivetrain.driveFor(7,.7,10);
+            sleep(1000);
+            robot.bdgrabber.grabDownAuto();
+            sleep(1000);
+            robot.bddrivetrain.driveFor(-4,-.7,10);
+            sleep(1000);
+
+
+        } else if (valRight == 0) { //stone on right, run right path
+
+            robot.bddrivetrain.strafeFor(-8, .7, 10);
+            sleep(1000);
+            robot.bddrivetrain.driveFor(7,.7,10);
+            sleep(1000);
+            robot.bdgrabber.grabDownAuto();
+            sleep(1000);
+            robot.bddrivetrain.driveFor(-4,-.7,10);
+            sleep(1000);
+            robot.bddrivetrain.strafeFor(8, .7, 10);
+            sleep(1000);
+
+
+        } else {
+            robot.bddrivetrain.driveFor(4,.7,10);
+            sleep(1000);
+            robot.bdgrabber.grabDownAuto();
+            sleep(1000);
+            robot.bddrivetrain.driveFor(-4,-.7,10);
+            //skystone location cannot be determined, either try for a random one or just grab the foundation
+
+        }
+
+
+        robot.bddrivetrain.driveFor(-27.5,-.7,10);
+        robot.bddrivetrain.turnFor(90, .7,15);
+        robot.bddrivetrain.driveFor(50,.7,10);
+        robot.bdgrabber.grabUpAuto();
+        robot.bddrivetrain.driveFor(-16,-.7,10);
+
+
+
+
+        telemetry.addData("PATH", "COMPLETE");
+        //call movement functions
 //            strafe(0.4, 200);
 //            moveDistance(0.4, 700);
 
-        }
+    }
 
 
-        /** What the robot should do when it sees the stop button was pressed / timer ended */
-        public void on_stop() {
-            robot.bddrivetrain.stopDrive();
-        }
+    /** What the robot should do when it sees the stop button was pressed / timer ended */
+    public void on_stop() {
+        robot.bddrivetrain.stopDrive();
+    }
 
     //detection pipeline --- don't mess with any of this unless CV detection area is sketchy
     static class StageSwitchingPipeline extends OpenCvPipeline
@@ -224,7 +230,7 @@ public class BDAuto_WallPark_Stones_Red extends BaseLinearOpMode {
         private Stage stageToRenderToViewport = Stage.detection;
         private Stage[] stages = Stage.values();
 
-        
+
         @Override
         public void onViewportTapped()
         {

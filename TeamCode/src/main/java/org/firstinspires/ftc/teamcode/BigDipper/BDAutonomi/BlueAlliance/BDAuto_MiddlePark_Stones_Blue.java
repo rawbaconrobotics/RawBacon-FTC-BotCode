@@ -137,60 +137,59 @@ public class BDAuto_MiddlePark_Stones_Blue extends BaseLinearOpMode {
 
             runtime.reset();
 
-            robot.bddrivetrain.driveFor(28,.7,10);
-            sleep(1000);
+            robot.bddrivetrain.driveFor(28,1,10);
+            sleep(500);
 
             if (valLeft == 0) { // stone is on left, run left path
 
-                robot.bddrivetrain.strafeFor(-8, .7, 10);
-                sleep(1000);
-                robot.bddrivetrain.driveFor(7,.7,10);
-                sleep(1000);
+                robot.bddrivetrain.strafeFor(-8, 1, 10);
+                sleep(500);
+                robot.bddrivetrain.driveFor(15,1,10);
+                sleep(500);
                 robot.bdgrabber.grabDownAuto();
-                sleep(1000);
-                robot.bddrivetrain.driveFor(-4,-.7,10);
-                sleep(1000);
-                robot.bddrivetrain.strafeFor(8, .7, 10);
-                sleep(1000);
+                sleep(500);
+                robot.bddrivetrain.driveFor(-19,-1,10);
+                sleep(500);
+                robot.bddrivetrain.strafeFor(8, 1, 10);
+                sleep(500);
 
 
             } else if (valMid == 0) { // stone is in middle, run middle path
 
-                robot.bddrivetrain.driveFor(7,.7,10);
-                sleep(1000);
+                robot.bddrivetrain.driveFor(15,1,10);
+                sleep(500);
                 robot.bdgrabber.grabDownAuto();
-                sleep(1000);
-                robot.bddrivetrain.driveFor(-4,-.7,10);
-                sleep(1000);
+                sleep(500);
+                robot.bddrivetrain.driveFor(-19,-1,10);
+                sleep(500);
 
 
             } else if (valRight == 0) { //stone on right, run right path
 
-                robot.bddrivetrain.strafeFor(8, .7, 10);
-                sleep(1000);
-                robot.bddrivetrain.driveFor(7,.7,10);
-                sleep(1000);
+                robot.bddrivetrain.strafeFor(8, 1, 10);
+                sleep(500);
+                robot.bddrivetrain.driveFor(15,1,10);
+                sleep(500);
                 robot.bdgrabber.grabDownAuto();
-                sleep(1000);
-                robot.bddrivetrain.driveFor(-4,-.7,10);
-                sleep(1000);
-                robot.bddrivetrain.strafeFor(-8, .7, 10);
-                sleep(1000);
+                sleep(500);
+                robot.bddrivetrain.driveFor(-19,-1,10);
+                sleep(500);
+                robot.bddrivetrain.strafeFor(-8, 1, 10);
+                sleep(500);
 
 
             } else {
-                robot.bddrivetrain.driveFor(4,.7,10);
-                sleep(1000);
+                robot.bddrivetrain.driveFor(15,1,10);
+                sleep(500);
                 robot.bdgrabber.grabDownAuto();
-                sleep(1000);
-                robot.bddrivetrain.driveFor(-4,-.7,10);
+                sleep(500);
+                robot.bddrivetrain.driveFor(-19,-1,10);
                     //skystone location cannot be determined, either try for a random one or just grab the foundation
 
             }
 
-            robot.bddrivetrain.driveFor(-7,-.7,10);
-            sleep(1000);
-            robot.bddrivetrain.turnFor(-90, .7, 15);
+            sleep(500);
+            robot.bddrivetrain.turnFor(-88, 1, 15);
 
             /*
             //TURNING SAW THE ACTUAL VALUES AS POTITIVE!!!!!!!
@@ -198,12 +197,12 @@ public class BDAuto_MiddlePark_Stones_Blue extends BaseLinearOpMode {
             --nevermind, seems to be fixed
              */
 
-            sleep(1000);
-            robot.bddrivetrain.driveFor(54,.7,10);
-            sleep(1000);
+            sleep(500);
+            robot.bddrivetrain.driveFor(54,1,10);
+            sleep(500);
             robot.bdgrabber.grabUpAuto();
-            sleep(1000);
-            robot.bddrivetrain.driveFor(-20,-20,10);
+            sleep(500);
+            robot.bddrivetrain.driveFor(-22,-1,10);
 
 
             telemetry.addData("PATH", "COMPLETE");
