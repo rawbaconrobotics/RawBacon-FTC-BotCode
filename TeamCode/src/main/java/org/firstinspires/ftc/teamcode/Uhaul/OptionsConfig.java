@@ -10,9 +10,8 @@ import org.firstinspires.ftc.teamcode.Uhaul.AutonomousSelector;
 public class OptionsConfig {
 
 
-    public static AutonomousSelector.Options tasks = AutonomousSelector.Options.DO_BOTH;
-    public static AutonomousSelector.Options park_middle_or_wall = AutonomousSelector.Options.PARK_MIDDLE;
-    public static AutonomousSelector.Options neither_starting_position = AutonomousSelector.Options.DID_NOT_SELECT_NEITHER;
+    public static AutonomousSelector.Options tasks = AutonomousSelector.Options.DO_FOUNDATION;
+    public static AutonomousSelector.Park park = AutonomousSelector.Park.PARK_MIDDLE;
 
 
 }

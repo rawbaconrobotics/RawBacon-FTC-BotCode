@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 //DONE
-
 /**
  * @author Raw Bacon Coders
  * Autonomous for robot
@@ -33,7 +32,6 @@ import java.util.List;
 //20 560
 @Config
 @Autonomous(name= "BDAuto_WallPark_Stones_Red", group="Tank")
-
 public class BDAuto_WallPark_Stones_Red extends BaseLinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -116,21 +114,7 @@ public class BDAuto_WallPark_Stones_Red extends BaseLinearOpMode {
     }
     /** Runs the process */
 
-        /*Sebastian, here is where you code the auto. If you need to code for a scenario where we don't start by
-        looking at stones, just reuse one of the old lukemoment autos (add @Config at beginning for dashboard). I re-coded
-        turnfor using gyros that work so I *hope*
-        that it works. I'm pretty sure this is obvious but I just wanted to mention, add the tasks that the robot can do
-        are under our robot class, so you will be calling all functions under robot.component.function.
-        For easier testing if you make a distance into a static variable (outside of the function) then just reference it
-        here, you can change the values live with FTC dashboard. Just make sure you're connected to the phone wifi
-        and go to http://192.168.49.1:8080/dash and you're good. Just make sure to scroll up and click save every time you
-        change something and of course because the values don't save to the code file, when you get them down, write
-        them down somewhere else to transfer here!
 
-        Oh last thing dont forget to push at the end of the day thanks
-
-        -Luke
-         */
     @Override
     public void run () {
 
@@ -138,65 +122,68 @@ public class BDAuto_WallPark_Stones_Red extends BaseLinearOpMode {
 
         runtime.reset();
 
-        robot.bddrivetrain.driveFor(28,.7,10);
-        sleep(1000);
+        robot.bddrivetrain.driveFor(28,1,10);
+        sleep(500);
 
         if (valLeft == 0) { // stone is on left, run left path
 
-            robot.bddrivetrain.strafeFor(8, .7, 10);
-            sleep(1000);
-            robot.bddrivetrain.driveFor(7,.7,10);
-            sleep(1000);
+            robot.bddrivetrain.strafeFor(8, 1, 10);
+            sleep(500);
+            robot.bddrivetrain.driveFor(15,1,10);
+            sleep(500);
             robot.bdgrabber.grabDownAuto();
-            sleep(1000);
-            robot.bddrivetrain.driveFor(-4,-.7,10);
-            sleep(1000);
-            robot.bddrivetrain.strafeFor(-8, .7, 10);
-            sleep(1000);
+            sleep(500);
+            robot.bddrivetrain.driveFor(-19,-1,10);
+            sleep(500);
+            robot.bddrivetrain.strafeFor(-8, 1, 10);
+            sleep(500);
 
 
         } else if (valMid == 0) { // stone is in middle, run middle path
 
-            robot.bddrivetrain.driveFor(7,.7,10);
-            sleep(1000);
+            robot.bddrivetrain.driveFor(15,1,10);
+            sleep(500);
             robot.bdgrabber.grabDownAuto();
-            sleep(1000);
-            robot.bddrivetrain.driveFor(-4,-.7,10);
-            sleep(1000);
+            sleep(500);
+            robot.bddrivetrain.driveFor(-19,-1,10);
+            sleep(500);
 
 
         } else if (valRight == 0) { //stone on right, run right path
 
-            robot.bddrivetrain.strafeFor(-8, .7, 10);
-            sleep(1000);
-            robot.bddrivetrain.driveFor(7,.7,10);
-            sleep(1000);
+            robot.bddrivetrain.strafeFor(-8, 1, 10);
+            sleep(500);
+            robot.bddrivetrain.driveFor(15,1,10);
+            sleep(500);
             robot.bdgrabber.grabDownAuto();
-            sleep(1000);
-            robot.bddrivetrain.driveFor(-4,-.7,10);
-            sleep(1000);
-            robot.bddrivetrain.strafeFor(8, .7, 10);
-            sleep(1000);
+            sleep(500);
+            robot.bddrivetrain.driveFor(-19,-1,10);
+            sleep(500);
+            robot.bddrivetrain.strafeFor(8, 1, 10);
+            sleep(500);
 
 
         } else {
-            robot.bddrivetrain.driveFor(4,.7,10);
-            sleep(1000);
+            robot.bddrivetrain.driveFor(15,1,10);
+            sleep(500);
             robot.bdgrabber.grabDownAuto();
-            sleep(1000);
-            robot.bddrivetrain.driveFor(-4,-.7,10);
+            sleep(500);
+            robot.bddrivetrain.driveFor(-19,-1,10);
             //skystone location cannot be determined, either try for a random one or just grab the foundation
 
         }
 
+        sleep(500);
+        robot.bddrivetrain.driveFor(-27.5,-1,10);
+        robot.bddrivetrain.turnFor(85, 1, 15);
 
-        robot.bddrivetrain.driveFor(-27.5,-.7,10);
-        robot.bddrivetrain.turnFor(90, .7,15);
-        robot.bddrivetrain.driveFor(50,.7,10);
+
+        sleep(500);
+        robot.bddrivetrain.driveFor(54,1,10);
+        sleep(500);
         robot.bdgrabber.grabUpAuto();
-        robot.bddrivetrain.driveFor(-16,-.7,10);
-
-
+        sleep(500);
+        robot.bddrivetrain.driveFor(-22,-1,10);
 
 
         telemetry.addData("PATH", "COMPLETE");

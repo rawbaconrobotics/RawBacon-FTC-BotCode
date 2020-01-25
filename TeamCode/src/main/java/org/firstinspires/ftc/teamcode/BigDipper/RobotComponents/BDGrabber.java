@@ -52,7 +52,12 @@ public class BDGrabber extends RobotComponentImplBase{
     @Override
     public void initAutonomous() {
         grabberServo = hardwareMap.crservo.get(GRABBER_SERVO_NAME);
+
+        grabberServo.setPower(-0.6);
+        sleep(750);
+        grabberServo.setPower(0);
     }
+
 
      /**
      * Opens or closes the grabber based upon the current state it is in

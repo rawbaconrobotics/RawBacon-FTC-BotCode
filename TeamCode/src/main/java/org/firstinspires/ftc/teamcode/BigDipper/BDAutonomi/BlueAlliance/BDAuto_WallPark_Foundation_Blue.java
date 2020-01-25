@@ -41,11 +41,13 @@ public class BDAuto_WallPark_Foundation_Blue extends BaseLinearOpMode {
     public static double one = 48;
     public static double two = 10;
     public static double three = 16;
-    public static double four = 28;
+    public static double four = 34;
     public static double fourpointfive = 7;
     public static double five = 38;
     public static double fivepointfive = 1;
-    public static double six = (34+20);
+    public static double six = 40;
+    public static double seven = 20;
+    public static double eight = 20;
     static double nine = 0;
     static double ten = 0;
     static double eleven = 0;
@@ -95,21 +97,7 @@ public class BDAuto_WallPark_Foundation_Blue extends BaseLinearOpMode {
 
     }
 
-    /*Sebastian, here is where you code the auto. If you need to code for a scenario where we don't start by
-    looking at stones, just reuse one of the old lukemoment autos (add @Config at beginning for dashboard). I re-coded
-    turnfor using gyros that work so I *hope*
-    that it works. I'm pretty sure this is obvious but I just wanted to mention, add the tasks that the robot can do
-    are under our robot class, so you will be calling all functions under robot.component.function.
-    For easier testing if you make a distance into a static variable (outside of the function) then just reference it
-    here, you can change the values live with FTC dashboard. Just make sure you're connected to the phone wifi
-    and go to http://192.168.49.1:8080/dash and you're good. Just make sure to scroll up and click save every time you
-    change something and of course because the values don't save to the code file, when you get them down, write
-    them down somewhere else to transfer here!
 
-    Oh last thing dont forget to push at the end of the day thanks
-
-    -Luke
-     */
     @Override
     public void run () {
 
@@ -134,8 +122,9 @@ public class BDAuto_WallPark_Foundation_Blue extends BaseLinearOpMode {
         sleep(100);
         robot.bdlatch.openLatch();
         sleep(1000);
-        robot.bddrivetrain.strafeFor(-six,.8,5);
+        robot.bddrivetrain.strafeFor(((-six)+(-seven)),.8,5);
         sleep(100);
+
 
 
         telemetry.addData("PATH", "COMPLETE");

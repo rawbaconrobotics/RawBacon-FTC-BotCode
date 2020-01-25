@@ -42,7 +42,7 @@ public class LukeMomentAutoBlueMiddle extends BaseLinearOpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         AutonomousSelector.deserializeOptions();
         telemetry.addData("TASK:", OptionsConfig.tasks.option());
-        telemetry.addData("PARK:", OptionsConfig.park_middle_or_wall.option());
+        //telemetry.addData("PARK:", OptionsConfig.park_middle_or_wall.option());
         AutonomousSelector.deserializeAlliance();
         if(AllianceConfig.redAlliance.redAlliancePressed() == true){
             telemetry.addData("ALLIANCE IS RED", "NICE");

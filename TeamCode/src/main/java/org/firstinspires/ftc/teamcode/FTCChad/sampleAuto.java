@@ -13,8 +13,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-@Autonomous(name="not cheating", group="chad")
-public class notCheating extends LinearOpMode {
+@Autonomous(name="Sample OpMode (Chad) - Do Not Use", group="sample")
+public class sampleAuto extends LinearOpMode {
     //
     DcMotor frontleft;
     DcMotor frontright;
