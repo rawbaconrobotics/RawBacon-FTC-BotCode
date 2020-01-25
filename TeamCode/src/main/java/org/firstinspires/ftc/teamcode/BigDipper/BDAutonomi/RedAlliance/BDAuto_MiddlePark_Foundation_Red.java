@@ -104,29 +104,29 @@ public class BDAuto_MiddlePark_Foundation_Red extends BaseLinearOpMode {
 
         runtime.reset();
 
-        robot.bddrivetrain.driveFor(-one, -.8, 5);
+        robot.bddrivetrain.driveFor(-47, -.8, 5);
         sleep(100);
-        robot.bddrivetrain.strafeFor(-two,.7,4);
+        robot.bddrivetrain.strafeFor(-10,.7,4);
         sleep(100);
-        robot.bddrivetrain.driveFor(three, .8,4);
+        robot.bddrivetrain.driveFor(19, .8,4);
         sleep(100);
-        robot.bddrivetrain.strafeFor(-four,.8,7);
+        robot.bddrivetrain.strafeFor(-28,.8,7);
         sleep(100);
-        robot.bddrivetrain.driveFor(-fourpointfive,-.7,7);
+        robot.bddrivetrain.driveFor(-7,-.7,7);
         sleep(100);
         robot.bdlatch.closeLatch();
         sleep(1000);
-        robot.bddrivetrain.driveFor(five,.8,7);
+        robot.bddrivetrain.driveFor(38,.8,7);
         sleep(100);
-        robot.bddrivetrain.driveFor(-fivepointfive,-.8,7);
+        robot.bddrivetrain.driveFor(-1,-.8,7);
         sleep(100);
         robot.bdlatch.openLatch();
         sleep(1000);
-        robot.bddrivetrain.strafeFor(six,.8,5);
+        robot.bddrivetrain.strafeFor(40,.8,5);
         sleep(100);
-        robot.bddrivetrain.driveFor(-seven,-.8,5);
+        robot.bddrivetrain.driveFor(-25,-.8,5);
         sleep(100);
-        robot.bddrivetrain.strafeFor(eight,.8,4);
+        robot.bddrivetrain.strafeFor(20,.8,4);
         sleep(100);
 
 

@@ -160,7 +160,7 @@ public class BDAuto_MiddlePark_Stones_Blue extends BaseLinearOpMode {
                 sleep(500);
                 robot.bddrivetrain.driveFor(-19,-1,10);
                 sleep(500);
-                robot.bddrivetrain.strafeFor(-8, 1, 10);
+                robot.bddrivetrain.strafeFor(-7, 1, 10);
                 sleep(500);
 
 

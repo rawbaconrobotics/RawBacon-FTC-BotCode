@@ -151,7 +151,7 @@ public class BDAuto_WallPark_Stones_Red extends BaseLinearOpMode {
 
         } else if (valRight == 0) { //stone on right, run right path
 
-            robot.bddrivetrain.strafeFor(-8, 1, 10);
+            robot.bddrivetrain.strafeFor(-7, 1, 10);
             sleep(500);
             robot.bddrivetrain.driveFor(15,1,10);
             sleep(500);

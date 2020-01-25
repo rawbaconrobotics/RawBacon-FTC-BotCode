@@ -39,7 +39,6 @@ public class LukeMomentAutoBlueMiddle extends BaseLinearOpMode {
     public void on_init() {
         System.out.println("INIT PROCESS STARTING");
 
-        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         AutonomousSelector.deserializeOptions();
         telemetry.addData("TASK:", OptionsConfig.tasks.option());
         //telemetry.addData("PARK:", OptionsConfig.park_middle_or_wall.option());
@@ -54,6 +53,8 @@ public class LukeMomentAutoBlueMiddle extends BaseLinearOpMode {
             telemetry.addData("ALLIANCE IS BROKEN", "OOF");
 
         }
+        telemetry.addData("PARKING:", OptionsConfig.park.option());
+
         telemetry.update();
         //robot.bddrivetrain.initAutonomous();
 

@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.BigDipper.BDAutonomi.BlueAlliance;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -51,6 +52,7 @@ public class BDAuto_MiddlePark_Foundation_Blue extends BaseLinearOpMode {
      static double nine = 0;
      static double ten = 0;
      static double eleven = 0;
+     public OpMode opMode = this;
 
 
 
