@@ -192,8 +192,11 @@ public class BDAuto_MiddlePark_Stones_Blue extends BaseLinearOpMode {
             sleep(1000);
             robot.bddrivetrain.turnFor(-90, .7, 15);
 
+            /*
             //TURNING SAW THE ACTUAL VALUES AS POTITIVE!!!!!!!
             //KEPT GOING FOREVER TURNING RIGHT
+            --nevermind, seems to be fixed
+             */
 
             sleep(1000);
             robot.bddrivetrain.driveFor(54,.7,10);

@@ -561,9 +561,9 @@ public class BDDriveTrain extends RobotComponentImplBase {
     /**
      * Rotate left or right the number of degrees. Does not support turning more than 180 degrees.
      */
-    public void turnFor(double degrees, double power, double timeoutS) {
+    public void turnFor(double origDegrees, double power, double timeoutS) {
         double leftPower, rightPower;
-
+        double degrees = -origDegrees;
         // restart imu movement tracking.
         resetAngle();
 
@@ -588,21 +588,21 @@ public class BDDriveTrain extends RobotComponentImplBase {
         // rotate until turn is completed.
         if (degrees < 0) {
             // On right turn we have to get off zero first.
-            while (opModeIsActive() && -getAngle() == 0) {
+            while (opModeIsActive() && getAngle() == 0) {
                 telemetry.addData("Angle currently", -getAngle());
                 telemetry.addData("Angle wanted", degrees);
                 telemetry.update();
 
             }
 
-            while ((opModeIsActive() && -getAngle() > degrees) && (runtime.seconds() < timeoutS)) {
+            while ((opModeIsActive() && getAngle() > degrees) && (runtime.seconds() < timeoutS)) {
                 telemetry.addData("Angle currently", -getAngle());
                 telemetry.addData("Angle wanted", degrees);
                 telemetry.update();
 
             }
         } else    // left turn.
-            while ((opModeIsActive() && -getAngle() < degrees) && (runtime.seconds() < timeoutS)) {
+            while ((opModeIsActive() && getAngle() < degrees) && (runtime.seconds() < timeoutS)) {
                 telemetry.addData("Angle currently", -getAngle());
                 telemetry.addData("Angle wanted", degrees);
                 telemetry.update();
