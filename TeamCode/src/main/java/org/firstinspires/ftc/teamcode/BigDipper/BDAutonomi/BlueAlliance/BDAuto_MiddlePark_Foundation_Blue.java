@@ -46,7 +46,7 @@ public class BDAuto_MiddlePark_Foundation_Blue extends BaseLinearOpMode {
     public static double five = 38;
     public static double fivepointfive = 1;
      public static double six = 40;
-     public static double seven = 27;
+     public static double seven = 23;
      public static double eight = 20;
      static double nine = 0;
      static double ten = 0;

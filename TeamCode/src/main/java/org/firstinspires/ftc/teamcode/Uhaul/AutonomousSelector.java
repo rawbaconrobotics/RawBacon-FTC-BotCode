@@ -156,6 +156,7 @@ public class AutonomousSelector extends LinearOpMode {
 
         // Wait until we're told to go
         while (!isStarted()) {
+            telemetry.addData("not", "started");
             telemetry.update();
             idle();
         }
@@ -175,31 +176,31 @@ public class AutonomousSelector extends LinearOpMode {
         allianceConfig = new AllianceConfig();
         optionsConfig = new OptionsConfig();
 
-
+        telemetry.update();
 
         File allianceFile = AppUtil.getInstance().getSettingsFile(allianceFileName);
         File optionsFile = AppUtil.getInstance().getSettingsFile(optionsFileName);
 
-        while(opModeIsActive()){
+        while(opModeIsActive()) {
 
-            if(stepNumber == 0 && buttonPressed1()){
+            if (stepNumber == 0 && buttonPressed1()) {
 
                 stepNumber++;
 
-                while(buttonPressed1()){
+                while (buttonPressed1()) {
                     telemetry.update();
                     idle();
                 }
 
             }
 
-            if(stepNumber == 1 && buttonPressed1()){
+            if (stepNumber == 1 && buttonPressed1()) {
 
                 registerAllianceButton(gamepad1, allianceConfig.redAlliance);
 
                 currentQuery.setValue("Release");
 
-                while(buttonPressed1()){
+                while (buttonPressed1()) {
                     telemetry.update();
                     idle();
                 }
@@ -209,12 +210,12 @@ public class AutonomousSelector extends LinearOpMode {
 
             }
 
-            if(stepNumber == 2 && buttonPressed1()){
+            if (stepNumber == 2 && buttonPressed1()) {
                 registerTasks(gamepad1, optionsConfig.tasks);
 
                 currentQuery.setValue("Release");
 
-                while(buttonPressed1()){
+                while (buttonPressed1()) {
                     telemetry.update();
                     idle();
                 }
@@ -222,31 +223,30 @@ public class AutonomousSelector extends LinearOpMode {
                 stepNumber++;
                 currentQuery.setValue(message);
             }
-            if(stepNumber == 3 && buttonPressed1()){
+            if (stepNumber == 3 && buttonPressed1()) {
                 registerMiddleOrWall(gamepad1, optionsConfig.park);
 
                 currentQuery.setValue("Release");
 
-                while(buttonPressed1()){
+                while (buttonPressed1()) {
                     telemetry.update();
                     idle();
                 }
 
                 stepNumber++;
                 currentQuery.setValue(message);
-            }
 
 
-                if(gamepad1.a){
+                if (gamepad1.a) {
 
                     ReadWriteFile.writeFile(allianceFile, serializeAllianceConfig());
                     ReadWriteFile.writeFile(optionsFile, serializeOptionsConfig());
                 }
 
 
-
                 stepNumber++;
             }
+        }
 
             //
             //    If we wanted to add more options, we can use the code below
@@ -451,7 +451,7 @@ public class AutonomousSelector extends LinearOpMode {
             "To ensure the controls are working, press A to continue.",
             "Press \"B\" for RED ALLIANCE, and press \"X\" for BLUE ALLIANCE",
             "What tasks should the robot do? Press \"A\" for FOUNDATION ONLY, press \"B\" for STONE ONLY, press \"X\" for BOTH. **IF YOU ARE DOING NEITHER, PRESS RIGHT TRIGGER TO START BUILDING SIDE, AND LEFT TRIGGER TO START DEPOT SIDE",
-            "middle or wall",
+            "Press \"A\" if you are parking near the MIDDLE SKYBRIDGE, Press \"B\" if you are parking near the WALL.",
             "Done! Please press \"A\" to continue (Don't exit yet!).",
             "File Saved! Now press stop and init the OFFICIAL Autonomous!"
     };
