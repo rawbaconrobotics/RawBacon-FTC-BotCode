@@ -154,9 +154,8 @@ public class BDAuto_MiddlePark_Foundation_Red extends BaseLinearOpMode {
 
     /** What the robot should do when it sees the stop button was pressed / timer ended */
     public void on_stop() {
-//Nothing.
+        robot.bddrivetrain.stopDrive();
     }
-
     //detection pipeline --- don't mess with any of this unless CV detection area is sketchy
     static class StageSwitchingPipeline extends OpenCvPipeline
     {

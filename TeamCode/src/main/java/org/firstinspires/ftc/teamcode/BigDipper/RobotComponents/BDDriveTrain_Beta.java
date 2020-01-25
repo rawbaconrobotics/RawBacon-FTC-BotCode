@@ -1,28 +1,18 @@
 package org.firstinspires.ftc.teamcode.BigDipper.RobotComponents;
 
-import com.acmerobotics.roadrunner.drive.MecanumDrive;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.PIDCoefficients;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
-import com.qualcomm.hardware.bosch.BNO055IMU;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-
-import java.time.temporal.ValueRange;
-import java.util.stream.IntStream;
 
 import static android.os.SystemClock.sleep;
 
@@ -31,7 +21,7 @@ import static android.os.SystemClock.sleep;
  * Represents the four wheel mechanum drive on Tank
  * @author Raw Bacon Coders
  */
-public class BDDriveTrain extends RobotComponentImplBase {
+public class BDDriveTrain_Beta extends RobotComponentImplBase {
 
     double kp = 14;
     double ki = 0;
@@ -89,8 +79,6 @@ public class BDDriveTrain extends RobotComponentImplBase {
     double realAngle = 0;
     double degreesWanted = 0;
 
-    boolean wheelAccelUsed = false;
-
 
     /**
      * Hardware maps and sets modes of all motors
@@ -130,14 +118,20 @@ public class BDDriveTrain extends RobotComponentImplBase {
         wheelAccelerationThread.addMotor(accRightDriveFront);
         wheelAccelerationThread.addMotor(accRightDriveBack);
         wheelAccelerationThread.start();
-        wheelAccelUsed = true;
     }
+
     /**
      * Hardware maps and sets modes of all motors and sets up the imu
      */
     @Override
     public void initAutonomous() {
         System.out.println("STARTING TO INIT AUTONOMOUS...");
+
+        accLeftDriveFront = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
+        accLeftDriveBack = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(BACKLEFT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
+        accRightDriveFront = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(FRONTRIGHT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
+        accRightDriveBack = new DcMotorAccelerated(opMode.hardwareMap.dcMotor.get(BACKRIGHT_WHEEL_NAME), WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT, WHEEL_MINIMUM_POWER, WHEEL_MAXIMUM_POWER);
+
 
         leftDriveBack = (DcMotorEx) hardwareMap.dcMotor.get(BACKLEFT_WHEEL_NAME);
         rightDriveBack = (DcMotorEx) hardwareMap.dcMotor.get(BACKRIGHT_WHEEL_NAME);
@@ -189,6 +183,11 @@ public class BDDriveTrain extends RobotComponentImplBase {
 
         runUsingEncoders();
 
+        wheelAccelerationThread.addMotor(accLeftDriveFront);
+        wheelAccelerationThread.addMotor(accLeftDriveBack);
+        wheelAccelerationThread.addMotor(accRightDriveFront);
+        wheelAccelerationThread.addMotor(accRightDriveBack);
+        wheelAccelerationThread.start();
 
     }
 
@@ -267,11 +266,10 @@ public class BDDriveTrain extends RobotComponentImplBase {
     public void drive(double speed) {
         System.out.println("DRIVE METHOD CALLED, SETTING TO SPEED" + speed);
 
-
-            leftDriveBack.setPower(speed);
-            rightDriveBack.setPower(speed);
-            leftDriveFront.setPower(speed);
-            rightDriveFront.setPower(speed);
+        accLeftDriveBack.setTargetPower(speed);
+        accRightDriveBack.setTargetPower(speed);
+        accLeftDriveFront.setTargetPower(speed);
+        accRightDriveFront.setTargetPower(speed);
 
     }
 
@@ -283,17 +281,17 @@ public class BDDriveTrain extends RobotComponentImplBase {
             //rightDriveFront.setPower(speed);
 
 
-            leftDriveBack.setPower(speed);
-            rightDriveBack.setPower(-speed);
-            leftDriveFront.setPower(-speed);
-            rightDriveFront.setPower(speed);
+            accLeftDriveBack.setTargetPower(speed);
+            accRightDriveBack.setTargetPower(-speed);
+            accLeftDriveFront.setTargetPower(-speed);
+            accRightDriveFront.setTargetPower(speed);
 
         } else {
 
-            leftDriveBack.setPower(-speed);
-            rightDriveBack.setPower(speed);
-            leftDriveFront.setPower(speed);
-            rightDriveFront.setPower(-speed);
+            accLeftDriveBack.setTargetPower(-speed);
+            accRightDriveBack.setTargetPower(speed);
+            accLeftDriveFront.setTargetPower(speed);
+            accRightDriveFront.setTargetPower(-speed);
            // leftDriveBack.setPower(-speed);
            // rightDriveBack.setPower(speed);
            // leftDriveFront.setPower(speed);
@@ -318,10 +316,10 @@ public class BDDriveTrain extends RobotComponentImplBase {
 
         if (clockwise) {
 
-            leftDriveBack.setPower(speed);
-            rightDriveBack.setPower(-speed);
-            leftDriveFront.setPower(speed);
-            rightDriveFront.setPower(-speed);
+            accLeftDriveBack.setTargetPower(speed);
+            accRightDriveBack.setTargetPower(-speed);
+            accLeftDriveFront.setTargetPower(speed);
+            accRightDriveFront.setTargetPower(-speed);
             /*
             accLeftDriveBack.setTargetPower(speed);
             accRightDriveBack.setTargetPower(-speed);
@@ -331,10 +329,10 @@ public class BDDriveTrain extends RobotComponentImplBase {
 
         } else {
 
-            leftDriveBack.setPower(-speed);
-            rightDriveBack.setPower(speed);
-            leftDriveFront.setPower(-speed);
-            rightDriveFront.setPower(speed);
+            accLeftDriveBack.setTargetPower(-speed);
+            accRightDriveBack.setTargetPower(speed);
+            accLeftDriveFront.setTargetPower(-speed);
+            accRightDriveFront.setTargetPower(speed);
 /*
             accLeftDriveBack.setTargetPower(-speed);
             accRightDriveBack.setTargetPower(speed);
@@ -562,6 +560,7 @@ public class BDDriveTrain extends RobotComponentImplBase {
     /**
      * Rotate left or right the number of degrees. Does not support turning more than 180 degrees.
      */
+    boolean clockwise = true;
     public void turnFor(double origDegrees, double power, double timeoutS) {
         double leftPower, rightPower;
         double degrees = -origDegrees;
@@ -574,16 +573,20 @@ public class BDDriveTrain extends RobotComponentImplBase {
         if (degrees < 0) {   // turn right.
             leftPower = power;
             rightPower = -power;
+            clockwise = true;
         } else if (degrees > 0) {   // turn left.
             leftPower = -power;
             rightPower = power;
+            clockwise = false;
         } else return;
 
         // set power to rotate.
-        leftDriveBack.setPower(leftPower);
-        leftDriveFront.setPower(leftPower);
-        rightDriveBack.setPower(rightPower);
-        rightDriveFront.setPower(rightPower);
+       // leftDriveBack.setPower(leftPower);
+       // leftDriveFront.setPower(leftPower);
+       // rightDriveBack.setPower(rightPower);
+       // rightDriveFront.setPower(rightPower);
+        turn(power, clockwise);
+
         runtime.reset();
 
         // rotate until turn is completed.
@@ -610,13 +613,14 @@ public class BDDriveTrain extends RobotComponentImplBase {
             }
 
         // turn the motors off.
-        leftDriveBack.setPower(0);
-        leftDriveFront.setPower(0);
-        rightDriveBack.setPower(0);
-        rightDriveFront.setPower(0);
+        //leftDriveBack.setPower(0);
+        //leftDriveFront.setPower(0);
+        //rightDriveBack.setPower(0);
+        //rightDriveFront.setPower(0);
 
+        turn(0, true);
         // wait for rotation to stop.
-        sleep(500); //use 1000 if this is not enough
+        sleep(1000); //use 500 if this is too much?
 
         // reset angle tracking on new heading.
         resetAngle();
@@ -636,8 +640,7 @@ public class BDDriveTrain extends RobotComponentImplBase {
 
     /** Stops the proccess */
     public void stopDrive(){
-        if(wheelAccelUsed){wheelAccelerationThread.stop();}
-
+        wheelAccelerationThread.stop();
         leftDriveBack.setPower(0);
         rightDriveBack.setPower(0);
         leftDriveFront.setPower(0);
@@ -738,7 +741,7 @@ public class BDDriveTrain extends RobotComponentImplBase {
         return bumperPressed;
     }
 
-    public BDDriveTrain(LinearOpMode opMode) {
+    public BDDriveTrain_Beta(LinearOpMode opMode) {
         super(opMode);
     }
 

@@ -202,9 +202,9 @@ public class BDAuto_WallPark_Stones_Red extends BaseLinearOpMode {
 
 
         /** What the robot should do when it sees the stop button was pressed / timer ended */
-    public void on_stop() {
-//Nothing.
-    }
+        public void on_stop() {
+            robot.bddrivetrain.stopDrive();
+        }
 
     //detection pipeline --- don't mess with any of this unless CV detection area is sketchy
     static class StageSwitchingPipeline extends OpenCvPipeline
