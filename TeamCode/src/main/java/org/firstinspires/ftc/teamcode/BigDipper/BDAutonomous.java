@@ -154,7 +154,7 @@ public class BDAutonomous extends BaseLinearOpMode {
 
 
     @Override
-    public void run() {
+    public void run()  {
         BDAuto_MiddlePark_Foundation_Red middleParkFoundationRed = new BDAuto_MiddlePark_Foundation_Red();
         BDAuto_MiddlePark_Stones_Red middleParkStonesRed = new BDAuto_MiddlePark_Stones_Red();
         BDAuto_ParkingOnly_StartBZ_MiddlePark_Red parkingOnlyStartBZMiddleParkRed = new BDAuto_ParkingOnly_StartBZ_MiddlePark_Red();
