@@ -21,7 +21,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.List;
 
-
+//DONE
 /**
  * @author Raw Bacon Coders
  * Autonomous for robot

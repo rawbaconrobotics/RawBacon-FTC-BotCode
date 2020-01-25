@@ -65,7 +65,10 @@ public class AutonomousSelector extends LinearOpMode {
         DO_BOTH,
         DO_NEITHER,
         PARK_MIDDLE,
-        PARK_WALL;
+        PARK_WALL,
+        STARTING_DEPOT_SIDE,
+        STARTING_BUILDER_SIDE,
+        DID_NOT_SELECT_NEITHER;
 
         public String option(){
             switch (this){
@@ -75,6 +78,9 @@ public class AutonomousSelector extends LinearOpMode {
                 case DO_NEITHER: return "DO NEITHER";
                 case PARK_MIDDLE: return "PARK MIDDLE";
                 case PARK_WALL: return "PARK WALL";
+                case STARTING_DEPOT_SIDE: return "DO NEITHER, START DEPOT SIDE";
+                case STARTING_BUILDER_SIDE: return "DO NEITHER, START BUILDER SIDE";
+                case DID_NOT_SELECT_NEITHER: return "STARTING NORMALLY, DID NOT SELECT DO NEITHER";
                 default: return "NO CONFIG SET!";
             }
         }
@@ -212,6 +218,19 @@ public class AutonomousSelector extends LinearOpMode {
                 currentQuery.setValue(message);
             }
             if(stepNumber == 3 && buttonPressed1()){
+                registerStartingSide(gamepad1, optionsConfig.neither_starting_position);
+
+                currentQuery.setValue("Release");
+
+                while(buttonPressed1()){
+                    telemetry.update();
+                    idle();
+                }
+
+                stepNumber++;
+                currentQuery.setValue(message);
+            }
+            if(stepNumber == 4 && buttonPressed1()){
                 registerMiddleOrWall(gamepad1, optionsConfig.park_middle_or_wall);
 
 
@@ -398,6 +417,21 @@ public class AutonomousSelector extends LinearOpMode {
         //else if(gamepad.dpad_right) mapTo = Button.DPAD_RIGHT;
     }
     /** Maps gamepad inputs to the options */
+    private void registerStartingSide(Gamepad gamepad, Options mapTo){
+        if(gamepad.a) mapTo = Options.DID_NOT_SELECT_NEITHER;
+        //else if (gamepad.b) mapTo = Options.DO_STONE;
+        else if(gamepad.x) mapTo = Options.STARTING_DEPOT_SIDE;
+        else if(gamepad.y) mapTo = Options.STARTING_BUILDER_SIDE;
+        //else if(gamepad.left_bumper) mapTo = Button.LEFT_BUMPER;
+        //else if(gamepad.right_bumper) mapTo = Button.RIGHT_BUMPER;
+        //else if(gamepad.left_stick_button) mapTo = Button.LEFT_STICK_BUTTON;
+        //else if(gamepad.right_stick_button) mapTo = Button.RIGHT_STICK_BUTTON;
+        //else if(gamepad.dpad_up) mapTo = Button.DPAD_UP;
+        //else if(gamepad.dpad_down) mapTo = Button.DPAD_DOWN;
+        //else if(gamepad.dpad_left) mapTo = Button.DPAD_LEFT;
+        //else if(gamepad.dpad_right) mapTo = Button.DPAD_RIGHT;
+    }
+    /** Maps gamepad inputs to the options */
     private void registerMiddleOrWall(Gamepad gamepad, Options mapTo){
         if(gamepad.a) mapTo = Options.PARK_MIDDLE;
         else if (gamepad.b) mapTo = Options.PARK_WALL;
@@ -436,6 +470,7 @@ public class AutonomousSelector extends LinearOpMode {
             "To ensure the controls are working, press A to continue.",
             "Press \"B\" for RED ALLIANCE, and press \"X\" for BLUE ALLIANCE",
             "What tasks should the robot do? Press \"A\" for FOUNDATION ONLY, press \"B\" for STONE ONLY, press \"X\" for BOTH, and press \"Y\" for NEITHER",
+            "IF YOU SELECTED \"NEITHER\", PRESS \"X\" FOR STARTING BY DEPOT AND \"Y\" FOR STARTING AT BUILD SIDE. **IF YOU DID NOT SELECT \"NEITHER\", PRESS \"A\" TO CONTINUE.",
             "Should the robot park closer to the middle Skybridge, or the wall? Press \"A\" for MIDDLE SIDE, and press \"B\" for WALL SIDE",
             "Done! Please press \"A\" to continue (Don't exit yet!).",
             "File Saved! Now press stop and init the OFFICIAL Autonomous!"
