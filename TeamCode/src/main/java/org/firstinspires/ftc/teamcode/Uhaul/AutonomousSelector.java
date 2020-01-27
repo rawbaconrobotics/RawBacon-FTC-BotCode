@@ -471,11 +471,8 @@ public class AutonomousSelector extends LinearOpMode {
      * Deserialize the json file for other options
      */
     public static OptionsConfig deserializeOptions(){
-
         File optionsFile = AppUtil.getInstance().getSettingsFile(optionsFileName);
         String data = ReadWriteFile.readFile(optionsFile);
         return SimpleGson.getInstance().fromJson(data, OptionsConfig.class);
     }
-
-
 }
