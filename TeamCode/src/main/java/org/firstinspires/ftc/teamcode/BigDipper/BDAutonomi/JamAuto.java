@@ -5,10 +5,13 @@ import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BaseLinearOpMode;
 import org.opencv.core.*;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvPipeline;
 
 import java.util.ArrayList;
@@ -61,6 +64,25 @@ public class JamAuto extends BaseLinearOpMode {
         robot.bdtapemeasure.initAutonomous();
         robot.bdgrabber.initAutonomous();
         robot.bdcapstone.initAutonomous();
+
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+        webcam.openCameraDevice();//open camera
+        webcam.setPipeline(new StageSwitchingPipeline());//different stages
+        webcam.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT);//display on RC
+        //width, height
+        //width = height in this case, because camera is in portrait mode.
+
+        while (!opModeIsActive() && !isStopRequested()) {
+            telemetry.addData("Values", valLeft + "   " + valMid + "   " + valRight);
+            telemetry.addData("Height", rows);
+            telemetry.addData("Width", cols);
+
+            telemetry.update();
+        }
+        if (isStopRequested()) {
+            webcam.stopStreaming();
+        }
 
         alliance = JamConfig.alliance;
         destination = JamConfig.destination;
@@ -135,10 +157,81 @@ public class JamAuto extends BaseLinearOpMode {
                     s = 1;
                     break;
             }
-            robot.bddrivetrain.strafeFor(23*s, .8*s, 5);
+            robot.bddrivetrain.strafeFor(23 * s, .8 * s, 5);
             sleep(100);
         }
         robot.bddrivetrain.driveFor(20, .8, 4);
+    }
+
+    public void stones() {
+
+
+        webcam.stopStreaming();
+
+        runtime.reset();
+
+        robot.bddrivetrain.driveFor(28,1,10);
+        sleep(500);
+
+        if (valLeft == 0) { // stone is on left, run left path
+
+            robot.bddrivetrain.strafeFor(-8, 1, 10);
+            sleep(500);
+            robot.bddrivetrain.driveFor(15,1,10);
+            sleep(500);
+            robot.bdgrabber.grabDownAuto();
+            sleep(500);
+            robot.bddrivetrain.driveFor(-19,-1,10);
+            sleep(500);
+            robot.bddrivetrain.strafeFor(8, 1, 10);
+            sleep(500);
+
+
+        } else if (valMid == 0) { // stone is in middle, run middle path
+
+            robot.bddrivetrain.driveFor(15,1,10);
+            sleep(500);
+            robot.bdgrabber.grabDownAuto();
+            sleep(500);
+            robot.bddrivetrain.driveFor(-19,-1,10);
+            sleep(500);
+
+
+        } else if (valRight == 0) { //stone on right, run right path
+
+            robot.bddrivetrain.strafeFor(8, 1, 10);
+            sleep(500);
+            robot.bddrivetrain.driveFor(15,1,10);
+            sleep(500);
+            robot.bdgrabber.grabDownAuto();
+            sleep(500);
+            robot.bddrivetrain.driveFor(-19,-1,10);
+            sleep(500);
+            robot.bddrivetrain.strafeFor(-7, 1, 10);
+            sleep(500);
+
+
+        } else {
+            robot.bddrivetrain.driveFor(15,1,10);
+            sleep(500);
+            robot.bdgrabber.grabDownAuto();
+            sleep(500);
+            robot.bddrivetrain.driveFor(-19,-1,10);
+            //skystone location cannot be determined, either try for a random one or just grab the foundation
+
+        }
+
+        sleep(500);
+        robot.bddrivetrain.turnFor(-80, 1, 15);
+
+        sleep(500);
+        robot.bddrivetrain.driveFor(54,1,10);
+        sleep(500);
+        robot.bdgrabber.grabUpAuto();
+        sleep(500);
+        robot.bddrivetrain.driveFor(-22,-1,10);
+
+        telemetry.addData("PATH", "COMPLETE");
     }
 
     /**
