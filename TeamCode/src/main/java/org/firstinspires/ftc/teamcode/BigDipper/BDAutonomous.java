@@ -72,13 +72,15 @@ public class BDAutonomous extends BaseLinearOpMode {
 
     OpenCvCamera webcam;
 
+    AutoConfig autoconfig = new AutoConfig();
+
+
     /**
      * Defines a proccess that starts when initialization occurs
      */
     @Override
     public void on_init() {
 
-        AutoConfig autoconfig = new AutoConfig();
 
         switch (autoconfig.tasks) {
             case DO_FOUNDATION:
@@ -181,8 +183,13 @@ public class BDAutonomous extends BaseLinearOpMode {
 
     @Override
     public void run() {
+        if ((autoconfig.tasks == AutonomousSelector.Options.DO_STONE) || (autoconfig.tasks == AutonomousSelector.Options.DO_BOTH)) {
+            webcam.stopStreaming();
+        }
 
-    }
+        //insert auto here
+
+        }
     /**
      * What the robot should do when it sees the stop button was pressed / timer ended
      */
