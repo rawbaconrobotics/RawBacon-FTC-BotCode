@@ -10,8 +10,9 @@ import org.firstinspires.ftc.teamcode.Uhaul.AutonomousSelector;
 public class OptionsConfig {
 
 
-    public static AutonomousSelector.Options tasks = AutonomousSelector.Options.DO_FOUNDATION;
-    public static AutonomousSelector.Park park = AutonomousSelector.Park.PARK_MIDDLE;
+    public static AutonomousSelector.Options tasks = AutonomousSelector.deserializeOptions();
+    public static AutonomousSelector.Park park = AutonomousSelector.deserializePark();
+
 
 
 }

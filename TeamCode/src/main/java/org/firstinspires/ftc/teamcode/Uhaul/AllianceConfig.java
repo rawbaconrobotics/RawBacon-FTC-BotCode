@@ -8,6 +8,6 @@ public class AllianceConfig {
 
 
 
-    public static AutonomousSelector.Alliance redAlliance = AutonomousSelector.Alliance.RED;
+    public static AutonomousSelector.Alliance redAlliance = AutonomousSelector.deserializeAlliance();
 
 }

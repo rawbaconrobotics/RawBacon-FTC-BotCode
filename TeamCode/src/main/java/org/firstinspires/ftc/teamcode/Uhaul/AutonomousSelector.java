@@ -40,10 +40,12 @@ public class AutonomousSelector extends LinearOpMode {
 
     private AllianceConfig allianceConfig;
     private OptionsConfig optionsConfig;
+    private ParkConfig parkConfig;
 
     Telemetry.Item currentQuery;
 
     public static String allianceFileName = "AllianceConfig.json";
+    public static String parkFileName = "ParkConfig.json";
     public static String optionsFileName = "OptionsConfig.json";
 
 
@@ -56,12 +58,16 @@ public class AutonomousSelector extends LinearOpMode {
     };
 
 
+    Options eTask = Options.DO_FOUNDATION;
+    Alliance eAlliance = Alliance.RED;
+    Park ePark = Park.PARK_MIDDLE;
+
     /** 
      * Enum to represent options
      */
     public enum Options {
-        DO_FOUNDATION,
         DO_STONE,
+        DO_FOUNDATION,
         DO_BOTH,
         STARTING_DEPOT_SIDE,
         STARTING_BUILDER_SIDE;
@@ -180,6 +186,7 @@ public class AutonomousSelector extends LinearOpMode {
 
         File allianceFile = AppUtil.getInstance().getSettingsFile(allianceFileName);
         File optionsFile = AppUtil.getInstance().getSettingsFile(optionsFileName);
+        File parkFile = AppUtil.getInstance().getSettingsFile(parkFileName);
 
         while(opModeIsActive()) {
 
@@ -196,7 +203,7 @@ public class AutonomousSelector extends LinearOpMode {
 
             if (stepNumber == 1 && buttonPressed1()) {
 
-                registerAllianceButton(gamepad1, allianceConfig.redAlliance);
+                registerAllianceButton(gamepad1);
 
                 currentQuery.setValue("Release");
 
@@ -211,7 +218,7 @@ public class AutonomousSelector extends LinearOpMode {
             }
 
             if (stepNumber == 2 && buttonPressed1()) {
-                registerTasks(gamepad1, optionsConfig.tasks);
+                registerTasks(gamepad1);
 
                 currentQuery.setValue("Release");
 
@@ -224,7 +231,7 @@ public class AutonomousSelector extends LinearOpMode {
                 currentQuery.setValue(message);
             }
             if (stepNumber == 3 && buttonPressed1()) {
-                registerMiddleOrWall(gamepad1, optionsConfig.park);
+                registerMiddleOrWall(gamepad1);
 
                 currentQuery.setValue("Release");
 
@@ -234,17 +241,26 @@ public class AutonomousSelector extends LinearOpMode {
                 }
 
                 stepNumber++;
+
+                System.out.println("eiueu");
                 currentQuery.setValue(message);
 
-
+            }
+            if (stepNumber == 4 && buttonPressed1()) {
                 if (gamepad1.a) {
 
                     ReadWriteFile.writeFile(allianceFile, serializeAllianceConfig());
+                    ReadWriteFile.writeFile(parkFile, serializeParkConfig());
                     ReadWriteFile.writeFile(optionsFile, serializeOptionsConfig());
                 }
 
 
                 stepNumber++;
+
+                currentQuery.setValue(message);
+
+
+
             }
         }
 
@@ -372,7 +388,7 @@ public class AutonomousSelector extends LinearOpMode {
      */
     private String serializeAllianceConfig(){
 
-        return SimpleGson.getInstance().toJson(allianceConfig);
+        return SimpleGson.getInstance().toJson(eAlliance);
     }
 
     /**
@@ -380,7 +396,12 @@ public class AutonomousSelector extends LinearOpMode {
      */
     private String serializeOptionsConfig(){
 
-        return SimpleGson.getInstance().toJson(optionsConfig);
+        return SimpleGson.getInstance().toJson(eTask);
+    }
+
+    private String serializeParkConfig(){
+
+        return SimpleGson.getInstance().toJson(ePark);
     }
 
     /**
@@ -395,12 +416,12 @@ public class AutonomousSelector extends LinearOpMode {
 
 
     /** Maps gamepad inputs to the options */
-    private void registerTasks(Gamepad gamepad, Options mapTo){
-        if(gamepad.a) mapTo = Options.DO_FOUNDATION;
-        else if (gamepad.b) mapTo = Options.DO_STONE;
-        else if(gamepad.x) mapTo = Options.DO_BOTH;
-        else if(gamepad.right_trigger >0.5) mapTo = Options.STARTING_BUILDER_SIDE;
-        else if(gamepad.left_trigger >0.5) mapTo = Options.STARTING_DEPOT_SIDE;
+    private void registerTasks(Gamepad gamepad){
+        if(gamepad.a) eTask = Options.DO_FOUNDATION;
+        else if (gamepad.b) eTask = Options.DO_STONE;
+        else if(gamepad.x) eTask = Options.DO_BOTH;
+        else if(gamepad.right_trigger >0.5) eTask = Options.STARTING_BUILDER_SIDE;
+        else if(gamepad.left_trigger >0.5) eTask = Options.STARTING_DEPOT_SIDE;
         //else if(gamepad.left_bumper) mapTo = Button.LEFT_BUMPER;
         //else if(gamepad.right_bumper) mapTo = Button.RIGHT_BUMPER;
         //else if(gamepad.left_stick_button) mapTo = Button.LEFT_STICK_BUTTON;
@@ -413,9 +434,9 @@ public class AutonomousSelector extends LinearOpMode {
     /** Maps gamepad inputs to the options */
 
     /** Maps gamepad inputs to the options */
-    private void registerMiddleOrWall(Gamepad gamepad, Park mapTo){
-        if(gamepad.a) mapTo = Park.PARK_MIDDLE;
-        else if (gamepad.b) mapTo = Park.PARK_WALL;
+    private void registerMiddleOrWall(Gamepad gamepad){
+        if(gamepad.a) ePark = Park.PARK_MIDDLE;
+        else if (gamepad.b) ePark = Park.PARK_WALL;
         //else if(gamepad.x) mapTo = Button.X;
         //else if(gamepad.y) mapTo = Button.Y;
         //else if(gamepad.left_bumper) mapTo = Button.LEFT_BUMPER;
@@ -428,9 +449,9 @@ public class AutonomousSelector extends LinearOpMode {
         //else if(gamepad.dpad_right) mapTo = Button.DPAD_RIGHT;
     }
     /** Selects either the red or blue alliance */
-    private void registerAllianceButton(Gamepad gamepad, Alliance mapTo){
-        if(gamepad.b) mapTo = Alliance.RED;
-        else if (gamepad.x) mapTo = Alliance.BLUE;
+    private void registerAllianceButton(Gamepad gamepad){
+        if(gamepad.b) eAlliance = Alliance.RED;
+        else if (gamepad.x) eAlliance = Alliance.BLUE;
         //else if(gamepad.x) mapTo = Button.X;
         //else if(gamepad.y) mapTo = Button.Y;
         //else if(gamepad.left_bumper) mapTo = Button.LEFT_BUMPER;
@@ -460,19 +481,27 @@ public class AutonomousSelector extends LinearOpMode {
     /**
      * Deserialize the json file for alliance
      */
-    public static AllianceConfig deserializeAlliance(){
+    public static Park deserializePark(){
+
+        File parkFile = AppUtil.getInstance().getSettingsFile(parkFileName);
+        String data = ReadWriteFile.readFile(parkFile);
+        return SimpleGson.getInstance().fromJson(data, Park.class);
+    }
+
+
+    public static Alliance deserializeAlliance(){
 
         File allianceFile = AppUtil.getInstance().getSettingsFile(allianceFileName);
         String data = ReadWriteFile.readFile(allianceFile);
-        return SimpleGson.getInstance().fromJson(data, AllianceConfig.class);
+        return SimpleGson.getInstance().fromJson(data, Alliance.class);
     }
 
     /**
      * Deserialize the json file for other options
      */
-    public static OptionsConfig deserializeOptions(){
+    public static Options deserializeOptions(){
         File optionsFile = AppUtil.getInstance().getSettingsFile(optionsFileName);
         String data = ReadWriteFile.readFile(optionsFile);
-        return SimpleGson.getInstance().fromJson(data, OptionsConfig.class);
+        return SimpleGson.getInstance().fromJson(data, Options.class);
     }
 }
