@@ -39,7 +39,7 @@ import static org.firstinspires.ftc.teamcode.Uhaul.AutonomousSelector.allianceFi
 //40 1120
 //20 560
 @Config
-@Autonomous(name = "OFFICIAL Autonomous", group = "1aa1a1a")
+@Autonomous(name = "2. OFFICIAL Autonomous", group = "1aa1a1a")
 
 public class BDAutonomous extends BaseLinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
