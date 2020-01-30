@@ -1,31 +1,15 @@
 package org.firstinspires.ftc.teamcode.BigDipper;
 
 
-import android.app.VoiceInteractor;
-
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
-import org.firstinspires.ftc.teamcode.BigDipper.BDAutonomi.BlueAlliance.BDAuto_MiddlePark_Foundation_Blue;
-import org.firstinspires.ftc.teamcode.BigDipper.BDAutonomi.BlueAlliance.BDAuto_MiddlePark_Foundation_Red;
-import org.firstinspires.ftc.teamcode.BigDipper.BDAutonomi.BlueAlliance.BDAuto_MiddlePark_Stones_Blue;
-import org.firstinspires.ftc.teamcode.BigDipper.BDAutonomi.BlueAlliance.BDAuto_ParkingOnly_StartBZ_MiddlePark_Blue;
-import org.firstinspires.ftc.teamcode.BigDipper.BDAutonomi.BlueAlliance.BDAuto_ParkingOnly_StartBZ_WallPark_Blue;
-import org.firstinspires.ftc.teamcode.BigDipper.BDAutonomi.BlueAlliance.BDAuto_ParkingOnly_StartDebot_MiddlePark_Blue;
-import org.firstinspires.ftc.teamcode.BigDipper.BDAutonomi.BlueAlliance.BDAuto_ParkingOnly_StartDepot_WallPark_Blue;
-import org.firstinspires.ftc.teamcode.BigDipper.BDAutonomi.BlueAlliance.BDAuto_WallPark_Foundation_Blue;
-import org.firstinspires.ftc.teamcode.BigDipper.BDAutonomi.BlueAlliance.BDAuto_WallPark_Stones_Blue;
-import org.firstinspires.ftc.teamcode.BigDipper.BDAutonomi.RedAlliance.BDAuto_MiddlePark_Stones_Red;
-import org.firstinspires.ftc.teamcode.BigDipper.BDAutonomi.RedAlliance.BDAuto_ParkingOnly_StartBZ_MiddlePark_Red;
-import org.firstinspires.ftc.teamcode.BigDipper.BDAutonomi.RedAlliance.BDAuto_ParkingOnly_StartBZ_WallPark_Red;
-import org.firstinspires.ftc.teamcode.BigDipper.BDAutonomi.RedAlliance.BDAuto_ParkingOnly_StartDebot_MiddlePark_Red;
-import org.firstinspires.ftc.teamcode.BigDipper.BDAutonomi.RedAlliance.BDAuto_ParkingOnly_StartDepot_WallPark_Red;
-import org.firstinspires.ftc.teamcode.BigDipper.BDAutonomi.RedAlliance.BDAuto_WallPark_Foundation_Red;
-import org.firstinspires.ftc.teamcode.BigDipper.BDAutonomi.RedAlliance.BDAuto_WallPark_Stones_Red;
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BaseLinearOpMode;
+import org.firstinspires.ftc.teamcode.Uhaul.AutoConfig;
+import org.firstinspires.ftc.teamcode.Uhaul.AutonomousSelector;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
@@ -36,13 +20,8 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvPipeline;
-import org.firstinspires.ftc.teamcode.Uhaul.AllianceConfig;
-import org.firstinspires.ftc.teamcode.Uhaul.AutonomousSelector;
-import org.firstinspires.ftc.teamcode.Uhaul.OptionsConfig;
 
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -98,22 +77,67 @@ public class BDAutonomous extends BaseLinearOpMode {
      */
     @Override
     public void on_init() {
-        System.out.println("INIT PROCESS STARTING");
 
-String optionString = "null";
-        Scanner sc = null;
-        try {
-            sc = new Scanner(AppUtil.getInstance().getSettingsFile(allianceFileName));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        AutoConfig autoconfig = new AutoConfig();
+
+        switch (autoconfig.tasks) {
+            case DO_FOUNDATION:
+                telemetry.addData("Task", " FOUNDATION");
+
+                break;
+            case DO_STONE:
+                telemetry.addData("Task", " STONE");
+
+                break;
+            case DO_BOTH:
+                telemetry.addData("Task", " BOTH");
+
+                break;
+            case STARTING_DEPOT_SIDE:
+                telemetry.addData("Task", " PARK ONLY START DEPOT");
+
+                break;
+            case STARTING_BUILDER_SIDE:
+                telemetry.addData("Task", " PARK ONLY START BUILD");
+
+                break;
         }
 
-        if (sc.nextLine() == "\"DO_STONE\"") {
-            telemetry.addData("SEEMS TO EQUAL,", sc.nextLine());
+        switch (autoconfig.redAlliance) {
+            case RED:
+                telemetry.addData("Alliance", " Red");
+
+                break;
+            case BLUE:
+                telemetry.addData("Alliance", " Blue");
+
+                break;
         }
-        else {
-            telemetry.addData("SEEMS TO EQUAL,", sc.nextLine());
+
+        switch (autoconfig.park) {
+            case PARK_MIDDLE:
+                telemetry.addData("Park", " MIDDLE");
+
+                break;
+            case PARK_WALL:
+                telemetry.addData("Park", " WALL");
+
+                break;
         }
+       /*
+        if(autoconfig.tasks == AutonomousSelector.Options.DO_STONE){
+            telemetry.addData("SEEMS TO EQUAL,", "STONE");
+
+        }
+        else if (autoconfig.tasks == AutonomousSelector.Options.DO_BOTH) {
+            telemetry.addData("SEEMS TO EQUAL,", "BOTH");
+
+        }
+        if(AutonomousSelector.deserializeAlliance() == AutonomousSelector.Alliance.RED) {
+            telemetry.addData("SEEMS TO EQUAL,", "RED ALLIANCE");
+
+        }
+*/
         telemetry.update();
 
 
@@ -126,9 +150,8 @@ String optionString = "null";
         //width, height
         //width = height in this case, because camera is in portrait mode.
 
-///////////////////////////* /*
-        /*
-        if ((task == "DO STONE") || (task == "DO BOTH")) {
+
+        if ((autoconfig.tasks == AutonomousSelector.Options.DO_STONE) || (autoconfig.tasks == AutonomousSelector.Options.DO_BOTH)) {
 
             int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
             webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
@@ -143,20 +166,9 @@ String optionString = "null";
                 telemetry.addData("Height", rows);
                 telemetry.addData("Width", cols);
 
-                if(redAlliancePressed){
-                    telemetry.addData("Alliance is Red", " ");
+                if (isStopRequested()) {
+                    webcam.stopStreaming();
                 }
-                else{
-                    telemetry.addData("Alliance is Blue", " ");
-                }
-                telemetry.addData("TASK", task);
-                telemetry.addData("PARKING LOCATION", parkLocation);
-                telemetry.update();
-
-                telemetry.update();
-            }
-            if (isStopRequested()) {
-                webcam.stopStreaming();
             }
         }
     }
@@ -166,7 +178,7 @@ String optionString = "null";
      */
 
 
-    }
+
     @Override
     public void run() {
 

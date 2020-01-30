@@ -8,17 +8,18 @@ import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
 import java.io.File;
 import org.firstinspires.ftc.robotcore.internal.collections.SimpleGson;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ReadWriteFile;
 
 
-/** 
+/**
  * @author Raw Bacon Coders
  * Selects which autonomous to use
  */
-@TeleOp(name = "Autonomous Selector")
+@Autonomous(name = "1. Autonomous Selector")
 //@Disabled
 public class AutonomousSelector extends LinearOpMode {
 
@@ -29,7 +30,7 @@ public class AutonomousSelector extends LinearOpMode {
         if((optionsConfig.tasks.option()) == "AHP"){
         }
             AutonomousSelector.deserializeAlliance();
-        if((AllianceConfig.redAlliance.option()) == true){
+        if((Config.redAlliance.option()) == true){
 }
 
 
@@ -38,13 +39,11 @@ public class AutonomousSelector extends LinearOpMode {
 
      */
 
-    private AllianceConfig allianceConfig;
-    private OptionsConfig optionsConfig;
-    private ParkConfig parkConfig;
+
 
     Telemetry.Item currentQuery;
 
-    public static String allianceFileName = "AllianceConfig.json";
+    public static String allianceFileName = "Config.json";
     public static String parkFileName = "ParkConfig.json";
     public static String optionsFileName = "OptionsConfig.json";
 
@@ -62,12 +61,12 @@ public class AutonomousSelector extends LinearOpMode {
     Alliance eAlliance = Alliance.RED;
     Park ePark = Park.PARK_MIDDLE;
 
-    /** 
+    /**
      * Enum to represent options
      */
     public enum Options {
-        DO_STONE,
         DO_FOUNDATION,
+        DO_STONE,
         DO_BOTH,
         STARTING_DEPOT_SIDE,
         STARTING_BUILDER_SIDE;
@@ -149,20 +148,16 @@ public class AutonomousSelector extends LinearOpMode {
         telemetry.log().add("Press play to begin.");
         telemetry.log().add("");
         telemetry.log().add("REMEMBER: This opMode only selects your options,");
-        telemetry.log().add("you still need to init + run the OFFICIAL Tank/Uhaul Autonomous.");
-        telemetry.log().add("after finishing here!");
+        telemetry.log().add("you still need to init + run the OFFICIAL Tank/Uhaul Autonomous after finishing here!");
         telemetry.log().add("");
-        telemetry.log().add("When you press a button to answer, it might take a bit,");
+        telemetry.log().add("When you press a button to answer, it might take a bit.");
         telemetry.log().add("*ALL YOU NEED TO DO IS*");
         telemetry.log().add("Hold the button down until you see \"Release\"");
-        telemetry.log().add("Thanks, good luck guys!");
-
-
-        telemetry.log().add("Waiting for play button pressed...");
+        telemetry.log().add("");
+        telemetry.log().add("...Waiting for play button pressed...");
 
         // Wait until we're told to go
         while (!isStarted()) {
-            telemetry.addData("not", "started");
             telemetry.update();
             idle();
         }
@@ -179,8 +174,6 @@ public class AutonomousSelector extends LinearOpMode {
 
 
 
-        allianceConfig = new AllianceConfig();
-        optionsConfig = new OptionsConfig();
 
         telemetry.update();
 
@@ -242,7 +235,6 @@ public class AutonomousSelector extends LinearOpMode {
 
                 stepNumber++;
 
-                System.out.println("eiueu");
                 currentQuery.setValue(message);
 
             }
@@ -254,6 +246,12 @@ public class AutonomousSelector extends LinearOpMode {
                     ReadWriteFile.writeFile(optionsFile, serializeOptionsConfig());
                 }
 
+                currentQuery.setValue("Release");
+
+                while (buttonPressed1()) {
+                    telemetry.update();
+                    idle();
+                }
 
                 stepNumber++;
 
@@ -264,9 +262,9 @@ public class AutonomousSelector extends LinearOpMode {
             }
         }
 
-            //
-            //    If we wanted to add more options, we can use the code below
-            //
+        //
+        //    If we wanted to add more options, we can use the code below
+        //
            /*
             if(stepNumber == 4 && buttonPressed1()){
                 registerButton(gamepad1, manipulatorControls.lift_down);
@@ -372,8 +370,8 @@ public class AutonomousSelector extends LinearOpMode {
 */
 
 
-            telemetry.update();
-        }
+        telemetry.update();
+    }
 
 
 
