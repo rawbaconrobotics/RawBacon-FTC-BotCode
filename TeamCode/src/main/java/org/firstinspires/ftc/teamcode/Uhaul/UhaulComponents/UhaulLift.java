@@ -103,16 +103,8 @@ public void initForTesting(){
     /** Defines the lift for the teleop */
     public void liftTeleOp() {
 
-        if((uhaulLift.getTargetPosition() == uhaulLift.getCurrentPosition() || ((gamepad2.right_stick_y != 0) && !override)) && (uhaulLift.getMode() != DcMotor.RunMode.RUN_USING_ENCODER)){
-            uhaulLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            uhaulLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        }
-        else if(uhaulLift.getMode() != DcMotor.RunMode.RUN_TO_POSITION){
-            uhaulLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            uhaulLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        }
 
-        if ((gamepad2.dpad_up || gamepad2.dpad_down) && (gamepad2.right_stick_y == 0)) {
+        if ((gamepad2.dpad_up || gamepad2.dpad_down) && (Math.abs(gamepad2.right_stick_y) < 0.1)) {
             if (gamepad2.dpad_up) {
                 dpadBlocks++;
             } else {
@@ -120,22 +112,24 @@ public void initForTesting(){
             }
 
             liftEncoderSetpoint = (int) ((BLOCK_HEIGHT * dpadBlocks) * COUNTS_PER_INCH);
-            uhaulLift.setTargetPosition(liftEncoderSetpoint);
-            uhaulLiftTwo.setTargetPosition(liftEncoderSetpoint);
-            uhaulLift.setPower(LIFT_MAX_SPEED);
-            uhaulLiftTwo.setPower(LIFT_MAX_SPEED);
+
+            teleOpEncoderDrive();
 
 
 
         } else if (gamepad2.a) {
             dpadBlocks = 0;
 
+            liftEncoderSetpoint = 0;
+
+            teleOpEncoderDrive();
+
 
         } else if (dpadBlocks == 0) {
-            if ((uhaulLift.getCurrentPosition() < MAX_TICKS_BEFORE_OVERRIDE) && (gamepad2.right_stick_y != 0)) {
+            if ((uhaulLift.getCurrentPosition() < MAX_TICKS_BEFORE_OVERRIDE) && (Math.abs(gamepad2.right_stick_y) > 0.1)) {
                 uhaulLift.setPower(gamepad2.right_stick_y / 2);
                 uhaulLiftTwo.setPower(gamepad2.right_stick_y /2);
-            } else if((uhaulLift.getCurrentPosition() < MAX_TICKS_BEFORE_OVERRIDE) && (gamepad2.right_stick_y == 0)) {
+            } else if((uhaulLift.getCurrentPosition() < MAX_TICKS_BEFORE_OVERRIDE) && (Math.abs(gamepad2.right_stick_y) < 0.1)) {
                 //do nothing, it's already at the right speed
             }
             else{
@@ -147,51 +141,92 @@ public void initForTesting(){
         } else if (override) {
 
             liftEncoderSetpoint = (int) ((-2) * COUNTS_PER_INCH);
-            uhaulLift.setTargetPosition(liftEncoderSetpoint);
-            uhaulLiftTwo.setTargetPosition(liftEncoderSetpoint);
-            uhaulLift.setPower(LIFT_MAX_SPEED);
-            uhaulLiftTwo.setPower(LIFT_MAX_SPEED);
+
+            teleOpEncoderDrive();
 
             override = false;
 
 
-        } else {
+        } else if(gamepad2.right_stick_y > 0.1) {
             uhaulLift.setPower(gamepad2.right_stick_y / 4);
 
         }
 
         telemetry.addData("Current Dpad Blocks Set To: ", dpadBlocks);
         telemetry.addData("Press 'A' on gamepad 2", " to reset!");
+        telemetry.update();
+
+
+
+
+
+
+
 
     }
+
+
+
 
     int previousBlocks = 0;
 
     /** Defines the liftAuto proccess */
-    public void liftAuto(int howManyBlocks) {
+    public void liftAuto(int howManyBlocks, double speed, double timeoutS) {
 
         telemetry.addData("Status", "Resetting Encoders");    //
         telemetry.update();
 
-        uhaulLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        uhaulLiftTwo.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        uhaulLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        uhaulLiftTwo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         if ((howManyBlocks < previousBlocks) && (howManyBlocks == 0)) {
-            encoderDrive((-previousBlocks * BLOCK_HEIGHT) - INITIAL_HEIGHT);
+            liftFor(((-previousBlocks * BLOCK_HEIGHT) - INITIAL_HEIGHT), -speed, timeoutS);
         } else if ((howManyBlocks > previousBlocks) && (previousBlocks == 0)) {
-            encoderDrive((howManyBlocks * BLOCK_HEIGHT) + INITIAL_HEIGHT);
+            liftFor(((howManyBlocks * BLOCK_HEIGHT) + INITIAL_HEIGHT), speed, timeoutS);
         }
         //above are the normal situations, but what if we want to go from one block to another?
         else if (howManyBlocks != previousBlocks) {
-            encoderDrive((howManyBlocks - previousBlocks) * BLOCK_HEIGHT);
+            liftFor(((howManyBlocks - previousBlocks) * BLOCK_HEIGHT), speed, timeoutS);
         } else {
             //the current and previous blocks are the same, do nothing
         }
         previousBlocks = howManyBlocks;
     }
+
+    public void teleOpEncoderDrive(){
+        runtime.reset();
+
+        if(liftEncoderSetpoint < uhaulLift.getCurrentPosition()) {
+            uhaulLift.setPower(-LIFT_MAX_SPEED);
+            uhaulLiftTwo.setPower(-LIFT_MAX_SPEED);
+
+            while ((gamepad2.right_stick_y < 0.1) && opModeIsActive() &&
+                    (runtime.seconds() < 15) &&
+                    (((uhaulLift.getCurrentPosition() + uhaulLiftTwo.getCurrentPosition()) / 2) > liftEncoderSetpoint)) {
+                telemetry.addData("Lift", " Position: %7d", uhaulLift.getCurrentPosition());
+                telemetry.update();
+            }
+
+            uhaulLift.setPower(0);
+            uhaulLiftTwo.setPower(0);
+
+        }
+        else if(liftEncoderSetpoint > uhaulLift.getCurrentPosition()) {
+            uhaulLift.setPower(LIFT_MAX_SPEED);
+            uhaulLiftTwo.setPower(LIFT_MAX_SPEED);
+
+            while ((gamepad2.right_stick_y < 0.1) && opModeIsActive() &&
+                    (runtime.seconds() < 15) &&
+                    (((uhaulLift.getCurrentPosition() + uhaulLiftTwo.getCurrentPosition()) / 2) < liftEncoderSetpoint)) {
+                telemetry.addData("Lift", " Position: %7d", uhaulLift.getCurrentPosition());
+                telemetry.update();
+            }
+
+            uhaulLift.setPower(0);
+            uhaulLiftTwo.setPower(0);
+
+        }
+
+        }
 
 
     /** Initializes the proccess for the autonomous */
@@ -212,60 +247,114 @@ public void initForTesting(){
 
 
     /** Defines the targets */
-    public void encoderDrive(double heightInInches) {
-        int newLeftTarget;
-        int newRightTarget;
+    public void liftFor(double distance_inches, double speed, double timeoutS) {
+        //CURRENTLY ONLY USING 1 OUT OF 4 ENCODERS, COULD BE MADE MORE ACCURATE!
 
-        // Ensure that the opmode is still active
+        uhaulLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        uhaulLiftTwo.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        uhaulLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        uhaulLiftTwo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        runtime.reset();
+
+
+        //runUsingEncoders();
+
+        //System.out.println("RUNUSINGENCODERS COMPLETE!");
+
         if (opModeIsActive()) {
+            //double speedWeWant = betterDrive(speed);
 
-            // Determine new target position, and pass to motor controller
-            newLeftTarget = uhaulLift.getCurrentPosition() + (int)(heightInInches * COUNTS_PER_INCH);
-            newRightTarget = uhaulLiftTwo.getCurrentPosition() + (int)(heightInInches * COUNTS_PER_INCH);
-            uhaulLift.setTargetPosition(newLeftTarget);
-            uhaulLiftTwo.setTargetPosition(newRightTarget);
+            int targetDistLeft;
+            int targetDistRight;
+            targetDistLeft = uhaulLift.getCurrentPosition() + (int) (distance_inches * COUNTS_PER_INCH);
+            targetDistRight = uhaulLiftTwo.getCurrentPosition() + (int) (distance_inches * COUNTS_PER_INCH);
 
-            // Turn On RUN_TO_POSITION
-            uhaulLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            uhaulLiftTwo.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+          /*  leftDriveFront.setTargetPosition(targetDistLeft);
+            rightDriveFront.setTargetPosition(targetDistRight);
+            leftDriveBack.setTargetPosition(targetDistLeft);
+            rightDriveBack.setTargetPosition(targetDistRight);
 
-            // reset the timeout time and start motion.
+            System.out.println("SET TARGET POSITIONS");
+
+            leftDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            leftDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rightDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rightDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            System.out.println("SET MODE RUN TO POSITION");
+*/
+
+
             runtime.reset();
-            if(newRightTarget < uhaulLift.getCurrentPosition()){
-                uhaulLift.setPower(-LIFT_SPEED_IN_AUTONOMOUS);
-                uhaulLiftTwo.setPower(-LIFT_SPEED_IN_AUTONOMOUS);
-            }
-            else{
-                uhaulLift.setPower(LIFT_SPEED_IN_AUTONOMOUS);
-                uhaulLiftTwo.setPower(LIFT_SPEED_IN_AUTONOMOUS);
 
-            }
+            // drive(speedWeWant);
+            //drive(speed);
+            System.out.println("DRIVING AT THAT SPEED");
+
+            uhaulLift.setPower(speed);
+            uhaulLiftTwo.setPower(speed);
 
 
             while (opModeIsActive() &&
-                    (runtime.seconds() < 10) &&
-                    (uhaulLift.isBusy() || uhaulLiftTwo.isBusy())) {
+                    (runtime.seconds() < timeoutS) &&
+                    ((Math.abs((uhaulLift.getCurrentPosition() + uhaulLiftTwo.getCurrentPosition()) / 2)) < (Math.abs((distance_inches * COUNTS_PER_INCH))))) {
+                telemetry.addData("UhaulLift",  " Position: %7d", uhaulLift.getCurrentPosition());
+                telemetry.addData("UhaulLift 2",  " Position: %7d", uhaulLiftTwo.getCurrentPosition());
 
-                if(!uhaulLift.isBusy()){
-                    uhaulLift.setPower(0);
-                }
-                if(!uhaulLiftTwo.isBusy()){
-                    uhaulLiftTwo.setPower(0);
-                }
-
+                telemetry.update();
             }
 
-            // Stop all motion;
-            uhaulLift.setPower(0);
-            uhaulLiftTwo.setPower(0);
-
-            // Turn off RUN_TO_POSITION
-            uhaulLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            uhaulLiftTwo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-            //  sleep(250);   // optional pause after each move
         }
+        uhaulLift.setPower(0);
+        uhaulLiftTwo.setPower(0);
 
+        System.out.println("ROBOT STOPPED");
+
+
+
+    }
+
+    public double maxLeft, maxRight, max, ratio;
+
+    public double[] normalizeAuto(double wheelspeeds0, double wheelspeeds1, double wheelspeeds2, double wheelspeeds3){
+        /*
+         * Are any of the computed wheel powers greater than 1?
+         */
+
+        if(Math.abs(wheelspeeds0) > 1
+                || Math.abs(wheelspeeds1) > 1
+                || Math.abs(wheelspeeds2) > 1
+                || Math.abs(wheelspeeds3) > 1)
+        {
+
+            // Yeah, figure out which one
+
+            maxLeft = Math.max(Math.abs(wheelspeeds0), Math.abs(wheelspeeds2));
+            maxRight = Math.max(Math.abs(wheelspeeds1), Math.abs(wheelspeeds3));
+            max = Math.max(maxLeft, maxRight);
+            ratio = 1 / max; //Create a ratio to normalize them all
+            double[] normalSpeeds = {(wheelspeeds0 * ratio), (wheelspeeds1 * ratio), (wheelspeeds2 * ratio), (wheelspeeds3 * ratio)};
+            //leftDriveBack.setPower(wheelspeeds0 * ratio);
+            //rightDriveBack.setPower(wheelspeeds1 * ratio);
+            //leftDriveFront.setPower(wheelspeeds2 * ratio);
+            //rightDriveFront.setPower(wheelspeeds3 * ratio);
+            return normalSpeeds;
+        }
+        /*
+         * Nothing we need to do to the raw powers
+         */
+
+        else
+        {
+            // leftDriveBack.setPower(wheelspeeds0);
+            //  rightDriveBack.setPower(wheelspeeds1);
+            // leftDriveFront.setPower(wheelspeeds2);
+            // rightDriveFront.setPower(wheelspeeds3);
+            double[] normalSpeedz = {(wheelspeeds0), (wheelspeeds1), (wheelspeeds2), (wheelspeeds3)};
+            return normalSpeedz;
+        }
     }
 }
 
