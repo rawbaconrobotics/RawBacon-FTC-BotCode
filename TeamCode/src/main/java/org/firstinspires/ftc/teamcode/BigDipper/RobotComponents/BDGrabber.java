@@ -62,18 +62,23 @@ public class BDGrabber extends RobotComponentImplBase{
      /**
      * Opens or closes the grabber based upon the current state it is in
      */
+
+     double previousPosition = 0;
     public void grabber() {
+
 
         boolean openGrabber = gamepad1.right_bumper;
         boolean closeGrabber = gamepad1.left_bumper;
+
 if(opModeIsActive()) {
-    if (openGrabber && (grabberServo.getPower()) != 1) {
+    if (openGrabber && previousPosition != 1) {
         grabberServo.setPower(1);
+        previousPosition = 1;
     }
-    if (closeGrabber && (grabberServo.getPower() != -0.6)) {
+    if (closeGrabber && (previousPosition != -0.6)) {
         grabberServo.setPower(-0.6);
     }
-    if ((!openGrabber || !closeGrabber) && (grabberServo.getPower()) != 0) {
+    if ((!openGrabber || !closeGrabber) && (previousPosition) != 0) {
         grabberServo.setPower(0);
     }
 }

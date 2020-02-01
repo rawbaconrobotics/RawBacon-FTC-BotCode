@@ -9,7 +9,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * @author Raw Bacon Coders
  */
 @TeleOp(name="Uhaul TeleOp (Official)", group="Uhaul")
-@Disabled
 public class  UhaulTeleOp extends UhaulLinearOpMode
 {
     private ElapsedTime runtime = new ElapsedTime();

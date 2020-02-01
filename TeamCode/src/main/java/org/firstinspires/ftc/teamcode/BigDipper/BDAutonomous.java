@@ -45,6 +45,7 @@ public class BDAutonomous extends BaseLinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
 
+
     //0 means skystone, 1 (or 255) means yellow stone
     //-1 for debug, but we can keep it like this because if it works, it should change to either 0 or 255
     private static int valMid = -1;
@@ -80,6 +81,13 @@ public class BDAutonomous extends BaseLinearOpMode {
      */
     @Override
     public void on_init() {
+
+
+        robot.bddrivetrain.initAutonomous();
+        robot.bdlatch.initAutonomous();
+        robot.bdtapemeasure.initAutonomous();
+        robot.bdgrabber.initAutonomous();
+        robot.bdcapstone.initAutonomous();
 
 
         switch (autoconfig.tasks) {
@@ -126,20 +134,7 @@ public class BDAutonomous extends BaseLinearOpMode {
 
                 break;
         }
-       /*
-        if(autoconfig.tasks == AutonomousSelector.Options.DO_STONE){
-            telemetry.addData("SEEMS TO EQUAL,", "STONE");
 
-        }
-        else if (autoconfig.tasks == AutonomousSelector.Options.DO_BOTH) {
-            telemetry.addData("SEEMS TO EQUAL,", "BOTH");
-
-        }
-        if(AutonomousSelector.deserializeAlliance() == AutonomousSelector.Alliance.RED) {
-            telemetry.addData("SEEMS TO EQUAL,", "RED ALLIANCE");
-
-        }
-*/
         telemetry.update();
 
 
@@ -187,9 +182,563 @@ public class BDAutonomous extends BaseLinearOpMode {
             webcam.stopStreaming();
         }
 
-        //insert auto here
+        if (autoconfig.redAlliance == AutonomousSelector.Alliance.RED) {
+            switch (autoconfig.tasks) {
+                case DO_FOUNDATION:
+                    switch (autoconfig.park) {
+                        case PARK_MIDDLE:
+                            runtime.reset();
+
+                            robot.bddrivetrain.driveFor(-47, -.8, 5);
+                            sleep(100);
+                            robot.bddrivetrain.strafeFor(-10,.7,4);
+                            sleep(100);
+                            robot.bddrivetrain.driveFor(19, .8,4);
+                            sleep(100);
+                            robot.bddrivetrain.strafeFor(-28,.8,7);
+                            sleep(100);
+                            robot.bddrivetrain.driveFor(-7,-.7,7);
+                            sleep(100);
+                            robot.bdlatch.closeLatch();
+                            sleep(1000);
+                            robot.bddrivetrain.driveFor(38,.8,7);
+                            sleep(100);
+                            robot.bddrivetrain.driveFor(-1,-.8,7);
+                            sleep(100);
+                            robot.bdlatch.openLatch();
+                            sleep(1000);
+                            robot.bddrivetrain.strafeFor(40,.8,5);
+                            sleep(100);
+                            robot.bddrivetrain.driveFor(-25,-.8,5);
+                            sleep(100);
+                            robot.bddrivetrain.strafeFor(20,.8,4);
+                            sleep(100);
+
+
+                            telemetry.addData("PATH", "COMPLETE");
+                            //call movement functions
+//            strafe(0.4, 200);
+//            moveDistance(0.4, 700);                            break;
+                        case PARK_WALL:
+                            runtime.reset();
+
+                            robot.bddrivetrain.driveFor(-48, -.8, 5);
+                            sleep(100);
+                            robot.bddrivetrain.strafeFor(-10,.7,4);
+                            sleep(100);
+                            robot.bddrivetrain.driveFor(19, .8,4);
+                            sleep(100);
+                            robot.bddrivetrain.strafeFor(-28,.8,7);
+                            sleep(100);
+                            robot.bddrivetrain.driveFor(-7,-.7,7);
+                            sleep(100);
+                            robot.bdlatch.closeLatch();
+                            sleep(1000);
+                            robot.bddrivetrain.driveFor(38,.8,7);
+                            sleep(100);
+                            robot.bddrivetrain.driveFor(-1,-.8,7);
+                            sleep(100);
+                            robot.bdlatch.openLatch();
+                            sleep(1000);
+                            robot.bddrivetrain.strafeFor(((40)+(20)),.8,5);
+                            sleep(100);
+
+
+
+                            telemetry.addData("PATH", "COMPLETE");
+                            //call movement functions
+//            strafe(0.4, 200);
+//            moveDistance(0.4, 700);                            break;
+                    }
+                    break;
+                case DO_STONE:
+                    switch (autoconfig.park) {
+                        case PARK_MIDDLE:
+
+                            webcam.stopStreaming();
+
+                            runtime.reset();
+
+                            robot.bddrivetrain.driveFor(28,1,10);
+                            sleep(500);
+
+                            if (valLeft == 0) { // stone is on left, run left path
+
+                                robot.bddrivetrain.strafeFor(-8, 1, 10);
+                                sleep(500);
+                                robot.bddrivetrain.driveFor(15,1,10);
+                                sleep(500);
+                                robot.bdgrabber.grabDownAuto();
+                                sleep(500);
+                                robot.bddrivetrain.driveFor(-19,-1,10);
+                                sleep(500);
+                                robot.bddrivetrain.strafeFor(8, 1, 10);
+                                sleep(500);
+
+
+                            } else if (valMid == 0) { // stone is in middle, run middle path
+
+                                robot.bddrivetrain.driveFor(15,1,10);
+                                sleep(500);
+                                robot.bdgrabber.grabDownAuto();
+                                sleep(500);
+                                robot.bddrivetrain.driveFor(-19,-1,10);
+                                sleep(500);
+
+
+                            } else if (valRight == 0) { //stone on right, run right path
+
+                                robot.bddrivetrain.strafeFor(7, 1, 10);
+                                sleep(500);
+                                robot.bddrivetrain.driveFor(15,1,10);
+                                sleep(500);
+                                robot.bdgrabber.grabDownAuto();
+                                sleep(500);
+                                robot.bddrivetrain.driveFor(-19,-1,10);
+                                sleep(500);
+                                robot.bddrivetrain.strafeFor(-8, 1, 10);
+                                sleep(500);
+
+
+                            } else {
+                                robot.bddrivetrain.driveFor(15,1,10);
+                                sleep(500);
+                                robot.bdgrabber.grabDownAuto();
+                                sleep(500);
+                                robot.bddrivetrain.driveFor(-19,-1,10);
+                                //skystone location cannot be determined, either try for a random one or just grab the foundation
+
+                            }
+
+                            sleep(500);
+                            robot.bddrivetrain.turnFor(85, 1, 15);
+
+
+                            sleep(500);
+                            robot.bddrivetrain.driveFor(54,1,10);
+                            sleep(500);
+                            robot.bdgrabber.grabUpAuto();
+                            sleep(500);
+                            robot.bddrivetrain.driveFor(-22,-1,10);
+
+
+                            telemetry.addData("PATH", "COMPLETE");
+                            //call movement functions
+//            strafe(0.4, 200);
+//            moveDistance(0.4, 700);                            break;
+                        case PARK_WALL:
+
+                            webcam.stopStreaming();
+
+                            runtime.reset();
+
+                            robot.bddrivetrain.driveFor(28,1,10);
+                            sleep(500);
+
+                            if (valLeft == 0) { // stone is on left, run left path
+
+                                robot.bddrivetrain.strafeFor(8, 1, 10);
+                                sleep(500);
+                                robot.bddrivetrain.driveFor(15,1,10);
+                                sleep(500);
+                                robot.bdgrabber.grabDownAuto();
+                                sleep(500);
+                                robot.bddrivetrain.driveFor(-19,-1,10);
+                                sleep(500);
+                                robot.bddrivetrain.strafeFor(-8, 1, 10);
+                                sleep(500);
+
+
+                            } else if (valMid == 0) { // stone is in middle, run middle path
+
+                                robot.bddrivetrain.driveFor(15,1,10);
+                                sleep(500);
+                                robot.bdgrabber.grabDownAuto();
+                                sleep(500);
+                                robot.bddrivetrain.driveFor(-19,-1,10);
+                                sleep(500);
+
+
+                            } else if (valRight == 0) { //stone on right, run right path
+
+                                robot.bddrivetrain.strafeFor(-8, 1, 10);
+                                sleep(500);
+                                robot.bddrivetrain.driveFor(15,1,10);
+                                sleep(500);
+                                robot.bdgrabber.grabDownAuto();
+                                sleep(500);
+                                robot.bddrivetrain.driveFor(-19,-1,10);
+                                sleep(500);
+                                robot.bddrivetrain.strafeFor(7, 1, 10);
+                                sleep(500);
+
+
+                            } else {
+                                robot.bddrivetrain.driveFor(15,1,10);
+                                sleep(500);
+                                robot.bdgrabber.grabDownAuto();
+                                sleep(500);
+                                robot.bddrivetrain.driveFor(-19,-1,10);
+                                //skystone location cannot be determined, either try for a random one or just grab the foundation
+
+                            }
+
+                            sleep(500);
+                            robot.bddrivetrain.driveFor(-27.5,-1,10);
+                            robot.bddrivetrain.turnFor(85, 1, 15);
+
+
+                            sleep(500);
+                            robot.bddrivetrain.driveFor(54,1,10);
+                            sleep(500);
+                            robot.bdgrabber.grabUpAuto();
+                            sleep(500);
+                            robot.bddrivetrain.driveFor(-22,-1,10);
+
+
+                            telemetry.addData("PATH", "COMPLETE");
+                            //call movement functions
+//            strafe(0.4, 200);
+//            moveDistance(0.4, 700);
+                            break;
+                    }
+                    break;
+                case DO_BOTH:
+                    switch (autoconfig.park) {
+                        case PARK_MIDDLE:
+
+                            break;
+                        case PARK_WALL:
+
+                            break;
+                    }
+                    break;
+                case STARTING_DEPOT_SIDE:
+                    switch (autoconfig.park) {
+                        case PARK_MIDDLE:
+                            runtime.reset();
+
+                            robot.bddrivetrain.driveFor(24.5,.7,10);
+                            robot.bddrivetrain.strafeFor(12.5, .7, 15);
+                            sleep(500);
+                            break;
+                        case PARK_WALL:
+                            runtime.reset();
+
+                            robot.bddrivetrain.strafeFor(12.5, .7, 15);
+                            sleep(500);
+                            break;
+                    }
+                    break;
+                case STARTING_BUILDER_SIDE:
+                    switch (autoconfig.park) {
+                        case PARK_MIDDLE:
+                            runtime.reset();
+
+                            robot.bddrivetrain.driveFor(24.5,.7,10);
+                            robot.bddrivetrain.strafeFor(-12.5, .7, 15);
+                            sleep(500);                            break;
+                        case PARK_WALL:
+                            runtime.reset();
+
+                            robot.bddrivetrain.strafeFor(-12.5, .7, 15);
+                            sleep(500);                            break;
+                    }
+                    break;
+
+            }
+
+        } else {
+            switch (autoconfig.tasks) {
+                case DO_FOUNDATION:
+                    switch (autoconfig.park) {
+                        case PARK_MIDDLE:
+
+                            runtime.reset();
+
+
+                            robot.bddrivetrain.driveFor(-48, -.8, 5);
+                            sleep(100);
+                            robot.bddrivetrain.strafeFor(10,.7,4);
+                            sleep(100);
+                            robot.bddrivetrain.driveFor(16, .8,4);
+                            sleep(100);
+                            robot.bddrivetrain.strafeFor(34,.8,7);
+                            sleep(100);
+                            robot.bddrivetrain.driveFor(-7,-.7,7);
+                            sleep(100);
+                            robot.bdlatch.closeLatch();
+                            sleep(1000);
+                            robot.bddrivetrain.driveFor(38,.8,7);
+                            sleep(100);
+                            robot.bddrivetrain.driveFor(-1,-.8,7);
+                            sleep(100);
+                            robot.bdlatch.openLatch();
+                            sleep(1000);
+                            robot.bddrivetrain.strafeFor(-40,.8,5);
+                            sleep(100);
+                            robot.bddrivetrain.driveFor(-23,-.8,5);
+                            sleep(100);
+                            robot.bddrivetrain.strafeFor(-20,.8,4);
+                            sleep(100);
+
+
+                            telemetry.addData("PATH", "COMPLETE");
+                            //call movement functions
+//            strafe(0.4, 200);
+//            moveDistance(0.4, 700);
+                            break;
+                        case PARK_WALL:
+
+                            runtime.reset();
+
+
+                            robot.bddrivetrain.driveFor(-48, -.8, 5);
+                            sleep(100);
+                            robot.bddrivetrain.strafeFor(10,.7,4);
+                            sleep(100);
+                            robot.bddrivetrain.driveFor(16, .8,4);
+                            sleep(100);
+                            robot.bddrivetrain.strafeFor(34,.8,7);
+                            sleep(100);
+                            robot.bddrivetrain.driveFor(-7,-.7,7);
+                            sleep(100);
+                            robot.bdlatch.closeLatch();
+                            sleep(1000);
+                            robot.bddrivetrain.driveFor(38,.8,7);
+                            sleep(100);
+                            robot.bddrivetrain.driveFor(-1,-.8,7);
+                            sleep(100);
+                            robot.bdlatch.openLatch();
+                            sleep(1000);
+                            robot.bddrivetrain.strafeFor(((-40)+(-20)),.8,5);
+                            sleep(100);
+
+
+
+                            telemetry.addData("PATH", "COMPLETE");
+                            //call movement functions
+//            strafe(0.4, 200);
+//            moveDistance(0.4, 700);
+                            break;
+                    }
+                    break;
+                case DO_STONE:
+                    switch (autoconfig.park) {
+                        case PARK_MIDDLE:
+                            webcam.stopStreaming();
+
+                            runtime.reset();
+
+                            robot.bddrivetrain.driveFor(28,1,10);
+                            sleep(500);
+
+                            if (valLeft == 0) { // stone is on left, run left path
+
+                                robot.bddrivetrain.strafeFor(-8, 1, 10);
+                                sleep(500);
+                                robot.bddrivetrain.driveFor(15,1,10);
+                                sleep(500);
+                                robot.bdgrabber.grabDownAuto();
+                                sleep(500);
+                                robot.bddrivetrain.driveFor(-19,-1,10);
+                                sleep(500);
+                                robot.bddrivetrain.strafeFor(8, 1, 10);
+                                sleep(500);
+
+
+                            } else if (valMid == 0) { // stone is in middle, run middle path
+
+                                robot.bddrivetrain.driveFor(15,1,10);
+                                sleep(500);
+                                robot.bdgrabber.grabDownAuto();
+                                sleep(500);
+                                robot.bddrivetrain.driveFor(-19,-1,10);
+                                sleep(500);
+
+
+                            } else if (valRight == 0) { //stone on right, run right path
+
+                                robot.bddrivetrain.strafeFor(8, 1, 10);
+                                sleep(500);
+                                robot.bddrivetrain.driveFor(15,1,10);
+                                sleep(500);
+                                robot.bdgrabber.grabDownAuto();
+                                sleep(500);
+                                robot.bddrivetrain.driveFor(-19,-1,10);
+                                sleep(500);
+                                robot.bddrivetrain.strafeFor(-7, 1, 10);
+                                sleep(500);
+
+
+                            } else {
+                                robot.bddrivetrain.driveFor(15,1,10);
+                                sleep(500);
+                                robot.bdgrabber.grabDownAuto();
+                                sleep(500);
+                                robot.bddrivetrain.driveFor(-19,-1,10);
+                                //skystone location cannot be determined, either try for a random one or just grab the foundation
+
+                            }
+
+                            sleep(500);
+                            robot.bddrivetrain.turnFor(-80, 1, 15);
+
+            /*
+            //TURNING SAW THE ACTUAL VALUES AS POTITIVE!!!!!!!
+            //KEPT GOING FOREVER TURNING RIGHT
+            --nevermind, seems to be fixed
+             */
+
+                            sleep(500);
+                            robot.bddrivetrain.driveFor(54, 1, 10);
+                            sleep(500);
+                            robot.bdgrabber.grabUpAuto();
+                            sleep(500);
+                            robot.bddrivetrain.driveFor(-22, -1, 10);
+
+
+                            telemetry.addData("PATH", "COMPLETE");
+                            //call movement functions
+//            strafe(0.4, 200);
+//            moveDistance(0.4, 700);
+                            ////////////////////////////////////////////////
+
+                            break;
+                        case PARK_WALL:
+
+                            webcam.stopStreaming();
+
+                            runtime.reset();
+
+                            robot.bddrivetrain.driveFor(28,1,10);
+                            sleep(500);
+
+                            if (valLeft == 0) { // stone is on left, run left path
+
+                                robot.bddrivetrain.strafeFor(-8, 1, 10);
+                                sleep(500);
+                                robot.bddrivetrain.driveFor(15,1,10);
+                                sleep(500);
+                                robot.bdgrabber.grabDownAuto();
+                                sleep(500);
+                                robot.bddrivetrain.driveFor(-19,-1,10);
+                                sleep(500);
+                                robot.bddrivetrain.strafeFor(8, 1, 10);
+                                sleep(500);
+
+
+                            } else if (valMid == 0) { // stone is in middle, run middle path
+
+                                robot.bddrivetrain.driveFor(15,1,10);
+                                sleep(500);
+                                robot.bdgrabber.grabDownAuto();
+                                sleep(500);
+                                robot.bddrivetrain.driveFor(-19,-1,10);
+                                sleep(500);
+
+
+                            } else if (valRight == 0) { //stone on right, run right path
+
+                                robot.bddrivetrain.strafeFor(8, 1, 10);
+                                sleep(500);
+                                robot.bddrivetrain.driveFor(15,1,10);
+                                sleep(500);
+                                robot.bdgrabber.grabDownAuto();
+                                sleep(500);
+                                robot.bddrivetrain.driveFor(-19,-1,10);
+                                sleep(500);
+                                robot.bddrivetrain.strafeFor(-7, 1, 10);
+                                sleep(500);
+
+
+                            } else {
+                                robot.bddrivetrain.driveFor(15,1,10);
+                                sleep(500);
+                                robot.bdgrabber.grabDownAuto();
+                                sleep(500);
+                                robot.bddrivetrain.driveFor(-19,-1,10);
+                                //skystone location cannot be determined, either try for a random one or just grab the foundation
+
+                            }
+
+                            sleep(500);
+                            robot.bddrivetrain.driveFor(-27.5,-1,10);
+                            robot.bddrivetrain.turnFor(-85, 1, 15);
+
+
+
+                            sleep(500);
+                            robot.bddrivetrain.driveFor(54,1,10);
+                            sleep(500);
+                            robot.bdgrabber.grabUpAuto();
+                            sleep(500);
+                            robot.bddrivetrain.driveFor(-22,-1,10);
+
+
+                            telemetry.addData("PATH", "COMPLETE");
+                            //call movement functions
+//            strafe(0.4, 200);
+//            moveDistance(0.4, 700);
+                            break;
+                    }
+                    break;
+                case DO_BOTH:
+                    switch (autoconfig.park) {
+                        case PARK_MIDDLE:
+
+                            break;
+                        case PARK_WALL:
+
+                            break;
+                    }
+                    break;
+                case STARTING_DEPOT_SIDE:
+                    switch (autoconfig.park) {
+                        case PARK_MIDDLE:
+
+                            runtime.reset();
+
+                            robot.bddrivetrain.driveFor(24.5,.7,10);
+                            robot.bddrivetrain.strafeFor(-12.5, .7, 15);
+                            sleep(500);                            break;
+                        case PARK_WALL:
+                            runtime.reset();
+
+                            robot.bddrivetrain.strafeFor(-12.5, .7, 15);
+                            sleep(500);
+                            break;
+                    }
+                    break;
+                case STARTING_BUILDER_SIDE:
+                    switch (autoconfig.park) {
+                        case PARK_MIDDLE:
+
+                            runtime.reset();
+
+                            robot.bddrivetrain.driveFor(24.5,.7,10);
+                            robot.bddrivetrain.strafeFor(12.5, .7, 15);
+                            sleep(500);
+                            break;
+                        case PARK_WALL:
+
+                            runtime.reset();
+
+                            robot.bddrivetrain.strafeFor(12.5, .7, 15);
+                            sleep(500);
+                            break;
+                    }
+                    break;
+
+            }
 
         }
+
+    }
+
+        //insert auto here
+
+
     /**
      * What the robot should do when it sees the stop button was pressed / timer ended
      */
