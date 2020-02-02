@@ -1,7 +1,11 @@
 package org.firstinspires.ftc.teamcode.BigDipper;
 
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.dashboard.config.ValueProvider;
+import com.acmerobotics.dashboard.config.variable.BasicVariable;
+import com.acmerobotics.dashboard.config.variable.CustomVariable;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -74,6 +78,34 @@ public class BDAutonomous extends BaseLinearOpMode {
     OpenCvCamera webcam;
 
     AutoConfig autoconfig = new AutoConfig();
+
+    private static final String MIDDLEPARK_FOUNDATION_BLUE = "MIDDLEPARK_FOUNDATION_BLUE";
+    private static final String MIDDLEPARK_STONES_BLUE = "MIDDLEPARK_STONES_BLUE";
+    private static final String PARKINGONLY_STARTBZ_MIDDLEPARK_BLUE = "PARKINGONLY_STARTBZ_MIDDLEPARK_BLUE";
+    private static final String PARKINGONLY_STARTBZ_WALLPARK_BLUE = "PARKINGONLY_STARTBZ_WALLPARK_BLUE";
+    private static final String PARKINGONLY_STARTDEPOT_MIDDLEPARK_BLUE = "PARKINGONLY_STARTDEPOT_MIDDLEPARK_BLUE";
+    private static final String PARKINGONLY_STARTDEPOT_WALLPARK_BLUE = "PARKINGONLY_STARTDEPOT_MIDDLEPARK_BLUE";
+    private static final String WALLPARK_FOUNDATION_BLUE = "WALLPARK_FOUNDATION_BLUE";
+    private static final String WALLPARK_STONES_BLUE = "WALLPARK_STONES_BLUE";
+    private static final String MIDDLEPARK_STONESANDFOUNDATION_BLUE = "MIDDLEPARK_STONESANDFOUNDATION_BLUE";
+    private static final String WALLPARK_STONESANDFOUNDATION_BLUE = "WALLPARK_STONESANDFOUNDATION_BLUE";
+
+    private static final String MIDDLEPARK_FOUNDATION_RED = "MIDDLEPARK_FOUNDATION_RED";
+    private static final String MIDDLEPARK_STONES_RED = "MIDDLEPARK_STONES_RED";
+    private static final String PARKINGONLY_STARTBZ_MIDDLEPARK_RED = "PARKINGONLY_STARTBZ_MIDDLEPARK_RED";
+    private static final String PARKINGONLY_STARTBZ_WALLPARK_RED = "PARKINGONLY_STARTBZ_WALLPARK_RED";
+    private static final String PARKINGONLY_STARTDEPOT_MIDDLEPARK_RED = "PARKINGONLY_STARTDEPOT_MIDDLEPARK_RED";
+    private static final String PARKINGONLY_STARTDEPOT_WALLPARK_RED = "PARKINGONLY_STARTDEPOT_MIDDLEPARK_RED";
+    private static final String WALLPARK_FOUNDATION_RED = "WALLPARK_FOUNDATION_RED";
+    private static final String WALLPARK_STONES_RED = "WALLPARK_STONES_RED";
+    private static final String MIDDLEPARK_STONESANDFOUNDATION_RED = "MIDDLEPARK_STONESANDFOUNDATION_RED";
+    private static final String WALLPARK_STONESANDFOUNDATION_RED = "WALLPARK_STONESANDFOUNDATION_RED";
+
+
+    private FtcDashboard dashboard = FtcDashboard.getInstance();
+
+    private String catName;
+    private CustomVariable catVar;
 
 
     /**
@@ -873,4 +905,8 @@ public class BDAutonomous extends BaseLinearOpMode {
         }
 
     }
+
+
+
+
 }
