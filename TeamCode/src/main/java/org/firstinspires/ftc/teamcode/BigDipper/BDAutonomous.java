@@ -11,6 +11,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
+import org.firstinspires.ftc.teamcode.BigDipper.BDAutonomi.BlueAlliance.BDAuto_MiddlePark_Foundation_Blue;
+import org.firstinspires.ftc.teamcode.BigDipper.BDAutonomi.BlueAlliance.Both.BDAuto_MiddlePark_StonesAndFoundation_Blue;
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BaseLinearOpMode;
 import org.firstinspires.ftc.teamcode.Uhaul.AutoConfig;
 import org.firstinspires.ftc.teamcode.Uhaul.AutonomousSelector;
@@ -142,6 +144,7 @@ public class BDAutonomous extends BaseLinearOpMode {
             case STARTING_BUILDER_SIDE:
                 telemetry.addData("Task", " PARK ONLY START BUILD");
 
+                telemetry.addData("text", BDAuto_MiddlePark_Foundation_Blue.one);
                 break;
         }
 
