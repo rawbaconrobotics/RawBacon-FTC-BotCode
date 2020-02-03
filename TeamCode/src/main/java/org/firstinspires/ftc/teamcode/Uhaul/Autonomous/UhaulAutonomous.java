@@ -9,8 +9,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Uhaul.UhaulLinearOpMode;
-import org.firstinspires.ftc.teamcode.Uhaul.AutoConfig;
-import org.firstinspires.ftc.teamcode.Uhaul.AutonomousSelector;
+import org.firstinspires.ftc.teamcode.Uhaul.Autonomous.AutoConfig;
+import org.firstinspires.ftc.teamcode.Uhaul.Autonomous.AutonomousSelector;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;

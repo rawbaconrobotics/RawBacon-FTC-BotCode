@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.BigDipper;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -24,6 +25,7 @@ import org.firstinspires.ftc.teamcode.BigDipper.Robot;
  * Provides encoder counts through telemetry
  */
 @TeleOp(name="ENCODER TEST", group="Big Dipper")
+@Disabled
 public class EncoderTest extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private Servo latchServo = null;

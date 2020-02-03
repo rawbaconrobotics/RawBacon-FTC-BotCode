@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.BigDipper.BDAutonomi;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -23,6 +24,7 @@ import java.util.List;
  */
 @Config
 @Autonomous(name = "JAM Autonomous", group = "2bb2b2b22b")
+@Disabled
 public class JamAuto extends BaseLinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 

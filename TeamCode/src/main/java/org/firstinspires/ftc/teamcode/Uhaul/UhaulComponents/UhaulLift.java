@@ -7,18 +7,15 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.RobotComponentImplBase;
-import org.firstinspires.ftc.teamcode.Uhaul.AutonomousSelector;
 import org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents.UhaulComponentImplBase;
 
 import static android.os.SystemClock.sleep;
-import static org.firstinspires.ftc.teamcode.Uhaul.AutonomousSelector.deserializeAlliance;
 
 /**
  * Defines the Uhaul Lift
  * @author Raw Bacon Coders
  */
 public class UhaulLift extends UhaulComponentImplBase {
-//DONE FOR UHAUL!
 
     String UHAUL_LIFT_1 = "uhaul_lift_1";
     String UHAUL_LIFT_2 = "uhaul_lift_2";
@@ -59,9 +56,9 @@ public class UhaulLift extends UhaulComponentImplBase {
         uhaulLift = (DcMotorEx) hardwareMap.dcMotor.get(UHAUL_LIFT_1);
         uhaulLiftTwo = (DcMotorEx) hardwareMap.dcMotor.get(UHAUL_LIFT_2);
 
-        //PIDFCoefficients pidNew = new PIDFCoefficients(kp, ki, kd, kf);
-        //uhaulLift.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
-        //uhaulLiftTwo.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
+        PIDFCoefficients pidNew = new PIDFCoefficients(kp, ki, kd, kf);
+        uhaulLift.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
+        uhaulLiftTwo.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
 
         uhaulLift.setDirection(DcMotor.Direction.FORWARD);
         uhaulLiftTwo.setDirection(DcMotor.Direction.FORWARD);
@@ -99,7 +96,7 @@ public void initForTesting(){
     int liftEncoderSetpoint = 0;
 
 //Would be nice to use state machines here and enums! Example:   https://gm0.copperforge.cc/en/latest/docs/software/fundamental-concepts.html#finite-state-machines-and-enums
-
+    boolean comingUp = false;
     /** Defines the lift for the teleop */
     public void liftTeleOp() {
 
@@ -107,11 +104,26 @@ public void initForTesting(){
         if ((gamepad2.dpad_up || gamepad2.dpad_down) && (Math.abs(gamepad2.right_stick_y) < 0.1)) {
             if (gamepad2.dpad_up) {
                 dpadBlocks++;
+                comingUp = true;
+
             } else {
-                dpadBlocks--;
+                if(dpadBlocks > 0) {
+                    dpadBlocks--;
+                }
+                else{
+                    dpadBlocks = 0;
+                }
+                comingUp = false;
             }
 
-            liftEncoderSetpoint = (int) ((BLOCK_HEIGHT * dpadBlocks) * COUNTS_PER_INCH);
+            if((dpadBlocks == 1) && comingUp){
+                liftEncoderSetpoint = (int) ((INITIAL_HEIGHT + (BLOCK_HEIGHT * dpadBlocks)) * COUNTS_PER_INCH);
+
+            }
+            else{
+                liftEncoderSetpoint = (int) ((BLOCK_HEIGHT * dpadBlocks) * COUNTS_PER_INCH);
+
+            }
 
             teleOpEncoderDrive();
 
@@ -129,7 +141,7 @@ public void initForTesting(){
             if ((uhaulLift.getCurrentPosition() < MAX_TICKS_BEFORE_OVERRIDE) && (Math.abs(gamepad2.right_stick_y) > 0.1)) {
                 uhaulLift.setPower(gamepad2.right_stick_y / 2);
                 uhaulLiftTwo.setPower(gamepad2.right_stick_y /2);
-            } else if((uhaulLift.getCurrentPosition() < MAX_TICKS_BEFORE_OVERRIDE) && (Math.abs(gamepad2.right_stick_y) < 0.1)) {
+            } else if((uhaulLift.getCurrentPosition() < MAX_TICKS_BEFORE_OVERRIDE) && (Math.abs(gamepad2.right_stick_y) <= 0.1)) {
                 //do nothing, it's already at the right speed
             }
             else{
@@ -142,9 +154,10 @@ public void initForTesting(){
 
             liftEncoderSetpoint = (int) ((-2) * COUNTS_PER_INCH);
 
+            override = false;
+
             teleOpEncoderDrive();
 
-            override = false;
 
 
         } else if(gamepad2.right_stick_y > 0.1) {
@@ -235,6 +248,10 @@ public void initForTesting(){
 
         uhaulLift = (DcMotorEx) hardwareMap.dcMotor.get(UHAUL_LIFT_1);
         uhaulLiftTwo = (DcMotorEx) hardwareMap.dcMotor.get(UHAUL_LIFT_2);
+
+        PIDFCoefficients pidNew = new PIDFCoefficients(kp, ki, kd, kf);
+        uhaulLift.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
+        uhaulLiftTwo.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
 
 
 
