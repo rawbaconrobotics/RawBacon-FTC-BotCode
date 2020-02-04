@@ -14,8 +14,8 @@ import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
 import org.firstinspires.ftc.teamcode.BigDipper.BDAutonomi.BlueAlliance.BDAuto_MiddlePark_Foundation_Blue;
 import org.firstinspires.ftc.teamcode.BigDipper.BDAutonomi.BlueAlliance.Both.BDAuto_MiddlePark_StonesAndFoundation_Blue;
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BaseLinearOpMode;
-import org.firstinspires.ftc.teamcode.Uhaul.AutoConfig;
-import org.firstinspires.ftc.teamcode.Uhaul.AutonomousSelector;
+import org.firstinspires.ftc.teamcode.Uhaul.Autonomous.AutoConfig;
+import org.firstinspires.ftc.teamcode.Uhaul.Autonomous.AutonomousSelector;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
@@ -32,9 +32,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import static org.firstinspires.ftc.teamcode.Uhaul.AutonomousSelector.allianceFileName;
+import static org.firstinspires.ftc.teamcode.Uhaul.Autonomous.AutonomousSelector.allianceFileName;
 
-//DONE
 
 /**
  * @author Raw Bacon Coders
