@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -10,7 +11,7 @@ import org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents.UhaulComponentImplBa
  * @author Raw Bacon Coders
  * Defines the UhaulLatch
  */
-
+@Config
     public class UhaulLatch extends UhaulComponentImplBase  {
 //READY TO GO FOR UHAUL
         private ElapsedTime runtime = new ElapsedTime();
@@ -18,8 +19,8 @@ import org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents.UhaulComponentImplBa
         public Servo uhaulLatch = null;
         public Servo uhaulLatchTwo = null;
 
-        private static final double LATCH_OPEN_POSITION = 0;
-        private static final double LATCH_CLOSED_POSITION = 0.3;
+        public static double LATCH_OPEN_POSITION = .15;
+        public static double LATCH_CLOSED_POSITION = 0.5;
 
         private final static String LATCH_SERVO_1 = "uhaul_latch_1" ;
         private final static String LATCH_SERVO_2 = "uhaul_latch_2" ;
@@ -38,13 +39,15 @@ import org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents.UhaulComponentImplBa
 
          /** Defines how to move the latch using the gamepad. */
         public void moveLatch () {
-            if (gamepad1.right_bumper || gamepad1.left_bumper) {
+            if (gamepad2.right_trigger <= 0.5 || gamepad2.left_trigger <= 0.5) {
 
-                uhaulLatch.setPosition(LATCH_OPEN_POSITION);
+                uhaulLatch.setPosition(-LATCH_OPEN_POSITION);
+                uhaulLatchTwo.setPosition(LATCH_OPEN_POSITION);
             }
-            if (gamepad1.right_trigger >= 0.5 || gamepad1.left_trigger >= 0.5) {
+            if (gamepad2.right_trigger >= 0.5 || gamepad2.left_trigger >= 0.5) {
 
-                uhaulLatch.setPosition(LATCH_CLOSED_POSITION);
+                uhaulLatch.setPosition(-LATCH_CLOSED_POSITION);
+                uhaulLatchTwo.setPosition(LATCH_CLOSED_POSITION);
             }
         }
          /** Initializes the autonomous */
@@ -52,19 +55,19 @@ import org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents.UhaulComponentImplBa
         public void initAutonomous() {
             uhaulLatch = hardwareMap.servo.get(LATCH_SERVO_1);
             uhaulLatchTwo = hardwareMap.servo.get(LATCH_SERVO_2);
-            uhaulLatch.setPosition(LATCH_OPEN_POSITION);
+            uhaulLatch.setPosition(-LATCH_OPEN_POSITION);
             uhaulLatchTwo.setPosition(LATCH_OPEN_POSITION);
         }
          /** Opens the latch */
         public void openLatch(){
             System.out.println("LATCH OPENING");
-            uhaulLatch.setPosition(LATCH_OPEN_POSITION);
+            uhaulLatch.setPosition(-LATCH_OPEN_POSITION);
             uhaulLatchTwo.setPosition(LATCH_OPEN_POSITION);
         }
       /** Closes the latch */
         public void closeLatch(){
             System.out.println("LATCH CLOSING");
-            uhaulLatch.setPosition(LATCH_CLOSED_POSITION);
+            uhaulLatch.setPosition(-LATCH_CLOSED_POSITION);
             uhaulLatchTwo.setPosition(LATCH_CLOSED_POSITION);
         }
     }

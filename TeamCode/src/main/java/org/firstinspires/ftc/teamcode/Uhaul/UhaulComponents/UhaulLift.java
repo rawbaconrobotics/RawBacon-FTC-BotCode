@@ -19,10 +19,10 @@ public class UhaulLift extends UhaulComponentImplBase {
 
     String UHAUL_LIFT_1 = "uhaul_lift_1";
     String UHAUL_LIFT_2 = "uhaul_lift_2";
-    double BLOCK_HEIGHT = 4;
-    double INITIAL_HEIGHT = 5; //height to get to before the first block
-    double MAX_TICKS_BEFORE_OVERRIDE = 80000;
-    double LIFT_MAX_SPEED = 0.5;
+    double BLOCK_HEIGHT = 5;
+    double INITIAL_HEIGHT = 0; //height to get to before the first block
+    double MAX_TICKS_BEFORE_OVERRIDE = (40)*(COUNTS_PER_INCH);
+    double LIFT_MAX_SPEED = 1;
     double LIFT_SPEED_IN_AUTONOMOUS = 0.5;
     double kp = 0.3;
     double ki = 0.1;
