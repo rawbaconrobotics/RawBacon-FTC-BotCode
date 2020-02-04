@@ -62,12 +62,12 @@ public class UhaulIntake extends UhaulComponentImplBase {
     }
     /** Runs the intake proccess */
     public void runIntake(){
-        if (gamepad2.right_trigger > 0.1){
-            uhaulLeftIntake.setPower(1);
-            uhaulRightIntake.setPower(1);
-            previousPower = 1;
+        if (gamepad2.left_bumper || gamepad2.right_bumper){
+            uhaulLeftIntake.setPower(-1);
+            uhaulRightIntake.setPower(-1);
+            previousPower = -1;
         }
-        else if((gamepad2.right_trigger <= 0.1) && (previousPower != 0)){
+        else if((previousPower != 0)){
             uhaulLeftIntake.setPower(0);
             uhaulRightIntake.setPower(0);
             previousPower = 0;
