@@ -47,7 +47,7 @@ public class UhaulSlider extends UhaulComponentImplBase {
             sliderPower = gamepad2.left_stick_y;
 
 
-            if(((sliderPower > -0.1) && (sliderPower < 0.1)) && (previousPower != sliderPower) ){
+            if(((sliderPower > -0.1) || (sliderPower < 0.1))){
                 uhaulSlider1.setPower(0);
                 uhaulSlider2.setPower(0);
                 previousPower = 0;

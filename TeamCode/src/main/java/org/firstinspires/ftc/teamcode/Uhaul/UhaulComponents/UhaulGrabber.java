@@ -29,10 +29,10 @@ public class UhaulGrabber extends UhaulComponentImplBase {
     }
       /** Defines movement controls of the grabber */
     public void moveGrabber() {
-        if (gamepad2.right_bumper){
+        if (gamepad2.x){
             uhaulGrabber.setPosition(UHAUL_GRABBER_OPEN);
         }
-        if (gamepad2.left_bumper){
+        if (gamepad2.y){
             uhaulGrabber.setPosition(UHAUL_GRABBER_CLOSED);
         }
     }

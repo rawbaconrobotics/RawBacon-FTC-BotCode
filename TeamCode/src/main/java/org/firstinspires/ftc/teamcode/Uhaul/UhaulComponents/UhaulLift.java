@@ -22,7 +22,7 @@ public class UhaulLift extends UhaulComponentImplBase {
     String UHAUL_LIFT_2 = "uhaul_lift_2";
     double BLOCK_HEIGHT = 5;
     double INITIAL_HEIGHT = 0; //height to get to before the first block
-    double MAX_TICKS_BEFORE_OVERRIDE = (liftFunction(40))*(COUNTS_PER_INCH);
+    double MAX_TICKS_BEFORE_OVERRIDE = (liftFunction(40))*(COUNTS_PER_MOTOR_REV);
     double LIFT_MAX_SPEED = 1;
     double LIFT_SPEED_IN_AUTONOMOUS = 0.5;
 
@@ -36,7 +36,6 @@ public class UhaulLift extends UhaulComponentImplBase {
 
     public DcMotorEx uhaulLift = null;
     public DcMotorEx uhaulLiftTwo = null;
-
 
     private static final double COUNTS_PER_MOTOR_REV = 383.6;
     private static final double DRIVE_GEAR_REDUCTION = 1.0;
@@ -129,11 +128,11 @@ public void initForTesting(){
             }
 
             if((dpadBlocks == 1) && comingUp){
-                liftEncoderSetpoint = (int) ((INITIAL_HEIGHT + (liftFunction(BLOCK_HEIGHT * dpadBlocks))) * COUNTS_PER_INCH);
+                liftEncoderSetpoint = (int) ((INITIAL_HEIGHT + (liftFunction(BLOCK_HEIGHT * dpadBlocks))) * COUNTS_PER_MOTOR_REV);
 
             }
             else{
-                liftEncoderSetpoint = (int) (((liftFunction(BLOCK_HEIGHT * dpadBlocks))) * COUNTS_PER_INCH);
+                liftEncoderSetpoint = (int) (((liftFunction(BLOCK_HEIGHT * dpadBlocks))) * COUNTS_PER_MOTOR_REV);
 
             }
 
@@ -168,7 +167,7 @@ public void initForTesting(){
 
         } else if (override) {
 
-            liftEncoderSetpoint = (int) (liftFunction(5.1) * COUNTS_PER_INCH);
+            liftEncoderSetpoint = (int) (liftFunction(5.1) * COUNTS_PER_MOTOR_REV);
 
             override = false;
 
@@ -180,7 +179,18 @@ public void initForTesting(){
             uhaulLift.setPower(gamepad2.right_stick_y / 4);
             uhaulLiftTwo.setPower(gamepad2.right_stick_y / 4);
 
-        }else{
+        }else if(gamepad2.b){
+            liftErrorCompensate();
+        }
+        else if(gamepad2.left_stick_button || gamepad2.right_stick_button){
+            while (gamepad2.left_stick_button) {
+                uhaulLiftTwo.setPower(gamepad2.right_stick_y / 4);
+            }
+            while (gamepad2.right_stick_button) {
+                uhaulLift.setPower(gamepad2.right_stick_y / 4);
+            }
+        }
+        else{
             uhaulLift.setPower(0);
             uhaulLiftTwo.setPower(0);
 
@@ -189,12 +199,6 @@ public void initForTesting(){
        telemetry.addData("Current Dpad Blocks Set To: ", dpadBlocks);
         telemetry.addData("Press 'A' on gamepad 2", " to reset!");
         telemetry.update();
-
-
-
-
-
-
 
 
     }
@@ -225,7 +229,6 @@ public void initForTesting(){
         }
         previousBlocks = howManyBlocks;
     }
-//TODO ADD MANUAL THING AND ENCODER AUTO THE SAME
     //Auto adjust / manual adjust
     public void teleOpEncoderDrive() {
         runtime.reset();
@@ -252,8 +255,12 @@ public void initForTesting(){
                 telemetry.update();
             }
 
-            uhaulLift.setPower(0);
-            uhaulLiftTwo.setPower(0);
+            if(gamepad2.right_stick_y < 0.1) {
+                uhaulLift.setPower(0);
+                uhaulLiftTwo.setPower(0);
+                liftErrorCompensate();
+            }
+
 
             uhaulLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             uhaulLiftTwo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -283,8 +290,13 @@ public void initForTesting(){
                     telemetry.update();
                 }
 
+            if(gamepad2.right_stick_y < 0.1) {
                 uhaulLift.setPower(0);
                 uhaulLiftTwo.setPower(0);
+                liftErrorCompensate();
+
+            }
+
 
                 uhaulLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 uhaulLiftTwo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -428,11 +440,40 @@ public void initForTesting(){
     }
     double rotations_from_zero = 0;
     public double liftFunction(double inches_desired){
-//TODO FIX FUNCTION! DOES NOT RETURN ANYTHING AFTER 40 INCHES
-        rotations_from_zero = ((8587)- Math.sqrt(74863129 - (44803*(Math.pow(inches_desired, 2))))/200);
+        rotations_from_zero = ((8587-Math.sqrt(74863129-(44803*(Math.pow(inches_desired, 2)))))  / 200);
 
         return rotations_from_zero;
 
+    }
+
+    public void liftErrorCompensate()
+
+    {
+        if ((uhaulLift.getCurrentPosition() < uhaulLiftTwo.getCurrentPosition() - 10) || (uhaulLift.getCurrentPosition() > uhaulLiftTwo.getCurrentPosition() + 10)) {
+
+            int lowerPos = Math.min(uhaulLift.getCurrentPosition(), uhaulLiftTwo.getCurrentPosition());
+
+            if ((uhaulLift.getCurrentPosition() != lowerPos) && (gamepad2.right_stick_y < 0.1)) {
+                uhaulLift.setTargetPosition(lowerPos);
+                uhaulLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                uhaulLift.setPower(-.3);
+                while (uhaulLift.isBusy()) {
+                    telemetry.addData("Uhaul Lift 1", "Adjusting");
+                    telemetry.update();
+                }
+                uhaulLift.setPower(0);
+            } else if ((uhaulLiftTwo.getCurrentPosition() != lowerPos) && (gamepad2.right_stick_y < 0.1)) {
+                uhaulLiftTwo.setTargetPosition(lowerPos);
+                uhaulLiftTwo.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                uhaulLiftTwo.setPower(-.3);
+                while (uhaulLiftTwo.isBusy()) {
+                    telemetry.addData("Uhaul Lift 2", "Adjusting");
+                    telemetry.update();
+                }
+                uhaulLiftTwo.setPower(0);
+
+            }
+        }
     }
 
 }
