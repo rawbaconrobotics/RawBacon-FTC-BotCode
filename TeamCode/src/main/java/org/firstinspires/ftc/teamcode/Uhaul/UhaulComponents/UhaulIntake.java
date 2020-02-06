@@ -28,6 +28,7 @@ public class UhaulIntake extends UhaulComponentImplBase {
     public DcMotor uhaulLeftIntake = null;
     public DcMotor uhaulRightIntake = null;
     double previousPower = 0;
+    public static double intakePower = 1;
 
     ColorSensor sensorColor = null;
     String COLOR_SENSOR = "color_sensor";
@@ -54,8 +55,8 @@ public class UhaulIntake extends UhaulComponentImplBase {
         uhaulLeftIntake = hardwareMap.dcMotor.get(LEFT_INTAKE);
         uhaulRightIntake = hardwareMap.dcMotor.get(RIGHT_INTAKE);
 
-        uhaulLeftIntake.setDirection(DcMotor.Direction.REVERSE);
-        uhaulRightIntake.setDirection(DcMotor.Direction.FORWARD);
+        uhaulLeftIntake.setDirection(DcMotor.Direction.FORWARD);
+        uhaulRightIntake.setDirection(DcMotor.Direction.REVERSE);
 
         sensorColor = hardwareMap.colorSensor.get(COLOR_SENSOR);
 
@@ -63,9 +64,9 @@ public class UhaulIntake extends UhaulComponentImplBase {
     /** Runs the intake proccess */
     public void runIntake(){
         if (gamepad2.left_bumper || gamepad2.right_bumper){
-            uhaulLeftIntake.setPower(-1);
-            uhaulRightIntake.setPower(-1);
-            previousPower = -1;
+            uhaulLeftIntake.setPower(intakePower);
+            uhaulRightIntake.setPower(intakePower);
+            previousPower = intakePower;
         }
         else if((previousPower != 0)){
             uhaulLeftIntake.setPower(0);
