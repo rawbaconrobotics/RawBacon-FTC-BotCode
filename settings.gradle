@@ -1,1 +1,1 @@
-include ':RobotCore', ':Blocks', ':RobotServer', ':FtcRobotController', ':FtcCommon', ':Hardware', ':Inspection', ':TeamCode', ':OpenRC', ':jackson-core-2.9.9'
+include ':RobotCore', ':Blocks', ':RobotServer', ':FtcRobotController', ':FtcCommon', ':Hardware', ':Inspection', ':TeamCode', ':OpenRC'

@@ -8,19 +8,19 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Uhaul.Tests.RoadRunnerTest.drive.mecanum.SampleMecanumDriveBase;
 import org.firstinspires.ftc.teamcode.Uhaul.Tests.RoadRunnerTest.drive.mecanum.SampleMecanumDriveREV;
+import org.firstinspires.ftc.teamcode.Uhaul.Tests.RoadRunnerTest.drive.mecanum.SampleMecanumDriveREVOptimized;
 
 /*
  * This is a simple routine to test translational drive capabilities.
  */
 @Config
-@Disabled
-@Autonomous(group = "drive")
+@Autonomous(name ="Straight Test", group = "drive")
 public class StraightTest extends LinearOpMode {
     public static double DISTANCE = 60;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        SampleMecanumDriveBase drive = new SampleMecanumDriveREV(hardwareMap);
+        SampleMecanumDriveREVOptimized drive = new SampleMecanumDriveREVOptimized(hardwareMap);
 
         Trajectory trajectory = drive.trajectoryBuilder()
                 .forward(DISTANCE)

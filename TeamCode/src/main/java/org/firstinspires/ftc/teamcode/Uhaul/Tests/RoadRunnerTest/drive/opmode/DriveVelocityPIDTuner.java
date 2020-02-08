@@ -19,6 +19,7 @@ import com.qualcomm.robotcore.util.RobotLog;
 
 import org.firstinspires.ftc.teamcode.Uhaul.Tests.RoadRunnerTest.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.Uhaul.Tests.RoadRunnerTest.drive.mecanum.SampleMecanumDriveREV;
+import org.firstinspires.ftc.teamcode.Uhaul.Tests.RoadRunnerTest.drive.mecanum.SampleMecanumDriveREVOptimized;
 
 import java.util.List;
 
@@ -37,7 +38,7 @@ import static org.firstinspires.ftc.teamcode.Uhaul.Tests.RoadRunnerTest.drive.Dr
  * ctor.
  */
 @Config
-@Autonomous(name = "PID Tuner", group = "drive")
+@Autonomous(name = "Velocity PID Tuner", group = "drive")
 public class DriveVelocityPIDTuner extends LinearOpMode {
     public static double DISTANCE = 72;
 
@@ -47,7 +48,7 @@ public class DriveVelocityPIDTuner extends LinearOpMode {
     private String catName;
     private CustomVariable catVar;
 
-    private SampleMecanumDriveREV drive;
+    private SampleMecanumDriveREVOptimized drive;
 
     private static MotionProfile generateProfile(boolean movingForward) {
         MotionState start = new MotionState(movingForward ? 0 : DISTANCE, 0, 0, 0);
@@ -132,7 +133,7 @@ public class DriveVelocityPIDTuner extends LinearOpMode {
 
         telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
 
-        drive = new SampleMecanumDriveREV(hardwareMap);
+        drive = new SampleMecanumDriveREVOptimized(hardwareMap);
 
         addPidVariable();
 
