@@ -77,7 +77,14 @@ public class UhaulIntake extends UhaulComponentImplBase {
 
     }
 
-
+    public void intakeOFF(){
+        uhaulLeftIntake.setPower(1);
+        uhaulRightIntake.setPower(1);
+    }
+    public void intakeON(){
+        uhaulLeftIntake.setPower(1);
+        uhaulRightIntake.setPower(1);
+    }
     /** Defines the proccess for the autonomous */
     public boolean autonomousIntake(){
         runtime.reset();

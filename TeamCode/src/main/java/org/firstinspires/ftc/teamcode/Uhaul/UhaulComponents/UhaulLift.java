@@ -211,25 +211,11 @@ public void initForTesting(){
     /** Defines the liftAuto proccess */
     public void liftAuto(int howManyBlocks, double speed, double timeoutS) {
 
-        telemetry.addData("Status", "Resetting Encoders");    //
-        telemetry.update();
 
-
-
-        if ((howManyBlocks < previousBlocks) && (howManyBlocks == 0)) {
-            liftFor(((-previousBlocks * BLOCK_HEIGHT) - INITIAL_HEIGHT), -speed, timeoutS);
-        } else if ((howManyBlocks > previousBlocks) && (previousBlocks == 0)) {
-            liftFor(((howManyBlocks * BLOCK_HEIGHT) + INITIAL_HEIGHT), speed, timeoutS);
-        }
-        //above are the normal situations, but what if we want to go from one block to another?
-        else if (howManyBlocks != previousBlocks) {
-            liftFor(((howManyBlocks - previousBlocks) * BLOCK_HEIGHT), speed, timeoutS);
-        } else {
-            //the current and previous blocks are the same, do nothing
-        }
-        previousBlocks = howManyBlocks;
     }
-    //Auto adjust / manual adjust
+
+
+
     public void teleOpEncoderDrive() {
         runtime.reset();
 
@@ -305,6 +291,8 @@ public void initForTesting(){
 
 
 
+
+
     /** Initializes the proccess for the autonomous */
     @Override
     public void initAutonomous() {
@@ -329,71 +317,79 @@ public void initForTesting(){
 
 
     /** Defines the targets */
-    public void liftFor(double distance_inches, double speed, double timeoutS) {
-        //CURRENTLY ONLY USING 1 OUT OF 4 ENCODERS, COULD BE MADE MORE ACCURATE!
-
-        uhaulLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        uhaulLiftTwo.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        uhaulLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        uhaulLiftTwo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    public void liftFor(double blocks, double speed, double timeoutS) {
+        liftEncoderSetpoint = (int) ((INITIAL_HEIGHT + (liftFunction(BLOCK_HEIGHT * blocks))) * COUNTS_PER_MOTOR_REV);
 
         runtime.reset();
 
+        if (-liftEncoderSetpoint < -uhaulLift.getCurrentPosition()) {
 
-        //runUsingEncoders();
+            uhaulLift.setTargetPosition(-liftEncoderSetpoint);
+            uhaulLiftTwo.setTargetPosition(-liftEncoderSetpoint);
 
-        //System.out.println("RUNUSINGENCODERS COMPLETE!");
+            uhaulLift.setPower(-speed);
+            uhaulLiftTwo.setPower(-speed);
 
-        if (opModeIsActive()) {
-            //double speedWeWant = betterDrive(speed);
-
-            int targetDistLeft;
-            int targetDistRight;
-            targetDistLeft = uhaulLift.getCurrentPosition() + (int) (distance_inches * COUNTS_PER_INCH);
-            targetDistRight = uhaulLiftTwo.getCurrentPosition() + (int) (distance_inches * COUNTS_PER_INCH);
-
-          /*  leftDriveFront.setTargetPosition(targetDistLeft);
-            rightDriveFront.setTargetPosition(targetDistRight);
-            leftDriveBack.setTargetPosition(targetDistLeft);
-            rightDriveBack.setTargetPosition(targetDistRight);
-
-            System.out.println("SET TARGET POSITIONS");
-
-            leftDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            leftDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rightDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rightDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            System.out.println("SET MODE RUN TO POSITION");
-*/
+            uhaulLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            uhaulLiftTwo.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
+            while ((gamepad2.right_stick_y < 0.1) && opModeIsActive() &&
+                    (runtime.seconds() < timeoutS) && (uhaulLift.isBusy() && uhaulLiftTwo.isBusy())) {
+
+                telemetry.addData("Lift", " Position: %7d", -uhaulLift.getCurrentPosition());
+                telemetry.addData("Current Dpad Blocks Set To: ", dpadBlocks);
+                telemetry.addData("Press 'A' on gamepad 2", " to reset!");
+                telemetry.addData("the encoder ticks we want: ", liftEncoderSetpoint);
+                telemetry.update();
+            }
+
+            if(gamepad2.right_stick_y < 0.1) {
+                uhaulLift.setPower(0);
+                uhaulLiftTwo.setPower(0);
+                liftErrorCompensate();
+            }
+
+
+            uhaulLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            uhaulLiftTwo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
+        } else if (-liftEncoderSetpoint > uhaulLift.getCurrentPosition()) {
             runtime.reset();
 
-            // drive(speedWeWant);
-            //drive(speed);
-            System.out.println("DRIVING AT THAT SPEED");
+
+            uhaulLift.setTargetPosition(-liftEncoderSetpoint);
+            uhaulLiftTwo.setTargetPosition(-liftEncoderSetpoint);
 
             uhaulLift.setPower(speed);
             uhaulLiftTwo.setPower(speed);
 
+            uhaulLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            uhaulLiftTwo.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            while (opModeIsActive() &&
-                    (runtime.seconds() < timeoutS) &&
-                    ((Math.abs((uhaulLift.getCurrentPosition() + uhaulLiftTwo.getCurrentPosition()) / 2)) < (Math.abs((distance_inches * COUNTS_PER_INCH))))) {
-                telemetry.addData("UhaulLift",  " Position: %7d", -uhaulLift.getCurrentPosition());
-                telemetry.addData("UhaulLift 2",  " Position: %7d", -uhaulLiftTwo.getCurrentPosition());
 
+            while ((gamepad2.right_stick_y < 0.1) && opModeIsActive() &&
+                    (runtime.seconds() < timeoutS) && (uhaulLift.isBusy() && uhaulLiftTwo.isBusy())) {
+
+                telemetry.addData("Lift", " Position: %7d", uhaulLift.getCurrentPosition());
+                telemetry.addData("Current Dpad Blocks Set To: ", dpadBlocks);
+                telemetry.addData("Press 'A' on gamepad 2", " to reset!");
+                telemetry.addData("the encoder ticks we want: ", liftEncoderSetpoint);
                 telemetry.update();
             }
 
+            if(gamepad2.right_stick_y < 0.1) {
+                uhaulLift.setPower(0);
+                uhaulLiftTwo.setPower(0);
+                liftErrorCompensate();
+
+            }
+
+
+            uhaulLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            uhaulLiftTwo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
-        uhaulLift.setPower(0);
-        uhaulLiftTwo.setPower(0);
-
-        System.out.println("ROBOT STOPPED");
-
 
 
     }
