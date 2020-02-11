@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents;
 
 import android.graphics.Color;
 
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -9,6 +10,7 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.SensorDigitalTouch;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents.UhaulComponentImplBase;
 
 import static android.os.SystemClock.sleep;
@@ -27,6 +29,8 @@ public class UhaulIntake extends UhaulComponentImplBase {
 
     public DcMotor uhaulLeftIntake = null;
     public DcMotor uhaulRightIntake = null;
+    public Rev2mDistanceSensor intakeDistance = null;
+    double STONE_INCHES_AWAY = 5;
     double previousPower = 0;
     public static double intakePower = 1;
 
@@ -59,17 +63,21 @@ public class UhaulIntake extends UhaulComponentImplBase {
         uhaulLeftIntake.setDirection(DcMotor.Direction.FORWARD);
         uhaulRightIntake.setDirection(DcMotor.Direction.REVERSE);
 
+        intakeDistance = hardwareMap.get(Rev2mDistanceSensor.class, "intake_distance_sensor");
+
       //  sensorColor = hardwareMap.colorSensor.get(COLOR_SENSOR);
 
     }
     /** Runs the intake proccess */
     public void runIntake(){
         if (gamepad2.left_bumper || gamepad2.right_bumper){
-            uhaulLeftIntake.setPower(intakePower);
-            uhaulRightIntake.setPower(intakePower);
-            previousPower = intakePower;
+            if(UhaulLift.liftIsBusy) {
+                uhaulLeftIntake.setPower(intakePower);
+                uhaulRightIntake.setPower(intakePower);
+                previousPower = intakePower;
+            }
         }
-        else if((previousPower != 0)){
+        else if((previousPower != 0) && (intakeDistance.getDistance(DistanceUnit.INCH)) < STONE_INCHES_AWAY){
             uhaulLeftIntake.setPower(0);
             uhaulRightIntake.setPower(0);
             previousPower = 0;

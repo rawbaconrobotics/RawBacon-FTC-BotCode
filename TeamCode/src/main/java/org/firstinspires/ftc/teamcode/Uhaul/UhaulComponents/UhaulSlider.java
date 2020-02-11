@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents.UhaulComponentImplBase;
 
@@ -42,24 +43,42 @@ public class UhaulSlider extends UhaulComponentImplBase {
             uhaulSlider2 = hardwareMap.crservo.get(UHAUL_SLIDER_2);
            // uhaulStoneFlipper = hardwareMap.crservo.get("uhaul_stone_flipper");
            // uhaulStoneGrabber = hardwareMap.crservo.get("uhaul_stone_grabber");
+            uhaulSliderDistance = hardwareMap.get(Rev2mDistanceSensor.class, "slider_distance_sensor");
+
 
         }
 
+        public static double distanceFromBase;
         /** Defines the slider movement controls */
         public void moveSlider() {
 
-            sliderPower = gamepad2.left_stick_y;
+            distanceFromBase = uhaulSliderDistance.getDistance(DistanceUnit.INCH);
 
+            if(gamepad1.x){
+                uhaulSlider1.setPower(-sliderPower);
+                uhaulSlider2.setPower(-sliderPower);
 
-            if(((sliderPower > -0.1) || (sliderPower < 0.1))){
+                while(distanceFromBase > 5){
+                    telemetry.addData("Distance from base", distanceFromBase);
+                    telemetry.addData("Don't worry, We'll stop at 5 inches away...", "or maybe do worry idk this isn't tested yet");
+                }
+
                 uhaulSlider1.setPower(0);
                 uhaulSlider2.setPower(0);
-                previousPower = 0;
+
             }
-            else if(previousPower != sliderPower){
+            else if(gamepad1.y){
                 uhaulSlider1.setPower(sliderPower);
                 uhaulSlider2.setPower(sliderPower);
-                previousPower = sliderPower;
+
+                while(distanceFromBase < 20){
+                    telemetry.addData("Distance from base", distanceFromBase);
+                    telemetry.addData("Don't worry, We'll stop at 20 inches away...", "or maybe do worry idk this isn't tested yet");
+                }
+
+                uhaulSlider1.setPower(0);
+                uhaulSlider2.setPower(0);
+
             }
             else{
                 //currently, do nothing
