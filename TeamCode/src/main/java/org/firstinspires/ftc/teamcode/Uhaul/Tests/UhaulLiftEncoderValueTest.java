@@ -31,6 +31,9 @@ public class UhaulLiftEncoderValueTest extends UhaulLinearOpMode {
             telemetry.addData("Lift One Position: ", robot.lift.uhaulLift.getCurrentPosition());
             telemetry.addData("Lift Two Position: ", robot.lift.uhaulLiftTwo.getCurrentPosition());
             telemetry.update();
+
+            robot.lift.uhaulLiftTwo.setPower(gamepad1.right_stick_y);
+            robot.lift.uhaulLift.setPower(gamepad1.right_stick_y);
         }
     }
 

@@ -83,10 +83,12 @@ public class RRAuto extends UhaulLinearOpMode {
                     return Unit.INSTANCE;
                 })
 
-                .lineTo(new Vector2d(50.0,-38.0), new ConstantInterpolator(Math.toRadians(0.0)))
+                .lineTo(new Vector2d(40.0,-38.0), new ConstantInterpolator(Math.toRadians(0.0)))
+                //
+                .lineTo(new Vector2d(50.0, -38.0), new LinearInterpolator(Math.toRadians(0.0), Math.toRadians(-90.0)))
                 .build();
 
-        //////////////TURN TO -90
+        //////////////TURN TO -90 (already included above)
 
         Trajectory forgotThisOne = new TrajectoryBuilder(new Pose2d(50.0, -38.0), constraints)
                 .lineTo(new Vector2d(50.0, -32.5), new ConstantInterpolator(Math.toRadians(-90.0)))
@@ -152,7 +154,7 @@ robot.lift.liftFor(0,0.5,8);
         robot.intake.intakeOFF();
         robot.grabber.closeGrabber();
         drive.followTrajectorySync(trajectory3);
-        drive.turnSync(Math.toRadians(-90));
+        //drive.turnSync(Math.toRadians(-90));
         drive.followTrajectorySync(forgotThisOne);
         robot.grabber.openGrabber();
         drive.followTrajectorySync(trajectory4);

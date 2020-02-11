@@ -31,6 +31,7 @@ public class UhaulIntake extends UhaulComponentImplBase {
     public static double intakePower = 1;
 
     ColorSensor sensorColor = null;
+
     String COLOR_SENSOR = "color_sensor";
 
     float hsvValues[] = {0F, 0F, 0F};
@@ -58,7 +59,7 @@ public class UhaulIntake extends UhaulComponentImplBase {
         uhaulLeftIntake.setDirection(DcMotor.Direction.FORWARD);
         uhaulRightIntake.setDirection(DcMotor.Direction.REVERSE);
 
-        sensorColor = hardwareMap.colorSensor.get(COLOR_SENSOR);
+      //  sensorColor = hardwareMap.colorSensor.get(COLOR_SENSOR);
 
     }
     /** Runs the intake proccess */

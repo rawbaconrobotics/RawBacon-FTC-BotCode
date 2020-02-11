@@ -61,15 +61,15 @@ public class UhaulLift extends UhaulComponentImplBase {
         uhaulLift = (DcMotorEx) hardwareMap.dcMotor.get(UHAUL_LIFT_1);
         uhaulLiftTwo = (DcMotorEx) hardwareMap.dcMotor.get(UHAUL_LIFT_2);
 
-        PIDFCoefficients pidNew = new PIDFCoefficients(kp, ki, kd, kf);
-        uhaulLift.setPIDFCoefficients(DcMotor.RunMode.RUN_TO_POSITION, pidNew);
-        uhaulLiftTwo.setPIDFCoefficients(DcMotor.RunMode.RUN_TO_POSITION, pidNew);
+     //   PIDFCoefficients pidNew = new PIDFCoefficients(kp, ki, kd, kf);
+     //   uhaulLift.setPIDFCoefficients(DcMotor.RunMode.RUN_TO_POSITION, pidNew);
+     //   uhaulLiftTwo.setPIDFCoefficients(DcMotor.RunMode.RUN_TO_POSITION, pidNew);
 
         uhaulLift.setDirection(DcMotor.Direction.FORWARD);
         uhaulLiftTwo.setDirection(DcMotor.Direction.FORWARD);
 
-      //  uhaulLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-      //  uhaulLiftTwo.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+       uhaulLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        uhaulLiftTwo.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         uhaulLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         uhaulLiftTwo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -151,10 +151,10 @@ public void initForTesting(){
 
 
         } else if (dpadBlocks == 0) { //TODO Change back to 0
-            if ((-uhaulLift.getCurrentPosition() < MAX_TICKS_BEFORE_OVERRIDE) && (Math.abs(gamepad2.right_stick_y) > 0.1)) {
+            if ((-uhaulLift.getCurrentPosition() > -MAX_TICKS_BEFORE_OVERRIDE) && (Math.abs(gamepad2.right_stick_y) > 0.1)) {
                 uhaulLift.setPower(gamepad2.right_stick_y / 2);
                 uhaulLiftTwo.setPower(gamepad2.right_stick_y /2);
-            } else if((-uhaulLift.getCurrentPosition() < MAX_TICKS_BEFORE_OVERRIDE) && (Math.abs(gamepad2.right_stick_y) <= 0.1)) {
+            } else if((-uhaulLift.getCurrentPosition() > -MAX_TICKS_BEFORE_OVERRIDE) && (Math.abs(gamepad2.right_stick_y) <= 0.1)) {
                 //do nothing, it's already at the right speed
                 uhaulLift.setPower(0);
                 uhaulLiftTwo.setPower(0);
@@ -198,6 +198,12 @@ public void initForTesting(){
 
        telemetry.addData("Current Dpad Blocks Set To: ", dpadBlocks);
         telemetry.addData("Press 'A' on gamepad 2", " to reset!");
+        telemetry.addData("Lift", " Position: %7d", -uhaulLift.getCurrentPosition());
+        telemetry.addData("Lift2", " Position: %7d", -uhaulLiftTwo.getCurrentPosition());
+        telemetry.addData("Current Dpad Blocks Set To: ", dpadBlocks);
+        telemetry.addData("Press 'A' on gamepad 2", " to reset!");
+        telemetry.addData("the encoder ticks we want: ", liftEncoderSetpoint);
+        telemetry.update();
         telemetry.update();
 
 
@@ -232,9 +238,12 @@ public void initForTesting(){
 
 
             while ((gamepad2.right_stick_y < 0.1) && opModeIsActive() &&
-                    (runtime.seconds() < 15) && (uhaulLift.isBusy() && uhaulLiftTwo.isBusy())) {
+              //       (runtime.seconds() < 15) && (uhaulLiftTwo.isBusy())) {
+                (runtime.seconds() < 15) && (uhaulLift.isBusy() && uhaulLiftTwo.isBusy())) {
 
                 telemetry.addData("Lift", " Position: %7d", -uhaulLift.getCurrentPosition());
+                telemetry.addData("Lift2", " Position: %7d", -uhaulLiftTwo.getCurrentPosition());
+
                 telemetry.addData("Current Dpad Blocks Set To: ", dpadBlocks);
                 telemetry.addData("Press 'A' on gamepad 2", " to reset!");
                 telemetry.addData("the encoder ticks we want: ", liftEncoderSetpoint);
@@ -251,8 +260,8 @@ public void initForTesting(){
             uhaulLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             uhaulLiftTwo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-
-        } else if (-liftEncoderSetpoint > uhaulLift.getCurrentPosition()) {
+//        } else if (-liftEncoderSetpoint > uhaulLift.getCurrentPosition()) {
+        } else if (-liftEncoderSetpoint > -uhaulLift.getCurrentPosition()) {
             runtime.reset();
 
 
@@ -263,13 +272,15 @@ public void initForTesting(){
                 uhaulLiftTwo.setPower(LIFT_MAX_SPEED);
 
                 uhaulLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                uhaulLiftTwo.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+               uhaulLiftTwo.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
                 while ((gamepad2.right_stick_y < 0.1) && opModeIsActive() &&
-                        (runtime.seconds() < 15) && (uhaulLift.isBusy() && uhaulLiftTwo.isBusy())) {
+                  //    (runtime.seconds() < 15) && (uhaulLiftTwo.isBusy())) {
+                    (runtime.seconds() < 15) && (uhaulLift.isBusy() && uhaulLiftTwo.isBusy())) {
 
-                    telemetry.addData("Lift", " Position: %7d", uhaulLift.getCurrentPosition());
+                    telemetry.addData("Lift", " Position: %7d", -uhaulLift.getCurrentPosition());
+                    telemetry.addData("Lift2", " Position: %7d", -uhaulLiftTwo.getCurrentPosition());
                     telemetry.addData("Current Dpad Blocks Set To: ", dpadBlocks);
                     telemetry.addData("Press 'A' on gamepad 2", " to reset!");
                     telemetry.addData("the encoder ticks we want: ", liftEncoderSetpoint);
@@ -445,25 +456,30 @@ public void initForTesting(){
     public void liftErrorCompensate()
 
     {
-        if ((uhaulLift.getCurrentPosition() < uhaulLiftTwo.getCurrentPosition() - 10) || (uhaulLift.getCurrentPosition() > uhaulLiftTwo.getCurrentPosition() + 10)) {
+        if ((-uhaulLift.getCurrentPosition() < -uhaulLiftTwo.getCurrentPosition() + 10) || (-uhaulLift.getCurrentPosition() > -uhaulLiftTwo.getCurrentPosition() - 10)) {
+           // if (1==10) {
 
-            int lowerPos = Math.min(uhaulLift.getCurrentPosition(), uhaulLiftTwo.getCurrentPosition());
+            int lowerPos = Math.min(-uhaulLift.getCurrentPosition(), -uhaulLiftTwo.getCurrentPosition());
 
-            if ((uhaulLift.getCurrentPosition() != lowerPos) && (gamepad2.right_stick_y < 0.1)) {
-                uhaulLift.setTargetPosition(lowerPos);
+            if ((-uhaulLift.getCurrentPosition() != lowerPos) && (gamepad2.right_stick_y < 0.1)) {
+                uhaulLift.setTargetPosition(-lowerPos);
                 uhaulLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 uhaulLift.setPower(-.3);
                 while (uhaulLift.isBusy()) {
                     telemetry.addData("Uhaul Lift 1", "Adjusting");
+                    telemetry.addData("target position", -lowerPos);
+                    telemetry.addData("current Position:", -uhaulLift.getCurrentPosition());
                     telemetry.update();
                 }
                 uhaulLift.setPower(0);
-            } else if ((uhaulLiftTwo.getCurrentPosition() != lowerPos) && (gamepad2.right_stick_y < 0.1)) {
-                uhaulLiftTwo.setTargetPosition(lowerPos);
+            } else if ((-uhaulLiftTwo.getCurrentPosition() != lowerPos) && (gamepad2.right_stick_y < 0.1)) {
+                uhaulLiftTwo.setTargetPosition(-lowerPos);
                 uhaulLiftTwo.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 uhaulLiftTwo.setPower(-.3);
                 while (uhaulLiftTwo.isBusy()) {
                     telemetry.addData("Uhaul Lift 2", "Adjusting");
+                    telemetry.addData("target position", -lowerPos);
+                    telemetry.addData("current Position:", -uhaulLiftTwo.getCurrentPosition());
                     telemetry.update();
                 }
                 uhaulLiftTwo.setPower(0);
