@@ -54,24 +54,11 @@ public class UhaulSlider extends UhaulComponentImplBase {
 
             distanceFromBase = uhaulSliderDistance.getDistance(DistanceUnit.INCH);
 
-            if(gamepad1.x){
+            if(gamepad2.right_trigger > 0.1){
                 uhaulSlider1.setPower(-sliderPower);
                 uhaulSlider2.setPower(-sliderPower);
 
-                while(distanceFromBase > 5){
-                    telemetry.addData("Distance from base", distanceFromBase);
-                    telemetry.addData("Don't worry, We'll stop at 5 inches away...", "or maybe do worry idk this isn't tested yet");
-                }
-
-                uhaulSlider1.setPower(0);
-                uhaulSlider2.setPower(0);
-
-            }
-            else if(gamepad1.y){
-                uhaulSlider1.setPower(sliderPower);
-                uhaulSlider2.setPower(sliderPower);
-
-                while(distanceFromBase < 20){
+                while((distanceFromBase > 5) && (!gamepad2.right_bumper) && (!gamepad2.left_bumper)){
                     telemetry.addData("Distance from base", distanceFromBase);
                     telemetry.addData("Don't worry, We'll stop at 20 inches away...", "or maybe do worry idk this isn't tested yet");
                 }
@@ -80,7 +67,22 @@ public class UhaulSlider extends UhaulComponentImplBase {
                 uhaulSlider2.setPower(0);
 
             }
-            else{
+            else if(gamepad2.left_trigger > 0.1){
+                uhaulSlider1.setPower(sliderPower);
+                uhaulSlider2.setPower(sliderPower);
+
+                while((distanceFromBase < 20) && (!gamepad2.right_bumper) && (!gamepad2.left_bumper)){
+                    telemetry.addData("Distance from base", distanceFromBase);
+                    telemetry.addData("Don't worry, We'll stop at 20 inches away...", "or maybe do worry idk this isn't tested yet");
+                }
+
+                uhaulSlider1.setPower(0);
+                uhaulSlider2.setPower(0);
+
+            }
+            if(gamepad2.right_bumper || gamepad2.left_bumper){
+                uhaulSlider1.setPower(0);
+                uhaulSlider2.setPower(0);
                 //currently, do nothing
             }
 
@@ -91,7 +93,7 @@ public class UhaulSlider extends UhaulComponentImplBase {
         public void slideOut(){
             uhaulSlider1.setPower(1);
             uhaulSlider2.setPower(1);
-while(uhaulSliderDistance.getDistance(DistanceUnit.INCH) < 10){
+while(opModeIsActive() && uhaulSliderDistance.getDistance(DistanceUnit.INCH) < 10){
     telemetry.addData("slider", "sliding out!");
     telemetry.addData("current inches", uhaulSliderDistance.getDistance(DistanceUnit.INCH));
     telemetry.update();
@@ -104,7 +106,7 @@ while(uhaulSliderDistance.getDistance(DistanceUnit.INCH) < 10){
         public void slideIn(){
             uhaulSlider1.setPower(-1);
             uhaulSlider2.setPower(-1);
-            while(uhaulSliderDistance.getDistance(DistanceUnit.INCH) > 0.5){
+            while(opModeIsActive() && uhaulSliderDistance.getDistance(DistanceUnit.INCH) > 0.5){
                 telemetry.addData("slider", "sliding out!");
                 telemetry.addData("current inches", uhaulSliderDistance.getDistance(DistanceUnit.INCH));
                 telemetry.update();

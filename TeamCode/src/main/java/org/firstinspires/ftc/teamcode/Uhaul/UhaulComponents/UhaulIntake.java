@@ -30,30 +30,17 @@ public class UhaulIntake extends UhaulComponentImplBase {
     public DcMotor uhaulLeftIntake = null;
     public DcMotor uhaulRightIntake = null;
     public Rev2mDistanceSensor intakeDistance = null;
-    double STONE_INCHES_AWAY = 5;
+    public static double STONE_INCHES_AWAY = 5;
     double previousPower = 0;
     public static double intakePower = 1;
 
-    ColorSensor sensorColor = null;
 
-    String COLOR_SENSOR = "color_sensor";
-
-    float hsvValues[] = {0F, 0F, 0F};
-    final float values[] = hsvValues;
-    final double SCALE_FACTOR = 255;
+    String DISTANCE_SENSOR = "distance_sensor";
 
 
-/*
-    int blueMinimum = 2;
-    int redMinimum = 2; //Print color values to calibrate these before competition!
-    int greenMinimum = 2;
-    boolean red = false;
-    boolean blue = false;
-    boolean green = false;
 
-    int reds = 0;
-    int blues = 0;
-    int greens = 0; */
+
+
 
     /** Initializes the proccess */
     public void init(){
@@ -63,26 +50,46 @@ public class UhaulIntake extends UhaulComponentImplBase {
         uhaulLeftIntake.setDirection(DcMotor.Direction.FORWARD);
         uhaulRightIntake.setDirection(DcMotor.Direction.REVERSE);
 
-        intakeDistance = hardwareMap.get(Rev2mDistanceSensor.class, "intake_distance_sensor");
+        intakeDistance = hardwareMap.get(Rev2mDistanceSensor.class, DISTANCE_SENSOR);
 
-      //  sensorColor = hardwareMap.colorSensor.get(COLOR_SENSOR);
+
+    }
+
+    /** Initializes the proccess for the autonomous */
+    @Override
+    public void initAutonomous() {
+        uhaulLeftIntake = hardwareMap.dcMotor.get("left_intake");
+        uhaulRightIntake = hardwareMap.dcMotor.get("right_intake");
+
+        uhaulLeftIntake.setDirection(DcMotor.Direction.REVERSE);
+        uhaulRightIntake.setDirection(DcMotor.Direction.FORWARD);
+
+        intakeDistance = hardwareMap.get(Rev2mDistanceSensor.class, DISTANCE_SENSOR);
+
 
     }
     /** Runs the intake proccess */
     public void runIntake(){
-        if (gamepad2.left_bumper || gamepad2.right_bumper){
-            if(UhaulLift.liftIsBusy) {
+
+        if((gamepad1.right_trigger > 0.1) && !UhaulLift.liftIsBusy && (intakeDistance.getDistance(DistanceUnit.INCH)) > STONE_INCHES_AWAY){
                 uhaulLeftIntake.setPower(intakePower);
                 uhaulRightIntake.setPower(intakePower);
                 previousPower = intakePower;
-            }
         }
-        else if((previousPower != 0) && (intakeDistance.getDistance(DistanceUnit.INCH)) < STONE_INCHES_AWAY){
+
+         if((gamepad1.left_trigger > 0.1)){
             uhaulLeftIntake.setPower(0);
             uhaulRightIntake.setPower(0);
             previousPower = 0;
         }
 
+         if((intakeDistance.getDistance(DistanceUnit.INCH) < STONE_INCHES_AWAY) && (previousPower != 0)) {
+
+             uhaulLeftIntake.setPower(0);
+             uhaulRightIntake.setPower(0);
+
+            previousPower = 0;
+        }
 
     }
 
@@ -94,78 +101,12 @@ public class UhaulIntake extends UhaulComponentImplBase {
         uhaulLeftIntake.setPower(1);
         uhaulRightIntake.setPower(1);
     }
-    /** Defines the proccess for the autonomous */
-    public boolean autonomousIntake(){
-        runtime.reset();
-        boolean stoneFound = true;
 
-        uhaulLeftIntake.setPower(1);
-        uhaulRightIntake.setPower(1);
-
-        while((runtime.seconds() < 4) && opModeIsActive()){
-
-            Color.RGBToHSV((int) (sensorColor.red() * SCALE_FACTOR),
-                    (int) (sensorColor.green() * SCALE_FACTOR),
-                    (int) (sensorColor.blue() * SCALE_FACTOR),
-                    hsvValues);
-            if(( hsvValues[0] < 70 || hsvValues[0] > 50 ) && (hsvValues[2] > 50)){
-                sleep(1000);
-                uhaulLeftIntake.setPower(0);
-                uhaulRightIntake.setPower(0);
-                break;
-            }
-
-
-            stoneFound = false;
-        }
-        uhaulLeftIntake.setPower(0);
-        uhaulRightIntake.setPower(0);
-
-        return stoneFound;
-    }
-
-
-
-    /** Initializes the proccess for the autonomous */
-    @Override
-    public void initAutonomous() {
-        uhaulLeftIntake = hardwareMap.dcMotor.get("left_intake");
-        uhaulRightIntake = hardwareMap.dcMotor.get("right_intake");
-
-        uhaulLeftIntake.setDirection(DcMotor.Direction.REVERSE);
-        uhaulRightIntake.setDirection(DcMotor.Direction.FORWARD);
-
-        sensorColor = hardwareMap.colorSensor.get(COLOR_SENSOR);
-
-    }
 
     /** Overrides the default opmode method */
     public UhaulIntake(LinearOpMode opMode) {
         super(opMode);
     }
 
-    //Nice for loop but we aren't using these values (right now)
-/*
-            for(int i = 0; i<50; i++)
-            {
-                if(sensorColor.blue() >= blueMinimum)
-                    blues++;
-                if(sensorColor.red() >= redMinimum)
-                    reds++;
-            }
-            if(sensorColor.green() >= greenMinimum)
-                greens++;
-            }
-
-
-            if(reds == 50 && blues == 0)
-            {
-                red = true;
-            }
-            else if(blues == 50 && reds == 0)
-            {
-                blue = true;
-            }
-            */
 
 }

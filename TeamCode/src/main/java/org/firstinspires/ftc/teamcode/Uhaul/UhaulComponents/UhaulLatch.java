@@ -39,12 +39,12 @@ import org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents.UhaulComponentImplBa
 
          /** Defines how to move the latch using the gamepad. */
         public void moveLatch () {
-            if (gamepad2.right_trigger <= 0.5 || gamepad2.left_trigger <= 0.5) {
+            if (gamepad1.a) {
 
                 uhaulLatch.setPosition(-LATCH_OPEN_POSITION);
                 uhaulLatchTwo.setPosition(LATCH_OPEN_POSITION);
             }
-            if (gamepad2.right_trigger >= 0.5 || gamepad2.left_trigger >= 0.5) {
+            if (gamepad1.b) {
 
                 uhaulLatch.setPosition(-LATCH_CLOSED_POSITION);
                 uhaulLatchTwo.setPosition(LATCH_CLOSED_POSITION);
