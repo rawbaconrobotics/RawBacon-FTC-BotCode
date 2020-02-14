@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents.UhaulComponentImplBa
         public Servo uhaulLatch = null;
         public Servo uhaulLatchTwo = null;
 
-        public static double LATCH_OPEN_POSITION = .15;
+    public static double LATCH_OPEN_POSITION = .15;
         public static double LATCH_CLOSED_POSITION = 0.5;
 
         private final static String LATCH_SERVO_1 = "uhaul_latch_1" ;
@@ -41,13 +41,13 @@ import org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents.UhaulComponentImplBa
         public void moveLatch () {
             if (gamepad1.a) {
 
-                uhaulLatch.setPosition(-LATCH_OPEN_POSITION);
-                uhaulLatchTwo.setPosition(LATCH_OPEN_POSITION);
+                uhaulLatch.setPosition(0.85);
+                uhaulLatchTwo.setPosition(.15);
             }
             if (gamepad1.b) {
 
-                uhaulLatch.setPosition(-LATCH_CLOSED_POSITION);
-                uhaulLatchTwo.setPosition(LATCH_CLOSED_POSITION);
+                uhaulLatch.setPosition(.15);
+                uhaulLatchTwo.setPosition(.85);
             }
         }
          /** Initializes the autonomous */

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents;
 
 import android.graphics.Color;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -19,6 +20,7 @@ import static android.os.SystemClock.sleep;
  * @author Raw Bacon Coders
  * Defines the UhaulIntake proccess 
  */
+@Config
 public class UhaulIntake extends UhaulComponentImplBase {
 //READY TO GO FOR INTAKE
     private ElapsedTime runtime = new ElapsedTime();
@@ -32,7 +34,7 @@ public class UhaulIntake extends UhaulComponentImplBase {
     public Rev2mDistanceSensor intakeDistance = null;
     public static double STONE_INCHES_AWAY = 5;
     double previousPower = 0;
-    public static double intakePower = 1;
+    public static double intakePower = .8;
 
 
     String DISTANCE_SENSOR = "distance_sensor";

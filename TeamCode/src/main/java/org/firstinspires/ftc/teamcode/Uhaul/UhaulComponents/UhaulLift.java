@@ -23,7 +23,7 @@ public class UhaulLift extends UhaulComponentImplBase {
     String UHAUL_LIFT_1 = "uhaul_lift_1";
     String UHAUL_LIFT_2 = "uhaul_lift_2";
     double BLOCK_HEIGHT = 5;
-    double MAX_TICKS_BEFORE_OVERRIDE = (liftFunction(40))*(COUNTS_PER_MOTOR_REV); // 13050 ticks
+    double MAX_TICKS_BEFORE_OVERRIDE = 9115;
     double LIFT_MAX_SPEED = 1;
     double LIFT_SPEED_IN_AUTONOMOUS = 0.75;
 
@@ -176,20 +176,68 @@ public void initForTesting(){
                 dpadtime.reset();
 
 
-            } else if((dpadtime.seconds() > .25)) {
+            } else if ((dpadtime.seconds() > .25)) {
                 dpadBlocks--;
                 dpadBlocks = (Range.clip(dpadBlocks, 1, 10));
-                    dpadtime.reset();
-                    comingUp = false;
+                dpadtime.reset();
+                comingUp = false;
 
             }
 
-            liftEncoderSetpoint = (int) Math.abs((((liftFunction(BLOCK_HEIGHT * (Range.clip(dpadBlocks, 1, 10))))) * COUNTS_PER_MOTOR_REV));
+
+            switch ((int) dpadBlocks) {
+                case 1:
+                    liftEncoderSetpoint = 0;
+                    break;
+                case 2:
+                    liftEncoderSetpoint = 560;
+                    break;
+                case 3:
+                    liftEncoderSetpoint = 923;
+                    break;
+                case 4:
+                    liftEncoderSetpoint = 1480;
+                    break;
+                case 5:
+                    liftEncoderSetpoint = 2220;
+                    break;
+                case 6:
+                    liftEncoderSetpoint = 3200;
+                    break;
+                case 7:
+                    liftEncoderSetpoint = 4580;
+                    break;
+                case 8:
+                    liftEncoderSetpoint = 6160;
+                    break;
+                case 9:
+                    liftEncoderSetpoint = 8400;
+                    break;
+                case 10:
+                    liftEncoderSetpoint = 8050;
+                    break;
+            }
+
+
+            }
+//TODO Add these values
+            //TODO Slow mode while lift is up
+
+//block 2 = 560 ticks
+            //block 3 = 923
+            //block 4 = 1480
+            //block 5 = 2220
+            //block 6 = 3200
+            //block 7 = 4580
+            //block 8 = 6160
+            //block 9 = 8400
+
+            //max = 9115
+            //capstone = 8050
 
 
 
-
-        } else if (gamepad2.a) {
+         else if (gamepad2.a) {
             teleOpEncoderDrive();
 
 

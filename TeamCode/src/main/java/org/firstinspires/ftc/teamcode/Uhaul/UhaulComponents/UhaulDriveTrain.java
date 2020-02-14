@@ -115,11 +115,11 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
         rightDriveBack.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
 
 
-        wheelAccelerationThread.addMotor(accLeftDriveFront);
-        wheelAccelerationThread.addMotor(accLeftDriveBack);
-        wheelAccelerationThread.addMotor(accRightDriveFront);
-        wheelAccelerationThread.addMotor(accRightDriveBack);
-        wheelAccelerationThread.start();
+     //   wheelAccelerationThread.addMotor(accLeftDriveFront);
+     //   wheelAccelerationThread.addMotor(accLeftDriveBack);
+     //   wheelAccelerationThread.addMotor(accRightDriveFront);
+     //   wheelAccelerationThread.addMotor(accRightDriveBack);
+     //   wheelAccelerationThread.start();
     }
 
     /**
@@ -200,8 +200,8 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
     public void wheelsTeleOp() {
         speedModeOn = isBumperPressed();
 
-        double drive = -gamepad1.left_stick_y;
-        double turn = gamepad1.right_stick_x;
+        //double drive = -gamepad1.left_stick_y;
+        //double turn = gamepad1.right_stick_x;
 
         mechanumTeleOp(gamepad1.left_stick_x, gamepad1.left_stick_y, -gamepad1.right_stick_x);
     }
@@ -225,16 +225,20 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
         double[] normalSpeeds = normalizeAuto(wheelSpeeds[0], wheelSpeeds[1], wheelSpeeds[2], wheelSpeeds[3]);
 
         if (speedModeOn) {
-            accLeftDriveBack.setDirectPower(Range.clip((normalSpeeds[0]), -1, 1));
-            accRightDriveBack.setDirectPower(Range.clip((normalSpeeds[1]), -1, 1));
-            accLeftDriveFront.setDirectPower(Range.clip((normalSpeeds[2]), -1, 1));
-            accRightDriveFront.setDirectPower(Range.clip((normalSpeeds[3]), -1, 1));
+           // accLeftDriveBack.setDirectPower(Range.clip((normalSpeeds[0]), -1, 1));
+           // accRightDriveBack.setDirectPower(Range.clip((normalSpeeds[1]), -1, 1));
+           // accLeftDriveFront.setDirectPower(Range.clip((normalSpeeds[2]), -1, 1));
+           // accRightDriveFront.setDirectPower(Range.clip((normalSpeeds[3]), -1, 1));
             //normalizeAuto(wheelSpeeds[0], wheelSpeeds[1], wheelSpeeds[2], wheelSpeeds[3]);
         } else {
-            accLeftDriveBack.setTargetPower(normalSpeeds[0]);
-            accRightDriveBack.setTargetPower(normalSpeeds[1]);
-            accLeftDriveFront.setTargetPower(normalSpeeds[2]);
-            accRightDriveFront.setTargetPower(normalSpeeds[3]);
+         //   accLeftDriveBack.setTargetPower(normalSpeeds[0]);
+         //   accRightDriveBack.setTargetPower(normalSpeeds[1]);
+         //   accLeftDriveFront.setTargetPower(normalSpeeds[2]);
+         //   accRightDriveFront.setTargetPower(normalSpeeds[3]);
+        leftDriveBack.setPower(normalSpeeds[0]);
+        rightDriveBack.setPower(normalSpeeds[1]);
+        leftDriveFront.setPower(normalSpeeds[2]);
+        rightDriveFront.setPower(normalSpeeds[3]);
         }
     }
 

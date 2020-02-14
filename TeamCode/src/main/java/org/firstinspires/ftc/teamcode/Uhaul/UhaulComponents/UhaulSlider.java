@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -41,6 +42,8 @@ public class UhaulSlider extends UhaulComponentImplBase {
         public void init() {
             uhaulSlider1 = hardwareMap.crservo.get(UHAUL_SLIDER_1);
             uhaulSlider2 = hardwareMap.crservo.get(UHAUL_SLIDER_2);
+            uhaulSlider2.setDirection(CRServo.Direction.FORWARD);
+            uhaulSlider2.setDirection(CRServo.Direction.REVERSE);
            // uhaulStoneFlipper = hardwareMap.crservo.get("uhaul_stone_flipper");
            // uhaulStoneGrabber = hardwareMap.crservo.get("uhaul_stone_grabber");
             uhaulSliderDistance = hardwareMap.get(Rev2mDistanceSensor.class, "slider_distance_sensor");
@@ -48,19 +51,18 @@ public class UhaulSlider extends UhaulComponentImplBase {
 
         }
 
-        public static double distanceFromBase;
         /** Defines the slider movement controls */
         public void moveSlider() {
 
-            distanceFromBase = uhaulSliderDistance.getDistance(DistanceUnit.INCH);
 
             if(gamepad2.right_trigger > 0.1){
-                uhaulSlider1.setPower(-sliderPower);
-                uhaulSlider2.setPower(-sliderPower);
+                uhaulSlider1.setPower(sliderPower);
+                uhaulSlider2.setPower(sliderPower);
 
-                while((distanceFromBase > 5) && (!gamepad2.right_bumper) && (!gamepad2.left_bumper)){
-                    telemetry.addData("Distance from base", distanceFromBase);
+                while((uhaulSliderDistance.getDistance(DistanceUnit.INCH) > 5) && (!gamepad2.right_bumper) && (!gamepad2.left_bumper)){
+                    telemetry.addData("Distance from base", uhaulSliderDistance.getDistance(DistanceUnit.INCH));
                     telemetry.addData("Don't worry, We'll stop at 20 inches away...", "or maybe do worry idk this isn't tested yet");
+                    System.out.println(uhaulSliderDistance.getDistance(DistanceUnit.INCH));
                 }
 
                 uhaulSlider1.setPower(0);
@@ -68,12 +70,14 @@ public class UhaulSlider extends UhaulComponentImplBase {
 
             }
             else if(gamepad2.left_trigger > 0.1){
-                uhaulSlider1.setPower(sliderPower);
-                uhaulSlider2.setPower(sliderPower);
+                uhaulSlider1.setPower(-sliderPower);
+                uhaulSlider2.setPower(-sliderPower);
 
-                while((distanceFromBase < 20) && (!gamepad2.right_bumper) && (!gamepad2.left_bumper)){
-                    telemetry.addData("Distance from base", distanceFromBase);
+                while((uhaulSliderDistance.getDistance(DistanceUnit.INCH) < 13.5) && (!gamepad2.right_bumper) && (!gamepad2.left_bumper)){
+                    telemetry.addData("Distance from base", uhaulSliderDistance.getDistance(DistanceUnit.INCH));
                     telemetry.addData("Don't worry, We'll stop at 20 inches away...", "or maybe do worry idk this isn't tested yet");
+                    System.out.println(uhaulSliderDistance.getDistance(DistanceUnit.INCH));
+
                 }
 
                 uhaulSlider1.setPower(0);
