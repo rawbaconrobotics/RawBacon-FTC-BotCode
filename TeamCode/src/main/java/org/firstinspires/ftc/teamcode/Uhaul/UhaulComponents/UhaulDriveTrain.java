@@ -30,9 +30,9 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
     double kd = 8;
     double kf = 0;
 
-    final double WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT = 2;
-    final double WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT = 15;
-    final double WHEEL_MINIMUM_POWER = 0.3; //Allows for deadband compensation.
+    final double WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT = 30;
+    final double WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT = 30;
+    final double WHEEL_MINIMUM_POWER = 0; //Allows for deadband compensation.
     final double WHEEL_MAXIMUM_POWER = 1.0;
 
     private static final double COUNTS_PER_MOTOR_REV = 1120; //1440

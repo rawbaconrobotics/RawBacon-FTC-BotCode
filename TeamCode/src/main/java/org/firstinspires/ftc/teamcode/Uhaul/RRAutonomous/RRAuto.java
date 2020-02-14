@@ -56,8 +56,9 @@ public class RRAuto extends UhaulLinearOpMode {
     public void run() {
 
 
+        drive.setPoseEstimate(new Pose2d(-36,-63,Math.toRadians(90)));
         //Starting position is by the middle skystone closest to the skybridge, webcam facing the stones.
-        Trajectory trajectory = new TrajectoryBuilder(new Pose2d(-36,-63,Math.toRadians(90)), new MecanumConstraints(BASE_CONSTRAINTS, TRACK_WIDTH))
+        Trajectory trajectory = new TrajectoryBuilder(drive.getPoseEstimate(), new MecanumConstraints(BASE_CONSTRAINTS, TRACK_WIDTH))
                 //heading is end goal, can be used with tank drive, just drives straight ahead changing angle to get there eventually
                 //splineinterpolator changes the angle on the fly (while strafing/driving) to reach the end angle, goes over sometimes to get there
                 //linearinterpolator only changes the angle exactly the amount you ask it to
@@ -69,11 +70,11 @@ public class RRAuto extends UhaulLinearOpMode {
                 .lineTo(new Vector2d(-30.0, -21.2), new ConstantInterpolator(Math.toRadians(180.0)))
                 .build();
         /**start intake*/
-        Trajectory trajectory2 = new TrajectoryBuilder(new Pose2d(-30.0, -21.2), constraints2)
+        Trajectory trajectory2 = new TrajectoryBuilder(drive.getPoseEstimate(), constraints2)
                 .forward(-7.5)
                 .build();
         /**stop intake*/
-        Trajectory trajectory3 = new TrajectoryBuilder(new Pose2d(-37.5, -21.2), constraints)
+        Trajectory trajectory3 = new TrajectoryBuilder(drive.getPoseEstimate(), constraints)
                 .splineTo(new Pose2d(-7.0, -38.0), new LinearInterpolator(Math.toRadians(180.0), Math.toRadians(-180.0)))
 
                 .addMarker(new Vector2d(0.0, -38.0), () -> {
@@ -90,34 +91,34 @@ public class RRAuto extends UhaulLinearOpMode {
 
         //////////////TURN TO -90 (already included above)
 
-        Trajectory forgotThisOne = new TrajectoryBuilder(new Pose2d(50.0, -38.0), constraints)
+        Trajectory forgotThisOne = new TrajectoryBuilder(drive.getPoseEstimate(), constraints)
                 .lineTo(new Vector2d(50.0, -32.5), new ConstantInterpolator(Math.toRadians(-90.0)))
                 .build();
         /** lift and place block*/
-        Trajectory trajectory4 = new TrajectoryBuilder(new Pose2d(50.0, -32.5), constraints)
+        Trajectory trajectory4 = new TrajectoryBuilder(drive.getPoseEstimate(), constraints)
                 .lineTo(new Vector2d(50.0, -30.0), new ConstantInterpolator(Math.toRadians(-90.0)))
                 .build();
         /**latch the latch
         //control award */
-        Trajectory trajectory5 = new TrajectoryBuilder(new Pose2d(50.0, -30.0), constraints)
+        Trajectory trajectory5 = new TrajectoryBuilder(drive.getPoseEstimate(), constraints)
                 .lineTo(new Vector2d(33.0, -48.0), new LinearInterpolator(Math.toRadians(-90.0), Math.toRadians(-90.0)))
 
                 .build();
         /**unlatch the latch*/
-        Trajectory trajectory6 = new TrajectoryBuilder(new Pose2d(33.0, -48.0), constraints)
+        Trajectory trajectory6 = new TrajectoryBuilder(drive.getPoseEstimate(), constraints)
                 .lineTo(new Vector2d(12.0, -38.0), new ConstantInterpolator(Math.toRadians(-180.0)))
                 .lineTo(new Vector2d(-27.0, -38.0), new LinearInterpolator(Math.toRadians(-180.0), Math.toRadians(-90.0)))
                 .build();
         /**turn on the intake*/
-        Trajectory trajectory7 = new TrajectoryBuilder(new Pose2d(-27.0, -38.0), constraints)
+        Trajectory trajectory7 = new TrajectoryBuilder(drive.getPoseEstimate(), constraints)
                 .lineTo(new Vector2d(-27.0, -12.2), new ConstantInterpolator(Math.toRadians(-270.0)))
                 .build();
         /**turn off the intake*/
-        Trajectory trajectory8 = new TrajectoryBuilder(new Pose2d(-27.0, -12.2), constraints)
+        Trajectory trajectory8 = new TrajectoryBuilder(drive.getPoseEstimate(), constraints)
                 .addMarker(0.5, () -> {
 
-                    robot.lift.liftFor(1, 0.5, 8);
 
+                    robot.lift.liftTo(2);
 
                     return Unit.INSTANCE;
                 })
@@ -132,12 +133,12 @@ public class RRAuto extends UhaulLinearOpMode {
                 .splineTo(new Pose2d(33.0, -48.0), new ConstantInterpolator(Math.toRadians(-180.0)))
                 .build();
         /**stack the block*/
-        Trajectory trajectory9 = new TrajectoryBuilder(new Pose2d(33.0, -48.0), constraints)
+        Trajectory trajectory9 = new TrajectoryBuilder(drive.getPoseEstimate(), constraints)
                 .addMarker(0.5, () -> {
 
 robot.grabber.closeGrabber();
 robot.slider.slideIn();
-robot.lift.liftFor(0,0.5,8);
+robot.lift.liftTo(1);
 
                     return Unit.INSTANCE;
                 })
