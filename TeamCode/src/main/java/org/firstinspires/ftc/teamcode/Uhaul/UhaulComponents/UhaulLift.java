@@ -464,6 +464,11 @@ liftState = LiftState.MOVING;
 
     double ACCEPTABLE_ERROR_TICKS = 20;
 
+    double lowerPos;
+    double lift1;
+    double lift2;
+
+
     public void liftErrorCompensate()
 
     {
@@ -480,7 +485,7 @@ liftState = LiftState.MOVING;
 
                 double lift1 = -uhaulLift.getCurrentPosition();
                 double lift2 = -uhaulLiftTwo.getCurrentPosition();
-                double lowerPos = Math.min(Math.max(0, lift1), Math.max(0, lift2));
+                lowerPos = Math.min(Math.max(0, lift1), Math.max(0, lift2));
 
 
 
@@ -488,14 +493,14 @@ liftState = LiftState.MOVING;
 
                     uhaulLiftTwo.setTargetPosition(-(int)lowerPos);
                     uhaulLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    uhaulLift.setPower(0.3);
+                    uhaulLift.setPower(0.2);
 
                 }
                 else if(lowerPos == lift2)
                 {
                     uhaulLift.setTargetPosition(-(int)lowerPos);
                     uhaulLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    uhaulLift.setPower(0.3);
+                    uhaulLift.setPower(0.2);
                 }
 
 
@@ -514,7 +519,9 @@ liftState = LiftState.MOVING;
                     && !gamepad2.dpad_up && !gamepad2.dpad_down && (Math.abs(((-uhaulLift.getCurrentPosition()) - (-uhaulLiftTwo.getCurrentPosition()))) < 300)) {
 
 
-                telemetry.addData("Current Dpad Blocks Set To: ", (int) dpadBlocks);
+                telemetry.addData("LowerPos ", (int) lowerPos);
+                telemetry.addData("static lift", (int)lift1);
+                telemetry.addData("static lift2", (int)lift2);
                 telemetry.addData("Lift", (int) leftPosition);
                 telemetry.addData("Lift2", (int) rightPosition);
                 telemetry.addData("the encoder ticks we want: ", (int) liftEncoderSetpoint);
