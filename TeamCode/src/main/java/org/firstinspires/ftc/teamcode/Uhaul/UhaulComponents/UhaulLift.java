@@ -509,12 +509,12 @@ liftState = LiftState.MOVING;
                 if(-uhaulLift.getCurrentPosition() > -uhaulLiftTwo.getCurrentPosition()){
                     desiredTicks = uhaulLiftTwo.getCurrentPosition();
                     problem = 1;
-                    uhaulLift.setPower(0.2);
+                    uhaulLift.setPower(-0.2);
                 }
                 else if(-uhaulLift.getCurrentPosition() < -uhaulLiftTwo.getCurrentPosition()){
                     desiredTicks = uhaulLift.getCurrentPosition();
                     problem = 2;
-                    uhaulLiftTwo.setPower(0.2);
+                    uhaulLiftTwo.setPower(-0.2);
                 }
 
 
@@ -606,7 +606,6 @@ liftState = LiftState.MOVING;
                 else{
                     liftState = LiftState.NOT_MOVING;
                     direction = LIFT_DIRECTION.NONE;
-
 
                     ruestate = RUE_SETTER.NOTSET;
                 }
