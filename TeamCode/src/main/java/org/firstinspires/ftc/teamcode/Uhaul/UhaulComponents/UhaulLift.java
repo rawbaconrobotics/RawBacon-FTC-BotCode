@@ -329,8 +329,15 @@ liftState = LiftState.MOVING;
             uhaulLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             uhaulLiftTwo.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            uhaulLift.setPower(LIFT_SPEED_IN_AUTONOMOUS);
-            uhaulLiftTwo.setPower(LIFT_SPEED_IN_AUTONOMOUS);
+            if(liftEncoderSetpoint < uhaulLift.getCurrentPosition()){
+                uhaulLift.setPower(LIFT_SPEED_IN_AUTONOMOUS);
+                uhaulLiftTwo.setPower(LIFT_SPEED_IN_AUTONOMOUS);
+
+            }
+            else{
+                uhaulLift.setPower(-LIFT_SPEED_IN_AUTONOMOUS);
+                uhaulLiftTwo.setPower(-LIFT_SPEED_IN_AUTONOMOUS);
+            }
 
 
             // if(-liftEncoderSetpoint < uhaulLift.getCurrentPosition() ){
