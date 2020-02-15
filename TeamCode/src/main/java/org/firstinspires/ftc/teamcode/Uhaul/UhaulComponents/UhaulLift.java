@@ -54,7 +54,11 @@ public class UhaulLift extends UhaulComponentImplBase {
     double rightTarget = 0;
 
     boolean override = false;
-    double liftEncoderSetpoint = 0;
+
+
+
+
+    public static double liftEncoderSetpoint = 0;
     public static boolean liftIsBusy = false;
     boolean comingUp = false;
 
@@ -179,14 +183,14 @@ public class UhaulLift extends UhaulComponentImplBase {
         if ((gamepad2.dpad_up || gamepad2.dpad_down) && (Math.abs(gamepad2.right_stick_y) < 0.1)) {
             if (gamepad2.dpad_up && (dpadtime.seconds() > .1)) {
                 dpadBlocks++;
-                dpadBlocks = (Range.clip(dpadBlocks, 1, 10));
+                dpadBlocks = (Range.clip(dpadBlocks, 0, 10));
                 comingUp = true;
                 dpadtime.reset();
 
 
             } else if ((dpadtime.seconds() > .1)) {
                 dpadBlocks--;
-                dpadBlocks = (Range.clip(dpadBlocks, 1, 10));
+                dpadBlocks = (Range.clip(dpadBlocks, 0, 10));
                 dpadtime.reset();
                 comingUp = false;
 
@@ -194,6 +198,8 @@ public class UhaulLift extends UhaulComponentImplBase {
 
 
             switch ((int) dpadBlocks) {
+                case 0:
+                    liftEncoderSetpoint = 480;
                 case 1:
                     liftEncoderSetpoint = 0;
                     break;
@@ -237,13 +243,29 @@ public class UhaulLift extends UhaulComponentImplBase {
 liftState = LiftState.MOVING;
 
         }
-        else if (gamepad2.left_stick_button) {
-                uhaulLiftTwo.setPower(gamepad2.right_stick_y / 4);
+        else if (gamepad2.dpad_right) {
+            if(gamepad2.right_bumper){
+                uhaulLiftTwo.setPower(0.25);
             }
+            else if(gamepad2.left_bumper){
+                uhaulLiftTwo.setPower(-0.25);
+            }
+            else{
+                uhaulLiftTwo.setPower(0);
+            }
+        }
 
-            else if (gamepad2.dpad_left) {
-                uhaulLift.setPower(gamepad2.right_stick_y / 4);
+        else if (gamepad2.dpad_left) {
+            if(gamepad2.right_bumper){
+                uhaulLift.setPower(0.25);
             }
+            else if(gamepad2.left_bumper){
+                uhaulLift.setPower(-0.25);
+            }
+            else{
+                uhaulLiftTwo.setPower(0);
+            }
+        }
 
 
         else if ((dpadBlocks == 1) && (liftState == LiftState.NOT_MOVING)) {

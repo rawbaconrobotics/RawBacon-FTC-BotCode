@@ -39,7 +39,7 @@ public class UhaulIntake extends UhaulComponentImplBase {
 
     String DISTANCE_SENSOR = "distance_sensor";
 
-
+    boolean intakeOutwards = false;
 
 
 
@@ -73,9 +73,12 @@ public class UhaulIntake extends UhaulComponentImplBase {
     /** Runs the intake proccess */
     public void runIntake(){
 
-        if((gamepad1.right_trigger > 0.1) && !UhaulLift.liftIsBusy && (intakeDistance.getDistance(DistanceUnit.INCH)) > STONE_INCHES_AWAY){
-                uhaulLeftIntake.setPower(intakePower);
-                uhaulRightIntake.setPower(intakePower);
+    //    if((gamepad1.right_trigger > 0.1) && !UhaulLift.liftIsBusy && (intakeDistance.getDistance(DistanceUnit.INCH)) > STONE_INCHES_AWAY){
+    //            uhaulLeftIntake.setPower(intakePower);
+    //            uhaulRightIntake.setPower(intakePower);
+    if(gamepad1.right_trigger > 0.1){
+        uhaulLeftIntake.setPower(intakePower);
+        uhaulRightIntake.setPower(intakePower);
                 previousPower = intakePower;
         }
 
@@ -84,14 +87,17 @@ public class UhaulIntake extends UhaulComponentImplBase {
             uhaulRightIntake.setPower(0);
             previousPower = 0;
         }
+         if(gamepad1.x){
+             intakePower = -intakePower;
+         }
 
-         if((intakeDistance.getDistance(DistanceUnit.INCH) < STONE_INCHES_AWAY) && (previousPower != 0)) {
+      //   if((intakeDistance.getDistance(DistanceUnit.INCH) < STONE_INCHES_AWAY) && (previousPower != 0)) {
 
-             uhaulLeftIntake.setPower(0);
-             uhaulRightIntake.setPower(0);
+        //     uhaulLeftIntake.setPower(0);
+          //   uhaulRightIntake.setPower(0);
 
-            previousPower = 0;
-        }
+           // previousPower = 0;
+        //}
 
     }
 

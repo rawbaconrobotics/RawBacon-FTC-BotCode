@@ -100,7 +100,6 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
         rightDriveFront = (DcMotorEx) hardwareMap.dcMotor.get(FRONTRIGHT_WHEEL_NAME);
 
 
-
         leftDriveFront.setDirection(DcMotor.Direction.REVERSE);
         rightDriveFront.setDirection(DcMotor.Direction.FORWARD);
         leftDriveBack.setDirection(DcMotor.Direction.FORWARD);
@@ -111,18 +110,18 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
         rightDriveFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightDriveBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-     //   PIDFCoefficients pidNew = new PIDFCoefficients(kp, ki, kd, kf);
-     //   leftDriveFront.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
-     //   leftDriveBack.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
-     //   rightDriveFront.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
-     //   rightDriveBack.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
+        //   PIDFCoefficients pidNew = new PIDFCoefficients(kp, ki, kd, kf);
+        //   leftDriveFront.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
+        //   leftDriveBack.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
+        //   rightDriveFront.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
+        //   rightDriveBack.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
 
 
-      //  wheelAccelerationThread.addMotor(accLeftDriveFront);
-      //  wheelAccelerationThread.addMotor(accLeftDriveBack);
-      //  wheelAccelerationThread.addMotor(accRightDriveFront);
-      //  wheelAccelerationThread.addMotor(accRightDriveBack);
-      //  wheelAccelerationThread.start();
+        //  wheelAccelerationThread.addMotor(accLeftDriveFront);
+        //  wheelAccelerationThread.addMotor(accLeftDriveBack);
+        //  wheelAccelerationThread.addMotor(accRightDriveFront);
+        //  wheelAccelerationThread.addMotor(accRightDriveBack);
+        //  wheelAccelerationThread.start();
     }
 
     /**
@@ -154,11 +153,11 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
         rightDriveBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightDriveFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-      //  PIDFCoefficients pidNew = new PIDFCoefficients(kp, ki, kd, kf);
-      //  leftDriveFront.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
-      //  leftDriveBack.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
-      //  rightDriveFront.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
-      //  rightDriveBack.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
+        //  PIDFCoefficients pidNew = new PIDFCoefficients(kp, ki, kd, kf);
+        //  leftDriveFront.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
+        //  leftDriveBack.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
+        //  rightDriveFront.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
+        //  rightDriveBack.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
 
         currentSpeed = leftDriveBack.getPower();
 
@@ -180,10 +179,10 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
 
-         wheelAccelerationThread.addMotor(accLeftDriveFront);
-         wheelAccelerationThread.addMotor(accLeftDriveBack);
-         wheelAccelerationThread.addMotor(accRightDriveFront);
-         wheelAccelerationThread.addMotor(accRightDriveBack);
+        wheelAccelerationThread.addMotor(accLeftDriveFront);
+        wheelAccelerationThread.addMotor(accLeftDriveBack);
+        wheelAccelerationThread.addMotor(accRightDriveFront);
+        wheelAccelerationThread.addMotor(accRightDriveBack);
         wheelAccelerationThread.start();
 
         runUsingEncoders();
@@ -201,7 +200,7 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
      * Reformats input and runs the {@link #mechanumTeleOp} method
      */
     public void wheelsTeleOp() {
-        speedModeOn = isBumperPressed();
+        //  speedModeOn = isBumperPressed();
 
         //double drive = -gamepad1.left_stick_y;
         //double turn = gamepad1.right_stick_x;
@@ -227,23 +226,31 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
         //normalize(wheelSpeeds);
         double[] normalSpeeds = normalizeAuto(wheelSpeeds[0], wheelSpeeds[1], wheelSpeeds[2], wheelSpeeds[3]);
 
-        if (speedModeOn) {
-           // accLeftDriveBack.setDirectPower(Range.clip((normalSpeeds[0]), -1, 1));
-           // accRightDriveBack.setDirectPower(Range.clip((normalSpeeds[1]), -1, 1));
-           // accLeftDriveFront.setDirectPower(Range.clip((normalSpeeds[2]), -1, 1));
-           // accRightDriveFront.setDirectPower(Range.clip((normalSpeeds[3]), -1, 1));
-            //normalizeAuto(wheelSpeeds[0], wheelSpeeds[1], wheelSpeeds[2], wheelSpeeds[3]);
+        // if (speedModeOn) {
+        // accLeftDriveBack.setDirectPower(Range.clip((normalSpeeds[0]), -1, 1));
+        // accRightDriveBack.setDirectPower(Range.clip((normalSpeeds[1]), -1, 1));
+        // accLeftDriveFront.setDirectPower(Range.clip((normalSpeeds[2]), -1, 1));
+        // accRightDriveFront.setDirectPower(Range.clip((normalSpeeds[3]), -1, 1));
+        //normalizeAuto(wheelSpeeds[0], wheelSpeeds[1], wheelSpeeds[2], wheelSpeeds[3]);
+        // } else {
+        //   accLeftDriveBack.setTargetPower(normalSpeeds[0]);
+        //   accRightDriveBack.setTargetPower(normalSpeeds[1]);
+        //   accLeftDriveFront.setTargetPower(normalSpeeds[2]);
+        //   accRightDriveFront.setTargetPower(normalSpeeds[3]);
+        if (UhaulLift.liftEncoderSetpoint < 1000) {
+            leftDriveBack.setPower(normalSpeeds[0]);
+            rightDriveBack.setPower(normalSpeeds[1]);
+            leftDriveFront.setPower(normalSpeeds[2]);
+            rightDriveFront.setPower(normalSpeeds[3]);
         } else {
-         //   accLeftDriveBack.setTargetPower(normalSpeeds[0]);
-         //   accRightDriveBack.setTargetPower(normalSpeeds[1]);
-         //   accLeftDriveFront.setTargetPower(normalSpeeds[2]);
-         //   accRightDriveFront.setTargetPower(normalSpeeds[3]);
-        leftDriveBack.setPower(normalSpeeds[0]);
-        rightDriveBack.setPower(normalSpeeds[1]);
-        leftDriveFront.setPower(normalSpeeds[2]);
-        rightDriveFront.setPower(normalSpeeds[3]);
+            leftDriveBack.setPower(normalSpeeds[0] / 3);
+            rightDriveBack.setPower(normalSpeeds[1] / 3);
+            leftDriveFront.setPower(normalSpeeds[2] / 3);
+            rightDriveFront.setPower(normalSpeeds[3] / 3);
         }
     }
+
+
 
     /**
      * Adjusts the motor power values to fit in the -1 to 1 range
