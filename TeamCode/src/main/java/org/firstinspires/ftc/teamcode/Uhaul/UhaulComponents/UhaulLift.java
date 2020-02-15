@@ -480,7 +480,7 @@ liftState = LiftState.MOVING;
             if(ruestate == RUE_SETTER.NOTSET){
 
 
-                    uhaulLiftTwo.setTargetPosition(-uhaulLift.getCurrentPosition());
+                    uhaulLiftTwo.setTargetPosition(uhaulLift.getCurrentPosition());
                     uhaulLiftTwo.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
