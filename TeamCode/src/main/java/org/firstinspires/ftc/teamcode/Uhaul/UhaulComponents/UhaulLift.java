@@ -263,7 +263,7 @@ liftState = LiftState.MOVING;
                 uhaulLift.setPower(-0.25);
             }
             else{
-                uhaulLiftTwo.setPower(0);
+                uhaulLift.setPower(0);
             }
         }
 
