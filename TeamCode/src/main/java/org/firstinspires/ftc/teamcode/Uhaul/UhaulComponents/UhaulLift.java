@@ -176,14 +176,14 @@ public class UhaulLift extends UhaulComponentImplBase {
 
 
         if ((gamepad2.dpad_up || gamepad2.dpad_down) && (Math.abs(gamepad2.right_stick_y) < 0.1)) {
-            if (gamepad2.dpad_up && (dpadtime.seconds() > .25)) {
+            if (gamepad2.dpad_up && (dpadtime.seconds() > .1)) {
                 dpadBlocks++;
                 dpadBlocks = (Range.clip(dpadBlocks, 1, 10));
                 comingUp = true;
                 dpadtime.reset();
 
 
-            } else if ((dpadtime.seconds() > .25)) {
+            } else if ((dpadtime.seconds() > .1)) {
                 dpadBlocks--;
                 dpadBlocks = (Range.clip(dpadBlocks, 1, 10));
                 dpadtime.reset();
@@ -230,24 +230,14 @@ public class UhaulLift extends UhaulComponentImplBase {
 //TODO Add these values
         //TODO Slow mode while lift is up!
 
-//block 2 = 560 ticks
-        //block 3 = 923
-        //block 4 = 1480
-        //block 5 = 2220
-        //block 6 = 3200
-        //block 7 = 4580
-        //block 8 = 6160
-        //block 9 = 8400
-
-        //max = 9115
-        //capstone = 8050
-
 
         else if (gamepad2.a) {
 
 liftState = LiftState.MOVING;
 
-        } else if (dpadBlocks == 1) {
+        }
+
+        else if ((dpadBlocks == 1) && (liftState == LiftState.NOT_MOVING)) {
             if ((((leftPosition + rightPosition) / 2) < MAX_TICKS_BEFORE_OVERRIDE) && (Math.abs(gamepad2.right_stick_y) > 0.1)) {
                 //   uhaulLift.setPower(gamepad2.right_stick_y / 2);
                 //   uhaulLiftTwo.setPower(gamepad2.right_stick_y /2);
@@ -268,7 +258,7 @@ liftState = LiftState.MOVING;
             }
 
 
-        } else if ((Math.abs(gamepad2.right_stick_y) > 0.1)) {
+        } else if ((Math.abs(gamepad2.right_stick_y) > 0.1) && (liftState == LiftState.NOT_MOVING)) {
             if (((leftPosition + rightPosition) / 2) < MAX_TICKS_BEFORE_OVERRIDE) {
                 uhaulLift.setPower(gamepad2.right_stick_y / 4);
                 uhaulLiftTwo.setPower(gamepad2.right_stick_y / 4);
@@ -276,9 +266,9 @@ liftState = LiftState.MOVING;
                 override = true;
             }
 
-        } else {
-          //  uhaulLift.setPower(0);
-          //  uhaulLiftTwo.setPower(0);
+        } else if(!override && (liftState == LiftState.NOT_MOVING)) {
+            uhaulLift.setPower(0);
+            uhaulLiftTwo.setPower(0);
 
         }
 
@@ -294,14 +284,14 @@ liftState = LiftState.MOVING;
         }
         if (gamepad2.b) {
 
-//liftState = LiftState.COMPENSATING;
+        liftState = LiftState.COMPENSATING;
 
         }
         if (gamepad2.left_stick_button || gamepad2.right_stick_button) {
-            while (gamepad2.left_stick_button) {
+            if (gamepad2.left_stick_button) {
                 uhaulLiftTwo.setPower(gamepad2.right_stick_y / 4);
             }
-            while (gamepad2.right_stick_button) {
+            if (gamepad2.right_stick_button) {
                 uhaulLift.setPower(gamepad2.right_stick_y / 4);
             }
         }
@@ -328,10 +318,10 @@ liftState = LiftState.MOVING;
         runtime.reset();
 
 
-        if (liftEncoderSetpoint  < ((leftPosition + rightPosition) / 2) && (liftState == LiftState.MOVING) && ((direction == LIFT_DIRECTION.DOWN) || (direction == LIFT_DIRECTION.NONE))) {
+        if (liftEncoderSetpoint  < ((Math.max(0, (-uhaulLift.getCurrentPosition())) + (Math.max(0, (-uhaulLiftTwo.getCurrentPosition())))) / 2) && (liftState == LiftState.MOVING) && ((direction == LIFT_DIRECTION.DOWN) || (direction == LIFT_DIRECTION.NONE))) {
 
 
-            direction = LIFT_DIRECTION.UP;
+            direction = LIFT_DIRECTION.DOWN;
             uhaulLift.setPower(LIFT_SPEED_IN_AUTONOMOUS);
             uhaulLiftTwo.setPower(LIFT_SPEED_IN_AUTONOMOUS);
 
@@ -365,10 +355,7 @@ liftState = LiftState.MOVING;
                 direction = LIFT_DIRECTION.NONE;
 
             }
-            else{
-                liftState = LiftState.NOT_MOVING;
-                direction = LIFT_DIRECTION.NONE;
-            }
+
 
 
 
@@ -380,10 +367,10 @@ liftState = LiftState.MOVING;
 
 
 //        } else if (-liftEncoderSetpoint > uhaulLift.getCurrentPosition()) {
-        } else if (liftEncoderSetpoint > ((leftPosition + rightPosition)/2) && (liftState == LiftState.MOVING) && ((direction == LIFT_DIRECTION.UP) || (direction == LIFT_DIRECTION.NONE))) {
+        } else if (liftEncoderSetpoint > ((Math.max(0, (-uhaulLift.getCurrentPosition())) + Math.max(0, (-uhaulLiftTwo.getCurrentPosition())))/2) && (liftState == LiftState.MOVING) && ((direction == LIFT_DIRECTION.UP) || (direction == LIFT_DIRECTION.NONE))) {
             runtime.reset();
 
-            direction = LIFT_DIRECTION.DOWN;
+            direction = LIFT_DIRECTION.UP;
 
 
 
@@ -426,11 +413,12 @@ liftState = LiftState.MOVING;
             liftState = LiftState.NOT_MOVING;
 
             }
-            else{
-                liftState = LiftState.NOT_MOVING;
-                direction = LIFT_DIRECTION.NONE;
-            }
 
+
+        else{
+            liftState = LiftState.NOT_MOVING;
+            direction = LIFT_DIRECTION.NONE;
+        }
 
         }
 
