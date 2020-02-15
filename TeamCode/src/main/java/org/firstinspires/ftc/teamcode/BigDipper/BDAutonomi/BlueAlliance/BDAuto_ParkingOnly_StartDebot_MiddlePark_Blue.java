@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.BigDipper.BDAutonomi.BlueAlliance;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BaseLinearOpMode;
@@ -17,6 +18,7 @@ import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BaseLinearOpMode
  //40 1120
  //20 560
 @Config
+@Disabled
 @Autonomous(name= "BDAuto_ParkingOnly_StartDepot_MiddlePark_Blue", group="Tank")
 
 public class BDAuto_ParkingOnly_StartDebot_MiddlePark_Blue extends BaseLinearOpMode {

@@ -7,6 +7,7 @@ import com.acmerobotics.dashboard.config.ValueProvider;
 import com.acmerobotics.dashboard.config.variable.BasicVariable;
 import com.acmerobotics.dashboard.config.variable.CustomVariable;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -44,6 +45,7 @@ import static org.firstinspires.ftc.teamcode.Uhaul.Autonomous.AutonomousSelector
 //40 1120
 //20 560
 @Config
+@Disabled
 @Autonomous(name = "2. TANK Autonomous", group = "1aa1a1a")
 
 public class BDAutonomous extends BaseLinearOpMode {

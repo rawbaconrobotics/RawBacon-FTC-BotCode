@@ -48,10 +48,12 @@ public class UhaulLift extends UhaulComponentImplBase {
 
     boolean liftCompensate = false;
 
-    double leftPosition = 0;
-    double rightPosition = 0;
+    public static double leftPosition = 0;
+    public static double rightPosition = 0;
     double leftTarget = 0;
     double rightTarget = 0;
+
+    double dtPosition = 0;
 
     boolean override = false;
 
@@ -181,16 +183,16 @@ public class UhaulLift extends UhaulComponentImplBase {
 
 
         if ((gamepad2.dpad_up || gamepad2.dpad_down) && (Math.abs(gamepad2.right_stick_y) < 0.1)) {
-            if (gamepad2.dpad_up && (dpadtime.seconds() > .1)) {
+            if (gamepad2.dpad_up && (dpadtime.seconds() > .2)) {
                 dpadBlocks++;
-                dpadBlocks = (Range.clip(dpadBlocks, 0, 10));
-                comingUp = true;
+                dpadBlocks = (Range.clip(dpadBlocks, 1, 10));
                 dpadtime.reset();
+                comingUp = true;
 
 
-            } else if ((dpadtime.seconds() > .1)) {
+            } else if (gamepad2.dpad_down &&(dpadtime.seconds() > .2)) {
                 dpadBlocks--;
-                dpadBlocks = (Range.clip(dpadBlocks, 0, 10));
+                dpadBlocks = (Range.clip(dpadBlocks, 1, 10));
                 dpadtime.reset();
                 comingUp = false;
 
@@ -198,8 +200,7 @@ public class UhaulLift extends UhaulComponentImplBase {
 
 
             switch ((int) dpadBlocks) {
-                case 0:
-                    liftEncoderSetpoint = 480;
+
                 case 1:
                     liftEncoderSetpoint = 0;
                     break;

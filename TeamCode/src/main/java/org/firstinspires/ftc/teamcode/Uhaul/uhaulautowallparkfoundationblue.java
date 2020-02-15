@@ -1,13 +1,12 @@
-package org.firstinspires.ftc.teamcode.BigDipper.BDAutonomi.BlueAlliance;
-
+package org.firstinspires.ftc.teamcode.Uhaul;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BaseLinearOpMode;
+import org.firstinspires.ftc.teamcode.Uhaul.UhaulLinearOpMode;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
@@ -32,29 +31,30 @@ import java.util.List;
 //40 1120
 //20 560
 @Config
-@Disabled
-@Autonomous(name= "BDAuto_WallPark_Stones_Blue", group="Tank")
+@Autonomous(name= "UHAUL WALLPARK FOUNDATION BLUE", group="Tank")
 
-public class BDAuto_WallPark_Stones_Blue extends BaseLinearOpMode {
+public class uhaulautowallparkfoundationblue extends UhaulLinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
+    //0 means skystone, 1 (or 255) means yellow stone
+    //-1 for debug, but we can keep it like this because if it works, it should change to either 0 or 255
     public static double one = 48;
     public static double two = 10;
     public static double three = 16;
-    public static double four = 28;
+    public static double four = 34;
     public static double fourpointfive = 7;
     public static double five = 38;
     public static double fivepointfive = 1;
-    public static double six = 34;
-    public static double seven = 27;
+    public static double six = 40;
+    public static double seven = 23;
     public static double eight = 20;
     static double nine = 0;
     static double ten = 0;
     static double eleven = 0;
+    public OpMode opMode = this;
 
 
-    //0 means skystone, 1 (or 255) means yellow stone
-    //-1 for debug, but we can keep it like this because if it works, it should change to either 0 or 255
+
     private static int valMid = -1;
     private static int valLeft = -1;
     private static int valRight = -1;
@@ -81,11 +81,10 @@ public class BDAuto_WallPark_Stones_Blue extends BaseLinearOpMode {
     @Override
     public void on_init() {
         System.out.println("INIT PROCESS STARTING");
-        robot.bddrivetrain.initAutonomous();
-        robot.bdlatch.initAutonomous();
-        robot.bdtapemeasure.initAutonomous();
-        robot.bdgrabber.initAutonomous();
-        robot.bdcapstone.initAutonomous();
+robot.drive.initAutonomous();
+robot.grabber.initAutonomous();
+robot.intake.initAutonomous();
+robot.latch.initAutonomous();
 
         //The following commented out code is what we would use if we didn't have a webcam.
         //  int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -96,98 +95,29 @@ public class BDAuto_WallPark_Stones_Blue extends BaseLinearOpMode {
         //width, height
         //width = height in this case, because camera is in portrait mode.
 
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-        webcam.openCameraDevice();//open camera
-        webcam.setPipeline(new BDAuto_MiddlePark_Stones_Blue.StageSwitchingPipeline());//different stages
-        webcam.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT);//display on RC
-        //width, height
-        //width = height in this case, because camera is in portrait mode.
-
-        while (!opModeIsActive() && !isStopRequested()) {
-            telemetry.addData("Values", valLeft + "   " + valMid + "   " + valRight);
-            telemetry.addData("Height", rows);
-            telemetry.addData("Width", cols);
-
-            telemetry.update();
-        }
-        if(isStopRequested()){
-            webcam.stopStreaming();
-        }
     }
-    /** Runs the process */
 
 
     @Override
     public void run () {
 
-        webcam.stopStreaming();
 
         runtime.reset();
-
-        robot.bddrivetrain.driveFor(28,1,10);
+        robot.latch.openLatch();
+       robot.drive.strafeFor(18, .8, 5);
+        sleep(100);
+        robot.drive.driveFor(-31,-.7,4);
+        sleep(100);
+        robot.latch.closeLatch();
         sleep(500);
+        robot.drive.driveFor(31, .8,4);
+        sleep(100);
+        robot.latch.openLatch();
+        sleep(100);
+        robot.drive.driveFor(-1.2, -.8,4);
+    sleep(100);
+        robot.drive.strafeFor(-56,.8,7);
 
-        if (valLeft == 0) { // stone is on left, run left path
-
-            robot.bddrivetrain.strafeFor(-8, 1, 10);
-            sleep(500);
-            robot.bddrivetrain.driveFor(15,1,10);
-            sleep(500);
-            robot.bdgrabber.grabDownAuto();
-            sleep(500);
-            robot.bddrivetrain.driveFor(-19,-1,10);
-            sleep(500);
-            robot.bddrivetrain.strafeFor(8, 1, 10);
-            sleep(500);
-
-
-        } else if (valMid == 0) { // stone is in middle, run middle path
-
-            robot.bddrivetrain.driveFor(15,1,10);
-            sleep(500);
-            robot.bdgrabber.grabDownAuto();
-            sleep(500);
-            robot.bddrivetrain.driveFor(-19,-1,10);
-            sleep(500);
-
-
-        } else if (valRight == 0) { //stone on right, run right path
-
-            robot.bddrivetrain.strafeFor(7, 1, 10);
-            sleep(500);
-            robot.bddrivetrain.driveFor(15,1,10);
-            sleep(500);
-            robot.bdgrabber.grabDownAuto();
-            sleep(500);
-            robot.bddrivetrain.driveFor(-19,-1,10);
-            sleep(500);
-            robot.bddrivetrain.strafeFor(-8, 1, 10);
-            sleep(500);
-
-
-        } else {
-            robot.bddrivetrain.driveFor(15,1,10);
-            sleep(500);
-            robot.bdgrabber.grabDownAuto();
-            sleep(500);
-            robot.bddrivetrain.driveFor(-19,-1,10);
-            //skystone location cannot be determined, either try for a random one or just grab the foundation
-
-        }
-
-        sleep(500);
-        robot.bddrivetrain.driveFor(-27.5,-1,10);
-        robot.bddrivetrain.turnFor(-85, 1, 15);
-
-
-
-        sleep(500);
-        robot.bddrivetrain.driveFor(54,1,10);
-        sleep(500);
-        robot.bdgrabber.grabUpAuto();
-        sleep(500);
-        robot.bddrivetrain.driveFor(-22,-1,10);
 
 
         telemetry.addData("PATH", "COMPLETE");
@@ -200,7 +130,7 @@ public class BDAuto_WallPark_Stones_Blue extends BaseLinearOpMode {
 
     /** What the robot should do when it sees the stop button was pressed / timer ended */
     public void on_stop() {
-        robot.bddrivetrain.stopDrive();
+        robot.drive.stopDrive();
     }
 
     //detection pipeline --- don't mess with any of this unless CV detection area is sketchy
@@ -341,3 +271,4 @@ public class BDAuto_WallPark_Stones_Blue extends BaseLinearOpMode {
 
     }
 }
+

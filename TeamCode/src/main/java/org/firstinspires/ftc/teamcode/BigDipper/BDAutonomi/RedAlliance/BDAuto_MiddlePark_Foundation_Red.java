@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.BigDipper.BDAutonomi.BlueAlliance;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -31,6 +32,7 @@ import java.util.List;
 //40 1120
 //20 560
 @Config
+@Disabled
 @Autonomous(name= "BDAuto_MiddlePark_Foundation_Red", group="Tank")
 
 public class BDAuto_MiddlePark_Foundation_Red extends BaseLinearOpMode {

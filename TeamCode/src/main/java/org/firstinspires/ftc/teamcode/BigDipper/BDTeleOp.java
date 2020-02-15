@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.BigDipper;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BaseLinearOpMode;
@@ -12,6 +13,7 @@ import org.firstinspires.ftc.teamcode.BigDipper.RobotComponents.BaseLinearOpMode
 
 
 @TeleOp(name="OFFICIAL TeleOp", group="Big Dipper")
+@Disabled
 
 public class BDTeleOp extends BaseLinearOpMode {
 

@@ -37,7 +37,7 @@ public class UhaulIntake extends UhaulComponentImplBase {
     public static double intakePower = .5;
 
 
-    String DISTANCE_SENSOR = "distance_sensor";
+    //String DISTANCE_SENSOR = "distance_sensor";
 
     boolean intakeOutwards = false;
 
@@ -52,7 +52,7 @@ public class UhaulIntake extends UhaulComponentImplBase {
         uhaulLeftIntake.setDirection(DcMotor.Direction.FORWARD);
         uhaulRightIntake.setDirection(DcMotor.Direction.REVERSE);
 
-        intakeDistance = hardwareMap.get(Rev2mDistanceSensor.class, DISTANCE_SENSOR);
+    //    intakeDistance = hardwareMap.get(Rev2mDistanceSensor.class, DISTANCE_SENSOR);
 
 
     }
@@ -66,7 +66,7 @@ public class UhaulIntake extends UhaulComponentImplBase {
         uhaulLeftIntake.setDirection(DcMotor.Direction.REVERSE);
         uhaulRightIntake.setDirection(DcMotor.Direction.FORWARD);
 
-        intakeDistance = hardwareMap.get(Rev2mDistanceSensor.class, DISTANCE_SENSOR);
+       // intakeDistance = hardwareMap.get(Rev2mDistanceSensor.class, DISTANCE_SENSOR);
 
 
     }
@@ -77,19 +77,23 @@ public class UhaulIntake extends UhaulComponentImplBase {
     //            uhaulLeftIntake.setPower(intakePower);
     //            uhaulRightIntake.setPower(intakePower);
     if(gamepad1.right_trigger > 0.1){
-        uhaulLeftIntake.setPower(intakePower);
-        uhaulRightIntake.setPower(intakePower);
-                previousPower = intakePower;
+        uhaulLeftIntake.setPower(0.5);
+        uhaulRightIntake.setPower(0.5);
         }
 
-         if((gamepad1.left_trigger > 0.1)){
-            uhaulLeftIntake.setPower(0);
-            uhaulRightIntake.setPower(0);
-            previousPower = 0;
+
+    if((gamepad1.left_trigger > 0.1)){
+            uhaulLeftIntake.setPower(-0.5);
+            uhaulRightIntake.setPower(-0.5);
         }
-         if(gamepad1.x){
-             intakePower = -intakePower;
+
+    if(gamepad1.x){
+
+        uhaulLeftIntake.setPower(0);
+        uhaulRightIntake.setPower(0);
+
          }
+
 
       //   if((intakeDistance.getDistance(DistanceUnit.INCH) < STONE_INCHES_AWAY) && (previousPower != 0)) {
 
