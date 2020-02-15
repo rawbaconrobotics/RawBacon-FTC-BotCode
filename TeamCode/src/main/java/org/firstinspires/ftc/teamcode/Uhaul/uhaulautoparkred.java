@@ -101,6 +101,7 @@ robot.latch.initAutonomous();
 
         runtime.reset();
 
+       // sleep(20000);
         robot.drive.driveFor(-20, -.8,4);
         robot.drive.strafeFor(16,.8,7);
 

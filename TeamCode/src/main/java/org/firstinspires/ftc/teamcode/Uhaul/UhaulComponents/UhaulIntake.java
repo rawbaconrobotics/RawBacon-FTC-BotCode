@@ -83,8 +83,8 @@ public class UhaulIntake extends UhaulComponentImplBase {
 
 
     if((gamepad1.left_trigger > 0.1)){
-            uhaulLeftIntake.setPower(-0.5);
-            uhaulRightIntake.setPower(-0.5);
+            uhaulLeftIntake.setPower(-0.25);
+            uhaulRightIntake.setPower(-0.25);
         }
 
     if(gamepad1.x){
