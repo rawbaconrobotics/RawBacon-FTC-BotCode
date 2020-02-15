@@ -380,7 +380,7 @@ liftState = LiftState.MOVING;
                 }
                 telemetry.addData("CURRENTLY ACCEPTING NO INPUT,", "MOVING AUTOMATICALLY");
                 telemetry.update();
-            }else if(gamepad2.right_stick_y < 0.1 && !gamepad2.dpad_down && !gamepad2.dpad_up) {
+            }else if(gamepad2.right_stick_y < 0.1) {
 
                 uhaulLift.setPower(0);
                 uhaulLiftTwo.setPower(0);
@@ -518,7 +518,7 @@ liftState = LiftState.MOVING;
                 }
                 telemetry.addData("CURRENTLY ACCEPTING NO INPUT,", "MOVING AUTOMATICALLY");
                 telemetry.update();
-            }else if(gamepad2.right_stick_y < 0.1 && !gamepad2.dpad_down && !gamepad2.dpad_up) {
+            }else if(gamepad2.right_stick_y < 0.1) {
 
                 uhaulLift.setPower(0);
                 uhaulLiftTwo.setPower(0);
