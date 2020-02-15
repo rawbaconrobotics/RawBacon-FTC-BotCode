@@ -49,6 +49,8 @@ public class VRailTuner extends LinearOpMode {
 
        while(opModeIsActive()){
         telemetry.addData("inches", uhaulSliderDistance.getDistance(DistanceUnit.INCH));
+        telemetry.addData("1 power", uhaulSlider1.getPower());
+        telemetry.addData("2 power", uhaulSlider2.getPower());
         telemetry.update();
 
         uhaulSlider1.setPower(gamepad1.left_stick_y * 0.75);

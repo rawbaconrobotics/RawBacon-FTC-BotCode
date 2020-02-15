@@ -208,7 +208,7 @@ public class UhaulLift extends UhaulComponentImplBase {
                     liftEncoderSetpoint = 0;
                     break;
                 case 2:
-                    liftEncoderSetpoint = 560+40;
+                    liftEncoderSetpoint = 800;
                     break;
                 case 3:
                     liftEncoderSetpoint = 923+40;
@@ -284,8 +284,8 @@ liftState = LiftState.MOVING;
                 //   uhaulLift.setPower(gamepad2.right_stick_y / 2);
                 //   uhaulLiftTwo.setPower(gamepad2.right_stick_y /2);
 
-                uhaulLift.setPower(gamepad2.right_stick_y / 2);
-                uhaulLiftTwo.setPower(gamepad2.right_stick_y / 2);
+                uhaulLift.setPower(gamepad2.right_stick_y / 1.25);
+                uhaulLiftTwo.setPower(gamepad2.right_stick_y / 1.25);
 
                 System.out.println("SET POWER TO " + Double.toString(gamepad2.right_stick_y / 2));
             } else if ((((leftPosition + rightPosition) / 2) < MAX_TICKS_BEFORE_OVERRIDE) && (Math.abs(gamepad2.right_stick_y) <= 0.1)) {
