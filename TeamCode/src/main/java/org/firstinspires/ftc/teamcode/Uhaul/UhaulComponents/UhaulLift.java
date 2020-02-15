@@ -228,7 +228,7 @@ public class UhaulLift extends UhaulComponentImplBase {
 
         }
 //TODO Add these values
-        //TODO Slow mode while lift is up
+        //TODO Slow mode while lift is up!
 
 //block 2 = 560 ticks
         //block 3 = 923
