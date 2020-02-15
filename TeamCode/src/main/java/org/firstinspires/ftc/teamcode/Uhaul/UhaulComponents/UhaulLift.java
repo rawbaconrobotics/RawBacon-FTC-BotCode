@@ -507,11 +507,11 @@ liftState = LiftState.MOVING;
 
 
                 if(-uhaulLift.getCurrentPosition() > -uhaulLiftTwo.getCurrentPosition()){
-                    uhaulLiftTwo.setPower(-0.2);
+                    uhaulLiftTwo.setPower(0.2);
                 }
                 else
                 {
-                    uhaulLift.setPower(0.2);
+                    uhaulLift.setPower(-0.2);
                 }
 
 
