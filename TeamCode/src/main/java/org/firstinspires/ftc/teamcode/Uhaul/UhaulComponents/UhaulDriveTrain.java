@@ -237,7 +237,7 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
         //   accRightDriveBack.setTargetPower(normalSpeeds[1]);
         //   accLeftDriveFront.setTargetPower(normalSpeeds[2]);
         //   accRightDriveFront.setTargetPower(normalSpeeds[3]);
-        if (UhaulLift.leftPosition < 1000) {
+        if ((UhaulLift.liftState == UhaulLift.LiftState.NOT_MOVING) || (UhaulLift.liftEncoderSetpoint < 1000)) {
             leftDriveBack.setPower(normalSpeeds[0]);
             rightDriveBack.setPower(normalSpeeds[1]);
             leftDriveFront.setPower(normalSpeeds[2]);

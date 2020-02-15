@@ -71,7 +71,7 @@ public class UhaulLift extends UhaulComponentImplBase {
         COMPENSATING
 
     }
-    LiftState liftState = LiftState.NOT_MOVING;
+    public static LiftState liftState = LiftState.NOT_MOVING;
 
 
 
@@ -112,6 +112,8 @@ public class UhaulLift extends UhaulComponentImplBase {
 
         leftTarget = Math.max(0, -uhaulLift.getTargetPosition());
         rightTarget = Math.max(0, -uhaulLiftTwo.getTargetPosition());
+
+
 
 
     }
@@ -179,6 +181,7 @@ public class UhaulLift extends UhaulComponentImplBase {
 
         leftPosition = Math.max(0, (-uhaulLift.getCurrentPosition()));
         rightPosition = Math.max(0, (-uhaulLiftTwo.getCurrentPosition()));
+
 
 
 
@@ -292,8 +295,8 @@ liftState = LiftState.MOVING;
 
         } else if ((Math.abs(gamepad2.right_stick_y) > 0.1) && (liftState == LiftState.NOT_MOVING)) {
             if (((leftPosition + rightPosition) / 2) < MAX_TICKS_BEFORE_OVERRIDE) {
-                uhaulLift.setPower(gamepad2.right_stick_y / 4);
-                uhaulLiftTwo.setPower(gamepad2.right_stick_y / 4);
+                uhaulLift.setPower(gamepad2.right_stick_y / 2.5);
+                uhaulLiftTwo.setPower(gamepad2.right_stick_y / 2.5);
             } else {
                 override = true;
             }
