@@ -247,6 +247,12 @@ public class UhaulLift extends UhaulComponentImplBase {
 liftState = LiftState.MOVING;
 
         }
+        else if (gamepad2.right_stick_button) {
+
+            liftEncoderSetpoint = 0;
+            liftState = LiftState.MOVING;
+
+        }
         else if (gamepad2.dpad_right) {
             if(gamepad2.right_bumper){
                 uhaulLiftTwo.setPower(0.25);
