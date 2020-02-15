@@ -487,6 +487,8 @@ liftState = LiftState.MOVING;
 
     double ACCEPTABLE_ERROR_TICKS = 20;
 
+    double desiredTicks;
+    int problem;
     public void liftErrorCompensate()
 
     {
@@ -501,17 +503,18 @@ liftState = LiftState.MOVING;
 
             if(ruestate == RUE_SETTER.NOTSET){
 
-
-                    uhaulLiftTwo.setTargetPosition(uhaulLift.getCurrentPosition());
-                    uhaulLiftTwo.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
+                uhaulLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                uhaulLiftTwo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
                 if(-uhaulLift.getCurrentPosition() > -uhaulLiftTwo.getCurrentPosition()){
-                    uhaulLiftTwo.setPower(0.2);
+                    desiredTicks = uhaulLiftTwo.getCurrentPosition();
+                    problem = 1;
+                    uhaulLift.setPower(0.2);
                 }
-                else
-                {
-                    uhaulLift.setPower(-0.2);
+                else if(-uhaulLift.getCurrentPosition() < -uhaulLiftTwo.getCurrentPosition()){
+                    desiredTicks = uhaulLift.getCurrentPosition();
+                    problem = 2;
+                    uhaulLiftTwo.setPower(0.2);
                 }
 
 
@@ -521,51 +524,100 @@ liftState = LiftState.MOVING;
             }
 
 
+            if(problem == 1){
+
+
+                if (opModeIsActive() &&
+                        (runtime.seconds() < 15) && (gamepad2.right_stick_y < 0.1) &&
+                        (-uhaulLift.getCurrentPosition() > -desiredTicks)
+                        && !gamepad2.dpad_up && !gamepad2.dpad_down && (Math.abs(((-uhaulLift.getCurrentPosition()) - (-uhaulLiftTwo.getCurrentPosition()))) < 300)) {
+
+
+                    telemetry.addData("Current Dpad Blocks Set To: ", (int) dpadBlocks);
+                    telemetry.addData("Lift", (int) leftPosition);
+                    telemetry.addData("Lift2", (int) rightPosition);
+                    telemetry.addData("the encoder ticks we want: ", (int) liftEncoderSetpoint);
+                    if (override) {
+                        telemetry.addData("OVERRIDE ", "TRUE!");
+                    } else {
+                        telemetry.addData("override", "false");
+                    }
+                    telemetry.addData("CURRENTLY ACCEPTING NO INPUT,", "MOVING AUTOMATICALLY");
+                    telemetry.update();
+                }else if(gamepad2.right_stick_y < 0.1) {
+
+                    uhaulLift.setPower(0);
+                    uhaulLiftTwo.setPower(0);
+
+
+
+                    //liftState = LiftState.COMPENSATING;
+                    liftState = LiftState.NOT_MOVING;
+                    direction = LIFT_DIRECTION.NONE;
+
+                    ruestate = RUE_SETTER.NOTSET;
+
+                }
+
+                else{
+                    liftState = LiftState.NOT_MOVING;
+                    direction = LIFT_DIRECTION.NONE;
+
+
+                    ruestate = RUE_SETTER.NOTSET;
+                }
+
+
+
+            }else if(problem == 2){
+
+                if (opModeIsActive() &&
+                        (runtime.seconds() < 15) && (gamepad2.right_stick_y < 0.1) &&
+                        (-uhaulLiftTwo.getCurrentPosition() > -desiredTicks)
+                        && !gamepad2.dpad_up && !gamepad2.dpad_down && (Math.abs(((-uhaulLift.getCurrentPosition()) - (-uhaulLiftTwo.getCurrentPosition()))) < 300)) {
+
+
+                    telemetry.addData("Current Dpad Blocks Set To: ", (int) dpadBlocks);
+                    telemetry.addData("Lift", (int) leftPosition);
+                    telemetry.addData("Lift2", (int) rightPosition);
+                    telemetry.addData("the encoder ticks we want: ", (int) liftEncoderSetpoint);
+                    if (override) {
+                        telemetry.addData("OVERRIDE ", "TRUE!");
+                    } else {
+                        telemetry.addData("override", "false");
+                    }
+                    telemetry.addData("CURRENTLY ACCEPTING NO INPUT,", "MOVING AUTOMATICALLY");
+                    telemetry.update();
+                }else if(gamepad2.right_stick_y < 0.1) {
+
+                    uhaulLift.setPower(0);
+                    uhaulLiftTwo.setPower(0);
+
+
+
+                    //liftState = LiftState.COMPENSATING;
+                    liftState = LiftState.NOT_MOVING;
+                    direction = LIFT_DIRECTION.NONE;
+
+                    ruestate = RUE_SETTER.NOTSET;
+
+                }
+
+                else{
+                    liftState = LiftState.NOT_MOVING;
+                    direction = LIFT_DIRECTION.NONE;
+
+
+                    ruestate = RUE_SETTER.NOTSET;
+                }
+
+
+
+
+            }
 
 
             // if(-liftEncoderSetpoint < uhaulLift.getCurrentPosition() ){
-            if (opModeIsActive() &&
-                    (runtime.seconds() < 15) && (gamepad2.right_stick_y < 0.1) &&
-                    (uhaulLift.isBusy() || uhaulLiftTwo.isBusy())
-                    && !gamepad2.dpad_up && !gamepad2.dpad_down && (Math.abs(((-uhaulLift.getCurrentPosition()) - (-uhaulLiftTwo.getCurrentPosition()))) < 300)) {
-
-
-                telemetry.addData("Current Dpad Blocks Set To: ", (int) dpadBlocks);
-                telemetry.addData("Lift", (int) leftPosition);
-                telemetry.addData("Lift2", (int) rightPosition);
-                telemetry.addData("the encoder ticks we want: ", (int) liftEncoderSetpoint);
-                if (override) {
-                    telemetry.addData("OVERRIDE ", "TRUE!");
-                } else {
-                    telemetry.addData("override", "false");
-                }
-                telemetry.addData("CURRENTLY ACCEPTING NO INPUT,", "MOVING AUTOMATICALLY");
-                telemetry.update();
-            }else if(gamepad2.right_stick_y < 0.1) {
-
-                uhaulLift.setPower(0);
-                uhaulLiftTwo.setPower(0);
-
-                uhaulLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                uhaulLiftTwo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-                //liftState = LiftState.COMPENSATING;
-                liftState = LiftState.NOT_MOVING;
-                direction = LIFT_DIRECTION.NONE;
-
-                ruestate = RUE_SETTER.NOTSET;
-
-            }
-
-            else{
-                liftState = LiftState.NOT_MOVING;
-                direction = LIFT_DIRECTION.NONE;
-
-                uhaulLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                uhaulLiftTwo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-                ruestate = RUE_SETTER.NOTSET;
-            }
 
         }
 
