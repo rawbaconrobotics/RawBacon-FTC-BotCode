@@ -51,45 +51,60 @@ public class UhaulSlider extends UhaulComponentImplBase {
 
         }
 
+        enum LIFT_STATE{
+            SLIDEIN,
+            SLIDEOUT,
+            NOT_MOVING
+        }
+    LIFT_STATE moving = LIFT_STATE.NOT_MOVING;
+
+    boolean slideIn = false;
+        boolean slideOut = false;
         /** Defines the slider movement controls */
         public void moveSlider() {
 
 
             if(gamepad2.right_trigger > 0.1){
+
+                moving = LIFT_STATE.SLIDEIN;
+            }
+            else if(gamepad2.left_trigger > 0.1){
+
+                moving = LIFT_STATE.SLIDEOUT;
+            }
+
+            if(moving == LIFT_STATE.SLIDEOUT){
                 uhaulSlider1.setPower(sliderPower);
                 uhaulSlider2.setPower(sliderPower);
 
-                while((uhaulSliderDistance.getDistance(DistanceUnit.INCH) > 5) && (!gamepad2.right_bumper) && (!gamepad2.left_bumper)){
+                if((uhaulSliderDistance.getDistance(DistanceUnit.INCH) > 5) && (!gamepad2.right_bumper) && (!gamepad2.left_bumper)){
                     telemetry.addData("Distance from base", uhaulSliderDistance.getDistance(DistanceUnit.INCH));
                     telemetry.addData("Don't worry, We'll stop at 20 inches away...", "or maybe do worry idk this isn't tested yet");
                     System.out.println(uhaulSliderDistance.getDistance(DistanceUnit.INCH));
                 }
+                else {
+                    uhaulSlider1.setPower(0);
+                    uhaulSlider2.setPower(0);
 
-                uhaulSlider1.setPower(0);
-                uhaulSlider2.setPower(0);
-
+                    moving = LIFT_STATE.NOT_MOVING;
+                }
             }
-            else if(gamepad2.left_trigger > 0.1){
+            if(moving == LIFT_STATE.SLIDEIN){
                 uhaulSlider1.setPower(-sliderPower);
                 uhaulSlider2.setPower(-sliderPower);
 
-                while((uhaulSliderDistance.getDistance(DistanceUnit.INCH) < 13.5) && (!gamepad2.right_bumper) && (!gamepad2.left_bumper)){
+                if((uhaulSliderDistance.getDistance(DistanceUnit.INCH) < 13.5) && (!gamepad2.right_bumper) && (!gamepad2.left_bumper)){
                     telemetry.addData("Distance from base", uhaulSliderDistance.getDistance(DistanceUnit.INCH));
                     telemetry.addData("Don't worry, We'll stop at 20 inches away...", "or maybe do worry idk this isn't tested yet");
                     System.out.println(uhaulSliderDistance.getDistance(DistanceUnit.INCH));
 
                 }
-
-                uhaulSlider1.setPower(0);
-                uhaulSlider2.setPower(0);
-
+                else {
+                    uhaulSlider1.setPower(0);
+                    uhaulSlider2.setPower(0);
+moving = LIFT_STATE.NOT_MOVING;
+                }
             }
-            if(gamepad2.right_bumper || gamepad2.left_bumper){
-                uhaulSlider1.setPower(0);
-                uhaulSlider2.setPower(0);
-                //currently, do nothing
-            }
-
 
         }
 //idea: contPower = -.20;
