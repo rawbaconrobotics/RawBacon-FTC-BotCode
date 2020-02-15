@@ -303,6 +303,17 @@ liftState = LiftState.MOVING;
             liftErrorCompensate();
         }
 
+        telemetry.addData("Current Dpad Blocks Set To: ", (int) dpadBlocks);
+        telemetry.addData("Lift", (int) leftPosition);
+        telemetry.addData("Lift2", (int) rightPosition);
+        telemetry.addData("the encoder ticks we want: ", (int) liftEncoderSetpoint);
+        if (override) {
+            telemetry.addData("OVERRIDE ", "TRUE!");
+        } else {
+            telemetry.addData("override", "false");
+        }
+        telemetry.update();
+
 
     }
 
@@ -328,13 +339,13 @@ liftState = LiftState.MOVING;
 
             if(ruestate == RUE_SETTER.NOTSET){
 
-                uhaulLift.setTargetPosition((int) liftEncoderSetpoint);
-                uhaulLiftTwo.setTargetPosition((int) liftEncoderSetpoint);
+                uhaulLift.setTargetPosition(-(int) liftEncoderSetpoint);
+                uhaulLiftTwo.setTargetPosition(-(int) liftEncoderSetpoint);
 
                 uhaulLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 uhaulLiftTwo.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                if(liftEncoderSetpoint < uhaulLift.getCurrentPosition()){
+                if(liftEncoderSetpoint < (-uhaulLift.getCurrentPosition())){
                     uhaulLift.setPower(LIFT_SPEED_IN_AUTONOMOUS);
                     uhaulLiftTwo.setPower(LIFT_SPEED_IN_AUTONOMOUS);
 
