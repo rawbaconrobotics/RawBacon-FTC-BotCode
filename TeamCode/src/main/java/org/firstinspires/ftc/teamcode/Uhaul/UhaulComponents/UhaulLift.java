@@ -466,56 +466,87 @@ liftState = LiftState.MOVING;
     public void liftErrorCompensate()
 
     {
-        if((((Math.max(0, -uhaulLift.getCurrentPosition())) + ACCEPTABLE_ERROR_TICKS) < (Math.max(0, -uhaulLiftTwo.getCurrentPosition()))) || ((rightPosition + ACCEPTABLE_ERROR_TICKS) < leftPosition)){
 
         double lowerPos = Math.min(leftPosition, rightPosition);
 
-            if ((leftPosition != lowerPos) && (gamepad2.right_stick_y < 0.1)) {
-
-                uhaulLift.setPower(.3);
-                if (opModeIsActive() &&
-                        (runtime.seconds() < 15) && (gamepad2.right_stick_y < 0.1) &&
-                        (Math.max(0, (-uhaulLift.getCurrentPosition())) > (lowerPos))
-                        && !gamepad2.dpad_up && !gamepad2.dpad_down) {
-
-                    telemetry.addData("Uhaul Lift 1", "Adjusting");
-                    telemetry.addData("target position", (int) lowerPos);
-                    telemetry.addData("current Position:", (int) leftPosition);
-                    telemetry.update();
+            liftIsBusy = true;
+            runtime.reset();
 
 
-                }
-                else{
-                    uhaulLift.setPower(0);
-                    uhaulLiftTwo.setPower(0);
+            //   if (liftEncoderSetpoint  < ((Math.max(0, (-uhaulLift.getCurrentPosition())) + (Math.max(0, (-uhaulLiftTwo.getCurrentPosition())))) / 2) && (liftState == LiftState.MOVING) && ((direction == LIFT_DIRECTION.DOWN) || (direction == LIFT_DIRECTION.NONE))) {
 
-                    liftState = LiftState.NOT_MOVING;
+            if(ruestate == RUE_SETTER.NOTSET){
+
+                if(lowerPos == -uhaulLift.getCurrentPosition()) {
+
+                    uhaulLiftTwo.setTargetPosition(-(int)lowerPos);
+                    uhaulLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    uhaulLift.setPower(.3);
 
                 }
-
-            } else if ((rightPosition != lowerPos) && (gamepad2.right_stick_y < 0.1)) {
-
-                uhaulLiftTwo.setPower(.3);
-                if (opModeIsActive() &&
-                        (runtime.seconds() < 15) && (gamepad2.right_stick_y < 0.1) &&
-                        (Math.max(0, (-uhaulLiftTwo.getCurrentPosition())) > (lowerPos))
-                        && !gamepad2.dpad_up && !gamepad2.dpad_down) {
-
-                    telemetry.addData("Uhaul Lift 2", "Adjusting");
-                    telemetry.addData("target position", (int) lowerPos);
-                    telemetry.addData("current Position:", (int) rightPosition);
-                    telemetry.update();
-
-
+                else if(lowerPos == -uhaulLiftTwo.getCurrentPosition())
+                {
+                    uhaulLift.setTargetPosition(-(int)lowerPos);
+                    uhaulLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    uhaulLift.setPower(0.3);
                 }
-                else{
+
+
+
+                ruestate = RUE_SETTER.SET;
+
+            }
+
+
+
+
+            // if(-liftEncoderSetpoint < uhaulLift.getCurrentPosition() ){
+            if (opModeIsActive() &&
+                    (runtime.seconds() < 15) && (gamepad2.right_stick_y < 0.1) &&
+                    (uhaulLift.isBusy() || uhaulLiftTwo.isBusy())
+                    && !gamepad2.dpad_up && !gamepad2.dpad_down) {
+
+
+                telemetry.addData("Current Dpad Blocks Set To: ", (int) dpadBlocks);
+                telemetry.addData("Lift", (int) leftPosition);
+                telemetry.addData("Lift2", (int) rightPosition);
+                telemetry.addData("the encoder ticks we want: ", (int) liftEncoderSetpoint);
+                if (override) {
+                    telemetry.addData("OVERRIDE ", "TRUE!");
+                } else {
+                    telemetry.addData("override", "false");
+                }
+                telemetry.addData("CURRENTLY ACCEPTING NO INPUT,", "MOVING AUTOMATICALLY");
+                telemetry.update();
+            }else if(gamepad2.right_stick_y < 0.1 && !gamepad2.dpad_down && !gamepad2.dpad_up) {
+
                 uhaulLift.setPower(0);
                 uhaulLiftTwo.setPower(0);
-                    liftState = LiftState.NOT_MOVING;
-                }
+
+                uhaulLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                uhaulLiftTwo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+                //liftState = LiftState.COMPENSATING;
+                liftState = LiftState.NOT_MOVING;
+                direction = LIFT_DIRECTION.NONE;
+
+                ruestate = RUE_SETTER.NOTSET;
+
             }
+
+            else{
+                liftState = LiftState.NOT_MOVING;
+                direction = LIFT_DIRECTION.NONE;
+
+                uhaulLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                uhaulLiftTwo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+                ruestate = RUE_SETTER.NOTSET;
+            }
+
         }
-    }
+
+
 
 
 
