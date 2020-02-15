@@ -237,6 +237,14 @@ public class UhaulLift extends UhaulComponentImplBase {
 liftState = LiftState.MOVING;
 
         }
+        else if (gamepad2.left_stick_button) {
+                uhaulLiftTwo.setPower(gamepad2.right_stick_y / 4);
+            }
+
+            else if (gamepad2.dpad_left) {
+                uhaulLift.setPower(gamepad2.right_stick_y / 4);
+            }
+
 
         else if ((dpadBlocks == 1) && (liftState == LiftState.NOT_MOVING)) {
             if ((((leftPosition + rightPosition) / 2) < MAX_TICKS_BEFORE_OVERRIDE) && (Math.abs(gamepad2.right_stick_y) > 0.1)) {
@@ -288,14 +296,7 @@ liftState = LiftState.MOVING;
         liftState = LiftState.COMPENSATING;
 
         }
-        if (gamepad2.left_stick_button || gamepad2.right_stick_button) {
-            if (gamepad2.left_stick_button) {
-                uhaulLiftTwo.setPower(gamepad2.right_stick_y / 4);
-            }
-            if (gamepad2.right_stick_button) {
-                uhaulLift.setPower(gamepad2.right_stick_y / 4);
-            }
-        }
+
 
         if (liftState == LiftState.MOVING) {
             teleOpEncoderDrive();
@@ -480,11 +481,17 @@ liftState = LiftState.MOVING;
 
 
                     uhaulLiftTwo.setTargetPosition(-uhaulLift.getCurrentPosition());
-                    uhaulLift.setTargetPosition(-uhaulLift.getCurrentPosition());
-                    uhaulLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                uhaulLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                uhaulLift.setPower(0.2);
-                uhaulLift.setPower(0.2);
+                    uhaulLiftTwo.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+                if(-uhaulLift.getCurrentPosition() > -uhaulLiftTwo.getCurrentPosition()){
+                    uhaulLiftTwo.setPower(-0.2);
+                }
+                else
+                {
+                    uhaulLift.setPower(0.2);
+                }
+
 
 
                 ruestate = RUE_SETTER.SET;
