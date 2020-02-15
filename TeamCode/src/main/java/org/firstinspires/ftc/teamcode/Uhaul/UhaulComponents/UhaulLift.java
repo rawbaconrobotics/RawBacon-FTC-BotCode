@@ -506,15 +506,15 @@ liftState = LiftState.MOVING;
                 uhaulLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 uhaulLiftTwo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-                if(-uhaulLift.getCurrentPosition() > -uhaulLiftTwo.getCurrentPosition()){
+                if((-uhaulLift.getCurrentPosition()) > (-uhaulLiftTwo.getCurrentPosition())){
                     desiredTicks = uhaulLiftTwo.getCurrentPosition();
                     problem = 1;
-                    uhaulLift.setPower(-0.2);
+                    uhaulLift.setPower(0.2);
                 }
-                else if(-uhaulLift.getCurrentPosition() < -uhaulLiftTwo.getCurrentPosition()){
+                else if((-uhaulLift.getCurrentPosition()) < -uhaulLiftTwo.getCurrentPosition()){
                     desiredTicks = uhaulLift.getCurrentPosition();
                     problem = 2;
-                    uhaulLiftTwo.setPower(-0.2);
+                    uhaulLiftTwo.setPower(0.2);
                 }
 
 
@@ -529,7 +529,7 @@ liftState = LiftState.MOVING;
 
                 if (opModeIsActive() &&
                         (runtime.seconds() < 15) && (gamepad2.right_stick_y < 0.1) &&
-                        (-uhaulLift.getCurrentPosition() > -desiredTicks)
+                        ((-uhaulLift.getCurrentPosition()) > (-desiredTicks))
                         && !gamepad2.dpad_up && !gamepad2.dpad_down && (Math.abs(((-uhaulLift.getCurrentPosition()) - (-uhaulLiftTwo.getCurrentPosition()))) < 300)) {
 
 
@@ -573,7 +573,7 @@ liftState = LiftState.MOVING;
 
                 if (opModeIsActive() &&
                         (runtime.seconds() < 15) && (gamepad2.right_stick_y < 0.1) &&
-                        (-uhaulLiftTwo.getCurrentPosition() > -desiredTicks)
+                        ((-uhaulLiftTwo.getCurrentPosition()) > (-desiredTicks))
                         && !gamepad2.dpad_up && !gamepad2.dpad_down && (Math.abs(((-uhaulLift.getCurrentPosition()) - (-uhaulLiftTwo.getCurrentPosition()))) < 300)) {
 
 
