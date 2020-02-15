@@ -313,6 +313,12 @@ liftState = LiftState.MOVING;
     }
     LIFT_DIRECTION direction = LIFT_DIRECTION.NONE;
 
+    enum RUE_SETTER{
+        NOTSET,
+        SET,
+    }
+    RUE_SETTER ruestate = RUE_SETTER.NOTSET;
+
     public void teleOpEncoderDrive() {
         liftIsBusy = true;
         runtime.reset();
@@ -320,24 +326,29 @@ liftState = LiftState.MOVING;
 
      //   if (liftEncoderSetpoint  < ((Math.max(0, (-uhaulLift.getCurrentPosition())) + (Math.max(0, (-uhaulLiftTwo.getCurrentPosition())))) / 2) && (liftState == LiftState.MOVING) && ((direction == LIFT_DIRECTION.DOWN) || (direction == LIFT_DIRECTION.NONE))) {
 
+            if(ruestate == RUE_SETTER.NOTSET){
 
-            direction = LIFT_DIRECTION.DOWN;
+                uhaulLift.setTargetPosition((int) liftEncoderSetpoint);
+                uhaulLiftTwo.setTargetPosition((int) liftEncoderSetpoint);
 
-            uhaulLift.setTargetPosition((int) liftEncoderSetpoint);
-            uhaulLiftTwo.setTargetPosition((int) liftEncoderSetpoint);
+                uhaulLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                uhaulLiftTwo.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            uhaulLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            uhaulLiftTwo.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                if(liftEncoderSetpoint < uhaulLift.getCurrentPosition()){
+                    uhaulLift.setPower(LIFT_SPEED_IN_AUTONOMOUS);
+                    uhaulLiftTwo.setPower(LIFT_SPEED_IN_AUTONOMOUS);
 
-            if(liftEncoderSetpoint < uhaulLift.getCurrentPosition()){
-                uhaulLift.setPower(LIFT_SPEED_IN_AUTONOMOUS);
-                uhaulLiftTwo.setPower(LIFT_SPEED_IN_AUTONOMOUS);
+                }
+                else{
+                    uhaulLift.setPower(-LIFT_SPEED_IN_AUTONOMOUS);
+                    uhaulLiftTwo.setPower(-LIFT_SPEED_IN_AUTONOMOUS);
+                }
+
+                ruestate = RUE_SETTER.SET;
 
             }
-            else{
-                uhaulLift.setPower(-LIFT_SPEED_IN_AUTONOMOUS);
-                uhaulLiftTwo.setPower(-LIFT_SPEED_IN_AUTONOMOUS);
-            }
+
+
 
 
             // if(-liftEncoderSetpoint < uhaulLift.getCurrentPosition() ){
@@ -370,6 +381,8 @@ liftState = LiftState.MOVING;
                 liftState = LiftState.NOT_MOVING;
                 direction = LIFT_DIRECTION.NONE;
 
+                ruestate = RUE_SETTER.NOTSET;
+
             }
 
         else{
@@ -378,6 +391,8 @@ liftState = LiftState.MOVING;
 
                 uhaulLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 uhaulLiftTwo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+                ruestate = RUE_SETTER.NOTSET;
         }
 
         }
