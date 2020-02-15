@@ -25,7 +25,7 @@ public class UhaulLift extends UhaulComponentImplBase {
     double BLOCK_HEIGHT = 5;
     double MAX_TICKS_BEFORE_OVERRIDE = 9115;
     double LIFT_MAX_SPEED = 1;
-    double LIFT_SPEED_IN_AUTONOMOUS = 0.75;
+    double LIFT_SPEED_IN_AUTONOMOUS = 1;
 
     double kp = 1;
     double ki = 0;
@@ -169,6 +169,7 @@ public class UhaulLift extends UhaulComponentImplBase {
      * Defines the lift for the teleop
      */
     public void liftTeleOp() {
+
 
         leftPosition = Math.max(0, (-uhaulLift.getCurrentPosition()));
         rightPosition = Math.max(0, (-uhaulLiftTwo.getCurrentPosition()));
@@ -467,7 +468,7 @@ liftState = LiftState.MOVING;
 
     {
 
-        double lowerPos = Math.min(leftPosition, rightPosition);
+
 
             liftIsBusy = true;
             runtime.reset();
@@ -477,14 +478,20 @@ liftState = LiftState.MOVING;
 
             if(ruestate == RUE_SETTER.NOTSET){
 
-                if(lowerPos == -uhaulLift.getCurrentPosition()) {
+                double lift1 = -uhaulLift.getCurrentPosition();
+                double lift2 = -uhaulLiftTwo.getCurrentPosition();
+                double lowerPos = Math.min(Math.max(0, lift1), Math.max(0, lift2));
+
+
+
+                if(lowerPos == lift1) {
 
                     uhaulLiftTwo.setTargetPosition(-(int)lowerPos);
                     uhaulLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    uhaulLift.setPower(.3);
+                    uhaulLift.setPower(0.3);
 
                 }
-                else if(lowerPos == -uhaulLiftTwo.getCurrentPosition())
+                else if(lowerPos == lift2)
                 {
                     uhaulLift.setTargetPosition(-(int)lowerPos);
                     uhaulLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -504,7 +511,7 @@ liftState = LiftState.MOVING;
             if (opModeIsActive() &&
                     (runtime.seconds() < 15) && (gamepad2.right_stick_y < 0.1) &&
                     (uhaulLift.isBusy() || uhaulLiftTwo.isBusy())
-                    && !gamepad2.dpad_up && !gamepad2.dpad_down) {
+                    && !gamepad2.dpad_up && !gamepad2.dpad_down && (Math.abs(((-uhaulLift.getCurrentPosition()) - (-uhaulLiftTwo.getCurrentPosition()))) < 300)) {
 
 
                 telemetry.addData("Current Dpad Blocks Set To: ", (int) dpadBlocks);
