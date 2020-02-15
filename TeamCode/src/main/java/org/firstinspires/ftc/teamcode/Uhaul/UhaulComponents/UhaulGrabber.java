@@ -17,8 +17,8 @@ public class UhaulGrabber extends UhaulComponentImplBase {
 
     private ElapsedTime runtime = new ElapsedTime();
     public Servo uhaulGrabber = null;
-    public static double UHAUL_GRABBER_OPEN = 0.1;
-    public static double UHAUL_GRABBER_CLOSED = 0.6;
+    public static double UHAUL_GRABBER_OPEN = 0.005;
+    public static double UHAUL_GRABBER_CLOSED = 0.4;
 
 
 

@@ -34,7 +34,7 @@ public class UhaulIntake extends UhaulComponentImplBase {
     public Rev2mDistanceSensor intakeDistance = null;
     public static double STONE_INCHES_AWAY = 5;
     double previousPower = 0;
-    public static double intakePower = .8;
+    public static double intakePower = .5;
 
 
     String DISTANCE_SENSOR = "distance_sensor";
