@@ -55,19 +55,19 @@ import org.firstinspires.ftc.teamcode.Uhaul.UhaulComponents.UhaulComponentImplBa
         public void initAutonomous() {
             uhaulLatch = hardwareMap.servo.get(LATCH_SERVO_1);
             uhaulLatchTwo = hardwareMap.servo.get(LATCH_SERVO_2);
-            uhaulLatch.setPosition(-LATCH_OPEN_POSITION);
-            uhaulLatchTwo.setPosition(LATCH_OPEN_POSITION);
+            uhaulLatch.setPosition(0.15);
+            uhaulLatchTwo.setPosition(.85);
         }
          /** Opens the latch */
-        public void openLatch(){
+        public void closeLatch(){
             System.out.println("LATCH OPENING");
-            uhaulLatch.setPosition(-LATCH_OPEN_POSITION);
-            uhaulLatchTwo.setPosition(LATCH_OPEN_POSITION);
+            uhaulLatch.setPosition(0.85);
+            uhaulLatchTwo.setPosition(.15);
         }
       /** Closes the latch */
-        public void closeLatch(){
+        public void openLatch(){
             System.out.println("LATCH CLOSING");
-            uhaulLatch.setPosition(-LATCH_CLOSED_POSITION);
-            uhaulLatchTwo.setPosition(LATCH_CLOSED_POSITION);
+            uhaulLatch.setPosition(.15);
+            uhaulLatchTwo.setPosition(.85);
         }
     }

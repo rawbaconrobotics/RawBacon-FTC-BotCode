@@ -81,7 +81,7 @@ public class DriveVelocityPIDTuner extends LinearOpMode {
             public void set(Double value) {
                 PIDCoefficients coeffs = drive.getPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER);
                 drive.setPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER,
-                        new PIDCoefficients(value, coeffs.kI, coeffs.kD));
+                        new PIDCoefficients(27.5, 0.5, 15));
             }
         }));
         pidVar.putVariable("kI", new BasicVariable<>(new ValueProvider<Double>() {

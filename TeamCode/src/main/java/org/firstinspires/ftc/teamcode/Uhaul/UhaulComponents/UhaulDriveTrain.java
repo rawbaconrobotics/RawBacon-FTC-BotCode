@@ -5,6 +5,7 @@ import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -25,14 +26,14 @@ import static android.os.SystemClock.sleep;
  */
 public class UhaulDriveTrain extends UhaulComponentImplBase {
 
-    double kp = 14;
-    double ki = 0;
-    double kd = 8;
+    double kp = 27.5;
+    double ki = 0.5;
+    double kd = 15;
     double kf = 0;
 
-    final double WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT = 30;
-    final double WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT = 30;
-    final double WHEEL_MINIMUM_POWER = 0; //Allows for deadband compensation.
+    final double WHEEL_ACCEL_SPEED_PER_SECOND_STRAIGHT = 2;
+    final double WHEEL_DECEL_SPEED_PER_SECOND_STRAIGHT = 15;
+    final double WHEEL_MINIMUM_POWER = 0.3; //Allows for deadband compensation.
     final double WHEEL_MAXIMUM_POWER = 1.0;
 
     private static final double COUNTS_PER_MOTOR_REV = 1120; //1440
@@ -98,8 +99,10 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
         leftDriveFront = (DcMotorEx) hardwareMap.dcMotor.get(FRONTLEFT_WHEEL_NAME);
         rightDriveFront = (DcMotorEx) hardwareMap.dcMotor.get(FRONTRIGHT_WHEEL_NAME);
 
-        leftDriveFront.setDirection(DcMotor.Direction.FORWARD);
-        rightDriveFront.setDirection(DcMotor.Direction.REVERSE);
+
+
+        leftDriveFront.setDirection(DcMotor.Direction.REVERSE);
+        rightDriveFront.setDirection(DcMotor.Direction.FORWARD);
         leftDriveBack.setDirection(DcMotor.Direction.FORWARD);
         rightDriveBack.setDirection(DcMotor.Direction.REVERSE);
 
@@ -108,18 +111,18 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
         rightDriveFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightDriveBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        PIDFCoefficients pidNew = new PIDFCoefficients(kp, ki, kd, kf);
-        leftDriveFront.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
-        leftDriveBack.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
-        rightDriveFront.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
-        rightDriveBack.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
+     //   PIDFCoefficients pidNew = new PIDFCoefficients(kp, ki, kd, kf);
+     //   leftDriveFront.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
+     //   leftDriveBack.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
+     //   rightDriveFront.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
+     //   rightDriveBack.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
 
 
-     //   wheelAccelerationThread.addMotor(accLeftDriveFront);
-     //   wheelAccelerationThread.addMotor(accLeftDriveBack);
-     //   wheelAccelerationThread.addMotor(accRightDriveFront);
-     //   wheelAccelerationThread.addMotor(accRightDriveBack);
-     //   wheelAccelerationThread.start();
+      //  wheelAccelerationThread.addMotor(accLeftDriveFront);
+      //  wheelAccelerationThread.addMotor(accLeftDriveBack);
+      //  wheelAccelerationThread.addMotor(accRightDriveFront);
+      //  wheelAccelerationThread.addMotor(accRightDriveBack);
+      //  wheelAccelerationThread.start();
     }
 
     /**
@@ -143,19 +146,19 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
 
         leftDriveFront.setDirection(DcMotor.Direction.REVERSE);
         rightDriveFront.setDirection(DcMotor.Direction.FORWARD);
-        leftDriveBack.setDirection(DcMotor.Direction.REVERSE);
-        rightDriveBack.setDirection(DcMotor.Direction.FORWARD);
+        leftDriveBack.setDirection(DcMotor.Direction.FORWARD);
+        rightDriveBack.setDirection(DcMotor.Direction.REVERSE);
 
         leftDriveBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftDriveFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightDriveBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightDriveFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        PIDFCoefficients pidNew = new PIDFCoefficients(kp, ki, kd, kf);
-        leftDriveFront.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
-        leftDriveBack.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
-        rightDriveFront.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
-        rightDriveBack.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
+      //  PIDFCoefficients pidNew = new PIDFCoefficients(kp, ki, kd, kf);
+      //  leftDriveFront.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
+      //  leftDriveBack.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
+      //  rightDriveFront.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
+      //  rightDriveBack.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidNew);
 
         currentSpeed = leftDriveBack.getPower();
 
@@ -177,11 +180,11 @@ public class UhaulDriveTrain extends UhaulComponentImplBase {
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
 
-        //  wheelAccelerationThread.addMotor(accLeftDriveFront);
-        // wheelAccelerationThread.addMotor(accLeftDriveBack);
-        // wheelAccelerationThread.addMotor(accRightDriveFront);
-        // wheelAccelerationThread.addMotor(accRightDriveBack);
-        //wheelAccelerationThread.start();
+         wheelAccelerationThread.addMotor(accLeftDriveFront);
+         wheelAccelerationThread.addMotor(accLeftDriveBack);
+         wheelAccelerationThread.addMotor(accRightDriveFront);
+         wheelAccelerationThread.addMotor(accRightDriveBack);
+        wheelAccelerationThread.start();
 
         runUsingEncoders();
 

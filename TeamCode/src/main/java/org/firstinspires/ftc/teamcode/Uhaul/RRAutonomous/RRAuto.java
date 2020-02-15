@@ -79,7 +79,7 @@ public class RRAuto extends UhaulLinearOpMode {
 
                 .addMarker(new Vector2d(0.0, -38.0), () -> {
 //                 ***Slide out the slider while we are moving!
-                    robot.slider.slideOut();
+                   // robot.slider.slideOut();
 
                     return Unit.INSTANCE;
                 })
@@ -118,13 +118,13 @@ public class RRAuto extends UhaulLinearOpMode {
                 .addMarker(0.5, () -> {
 
 
-                    robot.lift.liftTo(2);
+                //    robot.lift.liftTo(2);
 
                     return Unit.INSTANCE;
                 })
                 .addMarker(2.5, () -> {
 
-                    robot.slider.slideOut();
+             //       robot.slider.slideOut();
 
                     return Unit.INSTANCE;
                 })
@@ -136,9 +136,9 @@ public class RRAuto extends UhaulLinearOpMode {
         Trajectory trajectory9 = new TrajectoryBuilder(drive.getPoseEstimate(), constraints)
                 .addMarker(0.5, () -> {
 
-robot.grabber.closeGrabber();
-robot.slider.slideIn();
-robot.lift.liftTo(1);
+//robot.grabber.closeGrabber();
+//robot.slider.slideIn();
+//robot.lift.liftTo(1);
 
                     return Unit.INSTANCE;
                 })
